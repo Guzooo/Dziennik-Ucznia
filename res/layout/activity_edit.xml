@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz nazwę przedmiotu"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/edit_teacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz nauczyciela przedmiotu"
+                android:singleLine="true"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/edit_current_assessment_box"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Aktualne oceny:" />
+
+                    <TextView
+                        android:id="@+id/edit_current_assessment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="4, 5,5, 6, 1, 2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/edit_edit_assessment_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Oceny:" />
+
+                    <TextView
+                        android:id="@+id/edit_edit_assessment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Brak" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edit_assessment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:hint="wpisz ocene"
+                    android:layout_weight="1"
+                    android:inputType="numberDecimal"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@android:drawable/ic_input_add"
+                    android:onClick="ClickPlus"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@android:drawable/ic_delete"
+                    android:onClick="ClickMinus"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableEnd="@android:drawable/ic_delete"
+                    android:drawableRight="@android:drawable/ic_delete"
+                    android:text="wszystlkie"
+                    android:onClick="ClickAllMinus"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edit_unpreparedness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz liczbe nieprzygotowań"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/edit_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz dowolne informacje na temat przedmiotu"
+                android:inputType="textMultiLine"/>
+
+            <Button
+                android:id="@+id/edit_duplicate_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Powiel przedmiot"
+                android:visibility="gone"
+                android:onClick="ClickDuplicateSubject"/>
+
+            <Button
+                android:id="@+id/edit_delete_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@android:drawable/ic_menu_delete"
+                android:drawableEnd="@android:drawable/ic_menu_delete"
+                android:drawableLeft="@android:drawable/ic_menu_delete"
+                android:drawableRight="@android:drawable/ic_menu_delete"
+                android:text="Usuń przedmiot"
+                android:visibility="gone"
+                android:onClick="ClickDeleteSubject"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/edit_save"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="ClickSave"
+            android:text="Dodaj" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="ClickCancel"
+            android:text="Anuluj" />
+    </LinearLayout>
+</LinearLayout>

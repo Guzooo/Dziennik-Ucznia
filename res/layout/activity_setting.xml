@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SettingActivity">
+
+    <LinearLayout
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:src="@mipmap/ic_launcher"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Facebook" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="YouTube"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ustawienia:"
+        style="@style/AppTheme.Title"/>
+
+    <ImageView
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/colorPrimary" />
+
+    <CheckBox
+        android:id="@+id/setting_average_to_assessment"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Przeliczaj średnie na oceny"
+        android:onClick="ClickCheckAverageToAssessment"/>
+
+    <TableLayout
+        android:id="@+id/setting_average_to_assessment_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6 od" />
+
+            <EditText
+                android:id="@+id/setting_average_to_six"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz potrzebną średnią do uzyskania oceny 6"
+                android:inputType="numberDecimal"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 od" />
+
+            <EditText
+                android:id="@+id/setting_average_to_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz potrzebną średnią do uzyskania oceny 5"
+                android:inputType="numberDecimal"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4 od" />
+
+            <EditText
+                android:id="@+id/setting_average_to_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz potrzebną średnią do uzyskania oceny 4"
+                android:inputType="numberDecimal"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 od" />
+
+            <EditText
+                android:id="@+id/setting_average_to_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz potrzebną średnią do uzyskania oceny 3"
+                android:inputType="numberDecimal"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 od" />
+
+            <EditText
+                android:id="@+id/setting_average_to_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz potrzebną średnią do uzyskania oceny 2"
+                android:inputType="numberDecimal"/>
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pasek od"/>
+
+        <EditText
+            android:id="@+id/setting_average_to_belt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Wpisz potrzebną średnią do uzyskania paska"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Usuń wszystkie przedmioty"
+        android:onClick="ClickDestroyAllSubjects"/>
+</LinearLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/details_teacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Nauczyciel:" />
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Oceny:" />
+
+                <TextView
+                    android:id="@+id/details_assessment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="4, 5,5, 6, 1, 2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/details_edit_assessment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="wpisz ocene"
+                    android:inputType="numberDecimal"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@android:drawable/ic_input_add"
+                    android:onClick="ClickPlus"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@android:drawable/ic_delete"
+                    android:onClick="ClickMinus"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/details_unpreparedness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NP: 1"
+                android:layout_weight="1"/>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="-1NP"
+                android:textStyle="bold"
+                android:onClick="ClickMinusUnpreparedness"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Opis:"/>
+
+        <TextView
+            android:id="@+id/details_description"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="sajksajkcdjcbwieufuoibfiuebffffffffffffffffffffffffffffffffffffffffshehflksdjksjdksjknsjnk/n/nddedefe\nrffr\nrgrg\n\n\\n\n\n\n\n\n\n\n\n\n\n\ngrgrgrg\n\n\n\n\n\\n\n\n\ngtrgtgtg\n\n\n\n\n\ngtgtgtg"/>
+    </LinearLayout>
+</ScrollView>
