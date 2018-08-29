@@ -59,13 +59,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@android:drawable/ic_input_add"
-                    android:onClick="ClickPlus"/>
+                    android:onClick="ClickPlus"
+                    style="@style/AppTheme.Button"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@android:drawable/ic_delete"
-                    android:onClick="ClickMinus"/>
+                    android:onClick="ClickMinus"
+                    style="@style/AppTheme.Button"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -86,7 +88,8 @@
                 android:layout_height="wrap_content"
                 android:text="-1NP"
                 android:textStyle="bold"
-                android:onClick="ClickMinusUnpreparedness"/>
+                android:onClick="ClickMinusUnpreparedness"
+                style="@style/AppTheme.Button"/>
         </LinearLayout>
 
         <TextView

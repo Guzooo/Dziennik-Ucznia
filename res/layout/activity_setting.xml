@@ -26,12 +26,14 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Facebook" />
+                android:text="Facebook"
+                style="@style/AppTheme.Button"/>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="YouTube"/>
+                android:text="YouTube"
+                style="@style/AppTheme.Button"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -177,5 +179,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Usuń wszystkie przedmioty"
-        android:onClick="ClickDestroyAllSubjects"/>
+        android:onClick="ClickDestroyAllSubjects"
+        style="@style/AppTheme.Button"/>
 </LinearLayout>

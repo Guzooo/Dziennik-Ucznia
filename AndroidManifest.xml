@@ -9,16 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".MainActivity"
+                  android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailsActivity" />
-        <activity android:name=".EditActivity" android:label="Dodawanie Przedmiotu"/> <!--TODO: Stringi-->
-        <activity android:name=".SettingActivity" android:label="Ustawienia Aplikacji"/>
+
+        <activity android:name=".DetailsActivity"
+                  android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".EditActivity"
+                  android:label="Dodawanie Przedmiotu"
+                  android:windowSoftInputMode="stateHidden"/> <!--TODO: Stringi-->
+
+        <activity android:name=".SettingActivity"
+                  android:label="© Guzooo 2018"
+                  android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

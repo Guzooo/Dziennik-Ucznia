@@ -12,14 +12,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 public class MainActivity extends Activity {
+
+    private final String PREFERENCE_NOTEPAD = "notepad";
 
     private Cursor cursor;
     private SQLiteDatabase db;
@@ -64,7 +66,7 @@ public class MainActivity extends Activity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdapterSubjectCardView(cursor, null); //TODO:NullCard
+        adapter = new AdapterSubjectCardView(cursor, findViewById(R.id.main_subject_null));
         recyclerView.setAdapter(adapter);
 
         adapter.setListener(new AdapterSubjectCardView.Listener() {
@@ -75,6 +77,37 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_notepad:
+                SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+                View notepadBox = findViewById(R.id.main_notepad_box);
+                EditText editTextNotepad = findViewById(R.id.main_notepad);
+
+                if(notepadBox.getVisibility() == View.GONE) {
+                    editTextNotepad.setText(sharedPreferences.getString(PREFERENCE_NOTEPAD, ""));
+                    notepadBox.setVisibility(View.VISIBLE);
+                } else {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(PREFERENCE_NOTEPAD, editTextNotepad.getText().toString().trim());
+                    editor.apply();
+                    notepadBox.setVisibility(View.GONE);
+                }
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
