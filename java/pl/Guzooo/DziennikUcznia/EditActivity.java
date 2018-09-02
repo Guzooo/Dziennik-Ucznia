@@ -65,7 +65,7 @@ public class EditActivity extends Activity {
             buttonDelete.setVisibility(View.VISIBLE);
             buttonDuplicate.setVisibility(View.VISIBLE);
         } else {
-            editSubject = new Subject("", "", new ArrayList<Float>(), 0, "");
+            editSubject = new Subject("", "", new ArrayList<Float>(), 0, "", new ArrayList<SubjectNote>());
         }
     }
 
@@ -93,10 +93,9 @@ public class EditActivity extends Activity {
     }
 
     public void ClickDuplicateSubject(View v){
-        String subject = editSubject.toString();
-
         ContentValues subjectValues = new ContentValues();
-        subjectValues.put("OBJECT", subject);
+        subjectValues.put("OBJECT", editSubject.toString());
+        subjectValues.put("NOTES", editSubject.sizeSubjectNotes());
 
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
@@ -138,10 +137,11 @@ public class EditActivity extends Activity {
             editTextUnpreparedness.setText(Integer.toString(0));
         }
 
-        String subject = new Subject(editTextName.getText().toString().trim(), editTextTeacher.getText().toString().trim(), editSubject.getAssessments(), Integer.parseInt(editTextUnpreparedness.getText().toString().trim()), editTextDescription.getText().toString().trim()).toString();
+        Subject subject = new Subject(editTextName.getText().toString().trim(), editTextTeacher.getText().toString().trim(), editSubject.getAssessments(), Integer.parseInt(editTextUnpreparedness.getText().toString().trim()), editTextDescription.getText().toString().trim(), editSubject.getSubjectNotes());
 
         ContentValues subjectValues = new ContentValues();
-        subjectValues.put("OBJECT", subject);
+        subjectValues.put("OBJECT", subject.toString());
+        subjectValues.put("NOTES", subject.sizeSubjectNotes());
 
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);

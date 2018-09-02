@@ -27,7 +27,8 @@ public class HelperDatabase extends SQLiteOpenHelper {
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion){
         if(oldVersion < 1){
             db.execSQL("CREATE TABLE SUBJECTS (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "OBJECT TEXT)");
+                    + "OBJECT TEXT,"
+                    + "NOTES INTEGER)");
         }
     }
 }

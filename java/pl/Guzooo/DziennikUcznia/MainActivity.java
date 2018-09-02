@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
     private AdapterSubjectCardView adapter;
 
     private TextView textViewSecond;
+    private EditText editTextNotepad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class MainActivity extends Activity {
 
         TextView textViewTitle = actionBar.findViewById(R.id.action_bar_two_text_title);
         textViewSecond = actionBar.findViewById(R.id.action_bar_two_text_second);
+        editTextNotepad = findViewById(R.id.main_notepad);
 
         textViewTitle.setText(R.string.app_name);
     }
@@ -57,7 +59,8 @@ public class MainActivity extends Activity {
             db = openHelper.getReadableDatabase();
             cursor = db.query("SUBJECTS",
                     new String[] {"_id", "OBJECT"},
-                    null, null, null, null, null);
+                    null, null, null, null,
+                    "NOTES DESC");
         } catch (SQLiteException e){
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();//TODO: String
         }
@@ -90,17 +93,12 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
 
             case R.id.action_notepad:
-                SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
                 View notepadBox = findViewById(R.id.main_notepad_box);
-                EditText editTextNotepad = findViewById(R.id.main_notepad);
-
                 if(notepadBox.getVisibility() == View.GONE) {
-                    editTextNotepad.setText(sharedPreferences.getString(PREFERENCE_NOTEPAD, ""));
+                    editTextNotepad.setText(loadNotepad());
                     notepadBox.setVisibility(View.VISIBLE);
                 } else {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(PREFERENCE_NOTEPAD, editTextNotepad.getText().toString().trim());
-                    editor.apply();
+                    saveNotepad();
                     notepadBox.setVisibility(View.GONE);
                 }
                 return true;
@@ -117,6 +115,13 @@ public class MainActivity extends Activity {
         adapter.CloseCursor();
         cursor.close();
         db.close();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        saveNotepad();
     }
 
     public void ClickSetting(View v){
@@ -158,5 +163,16 @@ public class MainActivity extends Activity {
             return Float.toString(average) + " | PASEK"; //TODO: string
         }
         return Float.toString(average);
+    }
+
+    private void saveNotepad(){
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putString(PREFERENCE_NOTEPAD, editTextNotepad.getText().toString().trim());
+        editor.apply();
+    }
+
+    private String loadNotepad(){
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        return sharedPreferences.getString(PREFERENCE_NOTEPAD, "");
     }
 }

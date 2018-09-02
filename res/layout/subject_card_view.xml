@@ -34,6 +34,7 @@
                 android:text="NP:2"/>
 
             <TextView
+                android:id="@+id/subject_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="czy nauka czy zadanie"

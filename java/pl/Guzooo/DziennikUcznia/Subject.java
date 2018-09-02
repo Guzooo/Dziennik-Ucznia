@@ -2,8 +2,13 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,29 +23,32 @@ public class Subject {
     private ArrayList<Float> assessments = new ArrayList<>();
     private int unpreparedness;
     private String description;
+    private ArrayList<SubjectNote> subjectNotes = new ArrayList<>();
 
-    public Subject (String name, String teacher, ArrayList<Float> assessments, int unpreparedness, String description){
+    public Subject (String name, String teacher, ArrayList<Float> assessments, int unpreparedness, String description, ArrayList<SubjectNote> subjectNotes){
         setName(name);
         setTeacher(teacher);
         setAssessments(assessments);
         setAverage();
         setUnpreparedness(unpreparedness);
         setDescription(description);
+        setSubjectNotes(subjectNotes);
     }
 
     public Subject (String object){
         String[] strings =  object.split("©");
-        this.name = strings[0];
-        this.teacher = strings[1];
+        setName(strings[0]);
+        setTeacher(strings[1]);
         fromStringAssessments(strings[2]);
         setAverage();
-        this.description = strings[3];
-        this.unpreparedness = Integer.parseInt(strings[4]);
+        setDescription(strings[3]);
+        fromStringSubjectNotes(strings[4]);
+        setUnpreparedness(Integer.parseInt(strings[5]));
     }
 
     @Override
     public String toString() {
-        String string = name + "©" + teacher + "©" + toStringAssessments() + "©" + description + "©" + Integer.toString(unpreparedness);
+        String string = getName() + "©" + getTeacher() + "©" + toStringAssessments() + "©" + getDescription() + "©" + toStringSubjectNotes() + "©" + Integer.toString(getUnpreparedness());
         return string;
     }
 
@@ -167,4 +175,41 @@ public class Subject {
     public String getDescription() {
         return description;
     }
+
+    public void setSubjectNotes(ArrayList<SubjectNote> subjectNotes) {
+        this.subjectNotes = subjectNotes;
+    }
+
+    public void addSubjectNote(SubjectNote subjectNote){
+        this.subjectNotes.add(subjectNote);
+    }
+
+    public void removeSubjectNote(SubjectNote subjectNote){
+        this.subjectNotes.remove(subjectNote);
+    }
+
+    public ArrayList<SubjectNote> getSubjectNotes() {
+        return subjectNotes;
+    }
+
+    public int sizeSubjectNotes(){
+        return subjectNotes.size();
+    }
+
+    public String toStringSubjectNotes(){
+        String string = "";
+        for (int i = 0; i < subjectNotes.size(); i++) {
+            string += subjectNotes.get(i).toString();
+        }
+        return string;
+    }
+
+    public void fromStringSubjectNotes(String subjectNotes){
+        if(!subjectNotes.equals("")) {
+            String[] strings = subjectNotes.split("®");
+            for (int i = 0; i < strings.length; i += 2) {
+                this.subjectNotes.add(new SubjectNote(strings[i], strings[i + 1]));
+            }
+        }
+    } //TODO:ContentValues tutej
 }

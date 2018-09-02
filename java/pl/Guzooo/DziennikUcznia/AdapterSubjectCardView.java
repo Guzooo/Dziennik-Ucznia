@@ -42,12 +42,14 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
 
         TextView name = cardView.findViewById(R.id.subject_name);
         TextView np = cardView.findViewById(R.id.subject_np);
+        TextView note = cardView.findViewById(R.id.subject_note);
 
         if(cursor.moveToPosition(position)){
             Subject subject = new Subject(cursor.getString(1));
 
             name.setText(subject.getName());
             np.setText("NP: " + subject.getUnpreparedness()); //TODO:string
+            note.setText("ilość notatek: " + subject.sizeSubjectNotes());
         }
 
         cardView.setOnClickListener(new View.OnClickListener() {

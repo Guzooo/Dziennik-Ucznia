@@ -10,17 +10,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Set;
 
-public class DetailsActivity extends Activity {
+public class DetailsActivity extends Activity implements View.OnClickListener {
 
     public static final String EXTRA_ID = "id";
 
@@ -43,6 +46,8 @@ public class DetailsActivity extends Activity {
         editTextAssessment = findViewById(R.id.details_edit_assessment);
         textViewAssessment = findViewById(R.id.details_assessment);
         textViewUnpreparedness = findViewById(R.id.details_unpreparedness);
+
+        findViewById(R.id.details_add_note).setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +86,8 @@ public class DetailsActivity extends Activity {
         TextView textViewTeacher = findViewById(R.id.details_teacher);
         TextView textViewDescription = findViewById(R.id.details_description);
 
+        RecyclerView recyclerView = findViewById(R.id.details_notes);
+
         textViewTitle.setText(subject.getName());
         setAverage();
 
@@ -88,6 +95,22 @@ public class DetailsActivity extends Activity {
         textViewAssessment.setText(subject.getStringAssessments());
         textViewUnpreparedness.setText("NP: " + subject.getUnpreparedness());//TODO:string
         textViewDescription.setText(subject.getDescription());
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        AdapterNoteCardView adapter = new AdapterNoteCardView(subject.getSubjectNotes(), null);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setListener(new AdapterNoteCardView.Listener() {
+            @Override
+            public void onClick(int id) {
+                Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
+                intent.putExtra(NoteActivity.EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, 0));
+                Log.d("Detail", ""+id);
+                intent.putExtra(NoteActivity.EXTRA_NUM_NOTE, id);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -107,8 +130,28 @@ public class DetailsActivity extends Activity {
                 startActivity(intent);
                 return true;
 
+            case R.id.action_notes:
+                View notesBox = findViewById(R.id.details_notes_box);
+                if(notesBox.getVisibility() == View.GONE){
+                    notesBox.setVisibility(View.VISIBLE);
+                } else {
+                    notesBox.setVisibility(View.GONE);
+                }
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.details_add_note:
+                Intent intent = new Intent(this, NoteActivity.class);
+                intent.putExtra(NoteActivity.EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, 0));
+                startActivity(intent);
+                break;
         }
     }
 
@@ -151,10 +194,9 @@ public class DetailsActivity extends Activity {
     }
 
     private void saveSubject(){
-        String subjectString = subject.toString();
-
         ContentValues subjectValues = new ContentValues();
-        subjectValues.put("OBJECT", subjectString);
+        subjectValues.put("OBJECT", subject.toString());
+        subjectValues.put("NOTES", subject.sizeSubjectNotes());
 
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
