@@ -4,6 +4,6 @@
         android:id="@+id/action_notepad"
         android:icon="?android:attr/actionModePasteDrawable"
         android:showAsAction="always"
-        android:title="Notatnik"
+        android:title="@string/notepad"
         android:orderInCategory="100" />
 </menu>

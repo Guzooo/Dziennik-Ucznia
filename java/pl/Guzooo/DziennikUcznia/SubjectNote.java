@@ -17,7 +17,7 @@ public class SubjectNote {
 
     @Override
     public String toString() {
-        String string = getName() + "®" + getNote() + "®";
+        String string = getName() + "®" + getNote() + "®" + "®" + "®" + "®" + "®" + "®" + "®" + "®" + "®";
         return string;
     }
 

@@ -5,13 +5,13 @@
         android:id="@+id/action_edit"
         android:icon="@android:drawable/ic_menu_edit"
         android:showAsAction="always"
-        android:title="Edytuj"
+        android:title="@string/menu_edit"
         android:orderInCategory="100"/>
 
     <item
         android:id="@+id/action_notes"
         android:icon="?android:attr/actionModePasteDrawable"
         android:showAsAction="always"
-        android:title="Notatki"
+        android:title="@string/notepad"
         android:orderInCategory="99"/>
 </menu>

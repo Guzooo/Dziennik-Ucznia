@@ -24,15 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Dodaj"
-            android:onClick="ClickAdd"/>
+            android:text="@string/add"
+            android:onClick="ClickAdd"
+            style="@style/AppTheme.Button"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Anuluj"
-            android:onClick="ClickCancel"/>
+            android:text="@string/cancel"
+            android:onClick="ClickCancel"
+            style="@style/AppTheme.Button"/>
     </LinearLayout>
 
 </LinearLayout>

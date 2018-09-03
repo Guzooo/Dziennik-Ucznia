@@ -27,7 +27,8 @@
                 style="@style/AppTheme.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Facebook" />
+                android:text="@string/setting_facebook"
+                android:onClick="ClickFacebook"/>
 
            <!--<Button
                 style="@style/AppTheme.Button"
@@ -42,7 +43,7 @@
         android:layout_marginLeft="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ustawienia:"
+        android:text="@string/setting"
         style="@style/AppTheme.Title"/>
 
     <ImageView
@@ -57,7 +58,7 @@
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Przeliczaj średnie na oceny"
+        android:text="@string/setting_average_to_assessment"
         android:onClick="ClickCheckAverageToAssessment"/>
 
     <TableLayout
@@ -74,13 +75,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="6 od" />
+                android:text="@string/setting_six_from" />
 
             <EditText
                 android:id="@+id/setting_average_to_six"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz potrzebną średnią do uzyskania oceny 6"
+                android:hint="@string/setting_to_six"
                 android:inputType="numberDecimal"/>
         </TableRow>
 
@@ -91,13 +92,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5 od" />
+                android:text="@string/setting_five_from" />
 
             <EditText
                 android:id="@+id/setting_average_to_five"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz potrzebną średnią do uzyskania oceny 5"
+                android:hint="@string/setting_to_five"
                 android:inputType="numberDecimal"/>
         </TableRow>
 
@@ -108,13 +109,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4 od" />
+                android:text="@string/setting_four_from" />
 
             <EditText
                 android:id="@+id/setting_average_to_four"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz potrzebną średnią do uzyskania oceny 4"
+                android:hint="@string/setting_to_four"
                 android:inputType="numberDecimal"/>
 
         </TableRow>
@@ -126,13 +127,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3 od" />
+                android:text="@string/setting_three_from" />
 
             <EditText
                 android:id="@+id/setting_average_to_three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz potrzebną średnią do uzyskania oceny 3"
+                android:hint="@string/setting_to_three"
                 android:inputType="numberDecimal"/>
         </TableRow>
 
@@ -143,13 +144,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 od" />
+                android:text="@string/setting_two_from" />
 
             <EditText
                 android:id="@+id/setting_average_to_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz potrzebną średnią do uzyskania oceny 2"
+                android:hint="@string/setting_to_two"
                 android:inputType="numberDecimal"/>
         </TableRow>
     </TableLayout>
@@ -164,13 +165,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pasek od"/>
+            android:text="@string/setting_belt_from"/>
 
         <EditText
             android:id="@+id/setting_average_to_belt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Wpisz potrzebną średnią do uzyskania paska"
+            android:hint="@string/setting_to_belt"
             android:inputType="numberDecimal"/>
     </LinearLayout>
 
@@ -178,7 +179,22 @@
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Usuń wszystkie przedmioty"
+        android:text="@string/setting_delete_all_subjects"
         android:onClick="ClickDestroyAllSubjects"
         style="@style/AppTheme.Button"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:theme="@style/AppTheme.Button"
+        app:cardCornerRadius="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Dziennik Ucznia v0.1.3"/>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

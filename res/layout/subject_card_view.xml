@@ -22,7 +22,6 @@
                 android:id="@+id/subject_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="J.Polski"
                 android:layout_weight="1"/>
 
             <TextView
@@ -30,14 +29,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="NP:2"/>
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:id="@+id/subject_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="czy nauka czy zadanie"
                 android:layout_weight="1"
                 android:gravity="end"/>
         </LinearLayout>

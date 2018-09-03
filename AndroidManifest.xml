@@ -23,14 +23,17 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".EditActivity"
-            android:label="Dodawanie Przedmiotu"
-            android:windowSoftInputMode="stateHidden" /> <!-- TODO: Stringi -->
+            android:label="@string/add_subject"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".SettingActivity"
-            android:label="© Guzooo 2018"
+            android:label="@string/app_G"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".NoteActivity"></activity>
+
+        <activity
+            android:name=".NoteActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

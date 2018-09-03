@@ -1,5 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.sip.SipSession;
 import android.support.v7.widget.CardView;
@@ -13,6 +15,7 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
 
     private Cursor cursor;
     private Listener listener;
+    private Context context;
 
     public static interface Listener{
         public void onClick(int id);
@@ -48,8 +51,8 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
             Subject subject = new Subject(cursor.getString(1));
 
             name.setText(subject.getName());
-            np.setText("NP: " + subject.getUnpreparedness()); //TODO:string
-            note.setText("ilość notatek: " + subject.sizeSubjectNotes());
+            np.setText(context.getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
+            note.setText(context.getResources().getString(R.string.notes, subject.sizeSubjectNotes()));
         }
 
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -69,9 +72,10 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
         return cursor.getCount();
     }
 
-    public AdapterSubjectCardView(Cursor cursor, View nullCard){
+    public AdapterSubjectCardView(Cursor cursor, View nullCard, Context context){
         CloseCursor();
         this.cursor = cursor;
+        this.context = context;
 
         if(nullCard != null) {
             if (cursor.getCount() == 0) {

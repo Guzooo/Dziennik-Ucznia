@@ -1,19 +1,12 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class Subject {
 
@@ -43,12 +36,12 @@ public class Subject {
         setAverage();
         setDescription(strings[3]);
         fromStringSubjectNotes(strings[4]);
-        setUnpreparedness(Integer.parseInt(strings[5]));
+        setUnpreparedness(Integer.parseInt(strings[15]));
     }
 
     @Override
     public String toString() {
-        String string = getName() + "©" + getTeacher() + "©" + toStringAssessments() + "©" + getDescription() + "©" + toStringSubjectNotes() + "©" + Integer.toString(getUnpreparedness());
+        String string = getName() + "©" + getTeacher() + "©" + toStringAssessments() + "©" + getDescription() + "©" + toStringSubjectNotes() +  "©" + "©" + "©" + "©" + "©" + "©" + "©" + "©" + "©" + "©" + "©" + Integer.toString(getUnpreparedness());
         return string;
     }
 
@@ -111,9 +104,9 @@ public class Subject {
 
     public void removeAssessment(float assessment, Context context){
         if(assessments.size() == 0){
-            Toast.makeText(context, "Nie ma ocen do usunięcia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.subject_null_assessments, Toast.LENGTH_SHORT).show();
         } else if(!assessments.remove(assessment)){
-            Toast.makeText(context, "Nie znaleźiono takiej oceny do usunięcia", Toast.LENGTH_SHORT).show(); //TODO: stringi
+            Toast.makeText(context, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -122,9 +115,8 @@ public class Subject {
     }
 
     public String getStringAssessments(){
-        String assessmentsString = "Brak"; //TODO: String
+        String assessmentsString = "";
         if(assessments.size() > 0) {
-            assessmentsString = "";
             for (int i = 0; i < assessments.size(); i++) {
                 assessmentsString += Float.toString(assessments.get(i)) + " ";
             }
@@ -207,7 +199,7 @@ public class Subject {
     public void fromStringSubjectNotes(String subjectNotes){
         if(!subjectNotes.equals("")) {
             String[] strings = subjectNotes.split("®");
-            for (int i = 0; i < strings.length; i += 2) {
+            for (int i = 0; i < strings.length; i += 10) {
                 this.subjectNotes.add(new SubjectNote(strings[i], strings[i + 1]));
             }
         }

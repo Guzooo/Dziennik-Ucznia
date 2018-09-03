@@ -1,3 +1,71 @@
 <resources>
     <string name="app_name">Dziennik Ucznia</string>
+    <string name="app_G">© Guzooo 2018</string>
+
+    <string name="add_subject">Dodawanie Przedmiotu</string>
+    <string name="edit_subject">Edytowanie Przedmiotu</string>
+    <string name="setting">Ustawienia:</string>
+
+    <string name="error_database">Błąd bazy danych</string>
+    <string name="error_prohibited_sign">Usuń © lub ®</string>
+
+    <string name="save">Zapisz</string>
+    <string name="add">Dodaj</string>
+    <string name="cancel">Anuluj</string>
+    <string name="null_string">Brak</string>
+
+    <string name="notepad">Notatnik</string>
+    <string name="assessment">Oceny:</string>
+    <string name="hint_assessment">Wpisz ocene</string>
+
+    <string name="separation">\ |\ </string>
+
+    <string name="menu_trash">Kosz</string>
+    <string name="menu_edit">Edytuj</string>
+
+    <string name="subject_null_assessments">Brak ocen</string>
+    <string name="subject_null_this_assessment">Nie znaleźiono tej oceny do usunięcia</string>
+
+    <string name="main_null_subject">Nie masz jeszcze przedmiotów\nDotknij plusa w prawym dolnym rogu by dodać przedmiot</string>
+    <string name="main_soon_plan">Plan zostanie dodanny wkrótce</string>
+    <string name="main_belt">PASEK</string>
+    
+    <string name="notes">Ilość notetek: %1$d</string>
+    <string name="unpreparedness">NP: %1$d</string>
+
+    <string name="details_add_note">+ Dodaj notatkę</string>
+    <string name="details_minus_unpreparedness">-1NP</string>
+    <string name="details_description">Opis:</string>
+    
+    <string name="edit_hint_name">Wpisz nazwę przedmiotu</string>
+    <string name="edit_hint_teacher">Wpisz nauczyciela przedmiotu</string>
+    <string name="edit_hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>
+    <string name="edit_hint_description">Wpisz dowolne informacje na temat przedmiotu</string>
+    <string name="edit_current_assessment">Aktualne oceny:</string>
+    <string name="edit_edit_assessment">Edytowane oceny:</string>
+    <string name="edit_delete_all_assessment">Wszystkie</string>
+    <string name="edit_duplicate_subject">Powiel przedmiot</string>
+    <string name="edit_duplicate_subject_made">Przedmiot został powielony</string>
+    <string name="edit_delete_subject">Usuń przedmiot</string>
+
+    <string name="note_hint_name">Wpisz nazwę notatki</string>
+    <string name="note_hint_description">Wpisz treść notatki</string>
+    <string name="note_null">Notatka nie jest uzupełniona</string>
+
+    <string name="setting_facebook">Facebook</string>
+    <string name="setting_average_to_assessment">Przeliczaj średnie na oceny</string>
+    <string name="setting_six_from">6 od</string>
+    <string name="setting_five_from">5 od</string>
+    <string name="setting_four_from">4 od</string>
+    <string name="setting_three_from">3 od</string>
+    <string name="setting_two_from">2 od</string>
+    <string name="setting_to_six">Wpisz potrzebną średnią do uzyskania oceny 6</string>
+    <string name="setting_to_five">Wpisz potrzebną średnią do uzyskania oceny 5</string>
+    <string name="setting_to_four">Wpisz potrzebną średnią do uzyskania oceny 4</string>
+    <string name="setting_to_three">Wpisz potrzebną średnią do uzyskania oceny 3</string>
+    <string name="setting_to_two">Wpisz potrzebną średnią do uzyskania oceny 2</string>
+    <string name="setting_belt_from">pasek od</string>
+    <string name="setting_to_belt">Wpisz potrzebną średnią do uzyskania paska</string>
+    <string name="setting_delete_all_subjects">Usuń wszystkie przedmioty</string>
+    <string name="setting_delete_all_subjects_made">Usunąłeś wszystkie przedmioty</string>
 </resources>

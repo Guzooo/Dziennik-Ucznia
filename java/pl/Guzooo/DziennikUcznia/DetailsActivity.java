@@ -12,23 +12,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Set;
 
 public class DetailsActivity extends Activity implements View.OnClickListener {
 
     public static final String EXTRA_ID = "id";
 
     private Subject subject;
-
     private EditText editTextAssessment;
     private TextView textViewAssessment;
     private TextView textViewUnpreparedness;
@@ -75,7 +70,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
             cursor.close();
             db.close();
         } catch (SQLiteException e){
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();//TODO: String
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
         View actionBar = getActionBar().getCustomView();
@@ -93,7 +88,10 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
         textViewTeacher.setText(subject.getTeacher());
         textViewAssessment.setText(subject.getStringAssessments());
-        textViewUnpreparedness.setText("NP: " + subject.getUnpreparedness());//TODO:string
+        if(textViewAssessment.getText().toString().trim().equals("")){
+            textViewAssessment.setText(R.string.null_string);
+        }
+        textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
         textViewDescription.setText(subject.getDescription());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -106,7 +104,6 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
             public void onClick(int id) {
                 Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
                 intent.putExtra(NoteActivity.EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, 0));
-                Log.d("Detail", ""+id);
                 intent.putExtra(NoteActivity.EXTRA_NUM_NOTE, id);
                 startActivity(intent);
             }
@@ -157,7 +154,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
     public void ClickPlus(View v){
         if(editTextAssessment.getText().toString().trim().equals("")){
-            Toast.makeText(this, "Wpisz ocenę", Toast.LENGTH_LONG).show(); //TODO:stringi
+            Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         } else {
             subject.addAssessment(Float.parseFloat(editTextAssessment.getText().toString().trim()));
             textViewAssessment.setText(subject.getStringAssessments());
@@ -168,7 +165,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
     public void ClickMinus(View v){
         if(editTextAssessment.getText().toString().trim().equals("")) {
-            Toast.makeText(this, "Wpisz ocenę", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Wpisz ocenę", Toast.LENGTH_SHORT).show();
         } else {
             subject.removeAssessment(Float.parseFloat(editTextAssessment.getText().toString().trim()), this);
             textViewAssessment.setText(subject.getStringAssessments());
@@ -179,7 +176,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
     public void ClickMinusUnpreparedness(View v){
         subject.removeUnpreparedness();
-        textViewUnpreparedness.setText("NP: " + subject.getUnpreparedness());//TODO:string
+        textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
         saveSubject();
     }
 
@@ -187,7 +184,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
         subject.setAverage();
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME_AVERAGE_TO, MODE_PRIVATE);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaulAverageToAssessment)){
-            textViewSecond.setText(Float.toString(subject.getAverage()) + " | " + Integer.toString(subject.getRoundedAverage(sharedPreferences)));
+            textViewSecond.setText(Float.toString(subject.getAverage()) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences)));
         } else {
             textViewSecond.setText(Float.toString(subject.getAverage()));
         }
@@ -207,7 +204,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
                     new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))});
             db.close();
         } catch (SQLiteException e){
-            Toast.makeText(this, "Błąddd", Toast.LENGTH_SHORT).show(); //TODO:string
+            Toast.makeText(this, R.string.error_database,Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,12 +1,13 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -66,6 +67,12 @@ public class SettingActivity extends Activity {
         ClickCheckAverageToAssessment(checkBoxAverageToAssessment);
     }
 
+    public void ClickFacebook(View v){
+        Uri uri = Uri.parse("https://www.facebook.com/GuzoooApps");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
     public void ClickCheckAverageToAssessment(View v){
         if(checkBoxAverageToAssessment.isChecked()){
             findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.VISIBLE);
@@ -80,9 +87,9 @@ public class SettingActivity extends Activity {
             SQLiteDatabase db = openHelper.getWritableDatabase();
             db.delete("SUBJECTS", null, null);
             db.close();
-            Toast.makeText(this, "Wyjebałeś lekcje hehehe", Toast.LENGTH_LONG).show(); //TODO: string
+            Toast.makeText(this, R.string.setting_delete_all_subjects_made, Toast.LENGTH_SHORT).show();
         } catch (SQLiteException e){
-            Toast.makeText(this, "Jebut", Toast.LENGTH_LONG).show(); //TODO: string
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
     }
 

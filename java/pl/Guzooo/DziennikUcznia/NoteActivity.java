@@ -58,11 +58,11 @@ public class NoteActivity extends Activity {
             cursor.close();
             db.close();
         } catch (SQLiteException e){
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show(); //TODO: string
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
-        editTextTitle.setHint("Wpisz nazwę notatki");
-        editTextNote.setHint("Wpisz treść notatki"); //TODO: stringi
+        editTextTitle.setHint(R.string.note_hint_name);
+        editTextNote.setHint(R.string.note_hint_description);
 
         if(numOfNote == -1) {
             findViewById(R.id.note_button_box).setVisibility(View.VISIBLE);
@@ -96,6 +96,13 @@ public class NoteActivity extends Activity {
     }
 
     @Override
+    public void onBackPressed() {
+        if(numOfNote == -1 || chechSave()){
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
@@ -107,13 +114,11 @@ public class NoteActivity extends Activity {
     }
 
     public void ClickAdd(View v){
-        if(editTextTitle.getText().toString().trim().equals("") || editTextNote.getText().toString().trim().equals("")){
-            Toast.makeText(this, "Notatka nie jest uzupełniona", Toast.LENGTH_SHORT).show();
-            return;
+        if(chechSave()) {
+            subjectNotes.add(new SubjectNote(editTextTitle.getText().toString().trim(), editTextNote.getText().toString().trim()));
+            saveSubject();
+            finish();
         }
-        subjectNotes.add(new SubjectNote(editTextTitle.getText().toString().trim(), editTextNote.getText().toString().trim()));
-        saveSubject();
-        finish();
     }
 
     public void ClickCancel(View v){
@@ -137,7 +142,28 @@ public class NoteActivity extends Activity {
                     new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))});
             db.close();
         }catch (SQLiteException e){
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show(); //TODO: string
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private Boolean chechSave(){
+        if(editTextTitle.getText().toString().trim().equals("") || editTextNote.getText().toString().trim().equals("")){
+            Toast.makeText(this, R.string.note_null, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(checkString(editTextTitle) || checkString(editTextNote)){
+            Toast.makeText(this, R.string.error_prohibited_sign, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private Boolean checkString(EditText editText){
+        Boolean bool = (new String(editText.getText().toString().trim()).indexOf("©") != -1);
+        if(!bool){
+            bool = (new String(editText.getText().toString().trim()).indexOf("®") != -1);
+        }
+        return bool;
     }
 }

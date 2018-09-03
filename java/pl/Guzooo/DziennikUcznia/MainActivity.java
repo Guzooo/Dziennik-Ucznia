@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,14 +61,14 @@ public class MainActivity extends Activity {
                     null, null, null, null,
                     "NOTES DESC");
         } catch (SQLiteException e){
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();//TODO: String
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
         textViewSecond.setText(getAverage());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdapterSubjectCardView(cursor, findViewById(R.id.main_subject_null));
+        adapter = new AdapterSubjectCardView(cursor, findViewById(R.id.main_subject_null), this);
         recyclerView.setAdapter(adapter);
 
         adapter.setListener(new AdapterSubjectCardView.Listener() {
@@ -130,7 +129,7 @@ public class MainActivity extends Activity {
     }
 
     public void ClickPlan(View v){
-        Log.d("Home", "Kliknięto plan");
+        Toast.makeText(this, R.string.main_soon_plan, Toast.LENGTH_SHORT).show();
     }
 
     public void ClickPlus(View v){
@@ -143,7 +142,6 @@ public class MainActivity extends Activity {
         float average = 0f;
         int number = 0;
         if (cursor.moveToFirst()) {
-             Log.d("Home", Boolean.toString(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaulAverageToAssessment)));
              if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaulAverageToAssessment)) {
                 do {
                     number++;
@@ -160,7 +158,7 @@ public class MainActivity extends Activity {
         }
         average = average / number;
         if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.defaulAverageToBelt)) {
-            return Float.toString(average) + " | PASEK"; //TODO: string
+            return Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
         }
         return Float.toString(average);
     }

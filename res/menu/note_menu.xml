@@ -5,5 +5,5 @@
         android:icon="@android:drawable/ic_menu_delete"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="Kosz" />
+        android:title="@string/menu_trash" />
 </menu>

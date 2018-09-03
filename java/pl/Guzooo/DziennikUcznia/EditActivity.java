@@ -1,15 +1,11 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,12 +52,12 @@ public class EditActivity extends Activity {
             editTextTeacher.setText(editSubject.getTeacher());
             editTextUnpreparedness.setText(Integer.toString(editSubject.getUnpreparedness()));
             editTextDescription.setText(editSubject.getDescription());
-            textViewEditAssessmentTitle.setText("Edytowne oceny"); //TODO: string
+            textViewEditAssessmentTitle.setText(R.string.edit_edit_assessment);
             textViewEditAssessment.setText(editSubject.getStringAssessments());
             textViewCurrentAssessment.setText(editSubject.getStringAssessments());
-            getActionBar().setTitle("Edycja Przedmiotu");
+            getActionBar().setTitle(R.string.edit_subject);
             viewCurrentAssessmentBox.setVisibility(View.VISIBLE);
-            buttonSave.setText("Zapisz"); //TODO: stringi
+            buttonSave.setText(R.string.save);
             buttonDelete.setVisibility(View.VISIBLE);
             buttonDuplicate.setVisibility(View.VISIBLE);
         } else {
@@ -71,7 +67,7 @@ public class EditActivity extends Activity {
 
     public void ClickPlus(View v){
         if(editTextAssessment.getText().toString().trim().equals("")){
-            Toast.makeText(this, "Wpisz ocenę", Toast.LENGTH_LONG).show(); //TODO:stringi
+            Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         } else {
             editSubject.addAssessment(Float.parseFloat(editTextAssessment.getText().toString().trim()));
             textViewEditAssessment.setText(editSubject.getStringAssessments());
@@ -80,7 +76,7 @@ public class EditActivity extends Activity {
 
     public void ClickMinus(View v){
         if(editTextAssessment.getText().toString().trim().equals("")) {
-            Toast.makeText(this, "Wpisz ocenę", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         } else {
             editSubject.removeAssessment(Float.parseFloat(editTextAssessment.getText().toString().trim()), this);
             textViewEditAssessment.setText(editSubject.getStringAssessments());
@@ -102,9 +98,9 @@ public class EditActivity extends Activity {
             SQLiteDatabase db = openHelper.getWritableDatabase();
             db.insert("SUBJECTS", null, subjectValues);
             db.close();
-            Toast.makeText(this, "Przedmiot został zduplikowany", Toast.LENGTH_SHORT).show(); //TODO:string
+            Toast.makeText(this, R.string.edit_duplicate_subject_made, Toast.LENGTH_SHORT).show();
         } catch (SQLiteException e){
-            Toast.makeText(this, "Błąddd", Toast.LENGTH_SHORT).show(); //TODO:string
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -117,19 +113,19 @@ public class EditActivity extends Activity {
                     new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))});
             db.close();
         } catch (SQLiteException e){
-            Toast.makeText(this, "Błąddd", Toast.LENGTH_SHORT).show(); //TODO:string
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
         finish();
     }
 
     public void ClickSave(View v){
         if (editTextName.getText().toString().trim().equals("")){
-            Toast.makeText(this, "Wpisz nazwę przedmiotu", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.edit_hint_name, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (checkString(editTextName) || checkString(editTextTeacher) || checkString(editTextDescription)){
-            Toast.makeText(this, "eeee tu je '©'", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.error_prohibited_sign, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -157,7 +153,7 @@ public class EditActivity extends Activity {
             }
             db.close();
         } catch (SQLiteException e){
-            Toast.makeText(this, "Błąddd", Toast.LENGTH_SHORT).show(); //TODO:string
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
         finish();
     }

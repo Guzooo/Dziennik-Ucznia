@@ -21,7 +21,7 @@
             android:id="@+id/main_notepad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Notatnik"
+            android:hint="@string/notepad"
             android:maxHeight="100dp"
             android:inputType="textMultiLine"/>
     </android.support.v7.widget.CardView>
@@ -39,7 +39,7 @@
            android:layout_height="wrap_content"
            android:layout_gravity="center"
            android:gravity="center"
-           android:text="Nie masz jeszcze przedmiotów\nDotknij plusa w prawym dolnym rogu by dodać przedmiot"/> <!--TODO:String-->
+           android:text="@string/main_null_subject"/>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView

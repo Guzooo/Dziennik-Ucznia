@@ -23,14 +23,14 @@
                 android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz nazwę przedmiotu"
+                android:hint="@string/edit_hint_name"
                 android:singleLine="true"/>
 
             <EditText
                 android:id="@+id/edit_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz nauczyciela przedmiotu"
+                android:hint="@string/edit_hint_teacher"
                 android:singleLine="true"/>
 
             <LinearLayout
@@ -48,13 +48,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Aktualne oceny:" />
+                        android:text="@string/edit_current_assessment" />
 
                     <TextView
                         android:id="@+id/edit_current_assessment"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="4, 5,5, 6, 1, 2" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -67,13 +66,13 @@
                         android:id="@+id/edit_edit_assessment_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Oceny:" />
+                        android:text="@string/assessment" />
 
                     <TextView
                         android:id="@+id/edit_edit_assessment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Brak" />
+                        android:text="@string/null_string" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -85,7 +84,7 @@
                     android:id="@+id/edit_assessment"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:hint="wpisz ocene"
+                    android:hint="@string/hint_assessment"
                     android:layout_weight="1"
                     android:inputType="numberDecimal"/>
 
@@ -108,7 +107,7 @@
                     android:layout_height="match_parent"
                     android:drawableEnd="@android:drawable/ic_delete"
                     android:drawableRight="@android:drawable/ic_delete"
-                    android:text="wszystlkie"
+                    android:text="@string/edit_delete_all_assessment"
                     android:onClick="ClickAllMinus"
                     style="@style/AppTheme.Button"/>
             </LinearLayout>
@@ -117,21 +116,21 @@
                 android:id="@+id/edit_unpreparedness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz liczbe nieprzygotowań"
+                android:hint="@string/edit_hint_unpreparedness"
                 android:inputType="number"/>
 
             <EditText
                 android:id="@+id/edit_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Wpisz dowolne informacje na temat przedmiotu"
+                android:hint="@string/edit_hint_description"
                 android:inputType="textMultiLine"/>
 
             <Button
                 android:id="@+id/edit_duplicate_subject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Powiel przedmiot"
+                android:text="@string/edit_duplicate_subject"
                 android:visibility="gone"
                 android:onClick="ClickDuplicateSubject"
                 style="@style/AppTheme.Button"/>
@@ -144,7 +143,7 @@
                 android:drawableEnd="@android:drawable/ic_menu_delete"
                 android:drawableLeft="@android:drawable/ic_menu_delete"
                 android:drawableRight="@android:drawable/ic_menu_delete"
-                android:text="Usuń przedmiot"
+                android:text="@string/edit_delete_subject"
                 android:visibility="gone"
                 android:onClick="ClickDeleteSubject"
                 style="@style/AppTheme.Button"/>
@@ -161,7 +160,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickSave"
-            android:text="Dodaj"
+            android:text="@string/add"
             style="@style/AppTheme.Button"/>
 
         <Button
@@ -169,7 +168,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickCancel"
-            android:text="Anuluj"
+            android:text="@string/cancel"
             style="@style/AppTheme.Button"/>
     </LinearLayout>
 </LinearLayout>
