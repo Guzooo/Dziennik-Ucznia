@@ -89,14 +89,10 @@ public class EditActivity extends Activity {
     }
 
     public void ClickDuplicateSubject(View v){
-        ContentValues subjectValues = new ContentValues();
-        subjectValues.put("OBJECT", editSubject.toString());
-        subjectValues.put("NOTES", editSubject.sizeSubjectNotes());
-
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
-            db.insert("SUBJECTS", null, subjectValues);
+            db.insert("SUBJECTS", null, editSubject.subjectValues());
             db.close();
             Toast.makeText(this, R.string.edit_duplicate_subject_made, Toast.LENGTH_SHORT).show();
         } catch (SQLiteException e){
@@ -135,19 +131,15 @@ public class EditActivity extends Activity {
 
         Subject subject = new Subject(editTextName.getText().toString().trim(), editTextTeacher.getText().toString().trim(), editSubject.getAssessments(), Integer.parseInt(editTextUnpreparedness.getText().toString().trim()), editTextDescription.getText().toString().trim(), editSubject.getSubjectNotes());
 
-        ContentValues subjectValues = new ContentValues();
-        subjectValues.put("OBJECT", subject.toString());
-        subjectValues.put("NOTES", subject.sizeSubjectNotes());
-
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
 
             if(getIntent().getIntExtra(EXTRA_ID, 0) == 0) {
-                db.insert("SUBJECTS",null, subjectValues);
+                db.insert("SUBJECTS",null, subject.subjectValues());
             } else {
                 db.update("SUBJECTS",
-                        subjectValues,
+                        subject.subjectValues(),
                         "_id = ?",
                         new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))});
             }

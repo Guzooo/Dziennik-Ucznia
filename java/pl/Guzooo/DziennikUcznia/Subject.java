@@ -1,5 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -196,12 +197,21 @@ public class Subject {
         return string;
     }
 
-    public void fromStringSubjectNotes(String subjectNotes){
-        if(!subjectNotes.equals("")) {
+    public void fromStringSubjectNotes(String subjectNotes) {
+        if (!subjectNotes.equals("")) {
             String[] strings = subjectNotes.split("®");
             for (int i = 0; i < strings.length; i += 10) {
                 this.subjectNotes.add(new SubjectNote(strings[i], strings[i + 1]));
             }
         }
-    } //TODO:ContentValues tutej
+    }
+
+    public ContentValues subjectValues(){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("OBJECT", this.toString());
+        contentValues.put("NOTES", this.sizeSubjectNotes());
+
+        return contentValues;
+    }
 }

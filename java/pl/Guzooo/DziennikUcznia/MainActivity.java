@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
         textViewSecond = actionBar.findViewById(R.id.action_bar_two_text_second);
         editTextNotepad = findViewById(R.id.main_notepad);
 
+        editTextNotepad.setText(loadNotepad());
         textViewTitle.setText(R.string.app_name);
     }
 
@@ -94,10 +95,8 @@ public class MainActivity extends Activity {
             case R.id.action_notepad:
                 View notepadBox = findViewById(R.id.main_notepad_box);
                 if(notepadBox.getVisibility() == View.GONE) {
-                    editTextNotepad.setText(loadNotepad());
                     notepadBox.setVisibility(View.VISIBLE);
                 } else {
-                    saveNotepad();
                     notepadBox.setVisibility(View.GONE);
                 }
                 return true;

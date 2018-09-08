@@ -128,16 +128,12 @@ public class NoteActivity extends Activity {
     private void saveSubject(){
         subject.setSubjectNotes(subjectNotes);
 
-        ContentValues subjectValues = new ContentValues();
-        subjectValues.put("OBJECT", subject.toString());
-        subjectValues.put("NOTES", subject.sizeSubjectNotes());
-
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
 
             db.update("SUBJECTS",
-                    subjectValues,
+                    subject.subjectValues(),
                     "_id = ?",
                     new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))});
             db.close();
