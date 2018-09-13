@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:textSize">14dp</item>
@@ -23,8 +23,6 @@
     </style>
 
     <style name="AppTheme.Button" parent="AppTheme">
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15dp</item>
     </style>

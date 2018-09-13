@@ -2,6 +2,7 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 public class EditActivity extends Activity {
 
     public static final String EXTRA_ID = "id";
-    public static final String EXTRA_OBJECT = "object";
 
     private Subject editSubject;
 
@@ -47,21 +47,39 @@ public class EditActivity extends Activity {
         Button buttonDuplicate = findViewById(R.id.edit_duplicate_subject);
 
         if(getIntent().getIntExtra(EXTRA_ID, 0) != 0){
-            editSubject = new Subject(getIntent().getStringExtra(EXTRA_OBJECT));
-            editTextName.setText(editSubject.getName());
-            editTextTeacher.setText(editSubject.getTeacher());
-            editTextUnpreparedness.setText(Integer.toString(editSubject.getUnpreparedness()));
-            editTextDescription.setText(editSubject.getDescription());
-            textViewEditAssessmentTitle.setText(R.string.edit_edit_assessment);
-            textViewEditAssessment.setText(editSubject.getStringAssessments());
-            textViewCurrentAssessment.setText(editSubject.getStringAssessments());
-            getActionBar().setTitle(R.string.edit_subject);
-            viewCurrentAssessmentBox.setVisibility(View.VISIBLE);
-            buttonSave.setText(R.string.save);
-            buttonDelete.setVisibility(View.VISIBLE);
-            buttonDuplicate.setVisibility(View.VISIBLE);
+            try {
+                SQLiteOpenHelper openHelper = new HelperDatabase(this);
+                SQLiteDatabase db = openHelper.getReadableDatabase();
+                Cursor cursor = db.query("SUBJECTS",
+                        Subject.subjectOnCursor,
+                        "_id = ?",
+                        new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))},
+                        null, null, null);
+
+                if(cursor.moveToFirst()) {
+                    editSubject = new Subject(cursor);
+                    editTextName.setText(editSubject.getName());
+                    editTextTeacher.setText(editSubject.getTeacher());
+                    editTextUnpreparedness.setText(Integer.toString(editSubject.getUnpreparedness()));
+                    editTextDescription.setText(editSubject.getDescription());
+                    textViewEditAssessmentTitle.setText(R.string.edit_edit_assessment);
+                    textViewEditAssessment.setText(editSubject.getStringAssessments());
+                    textViewCurrentAssessment.setText(editSubject.getStringAssessments());
+                    getActionBar().setTitle(R.string.edit_subject);
+                    viewCurrentAssessmentBox.setVisibility(View.VISIBLE);
+                    buttonSave.setText(R.string.save);
+                    buttonDelete.setVisibility(View.VISIBLE);
+                    buttonDuplicate.setVisibility(View.VISIBLE);
+                }
+
+                cursor.close();
+                db.close();
+            } catch (SQLiteException e){
+                Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+            }
+
         } else {
-            editSubject = new Subject("", "", new ArrayList<Float>(), 0, "", new ArrayList<SubjectNote>());
+            editSubject = new Subject(0, "", "", "", 0, "");
         }
     }
 
@@ -69,22 +87,26 @@ public class EditActivity extends Activity {
         if(editTextAssessment.getText().toString().trim().equals("")){
             Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         } else {
-            editSubject.addAssessment(Float.parseFloat(editTextAssessment.getText().toString().trim()));
+            editSubject.getAssessments().add(Float.parseFloat(editTextAssessment.getText().toString().trim()));
             textViewEditAssessment.setText(editSubject.getStringAssessments());
         }
     }
 
     public void ClickMinus(View v){
+        Float assessment = Float.parseFloat(editTextAssessment.getText().toString().trim());
         if(editTextAssessment.getText().toString().trim().equals("")) {
             Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
+        } else if(editSubject.getAssessments().size() == 0) {
+            Toast.makeText(this, R.string.subject_null_assessments, Toast.LENGTH_SHORT).show();
+        } else if (!editSubject.getAssessments().remove(assessment)) {
+            Toast.makeText(this, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
         } else {
-            editSubject.removeAssessment(Float.parseFloat(editTextAssessment.getText().toString().trim()), this);
             textViewEditAssessment.setText(editSubject.getStringAssessments());
         }
     }
 
     public void ClickAllMinus(View v){
-        editSubject.removeAllAssessments();
+        editSubject.getAssessments().clear();
         textViewEditAssessment.setText(editSubject.getStringAssessments());
     }
 
@@ -92,7 +114,7 @@ public class EditActivity extends Activity {
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
-            db.insert("SUBJECTS", null, editSubject.subjectValues());
+            db.insert("SUBJECTS", null, editSubject.saveSubject(this));
             db.close();
             Toast.makeText(this, R.string.edit_duplicate_subject_made, Toast.LENGTH_SHORT).show();
         } catch (SQLiteException e){
@@ -106,12 +128,18 @@ public class EditActivity extends Activity {
             SQLiteDatabase db = openHelper.getWritableDatabase();
             db.delete("SUBJECTS",
                     "_id = ?",
-                    new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))});
+                    new String[] {Integer.toString(editSubject.getId())});
+            db.delete("NOTES",
+                    "TAB_SUBJECT = ?",
+                    new String[] {Integer.toString(editSubject.getId())});
+            db.delete("LESSON_PLAN",
+                    "TAB_SUBJECT = ?",
+                    new String[] {Integer.toString(editSubject.getId())});
             db.close();
+            finish();
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-        finish();
     }
 
     public void ClickSave(View v){
@@ -120,28 +148,26 @@ public class EditActivity extends Activity {
             return;
         }
 
-        if (checkString(editTextName) || checkString(editTextTeacher) || checkString(editTextDescription)){
-            Toast.makeText(this, R.string.error_prohibited_sign, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         if(editTextUnpreparedness.getText().toString().trim().equals("")){
             editTextUnpreparedness.setText(Integer.toString(0));
         }
 
-        Subject subject = new Subject(editTextName.getText().toString().trim(), editTextTeacher.getText().toString().trim(), editSubject.getAssessments(), Integer.parseInt(editTextUnpreparedness.getText().toString().trim()), editTextDescription.getText().toString().trim(), editSubject.getSubjectNotes());
+        editSubject.setName(editTextName.getText().toString().trim());
+        editSubject.setTeacher(editTextTeacher.getText().toString().trim());
+        editSubject.setUnpreparedness(Integer.parseInt(editTextUnpreparedness.getText().toString().trim()));
+        editSubject.setDescription(editTextDescription.getText().toString().trim());
 
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
 
-            if(getIntent().getIntExtra(EXTRA_ID, 0) == 0) {
-                db.insert("SUBJECTS",null, subject.subjectValues());
+            if(editSubject.getId() == 0) {
+                db.insert("SUBJECTS",null, editSubject.saveSubject(this));
             } else {
                 db.update("SUBJECTS",
-                        subject.subjectValues(),
+                        editSubject.saveSubject(this),
                         "_id = ?",
-                        new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))});
+                        new String[] {Integer.toString(editSubject.getId())});
             }
             db.close();
         } catch (SQLiteException e){
@@ -152,10 +178,5 @@ public class EditActivity extends Activity {
 
     public void ClickCancel(View v){
         finish();
-    }
-
-    private Boolean checkString(TextView textView){
-        Boolean bool = (new String(textView.getText().toString().trim()).indexOf("©") != -1);
-        return bool;
     }
 }

@@ -3,47 +3,80 @@ package pl.Guzooo.DziennikUcznia;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.support.annotation.NonNull;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Subject {
 
+    private int id;
     private String name;
-    private float average;
     private String teacher;
     private ArrayList<Float> assessments = new ArrayList<>();
     private int unpreparedness;
     private String description;
     private ArrayList<SubjectNote> subjectNotes = new ArrayList<>();
 
-    public Subject (String name, String teacher, ArrayList<Float> assessments, int unpreparedness, String description, ArrayList<SubjectNote> subjectNotes){
+    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION"};
+
+    public Subject (int id, String name, String teacher, ArrayList<Float> assessments, int unpreparedness, String description){
+        this.id = id;
         setName(name);
         setTeacher(teacher);
         setAssessments(assessments);
-        setAverage();
         setUnpreparedness(unpreparedness);
         setDescription(description);
-        setSubjectNotes(subjectNotes);
     }
 
-    public Subject (String object){
+    public Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description){
+        this.id = id;
+        setName(name);
+        setTeacher(teacher);
+        fromStringAssessments(assessments);
+        setUnpreparedness(unpreparedness);
+        setDescription(description);
+    }
+
+    public Subject (Cursor cursor){
+        this.id = cursor.getInt(0);
+        setName(cursor.getString(1));
+        setTeacher(cursor.getString(2));
+        fromStringAssessments(cursor.getString(3));
+        setUnpreparedness(cursor.getInt(4));
+        setDescription(cursor.getString(5));
+    }
+
+    public Subject (String object , int id){ //old method
+        this.id = id;
         String[] strings =  object.split("©");
         setName(strings[0]);
         setTeacher(strings[1]);
         fromStringAssessments(strings[2]);
-        setAverage();
         setDescription(strings[3]);
         fromStringSubjectNotes(strings[4]);
         setUnpreparedness(Integer.parseInt(strings[15]));
     }
 
-    @Override
-    public String toString() {
-        String string = getName() + "©" + getTeacher() + "©" + toStringAssessments() + "©" + getDescription() + "©" + toStringSubjectNotes() +  "©" + "©" + "©" + "©" + "©" + "©" + "©" + "©" + "©" + "©" + "©" + Integer.toString(getUnpreparedness());
-        return string;
+    public ContentValues saveSubject(Context context){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("NAME", getName());
+        contentValues.put("TEACHER", getTeacher());
+        contentValues.put("ASSESSMENTS", toStringAssessments());
+        contentValues.put("UNPREPAREDNESS", getUnpreparedness());
+        contentValues.put("DESCRIPTION", getDescription());
+        contentValues.put("NOTES", getSizeNotes(context));
+
+        return contentValues;
+    }
+
+    public int getId(){
+        return id;
     }
 
     public void setName (String name) {
@@ -54,17 +87,19 @@ public class Subject {
         return name;
     }
 
-    public void setAverage(){
-        average = 0;
+    public float getAverage(){
+        float average = 0;
         if(assessments.size() > 0) {
             for (int i = 0; i < assessments.size(); i++) {
                 average += assessments.get(i);
             }
             average = average / assessments.size();
         }
+        return average;
     }
 
     public int getRoundedAverage(SharedPreferences sharedPreferences){
+        float average = getAverage();
         int roundedAverage;
         if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.defaulAverageToSix)){
             roundedAverage = 6;
@@ -82,10 +117,6 @@ public class Subject {
         return roundedAverage;
     }
 
-    public float getAverage(){
-        return average;
-    }
-
     public void setTeacher(String teacher){
         this.teacher = teacher;
     }
@@ -97,22 +128,6 @@ public class Subject {
     public void setAssessments (ArrayList<Float> assessments){
         this.assessments.clear();
         this.assessments.addAll(assessments);
-    }
-
-    public void addAssessment(float assessment){
-        assessments.add(assessment);
-    }
-
-    public void removeAssessment(float assessment, Context context){
-        if(assessments.size() == 0){
-            Toast.makeText(context, R.string.subject_null_assessments, Toast.LENGTH_SHORT).show();
-        } else if(!assessments.remove(assessment)){
-            Toast.makeText(context, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void removeAllAssessments(){
-        assessments.clear();
     }
 
     public String getStringAssessments(){
@@ -169,49 +184,37 @@ public class Subject {
         return description;
     }
 
-    public void setSubjectNotes(ArrayList<SubjectNote> subjectNotes) {
-        this.subjectNotes = subjectNotes;
-    }
-
-    public void addSubjectNote(SubjectNote subjectNote){
-        this.subjectNotes.add(subjectNote);
-    }
-
-    public void removeSubjectNote(SubjectNote subjectNote){
-        this.subjectNotes.remove(subjectNote);
+    public void fromStringSubjectNotes(String subjectNotes) {
+        if (!subjectNotes.equals("")) {
+            String[] strings = subjectNotes.split("®");
+            for (int i = 0; i < strings.length; i += 10) {
+                this.subjectNotes.add(new SubjectNote(strings[i], strings[i + 1], this.id));
+            }
+        }
     }
 
     public ArrayList<SubjectNote> getSubjectNotes() {
         return subjectNotes;
     }
 
-    public int sizeSubjectNotes(){
-        return subjectNotes.size();
-    }
-
-    public String toStringSubjectNotes(){
-        String string = "";
-        for (int i = 0; i < subjectNotes.size(); i++) {
-            string += subjectNotes.get(i).toString();
-        }
-        return string;
-    }
-
-    public void fromStringSubjectNotes(String subjectNotes) {
-        if (!subjectNotes.equals("")) {
-            String[] strings = subjectNotes.split("®");
-            for (int i = 0; i < strings.length; i += 10) {
-                this.subjectNotes.add(new SubjectNote(strings[i], strings[i + 1]));
+    public int getSizeNotes(Context context){
+        int size = 0;
+        try{
+            SQLiteOpenHelper openHelper = new HelperDatabase(context);
+            SQLiteDatabase db = openHelper.getReadableDatabase();
+            Cursor cursor = db.query("NOTES",
+                    new String[] {"COUNT(_id) AS count"},
+                    "TAB_SUBJECT = ?",
+                    new String[] {Integer.toString(getId())},
+                    null, null, null);
+            if(cursor.moveToFirst()){
+                size = cursor.getInt(0);
             }
+            cursor.close();
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public ContentValues subjectValues(){
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("OBJECT", this.toString());
-        contentValues.put("NOTES", this.sizeSubjectNotes());
-
-        return contentValues;
+        return size;
     }
 }

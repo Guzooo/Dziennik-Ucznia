@@ -29,6 +29,10 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     private TextView textViewUnpreparedness;
     private TextView textViewSecond;
 
+    SQLiteDatabase db;
+    Cursor cursor;
+    AdapterNoteCardView adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +55,15 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
         try{
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
-            SQLiteDatabase db = openHelper.getReadableDatabase();
-            Cursor cursor = db.query("SUBJECTS",
-                    new String[]{"OBJECT"},
+            db = openHelper.getReadableDatabase();
+            cursor = db.query("SUBJECTS",
+                    Subject.subjectOnCursor,
                     "_id = ?",
                     new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))},
                     null, null, null);
 
             if(cursor.moveToFirst()){
-                subject = new Subject(cursor.getString(0));
+                subject = new Subject(cursor);
             } else {
                 cursor.close();
                 db.close();
@@ -67,8 +71,11 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
                 return;
             }
 
-            cursor.close();
-            db.close();
+            cursor = db.query("NOTES",
+                    SubjectNote.subjectNoteOnCursor,
+                    "TAB_SUBJECT = ?",
+                    new String[] {Integer.toString(subject.getId())},
+                    null, null, null);
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
@@ -96,15 +103,14 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        AdapterNoteCardView adapter = new AdapterNoteCardView(subject.getSubjectNotes(), null);
+        adapter = new AdapterNoteCardView(cursor);
         recyclerView.setAdapter(adapter);
 
         adapter.setListener(new AdapterNoteCardView.Listener() {
             @Override
             public void onClick(int id) {
                 Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
-                intent.putExtra(NoteActivity.EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, 0));
-                intent.putExtra(NoteActivity.EXTRA_NUM_NOTE, id);
+                intent.putExtra(NoteActivity.EXTRA_ID_NOTE, id);
                 startActivity(intent);
             }
         });
@@ -123,7 +129,6 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
             case R.id.action_edit:
                 Intent intent = new Intent(this, EditActivity.class);
                 intent.putExtra(EditActivity.EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, 0));
-                intent.putExtra(EditActivity.EXTRA_OBJECT, subject.toString());
                 startActivity(intent);
                 return true;
 
@@ -142,11 +147,20 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        adapter.CloseCursor();
+        cursor.close();
+        db.close();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.details_add_note:
                 Intent intent = new Intent(this, NoteActivity.class);
-                intent.putExtra(NoteActivity.EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, 0));
+                intent.putExtra(NoteActivity.EXTRA_ID_SUBJECT, getIntent().getIntExtra(EXTRA_ID, 0));
                 startActivity(intent);
                 break;
         }
@@ -156,7 +170,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
         if(editTextAssessment.getText().toString().trim().equals("")){
             Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         } else {
-            subject.addAssessment(Float.parseFloat(editTextAssessment.getText().toString().trim()));
+            subject.getAssessments().add(Float.parseFloat(editTextAssessment.getText().toString().trim()));
             textViewAssessment.setText(subject.getStringAssessments());
         }
         setAverage();
@@ -164,10 +178,15 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     }
 
     public void ClickMinus(View v){
+        Float assessment = Float.parseFloat(editTextAssessment.getText().toString().trim());
         if(editTextAssessment.getText().toString().trim().equals("")) {
-            Toast.makeText(this, "Wpisz ocenę", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
+        } else if(subject.getAssessments().size() == 0) {
+            Toast.makeText(this, R.string.subject_null_assessments, Toast.LENGTH_SHORT).show();
+        } else if (!subject.getAssessments().remove(assessment)) {
+            Toast.makeText(this, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
         } else {
-            subject.removeAssessment(Float.parseFloat(editTextAssessment.getText().toString().trim()), this);
+            subject.getAssessments().remove(assessment);
             textViewAssessment.setText(subject.getStringAssessments());
         }
         setAverage();
@@ -181,7 +200,6 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     }
 
     private void setAverage(){
-        subject.setAverage();
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME_AVERAGE_TO, MODE_PRIVATE);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaulAverageToAssessment)){
             textViewSecond.setText(Float.toString(subject.getAverage()) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences)));
@@ -195,9 +213,9 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
             db.update("SUBJECTS",
-                    subject.subjectValues(),
+                    subject.saveSubject(this),
                     "_id = ?",
-                    new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))});
+                    new String[] {Integer.toString(subject.getId())});
             db.close();
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database,Toast.LENGTH_SHORT).show();

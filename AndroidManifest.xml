@@ -10,8 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,8 +22,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".EditActivity"
-            android:label="@string/add_subject"
-            android:windowSoftInputMode="stateHidden" />
+            android:label="@string/add_subject" />
 
         <activity
             android:name=".SettingActivity"

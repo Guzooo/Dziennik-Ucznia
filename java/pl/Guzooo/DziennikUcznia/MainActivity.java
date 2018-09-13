@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
+    private final String PREFERENCE_DATABASE_1_TO_2 = "database1to2";
 
     private Cursor cursor;
     private SQLiteDatabase db;
@@ -46,6 +48,12 @@ public class MainActivity extends Activity {
 
         editTextNotepad.setText(loadNotepad());
         textViewTitle.setText(R.string.app_name);
+
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        if(sharedPreferences.getInt(PREFERENCE_DATABASE_1_TO_2, 0) == 0){
+            database1to2();
+        }
     }
 
     @Override
@@ -58,7 +66,7 @@ public class MainActivity extends Activity {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             db = openHelper.getReadableDatabase();
             cursor = db.query("SUBJECTS",
-                    new String[] {"_id", "OBJECT"},
+                    Subject.subjectOnCursor,
                     null, null, null, null,
                     "NOTES DESC");
         } catch (SQLiteException e){
@@ -144,12 +152,12 @@ public class MainActivity extends Activity {
              if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaulAverageToAssessment)) {
                 do {
                     number++;
-                    average += new Subject(cursor.getString(1)).getRoundedAverage(sharedPreferences);
+                    average += new Subject(cursor).getRoundedAverage(sharedPreferences);
                 } while (cursor.moveToNext());
             } else {
                 do {
                     number++;
-                    average += new Subject(cursor.getString(1)).getAverage();
+                    average += new Subject(cursor).getAverage();
                 } while (cursor.moveToNext());
             }
         } else {
@@ -171,5 +179,39 @@ public class MainActivity extends Activity {
     private String loadNotepad(){
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         return sharedPreferences.getString(PREFERENCE_NOTEPAD, "");
+    }
+
+    private void database1to2 (){ // dodano w wersji 1 na 2
+
+        try {
+            SQLiteOpenHelper openHelper = new HelperDatabase(MainActivity.this);
+            SQLiteDatabase db = openHelper.getWritableDatabase();
+            Cursor cursor = db.query("SUBJECTS",
+                    new String[]{"_id", "OBJECT"},
+                    null, null, null, null, null);
+            if(cursor.moveToFirst()){
+                do{
+                    Subject subject = new Subject(cursor.getString(1), cursor.getInt(0));
+
+                    for(int i = 0; i < subject.getSubjectNotes().size(); i++){
+                        db.insert("NOTES", null, subject.getSubjectNotes().get(i).saveSubjectNote());
+                    }
+
+                    db.update("SUBJECTS",
+                            subject.saveSubject(getApplicationContext()),
+                            "_id = ?",
+                            new String[] {Integer.toString(cursor.getInt(0))});
+
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+            db.close();
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putInt(PREFERENCE_DATABASE_1_TO_2, 1);
+            editor.apply();
+        } catch (SQLiteException e){
+            Toast.makeText(MainActivity.this, R.string.error_database, Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

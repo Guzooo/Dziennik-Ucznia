@@ -1,5 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardView.ViewHolder> {
 
-    private ArrayList<SubjectNote> subjectNotes = new ArrayList<>();
+    private Cursor cursor;
     private Listener listener;
 
     public static interface Listener{
@@ -42,13 +43,18 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
 
         TextView name = cardView.findViewById(R.id.note_name);
 
-        name.setText(subjectNotes.get(position).getName());
+        if(cursor.moveToPosition(position)) {
+            SubjectNote subjectNote = new SubjectNote(cursor);
+
+            name.setText(subjectNote.getName());
+        }
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(listener != null){
-                    listener.onClick(position);
+                    if (cursor.moveToPosition(position))
+                    listener.onClick(cursor.getInt(0));
                 }
             }
         });
@@ -56,18 +62,16 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
 
     @Override
     public int getItemCount() {
-        return subjectNotes.size();
+        return cursor.getCount();
     }
 
-    public AdapterNoteCardView(ArrayList<SubjectNote> subjectNotes, View nullCard){
-        this.subjectNotes = subjectNotes;
+    public AdapterNoteCardView(Cursor cursor){
+        this.cursor = cursor;
+    }
 
-        if(nullCard != null) {
-            if (subjectNotes.size() == 0) {
-                nullCard.setVisibility(View.VISIBLE);
-            } else {
-                nullCard.setVisibility(View.GONE);
-            }
+    public void CloseCursor(){
+        if(cursor != null){
+            cursor.close();
         }
     }
 }

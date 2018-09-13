@@ -86,6 +86,8 @@ public class SettingActivity extends Activity {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
             db.delete("SUBJECTS", null, null);
+            db.delete("NOTES", null, null);
+            db.delete("LESSON_PLAN", null, null);
             db.close();
             Toast.makeText(this, R.string.setting_delete_all_subjects_made, Toast.LENGTH_SHORT).show();
         } catch (SQLiteException e){
