@@ -7,10 +7,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
 
 public class Subject {
 
@@ -23,6 +24,7 @@ public class Subject {
     private ArrayList<SubjectNote> subjectNotes = new ArrayList<>();
 
     public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION"};
+    public static final String[] subjectOnCursorWithDay = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "DAY"};
 
     public Subject (int id, String name, String teacher, ArrayList<Float> assessments, int unpreparedness, String description){
         this.id = id;
@@ -71,6 +73,7 @@ public class Subject {
         contentValues.put("UNPREPAREDNESS", getUnpreparedness());
         contentValues.put("DESCRIPTION", getDescription());
         contentValues.put("NOTES", getSizeNotes(context));
+        contentValues.put("DAY", getDay(context, 0));
 
         return contentValues;
     }
@@ -101,15 +104,15 @@ public class Subject {
     public int getRoundedAverage(SharedPreferences sharedPreferences){
         float average = getAverage();
         int roundedAverage;
-        if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.defaulAverageToSix)){
+        if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.defaultAverageToSix)){
             roundedAverage = 6;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FIVE, SettingActivity.defaulAverageToFive)){
+        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FIVE, SettingActivity.defaultAverageToFive)){
             roundedAverage = 5;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FOUR, SettingActivity.defaulAverageToFour)){
+        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FOUR, SettingActivity.defaultAverageToFour)){
             roundedAverage = 4;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_THREE, SettingActivity.defaulAverageToThree)){
+        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_THREE, SettingActivity.defaultAverageToThree)){
             roundedAverage = 3;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_TWO, SettingActivity.defaulAverageToTwo)){
+        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_TWO, SettingActivity.defaultAverageToTwo)){
             roundedAverage = 2;
         } else {
             roundedAverage = 1;
@@ -216,5 +219,63 @@ public class Subject {
             Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
         return size;
+    }
+
+    private int getDay(Context context, int notThis) {
+        int i = 0;
+        try {
+            SQLiteOpenHelper openHelper = new HelperDatabase(context);
+            SQLiteDatabase db = openHelper.getReadableDatabase();
+            Cursor cursor = db.query("LESSON_PLAN",
+                    new String[]{"DAY"},
+                    "TAB_SUBJECT = ?",
+                    new String[]{Integer.toString(getId())},
+                    null, null,
+                    "DAY");
+            i = getDayFromCursor(cursor, notThis);
+            cursor.close();
+            db.close();
+        } catch (SQLiteException e) {
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+        return i;
+    }
+
+    public ContentValues saveDay(Context context, int notThis){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("DAY", getDay(context, notThis));
+        return contentValues;
+    }
+
+    private int getDayFromCursor(Cursor cursor, int notThis){
+        int c = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) -1;
+        int z = 0;
+
+        if(c == 0){
+            c = 7;
+        }
+
+        for (int i = c; i <= 7; i++) {
+            if (cursor.moveToFirst()) {
+                do {
+                    if (cursor.getInt(0) >= c) {
+                        if(cursor.getInt(0) == notThis){
+                            z = notThis;
+                        } else {
+                            return cursor.getInt(0);
+                        }
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        for (int i = 1; i < c; i++){
+            if(cursor.moveToFirst()) {
+                if (cursor.getInt(0) == notThis) {
+                    z = notThis;
+                } else
+                    return cursor.getInt(0);
+            }
+        }
+        return z;
     }
 }

@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,14 +18,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
     private final String PREFERENCE_DATABASE_1_TO_2 = "database1to2";
+    private final String PREFERENCE_CURRENT_DAY = "day";
 
-    private Cursor cursor;
+    private ArrayList<Cursor> cursors = new ArrayList<>();
     private SQLiteDatabase db;
-    private AdapterSubjectCardView adapter;
 
     private TextView textViewSecond;
     private EditText editTextNotepad;
@@ -60,34 +60,62 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
+        try {
+            SQLiteOpenHelper openHelper = new HelperDatabase(this);
+            db = openHelper.getWritableDatabase();
+            Cursor cursor = db.query("SUBJECTS",
+                    Subject.subjectOnCursorWithDay,
+                    "DAY != ?",
+                    new String[]{Integer.toString(0)},
+                    null, null, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Subject subject = new Subject(cursor);
+                    db.update("SUBJECTS",
+                            subject.saveDay(this, 0),
+                            "_id = ?",
+                            new String[]{Integer.toString(subject.getId())});
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (SQLiteException e) {
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+
         RecyclerView recyclerView = findViewById(R.id.main_recycler);
 
         try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(this);
-            db = openHelper.getReadableDatabase();
-            cursor = db.query("SUBJECTS",
-                    Subject.subjectOnCursor,
-                    null, null, null, null,
-                    "NOTES DESC");
+            cursors.clear();
+            for (int i = 0; i <= 7 ; i++){
+                Cursor cursor = db.query("SUBJECTS",
+                        Subject.subjectOnCursorWithDay,
+                        "DAY = ?",
+                        new String[]{Integer.toString(i)},
+                        null, null,
+                        "NOTES DESC");
+                cursors.add(cursor);
+            }
+
+            textViewSecond.setText(getAverage());
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            AdapterSubjectCardView adapter = new AdapterSubjectCardView(cursors, findViewById(R.id.main_subject_null));
+            recyclerView.setAdapter(adapter);
+
+            adapter.setListener(new AdapterSubjectCardView.Listener() {
+                @Override
+                public void onClick(int id) {
+                    Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.EXTRA_ID, id);
+                    startActivity(intent);
+                }
+            });
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
-        textViewSecond.setText(getAverage());
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdapterSubjectCardView(cursor, findViewById(R.id.main_subject_null), this);
-        recyclerView.setAdapter(adapter);
-
-        adapter.setListener(new AdapterSubjectCardView.Listener() {
-            @Override
-            public void onClick(int id) {
-                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.EXTRA_ID, id);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -118,8 +146,9 @@ public class MainActivity extends Activity {
     protected void onStop() {
         super.onStop();
 
-        adapter.CloseCursor();
-        cursor.close();
+        for (int i = 0; i < cursors.size(); i++) {
+        cursors.get(i).close();
+        }
         db.close();
     }
 
@@ -136,7 +165,8 @@ public class MainActivity extends Activity {
     }
 
     public void ClickPlan(View v){
-        Toast.makeText(this, R.string.main_soon_plan, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, LessonPlanActivity.class);
+        startActivity(intent);
     }
 
     public void ClickPlus(View v){
@@ -148,23 +178,26 @@ public class MainActivity extends Activity {
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME_AVERAGE_TO, MODE_PRIVATE);
         float average = 0f;
         int number = 0;
-        if (cursor.moveToFirst()) {
-             if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaulAverageToAssessment)) {
-                do {
-                    number++;
-                    average += new Subject(cursor).getRoundedAverage(sharedPreferences);
-                } while (cursor.moveToNext());
-            } else {
-                do {
-                    number++;
-                    average += new Subject(cursor).getAverage();
-                } while (cursor.moveToNext());
+        for (int i = 0; i < cursors.size(); i++) {
+            if (cursors.get(i).moveToFirst()) {
+                if (sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaultAverageToAssessment)) {
+                    do {
+                        number++;
+                        average += new Subject(cursors.get(i)).getRoundedAverage(sharedPreferences);
+                    } while (cursors.get(i).moveToNext());
+                } else {
+                    do {
+                        number++;
+                        average += new Subject(cursors.get(i)).getAverage();
+                    } while (cursors.get(i).moveToNext());
+                }
             }
-        } else {
+        }
+        if (number == 0){
             return "0.0";
         }
         average = average / number;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.defaulAverageToBelt)) {
+        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.defaultAverageToBelt)) {
             return Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
         }
         return Float.toString(average);
@@ -211,7 +244,6 @@ public class MainActivity extends Activity {
             editor.apply();
         } catch (SQLiteException e){
             Toast.makeText(MainActivity.this, R.string.error_database, Toast.LENGTH_SHORT).show();
-
         }
     }
 }

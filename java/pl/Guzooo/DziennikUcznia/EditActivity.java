@@ -143,7 +143,7 @@ public class EditActivity extends Activity {
     }
 
     public void ClickSave(View v){
-        if (editTextName.getText().toString().trim().equals("")){
+        if(editTextName.getText().toString().trim().equals("")){
             Toast.makeText(this, R.string.edit_hint_name, Toast.LENGTH_SHORT).show();
             return;
         }

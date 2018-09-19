@@ -24,13 +24,17 @@ public class SettingActivity extends Activity {
     public static final String PREFERENCE_AVERAGE_TO_TWO = "averagetotwo";
     public static final String PREFERENCE_AVERAGE_TO_BELT = "averagetobelt";
 
-    public static final Boolean defaulAverageToAssessment = false;
-    public static final Float defaulAverageToSix = 5.1f;
-    public static final Float defaulAverageToFive = 4.5f;
-    public static final Float defaulAverageToFour = 3.6f;
-    public static final Float defaulAverageToThree = 2.7f;
-    public static final Float defaulAverageToTwo = 1.75f;
-    public static final Float defaulAverageToBelt = 4.75f;
+//    public static final String PREFERENCE_SUBJECT_VIEW_TODAY_TO = "subjectviewtodayto";
+
+    public static final Boolean defaultAverageToAssessment = false;
+    public static final Float defaultAverageToSix = 5.1f;
+    public static final Float defaultAverageToFive = 4.5f;
+    public static final Float defaultAverageToFour = 3.6f;
+    public static final Float defaultAverageToThree = 2.7f;
+    public static final Float defaultAverageToTwo = 1.75f;
+    public static final Float defaultAverageToBelt = 4.75f;
+
+//    public static final int defaultSubjectViewTodayTo = 840;
 
     private SharedPreferences sharedPreferences;
 
@@ -41,6 +45,8 @@ public class SettingActivity extends Activity {
     private EditText editTextAverageToThree;
     private EditText editTextAverageToTwo;
     private EditText editTextAverageToBelt;
+
+//    private TimePicker timePickerSubjectViewTodayTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +60,25 @@ public class SettingActivity extends Activity {
         editTextAverageToThree = findViewById(R.id.setting_average_to_three);
         editTextAverageToTwo = findViewById(R.id.setting_average_to_two);
         editTextAverageToBelt = findViewById(R.id.setting_average_to_belt);
+//        timePickerSubjectViewTodayTo = findViewById(R.id.setting_end_day);
 
         sharedPreferences = getSharedPreferences(PREFERENCE_NAME_AVERAGE_TO, MODE_PRIVATE);
-        checkBoxAverageToAssessment.setChecked(sharedPreferences.getBoolean(PREFERENCE_AVERAGE_TO_ASSESSMENT, defaulAverageToAssessment));
-        editTextAverageToSix.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_SIX, defaulAverageToSix)));
-        editTextAverageToFive.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FIVE, defaulAverageToFive)));
-        editTextAverageToFour.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FOUR, defaulAverageToFour)));
-        editTextAverageToThree.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_THREE, defaulAverageToThree)));
-        editTextAverageToTwo.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_TWO, defaulAverageToTwo)));
-        editTextAverageToBelt.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_BELT, defaulAverageToBelt)));
+        checkBoxAverageToAssessment.setChecked(sharedPreferences.getBoolean(PREFERENCE_AVERAGE_TO_ASSESSMENT, defaultAverageToAssessment));
+        editTextAverageToSix.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_SIX, defaultAverageToSix)));
+        editTextAverageToFive.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FIVE, defaultAverageToFive)));
+        editTextAverageToFour.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FOUR, defaultAverageToFour)));
+        editTextAverageToThree.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_THREE, defaultAverageToThree)));
+        editTextAverageToTwo.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_TWO, defaultAverageToTwo)));
+        editTextAverageToBelt.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_BELT, defaultAverageToBelt)));
+
+//        timePickerSubjectViewTodayTo.setIs24HourView(true);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            timePickerSubjectViewTodayTo.setHour(sharedPreferences.getInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, defaultSubjectViewTodayTo) / 60);
+//            timePickerSubjectViewTodayTo.setMinute(sharedPreferences.getInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, defaultSubjectViewTodayTo) % 60);
+//        } else {
+//            timePickerSubjectViewTodayTo.setCurrentHour(sharedPreferences.getInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, defaultSubjectViewTodayTo) / 60);
+//            timePickerSubjectViewTodayTo.setCurrentMinute(sharedPreferences.getInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, defaultSubjectViewTodayTo) % 60);
+//        }
 
         ClickCheckAverageToAssessment(checkBoxAverageToAssessment);
     }
@@ -107,6 +123,13 @@ public class SettingActivity extends Activity {
         editor.putFloat(PREFERENCE_AVERAGE_TO_THREE, Float.parseFloat(editTextAverageToThree.getText().toString().trim()));
         editor.putFloat(PREFERENCE_AVERAGE_TO_TWO, Float.parseFloat(editTextAverageToTwo.getText().toString().trim()));
         editor.putFloat(PREFERENCE_AVERAGE_TO_BELT, Float.parseFloat(editTextAverageToBelt.getText().toString().trim()));
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            editor.putInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, timePickerSubjectViewTodayTo.getHour() * 60 + timePickerSubjectViewTodayTo.getMinute());
+//        } else {
+//            editor.putInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, timePickerSubjectViewTodayTo.getCurrentHour() * 60 + timePickerSubjectViewTodayTo.getCurrentMinute());
+//        }
+
         editor.apply();
     }
 }

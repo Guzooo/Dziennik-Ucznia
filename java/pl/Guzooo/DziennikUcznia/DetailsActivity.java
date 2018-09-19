@@ -2,7 +2,6 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -31,7 +30,6 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
     SQLiteDatabase db;
     Cursor cursor;
-    AdapterNoteCardView adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,44 +74,45 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
                     "TAB_SUBJECT = ?",
                     new String[] {Integer.toString(subject.getId())},
                     null, null, null);
+
+            View actionBar = getActionBar().getCustomView();
+
+            TextView textViewTitle = actionBar.findViewById(R.id.action_bar_two_text_title);
+            textViewSecond = actionBar.findViewById(R.id.action_bar_two_text_second);
+
+            TextView textViewTeacher = findViewById(R.id.details_teacher);
+            TextView textViewDescription = findViewById(R.id.details_description);
+
+            RecyclerView recyclerView = findViewById(R.id.details_notes);
+
+            textViewTitle.setText(subject.getName());
+            setAverage();
+
+            textViewTeacher.setText(subject.getTeacher());
+            textViewAssessment.setText(subject.getStringAssessments());
+            if(textViewAssessment.getText().toString().trim().equals("")){
+                textViewAssessment.setText(R.string.null_string);
+            }
+            textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
+            textViewDescription.setText(subject.getDescription());
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            AdapterNoteCardView adapter = new AdapterNoteCardView(cursor);
+            recyclerView.setAdapter(adapter);
+
+            adapter.setListener(new AdapterNoteCardView.Listener() {
+                @Override
+                public void onClick(int id) {
+                    Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
+                    intent.putExtra(NoteActivity.EXTRA_ID_NOTE, id);
+                    startActivity(intent);
+                }
+            });
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
-        View actionBar = getActionBar().getCustomView();
-
-        TextView textViewTitle = actionBar.findViewById(R.id.action_bar_two_text_title);
-        textViewSecond = actionBar.findViewById(R.id.action_bar_two_text_second);
-
-        TextView textViewTeacher = findViewById(R.id.details_teacher);
-        TextView textViewDescription = findViewById(R.id.details_description);
-
-        RecyclerView recyclerView = findViewById(R.id.details_notes);
-
-        textViewTitle.setText(subject.getName());
-        setAverage();
-
-        textViewTeacher.setText(subject.getTeacher());
-        textViewAssessment.setText(subject.getStringAssessments());
-        if(textViewAssessment.getText().toString().trim().equals("")){
-            textViewAssessment.setText(R.string.null_string);
-        }
-        textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
-        textViewDescription.setText(subject.getDescription());
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdapterNoteCardView(cursor);
-        recyclerView.setAdapter(adapter);
-
-        adapter.setListener(new AdapterNoteCardView.Listener() {
-            @Override
-            public void onClick(int id) {
-                Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
-                intent.putExtra(NoteActivity.EXTRA_ID_NOTE, id);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -150,7 +149,6 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
 
-        adapter.CloseCursor();
         cursor.close();
         db.close();
     }
@@ -201,7 +199,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
     private void setAverage(){
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME_AVERAGE_TO, MODE_PRIVATE);
-        if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaulAverageToAssessment)){
+        if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaultAverageToAssessment)){
             textViewSecond.setText(Float.toString(subject.getAverage()) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences)));
         } else {
             textViewSecond.setText(Float.toString(subject.getAverage()));

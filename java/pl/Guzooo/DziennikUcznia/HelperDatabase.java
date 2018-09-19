@@ -29,13 +29,7 @@ public class HelperDatabase extends SQLiteOpenHelper {
                     + "NOTES INTEGER)");
         }
         if(oldVersion < 2){
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN MONDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN TUESDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN WEDNESDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN THURSDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN FRIDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN SATURDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN SUNDAY INTEGER");
+            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN DAY INTEGER");
 
             db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN NAME TEXT");
             db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN TEACHER TEXT");
@@ -52,7 +46,8 @@ public class HelperDatabase extends SQLiteOpenHelper {
                     + "TIME_START INTEGER,"
                     + "TIME_END INTEGER,"
                     + "TAB_SUBJECT INTEGER,"
-                    + "DAY INTEGER)");
+                    + "DAY INTEGER,"
+                    + "CLASSROOM TEXT)");
         }
     }
 }

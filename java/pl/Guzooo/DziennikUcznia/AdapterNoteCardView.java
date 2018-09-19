@@ -52,8 +52,7 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(listener != null){
-                    if (cursor.moveToPosition(position))
+                if(listener != null && cursor.moveToPosition(position)){
                     listener.onClick(cursor.getInt(0));
                 }
             }
@@ -67,12 +66,6 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
 
     public AdapterNoteCardView(Cursor cursor){
         this.cursor = cursor;
-    }
-
-    public void CloseCursor(){
-        if(cursor != null){
-            cursor.close();
-        }
     }
 }
 
