@@ -1,6 +1,8 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +17,7 @@ import android.widget.Toast;
 
 public class SettingActivity extends Activity {
 
-    public static final String PREFERENCE_NAME_AVERAGE_TO = "averageto";
+    public static final String PREFERENCE_NAME = "averageto";
     public static final String PREFERENCE_AVERAGE_TO_ASSESSMENT = "averagetoassessment";
     public static final String PREFERENCE_AVERAGE_TO_SIX = "averagetosix";
     public static final String PREFERENCE_AVERAGE_TO_FIVE = "averagetofive";
@@ -62,7 +64,7 @@ public class SettingActivity extends Activity {
         editTextAverageToBelt = findViewById(R.id.setting_average_to_belt);
 //        timePickerSubjectViewTodayTo = findViewById(R.id.setting_end_day);
 
-        sharedPreferences = getSharedPreferences(PREFERENCE_NAME_AVERAGE_TO, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
         checkBoxAverageToAssessment.setChecked(sharedPreferences.getBoolean(PREFERENCE_AVERAGE_TO_ASSESSMENT, defaultAverageToAssessment));
         editTextAverageToSix.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_SIX, defaultAverageToSix)));
         editTextAverageToFive.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FIVE, defaultAverageToFive)));
@@ -81,34 +83,6 @@ public class SettingActivity extends Activity {
 //        }
 
         ClickCheckAverageToAssessment(checkBoxAverageToAssessment);
-    }
-
-    public void ClickFacebook(View v){
-        Uri uri = Uri.parse("https://www.facebook.com/GuzoooApps");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
-    }
-
-    public void ClickCheckAverageToAssessment(View v){
-        if(checkBoxAverageToAssessment.isChecked()){
-            findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.GONE);
-        }
-    }
-
-    public void ClickDestroyAllSubjects(View v){
-        try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(this);
-            SQLiteDatabase db = openHelper.getWritableDatabase();
-            db.delete("SUBJECTS", null, null);
-            db.delete("NOTES", null, null);
-            db.delete("LESSON_PLAN", null, null);
-            db.close();
-            Toast.makeText(this, R.string.setting_delete_all_subjects_made, Toast.LENGTH_SHORT).show();
-        } catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -131,5 +105,56 @@ public class SettingActivity extends Activity {
 //        }
 
         editor.apply();
+    }
+
+    public void ClickFacebook(View v){
+        startActivity(getIntentPage("https://www.facebook.com/GuzoooApps"));
+    }
+
+    public void ClickMessenger(View v){
+        startActivity(getIntentPage("https://www.messenger.com/t/GuzoooApps"));
+    }
+
+    private Intent getIntentPage(String url){
+        Uri uri = Uri.parse(url);
+        return new Intent(Intent.ACTION_VIEW, uri);
+    }
+
+    public void ClickCheckAverageToAssessment(View v){
+        if(checkBoxAverageToAssessment.isChecked()){
+            findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.GONE);
+        }
+    }
+
+    public void ClickDestroyAllSubjects(View v){
+        AlertDialog.OnClickListener listener = new AlertDialog.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+
+                    case DialogInterface.BUTTON_POSITIVE:   //TODO: usuwanie w przedmiocie
+                        try {
+                            SQLiteOpenHelper openHelper = new HelperDatabase(getApplicationContext());
+                            SQLiteDatabase db = openHelper.getWritableDatabase();
+                            db.delete("SUBJECTS", null, null);
+                            db.delete("NOTES", null, null);
+                            db.delete("LESSON_PLAN", null, null);
+                            db.close();
+                            Toast.makeText(getApplicationContext(), R.string.setting_delete_all_subjects_made, Toast.LENGTH_SHORT).show();
+                        } catch (SQLiteException e){
+                            Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                }
+            }
+        };
+
+        new AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alarm)
+                .setMessage(R.string.you_are_sure)
+                .setPositiveButton(R.string.yes, listener)
+                .setNegativeButton(R.string.no, listener)
+                .show();
     }
 }

@@ -15,6 +15,9 @@
     <string name="add">Dodaj</string>
     <string name="cancel">Anuluj</string>
     <string name="null_string">Brak</string>
+    <string name="you_are_sure">Jesteś pewny?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
 
     <string name="notepad">Notatnik</string>
     <string name="assessment">Oceny:</string>
@@ -84,6 +87,7 @@
     <string name="plan_edit_null_subject">Nie masz jeszcze przedmiotów\nBy dodać plan, cofnij się i utwórz przedmiot</string>
     
     <string name="setting_facebook">Facebook</string>
+    <string name="setting_messenger">Messenger</string>
     <string name="setting_average_to_assessment">Przeliczaj średnie na oceny</string>
     <string name="setting_six_from">6 od</string>
     <string name="setting_five_from">5 od</string>

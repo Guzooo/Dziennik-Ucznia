@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
     private final String PREFERENCE_DATABASE_1_TO_2 = "database1to2";
-    private final String PREFERENCE_CURRENT_DAY = "day";
+    private final String PREFERENCE_DATABASE_2_TO_3 = "database2to3";
 
     private ArrayList<Cursor> cursors = new ArrayList<>();
     private SQLiteDatabase db;
@@ -53,6 +53,10 @@ public class MainActivity extends Activity {
 
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_1_TO_2, 0) == 0){
             database1to2();
+        }
+
+        if(sharedPreferences.getInt(PREFERENCE_DATABASE_2_TO_3, 0) == 0){
+            // TODO: database2to3();
         }
     }
 
@@ -175,7 +179,7 @@ public class MainActivity extends Activity {
     }
 
     private String getAverage() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME_AVERAGE_TO, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
         float average = 0f;
         int number = 0;
         for (int i = 0; i < cursors.size(); i++) {
@@ -215,7 +219,6 @@ public class MainActivity extends Activity {
     }
 
     private void database1to2 (){ // dodano w wersji 1 na 2
-
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(MainActivity.this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
@@ -245,5 +248,9 @@ public class MainActivity extends Activity {
         } catch (SQLiteException e){
             Toast.makeText(MainActivity.this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void database2to3(){ //dodano w wersji 2 na 3
+        // TODO: zmien day na poszczegulne daye
     }
 }
