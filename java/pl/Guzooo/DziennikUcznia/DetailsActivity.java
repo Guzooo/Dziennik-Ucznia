@@ -198,7 +198,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     }
 
     private void setAverage(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME_AVERAGE_TO, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaultAverageToAssessment)){
             textViewSecond.setText(Float.toString(subject.getAverage()) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences)));
         } else {
