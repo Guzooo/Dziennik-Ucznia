@@ -3,9 +3,11 @@ package pl.Guzooo.DziennikUcznia;
 import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -59,8 +61,15 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
         });
     }
 
+    public void changeCursor(Cursor cursor){
+        this.cursor.close();
+        this.cursor = cursor;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
+        Log.d("ANCV",cursor.getCount()+"");
         return cursor.getCount();
     }
 

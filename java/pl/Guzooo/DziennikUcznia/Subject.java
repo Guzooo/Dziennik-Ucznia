@@ -22,17 +22,13 @@ public class Subject {
     private int unpreparedness;
     private String description;
     private ArrayList<SubjectNote> subjectNotes = new ArrayList<>();
+    private ContentValues contentValues = new ContentValues();
 
     public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION"};
     public static final String[] subjectOnCursorWithDay = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "DAY"};
 
-    public Subject (int id, String name, String teacher, ArrayList<Float> assessments, int unpreparedness, String description){
-        this.id = id;
-        setName(name);
-        setTeacher(teacher);
-        setAssessments(assessments);
-        setUnpreparedness(unpreparedness);
-        setDescription(description);
+    public Subject() {
+
     }
 
     public Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description){
@@ -44,7 +40,46 @@ public class Subject {
         setDescription(description);
     }
 
-    public Subject (Cursor cursor){
+    public static Subject getOfCursor(Cursor cursor){
+        return new Subject(cursor.getInt(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getInt(4),
+                cursor.getString(5));
+    }
+
+    public static Subject getOfId (int id, Context context){
+        Subject subject;
+        SQLiteDatabase db = StaticMethod.getReadableDatabase(context);
+        Cursor cursor = db.query("SUBJECTS",
+                Subject.subjectOnCursor,
+                "_id = ?",
+                new String[]{Integer.toString(id)},
+                null, null, null);
+        if (cursor.moveToFirst()) subject = Subject.getOfCursor(cursor);
+        else subject = new Subject();
+
+        cursor.close();
+        db.close();
+        return subject;
+    }
+
+    public void update(Context context){
+        try {
+            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            db.update("SUBJECTS",
+                    contentValues,
+                    "_id = ?",
+                    new String[]{Integer.toString(getId())});
+            contentValues.clear();
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public Subject (Cursor cursor){ //old
         this.id = cursor.getInt(0);
         setName(cursor.getString(1));
         setTeacher(cursor.getString(2));
@@ -64,7 +99,19 @@ public class Subject {
         setUnpreparedness(Integer.parseInt(strings[15]));
     }
 
-    public ContentValues saveSubject(Context context){
+    public void putInfoSizeNotes(Context context){
+        contentValues.put("NOTES", getSizeNotes(context));
+    }
+
+    public void putInfoDay(Context context){
+        contentValues.put("DAY", getDay(context, 0));
+    }
+
+    public int getSizeContentValues(){
+        return contentValues.size();
+    }
+
+    public ContentValues saveSubject(Context context){// old
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("NAME", getName());
@@ -84,6 +131,7 @@ public class Subject {
 
     public void setName (String name) {
         this.name = name;
+        contentValues.put("NAME", getName());
     }
 
     public String getName() {
@@ -122,23 +170,21 @@ public class Subject {
 
     public void setTeacher(String teacher){
         this.teacher = teacher;
+        contentValues.put("TEACHER", getTeacher());
     }
 
     public String getTeacher() {
         return teacher;
     }
 
-    public void setAssessments (ArrayList<Float> assessments){
-        this.assessments.clear();
-        this.assessments.addAll(assessments);
-    }
-
-    public String getStringAssessments(){
+    public String getStringAssessments(Context context){
         String assessmentsString = "";
         if(assessments.size() > 0) {
             for (int i = 0; i < assessments.size(); i++) {
                 assessmentsString += Float.toString(assessments.get(i)) + " ";
             }
+        } else {
+            assessmentsString = context.getResources().getString(R.string.null_string);
         }
         return assessmentsString;
     }
@@ -164,14 +210,34 @@ public class Subject {
         }
     }
 
+    public void addAssessment(String string, Context context){
+        if (string.equals("")) Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
+        else {
+            getAssessments().add(Float.parseFloat(string));
+            contentValues.put("ASSESSMENTS", toStringAssessments());
+        }
+    }
+
+    public void removeAssessment(String string, Context context){
+        if (string.equals("")){
+            Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Float assessment = Float.parseFloat(string);
+        if (getAssessments().size() == 0) Toast.makeText(context, R.string.subject_null_assessments, Toast.LENGTH_SHORT).show();
+        else if (!getAssessments().remove(assessment)) Toast.makeText(context, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
+        else contentValues.put("ASSESSMENTS", toStringAssessments());
+    }
+
     public void setUnpreparedness(int unpreparedness){
         this.unpreparedness = unpreparedness;
+        contentValues.put("UNPREPAREDNESS", getUnpreparedness());
     }
 
     public void removeUnpreparedness(){
-        unpreparedness--;
-        if(unpreparedness < 0){
-            unpreparedness = 0;
+        if (unpreparedness > 0) {
+            unpreparedness--;
+            contentValues.put("UNPREPAREDNESS", getUnpreparedness());
         }
     }
 
