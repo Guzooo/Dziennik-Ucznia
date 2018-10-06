@@ -366,4 +366,5 @@ public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardVie
             }
         }
     }
+
 }

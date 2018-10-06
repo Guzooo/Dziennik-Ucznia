@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -50,6 +51,9 @@ public class SettingActivity extends Activity {
 
 //    private TimePicker timePickerSubjectViewTodayTo;
 
+    private View viewAverageToAssessmentBox;
+
+    private final int positionAverageToAssessmentBox = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +85,8 @@ public class SettingActivity extends Activity {
 //            timePickerSubjectViewTodayTo.setCurrentHour(sharedPreferences.getInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, defaultSubjectViewTodayTo) / 60);
 //            timePickerSubjectViewTodayTo.setCurrentMinute(sharedPreferences.getInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, defaultSubjectViewTodayTo) % 60);
 //        }
+
+        viewAverageToAssessmentBox = findViewById(R.id.setting_average_to_assessment_box);
 
         ClickCheckAverageToAssessment(checkBoxAverageToAssessment);
     }
@@ -121,40 +127,57 @@ public class SettingActivity extends Activity {
     }
 
     public void ClickCheckAverageToAssessment(View v){
-        if(checkBoxAverageToAssessment.isChecked()){
-            findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.GONE);
+        ViewGroup viewGroup = findViewById(R.id.setting_home_layout);
+        if(checkBoxAverageToAssessment.isChecked() && viewGroup.findViewById(viewAverageToAssessmentBox.getId()) == null){
+            viewGroup.addView(viewAverageToAssessmentBox, positionAverageToAssessmentBox);
+        } else if(!checkBoxAverageToAssessment.isChecked()) {
+            viewGroup.removeView(viewAverageToAssessmentBox);
         }
     }
 
     public void ClickDestroyAllSubjects(View v){
-        AlertDialog.OnClickListener listener = new AlertDialog.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-
-                    case DialogInterface.BUTTON_POSITIVE:   //TODO: usuwanie w przedmiocie
-                        try {
-                            SQLiteOpenHelper openHelper = new HelperDatabase(getApplicationContext());
-                            SQLiteDatabase db = openHelper.getWritableDatabase();
-                            db.delete("SUBJECTS", null, null);
-                            db.delete("NOTES", null, null);
-                            db.delete("LESSON_PLAN", null, null);
-                            db.close();
+        StaticMethod.getAlert(this)
+                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (StaticMethod.destroyAllSubject(getApplicationContext())) {
                             Toast.makeText(getApplicationContext(), R.string.setting_delete_all_subjects_made, Toast.LENGTH_SHORT).show();
-                        } catch (SQLiteException e){
+                        } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
                         }
-                        break;
-                }
-            }
-        };
+                    }
+                })
+                .show();
 
-        new AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alarm)
-                .setMessage(R.string.you_are_sure)
-                .setPositiveButton(R.string.yes, listener)
-                .setNegativeButton(R.string.no, listener)
+    }
+
+    public void ClickDestroyAllNotes(View v){
+        StaticMethod.getAlert(this)
+                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (StaticMethod.destroyAllNotes(getApplicationContext())) {
+                            Toast.makeText(getApplicationContext(), R.string.setting_delete_all_notes_made, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .show();
+    }
+
+    public void ClickDestroyAllPlanLesson(View v){
+        StaticMethod.getAlert(this)
+                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (StaticMethod.destroyAllLessonPlan(getApplicationContext())) {
+                            Toast.makeText(getApplicationContext(), R.string.setting_delete_all_lesson_plan_made, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
                 .show();
     }
 }

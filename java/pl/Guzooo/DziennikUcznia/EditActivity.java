@@ -63,8 +63,8 @@ public class EditActivity extends Activity {
                     editTextUnpreparedness.setText(Integer.toString(editSubject.getUnpreparedness()));
                     editTextDescription.setText(editSubject.getDescription());
                     textViewEditAssessmentTitle.setText(R.string.edit_edit_assessment);
-                    textViewEditAssessment.setText(editSubject.getStringAssessments());
-                    textViewCurrentAssessment.setText(editSubject.getStringAssessments());
+                    textViewEditAssessment.setText(editSubject.getStringAssessments(this));
+                    textViewCurrentAssessment.setText(editSubject.getStringAssessments(this));
                     getActionBar().setTitle(R.string.edit_subject);
                     viewCurrentAssessmentBox.setVisibility(View.VISIBLE);
                     buttonSave.setText(R.string.save);
@@ -88,7 +88,7 @@ public class EditActivity extends Activity {
             Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         } else {
             editSubject.getAssessments().add(Float.parseFloat(editTextAssessment.getText().toString().trim()));
-            textViewEditAssessment.setText(editSubject.getStringAssessments());
+            textViewEditAssessment.setText(editSubject.getStringAssessments(this));
         }
     }
 
@@ -101,13 +101,13 @@ public class EditActivity extends Activity {
         } else if (!editSubject.getAssessments().remove(assessment)) {
             Toast.makeText(this, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
         } else {
-            textViewEditAssessment.setText(editSubject.getStringAssessments());
+            textViewEditAssessment.setText(editSubject.getStringAssessments(this));
         }
     }
 
     public void ClickAllMinus(View v){
         editSubject.getAssessments().clear();
-        textViewEditAssessment.setText(editSubject.getStringAssessments());
+        textViewEditAssessment.setText(editSubject.getStringAssessments(this));
     }
 
     public void ClickDuplicateSubject(View v){

@@ -46,7 +46,7 @@
 
     <string name="separation">\ |\ </string>
 
-    <string name="menu_trash">Kosz</string>
+    <string name="menu_trash">Usuń</string>
     <string name="menu_edit">Edytuj</string>
 
     <string name="subject_null_assessments">Brak ocen</string>
@@ -86,8 +86,8 @@
     <string name="plan_edit_hint_subject">Wybierz przedmiot</string>
     <string name="plan_edit_null_subject">Nie masz jeszcze przedmiotów\nBy dodać plan, cofnij się i utwórz przedmiot</string>
     
-    <string name="setting_facebook">Facebook</string>
-    <string name="setting_messenger">Messenger</string>
+    <string name="setting_facebook">Sprawdź fanpage\nFacebook</string>
+    <string name="setting_messenger">Zaproponuj zmiany\nMessenger</string>
     <string name="setting_average_to_assessment">Przeliczaj średnie na oceny</string>
     <string name="setting_six_from">6 od</string>
     <string name="setting_five_from">5 od</string>
@@ -102,6 +102,11 @@
     <string name="setting_belt_from">pasek od</string>
     <string name="setting_to_belt">Wpisz potrzebną średnią do uzyskania paska</string>
     <string name="setting_end_day">Przestań pokazywań dzisiejsze przedmioty po:</string>
+    <string name="setting_delete">Usuń:</string>
     <string name="setting_delete_all_subjects">Usuń wszystkie przedmioty</string>
     <string name="setting_delete_all_subjects_made">Usunąłeś wszystkie przedmioty</string>
+    <string name="setting_delete_all_notes">Usuń wszystkie notatki</string>
+    <string name="setting_delete_all_notes_made">Usunąłeś wszystkie notatki</string>
+    <string name="setting_delete_all_lesson_plan">Usuń plan lekcji</string>
+    <string name="setting_delete_all_lesson_plan_made">Usunąłeś plan lekcji</string>
 </resources>
