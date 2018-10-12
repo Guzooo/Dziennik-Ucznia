@@ -5,9 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,31 +53,39 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
         findViewById(R.id.details_add_note).setOnClickListener(this);
 
+        try {
+            if (!readSubject()) {
+                finish();
+                return;
+            }
 
-        if (!readSubject()) {
-            finish();
-            return;
+            db = StaticMethod.getReadableDatabase(this);
+
+            refreshNotesCursor();
+            setAdapter();
+            setCustomActionBar();
+            refreshActionBarInfo();
+        } catch (SQLException e){
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
-        SQLiteOpenHelper openHelper = new HelperDatabase(this);
-        db = openHelper.getReadableDatabase();
-
-        setCustomActionBar();
-        refreshActionBarInfo();
-        refreshNotesCursor();
-        setAdapter();
         if (savedInstanceState == null || !savedInstanceState.getBoolean(BUNDLE_VISIBLE_NOTES)) showNotes();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (!readSubject()) {
-            finish();
-            return;
+
+        try {
+            if (!readSubject()) {
+                finish();
+                return;
+            }
+            refreshNotesCursor();
+            refreshActionBarInfo();
+        }catch (SQLException e){
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-        refreshActionBarInfo();
-        refreshNotesCursor();
     }
 
     @Override
@@ -106,6 +113,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putBoolean(BUNDLE_VISIBLE_NOTES, (viewGroupHomeLayout.findViewById(viewNotesBox.getId()) != null));
     }
 
@@ -157,24 +165,19 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     }
 
     private Boolean readSubject(){
-        try{
-            subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
+        subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
 
-            if(subject.getId() == 0) return false;
+        if(subject.getId() == 0) return false;
 
-            TextView textViewTeacher = findViewById(R.id.details_teacher);
-            TextView textViewDescription = findViewById(R.id.details_description);
+        TextView textViewTeacher = findViewById(R.id.details_teacher);
+        TextView textViewDescription = findViewById(R.id.details_description);
 
-            textViewTeacher.setText(subject.getTeacher());
-            textViewAssessment.setText(subject.getStringAssessments(this));
-            textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
-            textViewDescription.setText(subject.getDescription());
+        textViewTeacher.setText(subject.getTeacher());
+        textViewAssessment.setText(subject.getStringAssessments(this));
+        textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
+        textViewDescription.setText(subject.getDescription());
 
-            return true;
-        } catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-            return false;
-        }
+        return true;
     }
 
     private void refreshNotesCursor(){
@@ -214,7 +217,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
     private String setAverage(){
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
-        if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaultAverageToAssessment))
+        if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
             return Float.toString(subject.getAverage()) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences));
         else return Float.toString(subject.getAverage());
     }

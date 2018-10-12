@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,31 +24,29 @@ public class MainActivity extends Activity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
     private final String PREFERENCE_DATABASE_1_TO_2 = "database1to2";
-    private final String PREFERENCE_DATABASE_2_TO_3 = "database2to3";
+    //private final String PREFERENCE_DATABASE_2_TO_3 = "database2to3";
+
+    private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
 
     private ArrayList<Cursor> cursors = new ArrayList<>();
     private SQLiteDatabase db;
+    private AdapterSubjectCardView adapter;
 
     private TextView textViewSecond;
     private EditText editTextNotepad;
+    private View notepadBox;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getActionBar().setDisplayShowCustomEnabled(true);
-        getActionBar().setCustomView(R.layout.action_bar_two_text);
-
-        View actionBar = getActionBar().getCustomView();
-
-        TextView textViewTitle = actionBar.findViewById(R.id.action_bar_two_text_title);
-        textViewSecond = actionBar.findViewById(R.id.action_bar_two_text_second);
         editTextNotepad = findViewById(R.id.main_notepad);
+        recyclerView = findViewById(R.id.main_recycler);
+        notepadBox = findViewById(R.id.main_notepad_box);
 
         editTextNotepad.setText(loadNotepad());
-        textViewTitle.setText(R.string.app_name);
 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
@@ -55,71 +54,36 @@ public class MainActivity extends Activity {
             database1to2();
         }
 
-        if(sharedPreferences.getInt(PREFERENCE_DATABASE_2_TO_3, 0) == 0){
+        //if(sharedPreferences.getInt(PREFERENCE_DATABASE_2_TO_3, 0) == 0){
             // TODO: database2to3();
-        }
-    }
+        //}
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        goFirstChangeView(savedInstanceState);
 
         try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(this);
-            db = openHelper.getWritableDatabase();
-            Cursor cursor = db.query("SUBJECTS",
-                    Subject.subjectOnCursorWithDay,
-                    "DAY != ?",
-                    new String[]{Integer.toString(0)},
-                    null, null, null);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    Subject subject = new Subject(cursor);
-                    db.update("SUBJECTS",
-                            subject.saveDay(this, 0),
-                            "_id = ?",
-                            new String[]{Integer.toString(subject.getId())});
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
+            db = StaticMethod.getWritableDatabase(this);
+            setDayOfSubject();
+            refreshSubjectsCursors();
+            setAdapter();
+            setCustomActionBar();
+            refreshActionBarInfo();
         } catch (SQLiteException e) {
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
-        RecyclerView recyclerView = findViewById(R.id.main_recycler);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
 
         try {
-            cursors.clear();
-            for (int i = 0; i <= 7 ; i++){
-                Cursor cursor = db.query("SUBJECTS",
-                        Subject.subjectOnCursorWithDay,
-                        "DAY = ?",
-                        new String[]{Integer.toString(i)},
-                        null, null,
-                        "NOTES DESC");
-                cursors.add(cursor);
-            }
-
-            textViewSecond.setText(getAverage());
-
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(layoutManager);
-            AdapterSubjectCardView adapter = new AdapterSubjectCardView(cursors, findViewById(R.id.main_subject_null));
-            recyclerView.setAdapter(adapter);
-
-            adapter.setListener(new AdapterSubjectCardView.Listener() {
-                @Override
-                public void onClick(int id) {
-                    Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                    intent.putExtra(DetailsActivity.EXTRA_ID, id);
-                    startActivity(intent);
-                }
-            });
+            refreshSubjectsCursors();
+            setAdapter(); //TODO: pozbyć się edtując klase adaptera
+            refreshActionBarInfo();
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
@@ -133,12 +97,7 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
 
             case R.id.action_notepad:
-                View notepadBox = findViewById(R.id.main_notepad_box);
-                if(notepadBox.getVisibility() == View.GONE) {
-                    notepadBox.setVisibility(View.VISIBLE);
-                } else {
-                    notepadBox.setVisibility(View.GONE);
-                }
+                showNotepad();
                 return true;
 
             default:
@@ -147,19 +106,18 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
-        for (int i = 0; i < cursors.size(); i++) {
-        cursors.get(i).close();
-        }
-        db.close();
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(BUNDLE_VISIBLE_NOTEPAD, (notepadBox.getTranslationY() == 0));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        for (int i = 0; i < cursors.size(); i++) {
+            cursors.get(i).close();
+        }
+        db.close();
         saveNotepad();
     }
 
@@ -178,19 +136,103 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    private void setCustomActionBar(){
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setCustomView(R.layout.action_bar_two_text);
+
+        TextView textViewTitle = getActionBar().getCustomView().findViewById(R.id.action_bar_two_text_title);
+        textViewTitle.setText(R.string.app_name);
+    }
+
+    private void goFirstChangeView(final Bundle bundle){
+        ViewTreeObserver viewTreeObserver = recyclerView.getViewTreeObserver();
+
+        if (viewTreeObserver.isAlive()){
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    View bottomButtons = findViewById(R.id.main_bottom_buttons);
+                    recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(), recyclerView.getPaddingRight(), bottomButtons.getHeight());
+
+                    if(bundle == null || !bundle.getBoolean(BUNDLE_VISIBLE_NOTEPAD)) showNotepad();
+                }
+            });
+        }
+    }
+
+    private void setDayOfSubject(){
+        Cursor cursor = db.query("SUBJECTS",
+                Subject.subjectOnCursorWithDay,
+                "DAY != ?",
+                new String[]{Integer.toString(0)},
+                null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Subject subject = new Subject(cursor);
+                db.update("SUBJECTS",
+                        subject.saveDay(this, 0),
+                        "_id = ?",
+                        new String[]{Integer.toString(subject.getId())});
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+    }
+
+    public void setAdapter() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new AdapterSubjectCardView(cursors, findViewById(R.id.main_subject_null));
+        recyclerView.setAdapter(adapter);
+
+        adapter.setListener(new AdapterSubjectCardView.Listener() {
+            @Override
+            public void onClick(int id) {
+                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                intent.putExtra(DetailsActivity.EXTRA_ID, id);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void refreshActionBarInfo(){
+        textViewSecond = getActionBar().getCustomView().findViewById(R.id.action_bar_two_text_second);
+        textViewSecond.setText(getAverage());
+    }
+
+    private void refreshSubjectsCursors(){
+        cursors.clear();
+        for (int i = 0; i <= 7 ; i++){
+            Cursor cursor = db.query("SUBJECTS",
+                    Subject.subjectOnCursorWithDay,
+                    "DAY = ?",
+                    new String[]{Integer.toString(i)},
+                    null, null,
+                    "NOTES DESC, NAME");
+
+            cursors.add(cursor);
+        }
+        //if(adapter != null) adapter.changeCursors(cursors); TODO:edycja adaptera
+    }
+
     private String getAverage() {
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
         float average = 0f;
         int number = 0;
         for (int i = 0; i < cursors.size(); i++) {
+            int o = 0;
             if (cursors.get(i).moveToFirst()) {
-                if (sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.defaultAverageToAssessment)) {
+                if (sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT)) {
                     do {
+                        o++;
                         number++;
                         average += new Subject(cursors.get(i)).getRoundedAverage(sharedPreferences);
                     } while (cursors.get(i).moveToNext());
                 } else {
                     do {
+                        o++;
                         number++;
                         average += new Subject(cursors.get(i)).getAverage();
                     } while (cursors.get(i).moveToNext());
@@ -201,10 +243,23 @@ public class MainActivity extends Activity {
             return "0.0";
         }
         average = average / number;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.defaultAverageToBelt)) {
+        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
             return Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
         }
         return Float.toString(average);
+    }
+
+    private void showNotepad() {
+        if (notepadBox.getTranslationY() != 0) {
+            notepadBox.animate()
+                    .translationY(0);
+            recyclerView.setPadding(recyclerView.getPaddingLeft(), notepadBox.getHeight() + getResources().getDimensionPixelSize(R.dimen.card_margin) * 2, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
+        } else {
+            notepadBox.animate()
+                    .translationY(notepadBox.getHeight() * -1 - getResources().getDimensionPixelSize(R.dimen.card_margin) * 2);
+            recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
+        }
+
     }
 
     private void saveNotepad(){
@@ -250,7 +305,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void database2to3(){ //dodano w wersji 2 na 3
+    //private void database2to3(){ //dodano w wersji x na xNEW
         // TODO: zmien day na poszczegulne daye
-    }
+    //}
 }
