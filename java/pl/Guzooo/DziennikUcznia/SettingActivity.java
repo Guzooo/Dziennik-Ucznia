@@ -5,9 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -29,13 +26,13 @@ public class SettingActivity extends Activity {
 
 //    public static final String PREFERENCE_SUBJECT_VIEW_TODAY_TO = "subjectviewtodayto";
 
-    public static final Boolean defaultAverageToAssessment = false;
-    public static final Float defaultAverageToSix = 5.1f;
-    public static final Float defaultAverageToFive = 4.5f;
-    public static final Float defaultAverageToFour = 3.6f;
-    public static final Float defaultAverageToThree = 2.7f;
-    public static final Float defaultAverageToTwo = 1.75f;
-    public static final Float defaultAverageToBelt = 4.75f;
+    public static final Boolean DEFAULT_AVERAGE_TO_ASSESSMENT = false;
+    public static final Float DEFAULT_AVERAGE_TO_SIX = 5.1f;
+    public static final Float DEFAULT_AVERAGE_TO_FIVE = 4.5f;
+    public static final Float DEFAULT_AVERAGE_TO_FOUR = 3.6f;
+    public static final Float DEFAULT_AVERAGE_TO_THREE = 2.7f;
+    public static final Float DEFAULT_AVERAGE_TO_TWO = 1.75f;
+    public static final Float DEFAULT_AVERAGE_TO_BELT = 4.75f;
 
 //    public static final int defaultSubjectViewTodayTo = 840;
 
@@ -69,13 +66,13 @@ public class SettingActivity extends Activity {
 //        timePickerSubjectViewTodayTo = findViewById(R.id.setting_end_day);
 
         sharedPreferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
-        checkBoxAverageToAssessment.setChecked(sharedPreferences.getBoolean(PREFERENCE_AVERAGE_TO_ASSESSMENT, defaultAverageToAssessment));
-        editTextAverageToSix.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_SIX, defaultAverageToSix)));
-        editTextAverageToFive.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FIVE, defaultAverageToFive)));
-        editTextAverageToFour.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FOUR, defaultAverageToFour)));
-        editTextAverageToThree.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_THREE, defaultAverageToThree)));
-        editTextAverageToTwo.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_TWO, defaultAverageToTwo)));
-        editTextAverageToBelt.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_BELT, defaultAverageToBelt)));
+        checkBoxAverageToAssessment.setChecked(sharedPreferences.getBoolean(PREFERENCE_AVERAGE_TO_ASSESSMENT, DEFAULT_AVERAGE_TO_ASSESSMENT));
+        editTextAverageToSix.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_SIX, DEFAULT_AVERAGE_TO_SIX)));
+        editTextAverageToFive.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FIVE, DEFAULT_AVERAGE_TO_FIVE)));
+        editTextAverageToFour.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FOUR, DEFAULT_AVERAGE_TO_FOUR)));
+        editTextAverageToThree.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_THREE, DEFAULT_AVERAGE_TO_THREE)));
+        editTextAverageToTwo.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_TWO, DEFAULT_AVERAGE_TO_TWO)));
+        editTextAverageToBelt.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_BELT, DEFAULT_AVERAGE_TO_BELT)));
 
 //        timePickerSubjectViewTodayTo.setIs24HourView(true);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -97,12 +94,12 @@ public class SettingActivity extends Activity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putBoolean(PREFERENCE_AVERAGE_TO_ASSESSMENT, checkBoxAverageToAssessment.isChecked());
-        editor.putFloat(PREFERENCE_AVERAGE_TO_SIX, Float.parseFloat(editTextAverageToSix.getText().toString().trim()));
-        editor.putFloat(PREFERENCE_AVERAGE_TO_FIVE, Float.parseFloat(editTextAverageToFive.getText().toString().trim()));
-        editor.putFloat(PREFERENCE_AVERAGE_TO_FOUR, Float.parseFloat(editTextAverageToFour.getText().toString().trim()));
-        editor.putFloat(PREFERENCE_AVERAGE_TO_THREE, Float.parseFloat(editTextAverageToThree.getText().toString().trim()));
-        editor.putFloat(PREFERENCE_AVERAGE_TO_TWO, Float.parseFloat(editTextAverageToTwo.getText().toString().trim()));
-        editor.putFloat(PREFERENCE_AVERAGE_TO_BELT, Float.parseFloat(editTextAverageToBelt.getText().toString().trim()));
+        editor.putFloat(PREFERENCE_AVERAGE_TO_SIX, getFloatFromText(editTextAverageToSix, DEFAULT_AVERAGE_TO_SIX));
+        editor.putFloat(PREFERENCE_AVERAGE_TO_FIVE, getFloatFromText(editTextAverageToFive, DEFAULT_AVERAGE_TO_FIVE));
+        editor.putFloat(PREFERENCE_AVERAGE_TO_FOUR, getFloatFromText(editTextAverageToFour, DEFAULT_AVERAGE_TO_FOUR));
+        editor.putFloat(PREFERENCE_AVERAGE_TO_THREE, getFloatFromText(editTextAverageToThree, DEFAULT_AVERAGE_TO_THREE));
+        editor.putFloat(PREFERENCE_AVERAGE_TO_TWO, getFloatFromText(editTextAverageToTwo, DEFAULT_AVERAGE_TO_TWO));
+        editor.putFloat(PREFERENCE_AVERAGE_TO_BELT, getFloatFromText(editTextAverageToBelt, DEFAULT_AVERAGE_TO_BELT));
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            editor.putInt(PREFERENCE_SUBJECT_VIEW_TODAY_TO, timePickerSubjectViewTodayTo.getHour() * 60 + timePickerSubjectViewTodayTo.getMinute());
@@ -113,17 +110,23 @@ public class SettingActivity extends Activity {
         editor.apply();
     }
 
+    private Intent getIntentPage(String url){
+        Uri uri = Uri.parse(url);
+        return new Intent(Intent.ACTION_VIEW, uri);
+    }
+
+    private Float getFloatFromText(EditText editText, Float defaultF){
+        String string = editText.getText().toString().trim();
+        if (string.equals("")) return defaultF;
+        return Float.parseFloat(string);
+    }
+
     public void ClickFacebook(View v){
         startActivity(getIntentPage("https://www.facebook.com/GuzoooApps"));
     }
 
     public void ClickMessenger(View v){
         startActivity(getIntentPage("https://www.messenger.com/t/GuzoooApps"));
-    }
-
-    private Intent getIntentPage(String url){
-        Uri uri = Uri.parse(url);
-        return new Intent(Intent.ACTION_VIEW, uri);
     }
 
     public void ClickCheckAverageToAssessment(View v){
