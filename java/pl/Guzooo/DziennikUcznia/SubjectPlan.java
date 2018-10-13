@@ -70,6 +70,17 @@ public class SubjectPlan {
         this.classroom = cursor.getString(5);
     }
 
+    public void insert(Context context){
+        try {
+            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            db.insert("LESSON_PLAN", null, contentValues);
+            contentValues.clear();
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void update (Context context){
         try {
             SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
@@ -78,6 +89,18 @@ public class SubjectPlan {
                     "_id = ?",
                     new String[]{Integer.toString(getId())});
             contentValues.clear();
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void delete(Context context){
+        try {
+            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            db.delete("LESSON_PLAN",
+                    "_id = ?",
+                    new String[]{Integer.toString(getId())});
             db.close();
         } catch (SQLiteException e){
             Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();

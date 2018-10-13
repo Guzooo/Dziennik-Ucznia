@@ -25,12 +25,14 @@
                     android:id="@+id/plan_edit_subject"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:minHeight="@dimen/minimum_length"
                     android:layout_weight="1"/>
 
                 <Spinner
                     android:id="@+id/plan_edit_day"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:minHeight="@dimen/minimum_length"
                     android:layout_weight="1"/>
             </LinearLayout>
 
@@ -83,6 +85,7 @@
                 android:id="@+id/plan_edit_classroom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="@dimen/minimum_length"
                 android:hint="@string/plan_edit_hint_classroom"
                 android:singleLine="true"/>
         </LinearLayout>

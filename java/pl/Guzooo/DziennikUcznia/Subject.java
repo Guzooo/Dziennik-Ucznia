@@ -69,6 +69,17 @@ public class Subject {
         return subject;
     }
 
+    public void insert(Context context){
+        try {
+            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            db.insert("SUBJECTS", null, contentValues);
+            contentValues.clear();
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void update(Context context){
         try {
             SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
@@ -77,6 +88,18 @@ public class Subject {
                     "_id = ?",
                     new String[]{Integer.toString(getId())});
             contentValues.clear();
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void delete(Context context){
+        try {
+            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            db.delete("SUBJECTS",
+                    "_id = ?",
+                    new String[]{Integer.toString(getId())});
             db.close();
         } catch (SQLiteException e){
             Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
@@ -223,6 +246,7 @@ public class Subject {
 
     public void setDescription(String description){
         this.description = description;
+        contentValues.put("DESCRIPTION", getDescription());
     }
 
     public String toStringAssessments(){

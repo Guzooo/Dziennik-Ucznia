@@ -92,6 +92,8 @@ public class SubjectNote {
         } catch (SQLiteException e){
             Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+        StaticMethod.destroyAllLessonPlan("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+        StaticMethod.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
     }
 
     SubjectNote (Cursor cursor){ //old

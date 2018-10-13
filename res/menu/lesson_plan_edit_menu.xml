@@ -2,13 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_share"
-        android:icon="@android:drawable/ic_menu_share"
-        android:orderInCategory="99"
-        android:showAsAction="always"
-        android:title="@string/menu_share" />
-
-    <item
         android:id="@+id/action_trash"
         android:icon="@android:drawable/ic_menu_delete"
         android:orderInCategory="100"
