@@ -23,31 +23,43 @@ public class LessonPlanActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_plan);
-
-        try {
-            db = StaticMethod.getWritableDatabase(this);
-            refreshCursor();
-            setAdapter();
-        } catch (SQLException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStart() {
+        super.onStart();
+
+        RecyclerView recyclerView = findViewById(R.id.plan_recycler);
 
         try {
-            refreshCursor();
-            setAdapter();
+            SQLiteOpenHelper openHelper = new HelperDatabase(this);
+            db = openHelper.getReadableDatabase();
+            cursor = db.query("LESSON_PLAN",
+                    SubjectPlan.subjectPlanOnCursor,
+                    null, null, null, null,
+                    "DAY, TIME_START");
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            AdapterPlanCardView adapter = new AdapterPlanCardView(cursor, findViewById(R.id.plan_plan_null));
+            recyclerView.setAdapter(adapter);
+
+            adapter.setListener(new AdapterPlanCardView.Listener() {
+                @Override
+                public void onClick(int id) {
+                    Intent intent = new Intent(getApplicationContext(), LessonPlanEditActivity.class);
+                    intent.putExtra(LessonPlanEditActivity.EXTRA_ID, id);
+                    startActivity(intent);
+                }
+            });
         }catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
 
         cursor.close();
         db.close();
@@ -56,30 +68,5 @@ public class LessonPlanActivity extends Activity {
     public void ClickAdd(View v){
         Intent intent = new Intent(this, LessonPlanEditActivity.class);
         startActivity(intent);
-    }
-
-    private void refreshCursor(){
-        cursor = db.query("LESSON_PLAN",
-                SubjectPlan.subjectPlanOnCursor,
-                null, null, null, null,
-                "DAY, TIME_START");
-    }
-
-    private void setAdapter(){
-        RecyclerView recyclerView = findViewById(R.id.plan_recycler);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        AdapterPlanCardView adapter = new AdapterPlanCardView(cursor, findViewById(R.id.plan_plan_null));
-        recyclerView.setAdapter(adapter);
-
-        adapter.setListener(new AdapterPlanCardView.Listener() {
-            @Override
-            public void onClick(int id) {
-                Intent intent = new Intent(getApplicationContext(), LessonPlanEditActivity.class);
-                intent.putExtra(LessonPlanEditActivity.EXTRA_ID, id);
-                startActivity(intent);
-            }
-        });
     }
 }
