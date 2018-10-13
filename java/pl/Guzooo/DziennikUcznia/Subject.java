@@ -57,8 +57,12 @@ public class Subject {
                 "_id = ?",
                 new String[]{Integer.toString(id)},
                 null, null, null);
-        if (cursor.moveToFirst()) subject = Subject.getOfCursor(cursor);
-        else subject = new Subject();
+
+        if (cursor.moveToFirst()) {
+            subject = Subject.getOfCursor(cursor);
+        } else {
+            subject = new Subject();
+        }
 
         cursor.close();
         db.close();
@@ -129,11 +133,6 @@ public class Subject {
         return id;
     }
 
-    public void setName (String name) {
-        this.name = name;
-        contentValues.put("NAME", getName());
-    }
-
     public String getName() {
         return name;
     }
@@ -168,11 +167,6 @@ public class Subject {
         return roundedAverage;
     }
 
-    public void setTeacher(String teacher){
-        this.teacher = teacher;
-        contentValues.put("TEACHER", getTeacher());
-    }
-
     public String getTeacher() {
         return teacher;
     }
@@ -191,6 +185,44 @@ public class Subject {
 
     public ArrayList<Float> getAssessments(){
         return assessments;
+    }
+
+    public int getUnpreparedness(){
+        return unpreparedness;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ArrayList<SubjectNote> getSubjectNotes() {
+        return subjectNotes;
+    }
+
+    public void setName (String name) {
+        this.name = name;
+        contentValues.put("NAME", getName());
+    }
+
+    public void setTeacher(String teacher){
+        this.teacher = teacher;
+        contentValues.put("TEACHER", getTeacher());
+    }
+
+    public void setUnpreparedness(int unpreparedness){
+        this.unpreparedness = unpreparedness;
+        contentValues.put("UNPREPAREDNESS", getUnpreparedness());
+    }
+
+    public void removeUnpreparedness(){
+        if (unpreparedness > 0) {
+            unpreparedness--;
+            contentValues.put("UNPREPAREDNESS", getUnpreparedness());
+        }
+    }
+
+    public void setDescription(String description){
+        this.description = description;
     }
 
     public String toStringAssessments(){
@@ -229,41 +261,13 @@ public class Subject {
         else contentValues.put("ASSESSMENTS", toStringAssessments());
     }
 
-    public void setUnpreparedness(int unpreparedness){
-        this.unpreparedness = unpreparedness;
-        contentValues.put("UNPREPAREDNESS", getUnpreparedness());
-    }
-
-    public void removeUnpreparedness(){
-        if (unpreparedness > 0) {
-            unpreparedness--;
-            contentValues.put("UNPREPAREDNESS", getUnpreparedness());
-        }
-    }
-
-    public int getUnpreparedness(){
-        return unpreparedness;
-    }
-
-    public void setDescription(String description){
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void fromStringSubjectNotes(String subjectNotes) {
+    public void fromStringSubjectNotes(String subjectNotes) { //old
         if (!subjectNotes.equals("")) {
             String[] strings = subjectNotes.split("®");
             for (int i = 0; i < strings.length; i += 10) {
                 this.subjectNotes.add(new SubjectNote(strings[i], strings[i + 1], this.id));
             }
         }
-    }
-
-    public ArrayList<SubjectNote> getSubjectNotes() {
-        return subjectNotes;
     }
 
     public int getSizeNotes(Context context){
