@@ -1,8 +1,8 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -13,11 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class EditActivity extends Activity {
 
     public static final String EXTRA_ID = "id";
 
-    private Subject subject;
+    private Subject editSubject;
 
     private EditText editTextName;
     private EditText editTextTeacher;
@@ -36,35 +38,75 @@ public class EditActivity extends Activity {
         editTextAssessment = findViewById(R.id.edit_assessment);
         editTextUnpreparedness = findViewById(R.id.edit_unpreparedness);
         editTextDescription = findViewById(R.id.edit_description);
+        TextView textViewEditAssessmentTitle = findViewById(R.id.edit_edit_assessment_title);
         textViewEditAssessment = findViewById(R.id.edit_edit_assessment);
+        TextView textViewCurrentAssessment = findViewById(R.id.edit_current_assessment);
+        View viewCurrentAssessmentBox = findViewById(R.id.edit_current_assessment_box);
+        Button buttonSave = findViewById(R.id.edit_save);
+        Button buttonDelete = findViewById(R.id.edit_delete_subject);
+        Button buttonDuplicate = findViewById(R.id.edit_duplicate_subject);
 
-        if(getIntent().getIntExtra(EXTRA_ID, 0) == 0){
-            newSubject();
+        if(getIntent().getIntExtra(EXTRA_ID, 0) != 0){
+            try {
+                SQLiteOpenHelper openHelper = new HelperDatabase(this);
+                SQLiteDatabase db = openHelper.getReadableDatabase();
+                Cursor cursor = db.query("SUBJECTS",
+                        Subject.subjectOnCursor,
+                        "_id = ?",
+                        new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))},
+                        null, null, null);
+
+                if(cursor.moveToFirst()) {
+                    editSubject = new Subject(cursor);
+                    editTextName.setText(editSubject.getName());
+                    editTextTeacher.setText(editSubject.getTeacher());
+                    editTextUnpreparedness.setText(Integer.toString(editSubject.getUnpreparedness()));
+                    editTextDescription.setText(editSubject.getDescription());
+                    textViewEditAssessmentTitle.setText(R.string.edit_edit_assessment);
+                    textViewEditAssessment.setText(editSubject.getStringAssessments(this));
+                    textViewCurrentAssessment.setText(editSubject.getStringAssessments(this));
+                    getActionBar().setTitle(R.string.edit_subject);
+                    viewCurrentAssessmentBox.setVisibility(View.VISIBLE);
+                    buttonSave.setText(R.string.save);
+                    buttonDelete.setVisibility(View.VISIBLE);
+                    buttonDuplicate.setVisibility(View.VISIBLE);
+                }
+
+                cursor.close();
+                db.close();
+            } catch (SQLiteException e){
+                Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+            }
+
         } else {
-            readSubject();
+            editSubject = new Subject(0, "", "", "", 0, "");
         }
     }
 
     public void ClickPlus(View v){
-        subject.addAssessment(editTextAssessment.getText().toString().trim(), this);
-        textViewEditAssessment.setText(subject.getStringAssessments(this));
+        if(editTextAssessment.getText().toString().trim().equals("")){
+            Toast.makeText(this, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
+        } else {
+            editSubject.getAssessments().add(Float.parseFloat(editTextAssessment.getText().toString().trim()));
+            textViewEditAssessment.setText(editSubject.getStringAssessments(this));
+        }
     }
 
     public void ClickMinus(View v){
-        subject.removeAssessment(editTextAssessment.getText().toString().trim(), this);
-        textViewEditAssessment.setText(subject.getStringAssessments(this));
+        editSubject.removeAssessment(editTextAssessment.getText().toString().trim(), this);
+        textViewEditAssessment.setText(editSubject.getStringAssessments(this));
     }
 
     public void ClickAllMinus(View v){
-        subject.getAssessments().clear();
-        textViewEditAssessment.setText(subject.getStringAssessments(this));
+        editSubject.getAssessments().clear();
+        textViewEditAssessment.setText(editSubject.getStringAssessments(this));
     }
 
-    public void ClickDuplicateSubject(View v){ //TODO: duplikowanie w Subject
+    public void ClickDuplicateSubject(View v){
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
             SQLiteDatabase db = openHelper.getWritableDatabase();
-            db.insert("SUBJECTS", null, subject.saveSubject(this));
+            db.insert("SUBJECTS", null, editSubject.saveSubject(this));
             db.close();
             Toast.makeText(this, R.string.edit_duplicate_subject_made, Toast.LENGTH_SHORT).show();
         } catch (SQLiteException e){
@@ -73,15 +115,23 @@ public class EditActivity extends Activity {
     }
 
     public void ClickDeleteSubject(View v){
-        StaticMethod.getAlert(this)
-                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        subject.delete(getApplicationContext());
-                        finish();
-                    }
-                })
-                .show();
+        try {
+            SQLiteOpenHelper openHelper = new HelperDatabase(this);
+            SQLiteDatabase db = openHelper.getWritableDatabase();
+            db.delete("SUBJECTS",
+                    "_id = ?",
+                    new String[] {Integer.toString(editSubject.getId())});
+            db.delete("NOTES",
+                    "TAB_SUBJECT = ?",
+                    new String[] {Integer.toString(editSubject.getId())});
+            db.delete("LESSON_PLAN",
+                    "TAB_SUBJECT = ?",
+                    new String[] {Integer.toString(editSubject.getId())});
+            db.close();
+            finish();
+        } catch (SQLiteException e){
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void ClickSave(View v){
@@ -94,10 +144,10 @@ public class EditActivity extends Activity {
             editTextUnpreparedness.setText(Integer.toString(0));
         }
 
-        subject.setName(editTextName.getText().toString().trim());
-        subject.setTeacher(editTextTeacher.getText().toString().trim());
-        subject.setUnpreparedness(Integer.parseInt(editTextUnpreparedness.getText().toString().trim()));
-        subject.setDescription(editTextDescription.getText().toString().trim());
+        editSubject.setName(editTextName.getText().toString().trim());
+        editSubject.setTeacher(editTextTeacher.getText().toString().trim());
+        editSubject.setUnpreparedness(Integer.parseInt(editTextUnpreparedness.getText().toString().trim()));
+        editSubject.setDescription(editTextDescription.getText().toString().trim());
 
         try {
             SQLiteOpenHelper openHelper = new HelperDatabase(this);
@@ -120,33 +170,5 @@ public class EditActivity extends Activity {
 
     public void ClickCancel(View v){
         finish();
-    }
-
-    private void newSubject(){
-        subject = new Subject();
-    }
-
-    private void readSubject(){
-        TextView textViewEditAssessmentTitle = findViewById(R.id.edit_edit_assessment_title);
-        TextView textViewCurrentAssessment = findViewById(R.id.edit_current_assessment);
-        View viewCurrentAssessmentBox = findViewById(R.id.edit_current_assessment_box);
-        Button buttonSave = findViewById(R.id.edit_save);
-        Button buttonDelete = findViewById(R.id.edit_delete_subject);
-        Button buttonDuplicate = findViewById(R.id.edit_duplicate_subject);
-
-        subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
-
-        editTextName.setText(subject.getName());
-        editTextTeacher.setText(subject.getTeacher());
-        editTextUnpreparedness.setText(Integer.toString(subject.getUnpreparedness()));
-        editTextDescription.setText(subject.getDescription());
-        textViewEditAssessmentTitle.setText(R.string.edit_edit_assessment);
-        textViewEditAssessment.setText(subject.getStringAssessments(this));
-        textViewCurrentAssessment.setText(subject.getStringAssessments(this));
-        getActionBar().setTitle(R.string.edit_subject);
-        viewCurrentAssessmentBox.setVisibility(View.VISIBLE);
-        buttonSave.setText(R.string.save);
-        buttonDelete.setVisibility(View.VISIBLE);
-        buttonDuplicate.setVisibility(View.VISIBLE);
     }
 }
