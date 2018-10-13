@@ -99,10 +99,21 @@ public class EditActivity extends Activity {
         subject.setUnpreparedness(Integer.parseInt(editTextUnpreparedness.getText().toString().trim()));
         subject.setDescription(editTextDescription.getText().toString().trim());
 
-        if(subject.getId() == 0) {
-            subject.insert(this);
-        } else {
-            subject.update(this);
+        try {
+            SQLiteOpenHelper openHelper = new HelperDatabase(this);
+            SQLiteDatabase db = openHelper.getWritableDatabase();
+
+            if(editSubject.getId() == 0) {
+                db.insert("SUBJECTS",null, editSubject.saveSubject(this));
+            } else {
+                db.update("SUBJECTS",
+                        editSubject.saveSubject(this),
+                        "_id = ?",
+                        new String[] {Integer.toString(editSubject.getId())});
+            }
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
         finish();
     }
