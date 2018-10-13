@@ -28,7 +28,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".NoteActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden | adjustResize" />
         <activity
             android:name=".LessonPlanActivity"
             android:label="@string/lesson_plan" />
