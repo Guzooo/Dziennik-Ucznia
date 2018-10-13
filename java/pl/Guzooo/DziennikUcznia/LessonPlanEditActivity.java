@@ -1,10 +1,11 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,7 +22,7 @@ public class LessonPlanEditActivity extends Activity {
 
     public static final String EXTRA_ID = "id";
 
-    private SubjectPlan editSubjectPlan;
+    private SubjectPlan subjectPlan;
 
     private EditText editTextClassroom;
     private Spinner spinnerSubject;
@@ -33,7 +34,7 @@ public class LessonPlanEditActivity extends Activity {
     private Cursor cursor;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { //TODO:ogarnij tu kod
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_plan_edit);
 
@@ -42,7 +43,6 @@ public class LessonPlanEditActivity extends Activity {
         spinnerSubject = findViewById(R.id.plan_edit_subject);
         spinnerDay = findViewById(R.id.plan_edit_day);
         editTextClassroom = findViewById(R.id.plan_edit_classroom);
-        Button buttonSave = findViewById(R.id.plan_edit_save);
 
         timePickerStart.setIs24HourView(true);
         timePickerEnd.setIs24HourView(true);
@@ -52,8 +52,7 @@ public class LessonPlanEditActivity extends Activity {
         spinnerDay.setAdapter(adapter);
 
         try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(this);
-            db = openHelper.getReadableDatabase();
+            db = StaticMethod.getReadableDatabase(this);
             cursor = db.query("SUBJECTS",
                     Subject.subjectOnCursor,
                     null, null, null, null, null);
@@ -64,50 +63,18 @@ public class LessonPlanEditActivity extends Activity {
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
-        if(getIntent().getIntExtra(EXTRA_ID, 0) != 0){
-            try{
-                SQLiteOpenHelper openHelper = new HelperDatabase(this);
-                SQLiteDatabase db = openHelper.getReadableDatabase();
-                Cursor cursor = db.query("LESSON_PLAN",
-                        SubjectPlan.subjectPlanOnCursor,
-                        "_id = ?",
-                        new String[] {Integer.toString(getIntent().getIntExtra(EXTRA_ID, 0))},
-                        null, null, null);
-
-                if(cursor.moveToFirst()){
-                    editSubjectPlan = new SubjectPlan(cursor);
-                    spinnerSubject.setSelection(getPosition(editSubjectPlan.getIdSubject(), this.cursor));
-                    spinnerDay.setSelection(editSubjectPlan.getDay());
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        timePickerStart.setHour(editSubjectPlan.getTimeStartHours());
-                        timePickerStart.setMinute(editSubjectPlan.getTimeStartMinutes());
-                        timePickerEnd.setHour(editSubjectPlan.getTimeEndHours());
-                        timePickerEnd.setMinute(editSubjectPlan.getTimeEndMinutes());
-                    } else {
-                        timePickerStart.setCurrentHour(editSubjectPlan.getTimeStartHours());
-                        timePickerStart.setCurrentMinute(editSubjectPlan.getTimeStartMinutes());
-                        timePickerEnd.setCurrentHour(editSubjectPlan.getTimeEndHours());
-                        timePickerEnd.setCurrentMinute(editSubjectPlan.getTimeEndMinutes());
-                    }
-
-                    editTextClassroom.setText(editSubjectPlan.getClassroom());
-                    buttonSave.setText(R.string.save);
-                    getActionBar().setTitle(R.string.lesson_plan_edit);
-                }
-            } catch (SQLiteException e){
-                Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-            }
+        if(getIntent().getIntExtra(EXTRA_ID, 0) == 0){
+           newLessonPlan();
         } else {
-            editSubjectPlan = new SubjectPlan();
+            readLessonPlan();
         }
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(editSubjectPlan.getId() != 0){
-            getMenuInflater().inflate(R.menu.note_menu, menu);
+        if(subjectPlan.getId() != 0){
+            getMenuInflater().inflate(R.menu.lesson_plan_edit_menu, menu);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -118,7 +85,6 @@ public class LessonPlanEditActivity extends Activity {
 
             case R.id.action_trash:
                 deletePlan();
-                finish();
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -128,7 +94,6 @@ public class LessonPlanEditActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         cursor.close();
         db.close();
     }
@@ -144,36 +109,25 @@ public class LessonPlanEditActivity extends Activity {
             return;
         }
 
-        editSubjectPlan.setIdSubject((int) spinnerSubject.getSelectedItemId());
-        editSubjectPlan.setDay((int) spinnerDay.getSelectedItemId());
+        subjectPlan.setIdSubject((int) spinnerSubject.getSelectedItemId());
+        subjectPlan.setDay((int) spinnerDay.getSelectedItemId());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            editSubjectPlan.setTimeStart(editSubjectPlan.convertFromTime(timePickerStart.getHour(), timePickerStart.getMinute()));
-            editSubjectPlan.setTimeEnd(editSubjectPlan.convertFromTime(timePickerEnd.getHour(), timePickerEnd.getMinute()));
+            subjectPlan.setTimeStart(subjectPlan.convertFromTime(timePickerStart.getHour(), timePickerStart.getMinute()));
+            subjectPlan.setTimeEnd(subjectPlan.convertFromTime(timePickerEnd.getHour(), timePickerEnd.getMinute()));
         } else {
-            editSubjectPlan.setTimeStart(editSubjectPlan.convertFromTime(timePickerStart.getCurrentHour(), timePickerStart.getCurrentMinute()));
-            editSubjectPlan.setTimeEnd(editSubjectPlan.convertFromTime(timePickerEnd.getCurrentHour(), timePickerEnd.getCurrentMinute()));
+            subjectPlan.setTimeStart(subjectPlan.convertFromTime(timePickerStart.getCurrentHour(), timePickerStart.getCurrentMinute()));
+            subjectPlan.setTimeEnd(subjectPlan.convertFromTime(timePickerEnd.getCurrentHour(), timePickerEnd.getCurrentMinute()));
         }
 
-        editSubjectPlan.setClassroom(editTextClassroom.getText().toString().trim());
+        subjectPlan.setClassroom(editTextClassroom.getText().toString().trim());
 
-        try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(this);
-            SQLiteDatabase db = openHelper.getWritableDatabase();
-
-            if(editSubjectPlan.getId() == 0){
-                db.insert("LESSON_PLAN", null, editSubjectPlan.saveSubjectPlan());
-            } else {
-                db.update("LESSON_PLAN",
-                        editSubjectPlan.saveSubjectPlan(),
-                        "_id = ?",
-                        new String[] {Integer.toString(editSubjectPlan.getId())});
-            }
-            currentSubject(db);
-            db.close();
-        }   catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+        if(subjectPlan.getId() == 0){
+            subjectPlan.insert(this);
+        } else {
+            subjectPlan.update(this);
         }
+        currentSubject(db);
         finish();
     }
 
@@ -181,20 +135,47 @@ public class LessonPlanEditActivity extends Activity {
         finish();
     }
 
-    private void deletePlan(){
-        try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(this);
-            SQLiteDatabase db = openHelper.getWritableDatabase();
-            db.delete("LESSON_PLAN",
-                    "_id = ?",
-                    new String[] {Integer.toString(editSubjectPlan.getId())});
+    private void newLessonPlan(){
+        subjectPlan = new SubjectPlan();
+    }
 
-            currentSubject(db);
+    private void readLessonPlan(){
+        Button buttonSave = findViewById(R.id.plan_edit_save);
 
-            db.close();
-        } catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+        subjectPlan = SubjectPlan.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
+
+        spinnerSubject.setSelection(getPosition(subjectPlan.getIdSubject(), cursor));
+        spinnerDay.setSelection(subjectPlan.getDay());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            timePickerStart.setHour(subjectPlan.getTimeStartHours());
+            timePickerStart.setMinute(subjectPlan.getTimeStartMinutes());
+            timePickerEnd.setHour(subjectPlan.getTimeEndHours());
+            timePickerEnd.setMinute(subjectPlan.getTimeEndMinutes());
+        } else {
+            timePickerStart.setCurrentHour(subjectPlan.getTimeStartHours());
+            timePickerStart.setCurrentMinute(subjectPlan.getTimeStartMinutes());
+            timePickerEnd.setCurrentHour(subjectPlan.getTimeEndHours());
+            timePickerEnd.setCurrentMinute(subjectPlan.getTimeEndMinutes());
         }
+
+        editTextClassroom.setText(subjectPlan.getClassroom());
+        buttonSave.setText(R.string.save);
+        getActionBar().setTitle(R.string.lesson_plan_edit);
+
+    }
+
+    private void deletePlan(){
+        StaticMethod.getAlert(this)
+                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        subjectPlan.delete(getApplicationContext());
+                        currentSubject(db);
+                        finish();
+                    }
+                })
+                .show();
     }
 
     private void currentSubject(SQLiteDatabase db){
@@ -202,7 +183,7 @@ public class LessonPlanEditActivity extends Activity {
             Cursor cursor = db.query("SUBJECTS",
                     Subject.subjectOnCursor,
                     "_id = ?",
-                    new String[]{Integer.toString(editSubjectPlan.getIdSubject())},
+                    new String[]{Integer.toString(subjectPlan.getIdSubject())},
                     null, null, null);
 
             if (cursor.moveToFirst()) {
