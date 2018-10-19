@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".EditActivity">
 
     <ScrollView
+        android:id="@+id/edit_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="@dimen/minimum_length"
                 android:hint="@string/edit_hint_name"
                 android:singleLine="true"/>
 
@@ -30,6 +29,7 @@
                 android:id="@+id/edit_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="@dimen/minimum_length"
                 android:hint="@string/edit_hint_teacher"
                 android:singleLine="true"/>
 
@@ -42,6 +42,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginLeft="@dimen/standard_margin"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -60,6 +62,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginLeft="@dimen/standard_margin"
                     android:orientation="vertical">
 
                     <TextView
@@ -71,8 +75,7 @@
                     <TextView
                         android:id="@+id/edit_edit_assessment"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/null_string" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -84,6 +87,7 @@
                     android:id="@+id/edit_assessment"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:minHeight="@dimen/minimum_length"
                     android:hint="@string/hint_assessment"
                     android:layout_weight="1"
                     android:inputType="numberDecimal"/>
@@ -116,6 +120,7 @@
                 android:id="@+id/edit_unpreparedness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="@dimen/minimum_length"
                 android:hint="@string/edit_hint_unpreparedness"
                 android:inputType="number"/>
 
@@ -123,40 +128,30 @@
                 android:id="@+id/edit_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="@dimen/minimum_length"
                 android:hint="@string/edit_hint_description"
                 android:inputType="textMultiLine"/>
 
             <Button
                 android:id="@+id/edit_duplicate_subject"
+                style="@style/AppTheme.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/edit_duplicate_subject"
-                android:visibility="gone"
                 android:onClick="ClickDuplicateSubject"
-                style="@style/AppTheme.Button"/>
-
-            <Button
-                android:id="@+id/edit_delete_subject"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@android:drawable/ic_menu_delete"
-                android:drawableEnd="@android:drawable/ic_menu_delete"
-                android:drawableLeft="@android:drawable/ic_menu_delete"
-                android:drawableRight="@android:drawable/ic_menu_delete"
-                android:text="@string/edit_delete_subject"
-                android:visibility="gone"
-                android:onClick="ClickDeleteSubject"
-                style="@style/AppTheme.Button"/>
+                android:text="@string/edit_duplicate_subject"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/edit_bottom_buttons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
             android:id="@+id/edit_save"
-            android:layout_width="match_parent"
+            android:layout_width="96dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickSave"
@@ -164,11 +159,11 @@
             style="@style/AppTheme.Button"/>
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="94dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickCancel"
             android:text="@string/cancel"
             style="@style/AppTheme.Button"/>
     </LinearLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

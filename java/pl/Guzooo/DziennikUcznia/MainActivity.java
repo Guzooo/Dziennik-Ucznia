@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,10 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
+
+    //preference for errors and new save
     private final String PREFERENCE_DATABASE_1_TO_2 = "database1to2";
+    private final String PREFERENCE_ERROR_VERSION_0_2_5 = "errorversion0.2.5";
     //private final String PREFERENCE_DATABASE_2_TO_3 = "database2to3";
 
     private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
@@ -54,6 +58,10 @@ public class MainActivity extends Activity {
             database1to2();
         }
 
+        if(sharedPreferences.getInt(PREFERENCE_ERROR_VERSION_0_2_5, 0) == 0){
+            errorSaveSubjectOfVersion0_2_5();
+        }
+
         //if(sharedPreferences.getInt(PREFERENCE_DATABASE_2_TO_3, 0) == 0){
             // TODO: database2to3();
         //}
@@ -70,7 +78,6 @@ public class MainActivity extends Activity {
         } catch (SQLiteException e) {
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
@@ -302,6 +309,31 @@ public class MainActivity extends Activity {
             editor.apply();
         } catch (SQLiteException e){
             Toast.makeText(MainActivity.this, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void errorSaveSubjectOfVersion0_2_5 (){ // dodano w wersji 4 na 5
+        try {
+            SQLiteOpenHelper openHelper = new HelperDatabase(this);
+            SQLiteDatabase db = openHelper.getWritableDatabase();
+            Cursor cursor = db.query("SUBJECTS",
+                    new String[]{"_id", "DAY"},
+                    null, null, null, null, null);
+
+            if(cursor.moveToFirst()){
+                do{
+                    if(cursor.getType(1) == 0){
+                        db.delete("SUBJECTS", "_id = ?", new String[]{Integer.toString(cursor.getInt(0))});
+                    }
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            db.close();
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putInt(PREFERENCE_ERROR_VERSION_0_2_5, 1);
+            editor.apply();
+        } catch (SQLiteException e){
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
     }
 

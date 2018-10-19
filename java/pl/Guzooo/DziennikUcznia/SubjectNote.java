@@ -23,7 +23,7 @@ public class SubjectNote {
 
     }
 
-    SubjectNote(int id, String name, String note, int idSubject){
+    private SubjectNote(int id, String name, String note, int idSubject){
         this.id = id;
         setName(name);
         setNote(note);

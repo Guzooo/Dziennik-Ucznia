@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,16 +31,33 @@ public class Subject {
     public static final String[] subjectOnCursorWithDay = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "DAY"};
 
     public Subject() {
-
+        setFirstContentValues();
     }
 
-    public Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description){
+    private void setFirstContentValues(){
+        contentValues.put("NAME", "");
+        contentValues.put("TEACHER", "");
+        contentValues.put("ASSESSMENTS", "");
+        contentValues.put("UNPREPAREDNESS", 0);
+        contentValues.put("DESCRIPTION", "");
+        contentValues.put("NOTES", 0);
+        contentValues.put("DAY", 0);
+    }
+
+    private Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description){
         this.id = id;
         setName(name);
         setTeacher(teacher);
         fromStringAssessments(assessments);
         setUnpreparedness(unpreparedness);
         setDescription(description);
+    }
+
+    public static Subject newEmpty (){
+        Subject subject = new Subject (0, "", "", "", 0, "");
+        subject.contentValues.put("NOTES", 0);
+        subject.contentValues.put("DAY", 0);
+        return subject;
     }
 
     public static Subject getOfCursor(Cursor cursor){
@@ -61,12 +81,33 @@ public class Subject {
         if (cursor.moveToFirst()) {
             subject = Subject.getOfCursor(cursor);
         } else {
-            subject = new Subject();
+            subject = Subject.newEmpty();
         }
 
         cursor.close();
         db.close();
         return subject;
+    }
+
+    private Subject getOfSubject (Subject subject){
+        Subject newSubject = Subject.newEmpty();
+        newSubject.setName(subject.getName());
+        newSubject.setTeacher(subject.getTeacher());
+        newSubject.setUnpreparedness(subject.getUnpreparedness());
+        newSubject.setDescription(subject.getDescription());
+        newSubject.fromStringAssessments(subject.toStringAssessments());
+        return newSubject;
+    }
+
+    public void insert(Context context){
+        try {
+            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            db.insert("SUBJECTS", null, contentValues);
+            contentValues.clear();
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void update(Context context){
@@ -80,6 +121,31 @@ public class Subject {
             db.close();
         } catch (SQLiteException e){
             Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void delete(Context context){
+        try {
+            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            db.delete("SUBJECTS",
+                    "_id = ?",
+                    new String[]{Integer.toString(getId())});
+            db.close();
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+        StaticMethod.destroyAllLessonPlan("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+        StaticMethod.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+    }
+
+    public boolean duplicate(Context context){
+        try {
+            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            db.insert("SUBJECTS", null, getOfSubject(this).contentValues);
+            return true;
+        } catch (SQLiteException e){
+            Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
@@ -223,9 +289,10 @@ public class Subject {
 
     public void setDescription(String description){
         this.description = description;
+        contentValues.put("DESCRIPTION", getDescription());
     }
 
-    public String toStringAssessments(){
+    private String toStringAssessments(){
         String string = "";
         for (int i = 0; i < assessments.size(); i++) {
             string += Float.toString(assessments.get(i)) + "®";
@@ -233,13 +300,14 @@ public class Subject {
         return string;
     }
 
-    public void fromStringAssessments(String assessments){
+    private void fromStringAssessments(String assessments){
         if(!assessments.equals("")) {
             String[] strings = assessments.split("®");
             for (int i = 0; i < strings.length; i++) {
                 this.assessments.add(Float.parseFloat(strings[i]));
             }
         }
+        contentValues.put("ASSESSMENTS", toStringAssessments());
     }
 
     public void addAssessment(String string, Context context){
@@ -261,7 +329,7 @@ public class Subject {
         else contentValues.put("ASSESSMENTS", toStringAssessments());
     }
 
-    public void fromStringSubjectNotes(String subjectNotes) { //old
+    private void fromStringSubjectNotes(String subjectNotes) { //old
         if (!subjectNotes.equals("")) {
             String[] strings = subjectNotes.split("®");
             for (int i = 0; i < strings.length; i += 10) {
