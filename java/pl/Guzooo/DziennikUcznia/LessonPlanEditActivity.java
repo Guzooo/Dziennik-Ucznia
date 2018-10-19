@@ -106,7 +106,7 @@ public class LessonPlanEditActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(subjectPlan.getId() != 0){
+        if(editSubjectPlan.getId() != 0){
             getMenuInflater().inflate(R.menu.lesson_plan_edit_menu, menu);
         }
         return super.onCreateOptionsMenu(menu);

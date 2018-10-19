@@ -42,6 +42,7 @@
             android:id="@+id/main_notepad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/minimum_length"
             android:layout_gravity="center"
             android:hint="@string/notepad"
             android:inputType="textMultiLine"
