@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".LessonPlanEditActivity">
 
     <ScrollView
+        android:id="@+id/plan_edit_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,14 +83,17 @@
                 android:id="@+id/plan_edit_classroom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="@dimen/minimum_length"
                 android:hint="@string/plan_edit_hint_classroom"
                 android:singleLine="true"/>
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/plan_edit_bottom_buttons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
             android:id="@+id/plan_edit_save"
@@ -109,4 +112,4 @@
             android:text="@string/cancel"
             style="@style/AppTheme.Button"/>
     </LinearLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
