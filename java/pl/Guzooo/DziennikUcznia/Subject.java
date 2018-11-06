@@ -30,20 +30,6 @@ public class Subject {
     public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION"};
     public static final String[] subjectOnCursorWithDay = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "DAY"};
 
-    public Subject() {
-        setFirstContentValues();
-    }
-
-    private void setFirstContentValues(){
-        contentValues.put("NAME", "");
-        contentValues.put("TEACHER", "");
-        contentValues.put("ASSESSMENTS", "");
-        contentValues.put("UNPREPAREDNESS", 0);
-        contentValues.put("DESCRIPTION", "");
-        contentValues.put("NOTES", 0);
-        contentValues.put("DAY", 0);
-    }
-
     private Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description){
         this.id = id;
         setName(name);
