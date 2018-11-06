@@ -129,6 +129,10 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
         return 0;
     }
 
+    public void changeCursor(ArrayList<Cursor> cursors){ //TODO: przy edycji Ekranu Głównego, napewno dopisac metody z rozpoczecia i petle wylaczania laczenia nowych cursorów
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         int size = 0;
@@ -145,27 +149,44 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
     public AdapterSubjectCardView(ArrayList<Cursor> cursors, View nullCard){
         this.cursors.add(cursors.get(0));
 
+        CreateCurrentDaySize();
+        SortingDay(cursors, getCurrentDayOfWeek());
+        NumberAllSubjectInEveryDay();
+        PositionTitles();
+        VisibilityNullView(nullCard);
+    }
+
+    private void CreateCurrentDaySize(){
         for (int i = 0; i <= 7; i++){
             days.add(0);
         }
+    }
 
+    private int getCurrentDayOfWeek(){
         int c = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) -1;
         if(c == 0){
             c = 7;
         }
+        return c;
+    }
 
-        for (int i = c; i <= 7; i++){
+    private void SortingDay(ArrayList<Cursor> cursors, int today){
+        for (int i = today; i <= 7; i++){
             this.cursors.add(cursors.get(i));
         }
 
-        for (int i = 1; i < c; i++) {
+        for (int i = 1; i < today; i++) {
             this.cursors.add(cursors.get(i));
         }
+    }
 
+    private void NumberAllSubjectInEveryDay(){
         for (int i = 0; i < this.cursors.size(); i++){
             days.set(i, this.cursors.get(i).getCount());
         }
+    }
 
+    private void PositionTitles(){
         for (int i = 7; i >= 0 ; i--) {
             if (days.get(i) != 0) {
                 days.set(i, 0);
@@ -175,10 +196,12 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
                     }
                 }
             } else {
-                days.set(i, days.get(i) - 1);
+                days.set(i, -1);
             }
         }
+    }
 
+    private void VisibilityNullView(View nullCard){
         if(nullCard != null) {
             if (getItemCount() == 0) {
                 nullCard.setVisibility(View.VISIBLE);

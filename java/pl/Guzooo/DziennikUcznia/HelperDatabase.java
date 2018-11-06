@@ -49,14 +49,5 @@ public class HelperDatabase extends SQLiteOpenHelper {
                     + "DAY INTEGER,"
                     + "CLASSROOM TEXT)");
         }
-        if(oldVersion < 3){
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN MONDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN TUESDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN WEDNESDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN THURSDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN FRIDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN SATURDAY INTEGER");
-            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN SUNDAY INTEGER");
-        }
     }
 }
