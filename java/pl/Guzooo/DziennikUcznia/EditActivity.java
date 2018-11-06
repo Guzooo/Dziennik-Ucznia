@@ -140,7 +140,7 @@ public class EditActivity extends Activity {
     }
 
     private void newSubject(){
-        subject = new Subject();
+        subject = Subject.newEmpty();
     }
 
     private void readSubject(){
