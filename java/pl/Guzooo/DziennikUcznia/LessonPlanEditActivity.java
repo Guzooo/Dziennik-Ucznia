@@ -125,6 +125,7 @@ public class LessonPlanEditActivity extends Activity {
         } else {
             subjectPlan.update(this);
         }
+        currentSubject();
         finish();
     }
 
@@ -167,7 +168,7 @@ public class LessonPlanEditActivity extends Activity {
     }
 
     private void newSubjectPlan(){
-        subjectPlan = new SubjectPlan();
+        subjectPlan =  SubjectPlan.newEmpty();
     }
 
     private void readSubjectPlan(){
@@ -201,14 +202,14 @@ public class LessonPlanEditActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         subjectPlan.delete(getApplicationContext());
-                        currentSubject(db);
+                        currentSubject();
                         finish();
                     }
                 })
                 .show();
     }
 
-    private void currentSubject(SQLiteDatabase db){
+    private void currentSubject(){
         Subject subject = Subject.getOfId(subjectPlan.getIdSubject(), this);
         subject.putInfoDay(this);
         subject.update(this);
