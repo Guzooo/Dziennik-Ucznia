@@ -19,15 +19,15 @@ public class SubjectNote {
 
     public static final String[] subjectNoteOnCursor = {"_id", "NAME", "NOTE", "TAB_SUBJECT"};
 
-    SubjectNote(){
-
-    }
-
     private SubjectNote(int id, String name, String note, int idSubject){
         this.id = id;
         setName(name);
         setNote(note);
         setIdSubject(idSubject);
+    }
+
+    public static SubjectNote newEmpty(){
+        return new SubjectNote(0, "", "", 0);
     }
 
     public static SubjectNote getOfCursor(Cursor cursor){
@@ -49,7 +49,7 @@ public class SubjectNote {
         if (cursor.moveToFirst()) {
             subjectNote = SubjectNote.getOfCursor(cursor);
         } else {
-            subjectNote = new SubjectNote();
+            subjectNote = SubjectNote.newEmpty();
         }
 
         cursor.close();

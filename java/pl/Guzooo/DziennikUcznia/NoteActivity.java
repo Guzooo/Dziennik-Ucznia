@@ -107,7 +107,7 @@ public class NoteActivity extends Activity {
     }
 
     private void newSubjectNote(){
-        subjectNote = new SubjectNote();
+        subjectNote = SubjectNote.newEmpty();
         subjectNote.setIdSubject(getIntent().getIntExtra(EXTRA_ID_SUBJECT, 0));
     }
 

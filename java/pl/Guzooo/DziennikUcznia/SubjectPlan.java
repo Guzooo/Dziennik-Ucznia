@@ -19,17 +19,17 @@ public class SubjectPlan {
 
     public static final String[] subjectPlanOnCursor = {"_id", "TIME_START", "TIME_END", "TAB_SUBJECT", "DAY", "CLASSROOM"};
 
-    SubjectPlan() {
-
-    }
-
-    public SubjectPlan(int id, int timeStart, int timeEnd, int idSubject, int day, String classroom) {
+    private SubjectPlan(int id, int timeStart, int timeEnd, int idSubject, int day, String classroom) {
         this.id = id;
         setTimeStart(timeStart);
         setTimeEnd(timeEnd);
         setIdSubject(idSubject);
         setDay(day);
         setClassroom(classroom);
+    }
+
+    public static SubjectPlan newEmpty(){
+        return new SubjectPlan(0, 0, 0, 0, 0, "");
     }
 
     public static SubjectPlan getOfCursor(Cursor cursor){
@@ -53,7 +53,7 @@ public class SubjectPlan {
         if(cursor.moveToFirst()) {
             subjectPlan = SubjectPlan.getOfCursor(cursor);
         } else {
-            subjectPlan = new SubjectPlan();
+            subjectPlan = SubjectPlan.newEmpty();
         }
 
         cursor.close();

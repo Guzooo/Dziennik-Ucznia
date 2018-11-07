@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:minHeight="50dp"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="10dp">
+    android:minHeight="@dimen/card_height"
+    android:layout_margin="@dimen/card_margin"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
     <TextView
         android:id="@+id/note_name"
