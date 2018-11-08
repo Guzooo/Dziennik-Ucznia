@@ -17,6 +17,8 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
 
     private ArrayList<Integer> days = new ArrayList<>();
 
+    private View nullView;
+
     public static interface Listener{
         public void onClick(int id);
     }
@@ -129,7 +131,16 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
         return 0;
     }
 
-    public void changeCursor(ArrayList<Cursor> cursors){ //TODO: przy edycji Ekranu Głównego, napewno dopisac metody z rozpoczecia i petle wylaczania laczenia nowych cursorów
+    public void changeCursors(ArrayList<Cursor> cursors){
+        this.cursors.clear();
+        this.cursors.add(cursors.get(0));
+
+        CreateCurrentDaySize();
+        SortingDay(cursors, getCurrentDayOfWeek());
+        NumberAllSubjectInEveryDay();
+        PositionTitles();
+        VisibilityNullView();
+
         notifyDataSetChanged();
     }
 
@@ -148,12 +159,13 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
 
     public AdapterSubjectCardView(ArrayList<Cursor> cursors, View nullCard){
         this.cursors.add(cursors.get(0));
+        nullView = nullCard;
 
         CreateCurrentDaySize();
         SortingDay(cursors, getCurrentDayOfWeek());
         NumberAllSubjectInEveryDay();
         PositionTitles();
-        VisibilityNullView(nullCard);
+        VisibilityNullView();
     }
 
     private void CreateCurrentDaySize(){
@@ -201,12 +213,12 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
         }
     }
 
-    private void VisibilityNullView(View nullCard){
-        if(nullCard != null) {
+    private void VisibilityNullView(){
+        if(nullView != null) {
             if (getItemCount() == 0) {
-                nullCard.setVisibility(View.VISIBLE);
+                nullView.setVisibility(View.VISIBLE);
             } else {
-                nullCard.setVisibility(View.GONE);
+                nullView.setVisibility(View.GONE);
             }
         }
     }
