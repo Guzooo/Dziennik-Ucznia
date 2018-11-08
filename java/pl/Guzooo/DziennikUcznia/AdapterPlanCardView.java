@@ -16,6 +16,8 @@ public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardVie
 
     private ArrayList<Integer> days = new ArrayList<>();
 
+    private View nullView;
+
     public static interface Listener{
         public void onClick(int id);
     }
@@ -108,9 +110,17 @@ public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardVie
         return 0;
     }
 
-    public void changeCursor(Cursor cursor){ //TODO: przy edycji Planu, napewno dopisac metody z rozpoczecia
+    public void changeCursor(Cursor cursor){
         this.cursor.close();
         this.cursor = cursor;
+        days.clear();
+        CreateCurrentDaySize();
+
+        if (cursor.moveToFirst()) {
+            NumberAllLessonInEveryDay();
+        }
+        PositionTitles();
+        VisibilityNullView();
         notifyDataSetChanged();
     }
 
@@ -128,14 +138,15 @@ public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardVie
 
     public AdapterPlanCardView(Cursor cursor, View nullCard) {
         this.cursor = cursor;
+        nullView = nullCard;
 
         CreateCurrentDaySize();
 
         if (cursor.moveToFirst()) {
             NumberAllLessonInEveryDay();
-            PositionTitles();
-            VisibilityNullView(nullCard);
         }
+        PositionTitles();
+        VisibilityNullView();
     }
 
     private void CreateCurrentDaySize(){
@@ -166,12 +177,12 @@ public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardVie
         }
     }
 
-    private void VisibilityNullView(View nullCard){
-        if (nullCard != null) {
+    private void VisibilityNullView(){
+        if (nullView != null) {
             if (cursor.getCount() == 0) {
-                nullCard.setVisibility(View.VISIBLE);
+                nullView.setVisibility(View.VISIBLE);
             } else {
-                nullCard.setVisibility(View.GONE);
+                nullView.setVisibility(View.GONE);
             }
         }
     }

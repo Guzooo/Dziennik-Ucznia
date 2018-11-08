@@ -86,7 +86,6 @@ public class MainActivity extends Activity {
 
         try {
             refreshSubjectsCursors();
-            setAdapter(); //TODO: pozbyć się edtując klase adaptera
             refreshActionBarInfo();
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
@@ -221,7 +220,9 @@ public class MainActivity extends Activity {
 
             cursors.add(cursor);
         }
-        //if(adapter != null) adapter.changeCursors(cursors); TODO:edycja adaptera
+        if(adapter != null){
+            adapter.changeCursors(cursors);
+        }
     }
 
     private String getAverage() {

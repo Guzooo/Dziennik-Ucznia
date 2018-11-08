@@ -18,6 +18,7 @@ public class LessonPlanActivity extends Activity {
 
     private Cursor cursor;
     private SQLiteDatabase db;
+    private AdapterPlanCardView adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,6 @@ public class LessonPlanActivity extends Activity {
 
         try {
             refreshCursor();
-            setAdapter();
         }catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
@@ -80,12 +80,16 @@ public class LessonPlanActivity extends Activity {
                 SubjectPlan.subjectPlanOnCursor,
                 null, null, null, null,
                 "DAY, TIME_START");
+
+        if (adapter != null) {
+            adapter.changeCursor(cursor);
+        }
     }
 
     private void setAdapter(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        AdapterPlanCardView adapter = new AdapterPlanCardView(cursor, findViewById(R.id.plan_plan_null));
+        adapter = new AdapterPlanCardView(cursor, findViewById(R.id.plan_plan_null));
         recyclerView.setAdapter(adapter);
 
         adapter.setListener(new AdapterPlanCardView.Listener() {
