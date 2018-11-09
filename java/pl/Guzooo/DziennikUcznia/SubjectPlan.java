@@ -108,18 +108,6 @@ public class SubjectPlan {
         }
     }
 
-    public ContentValues saveSubjectPlan(){ //old
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("TIME_START", timeStart);
-        contentValues.put("TIME_END", timeEnd);
-        contentValues.put("TAB_SUBJECT", idSubject);
-        contentValues.put("DAY", day);
-        contentValues.put("CLASSROOM", classroom);
-
-        return contentValues;
-    }
-
     public int getId(){
         return id;
     }

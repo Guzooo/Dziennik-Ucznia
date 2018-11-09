@@ -2,7 +2,6 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
