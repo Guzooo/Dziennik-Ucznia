@@ -28,7 +28,7 @@ public class LessonPlanActivity extends Activity {
         recyclerView = findViewById(R.id.plan_recycler);
 
         try {
-            db = StaticMethod.getReadableDatabase(this);
+            db = DatabaseUtils.getReadableDatabase(this);
             refreshCursor();
             setAdapter();
         }catch (SQLiteException e){

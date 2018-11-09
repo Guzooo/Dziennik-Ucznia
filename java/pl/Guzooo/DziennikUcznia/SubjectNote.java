@@ -38,7 +38,7 @@ public class SubjectNote {
 
     public static SubjectNote getOfId(int id, Context context){
         SubjectNote subjectNote;
-        SQLiteDatabase db = StaticMethod.getReadableDatabase(context);
+        SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
         Cursor cursor = db.query("NOTES",
                 SubjectNote.subjectNoteOnCursor,
                 "_id = ?",
@@ -58,7 +58,7 @@ public class SubjectNote {
 
     public void insert(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.insert("NOTES", null, contentValues);
             contentValues.clear();
             db.close();
@@ -69,7 +69,7 @@ public class SubjectNote {
 
     public void update(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.update("NOTES",
                     contentValues,
                     "_id = ?",
@@ -83,7 +83,7 @@ public class SubjectNote {
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.delete("NOTES",
                     "_id = ?",
                     new String[]{Integer.toString(getId())});
@@ -93,20 +93,13 @@ public class SubjectNote {
         }
     }
 
-    SubjectNote (Cursor cursor){ //old
-        this.id = cursor.getInt(0);
-        setName(cursor.getString(1));
-        setNote(cursor.getString(2));
-        this.idSubject = cursor.getInt(3);
-    }
-
-    SubjectNote(String name, String note, int idSubject) { //old
+    SubjectNote(String name, String note, int idSubject) { //old method z 1 na 2
         setName(name);
         setNote(note);
         this.idSubject = idSubject;
     }
 
-    public ContentValues saveSubjectNote(){ //old
+    public ContentValues saveSubjectNote(){ //old method z 1 na 2
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("NAME", getName());
@@ -114,12 +107,6 @@ public class SubjectNote {
         contentValues.put("TAB_SUBJECT", idSubject);
 
         return contentValues;
-    }
-
-    @Override
-    public String toString() { //old
-        String string = getName() + "®" + getNote() + "®" + "®" + "®" + "®" + "®" + "®" + "®" + "®" + "®";
-        return string;
     }
 
     public int getId(){

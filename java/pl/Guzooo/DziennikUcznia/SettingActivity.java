@@ -117,11 +117,11 @@ public class SettingActivity extends Activity {
     }
 
     public void ClickDestroyAllSubjects(View v){
-        StaticMethod.getAlert(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (StaticMethod.destroyAllSubject(getApplicationContext())) {
+                        if (DatabaseUtils.destroyAllSubject(getApplicationContext())) {
                             Toast.makeText(getApplicationContext(), R.string.setting_delete_all_subjects_made, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
@@ -133,11 +133,11 @@ public class SettingActivity extends Activity {
     }
 
     public void ClickDestroyAllNotes(View v){
-        StaticMethod.getAlert(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (StaticMethod.destroyAllNotes(getApplicationContext())) {
+                        if (DatabaseUtils.destroyAllNotes(getApplicationContext())) {
                             Toast.makeText(getApplicationContext(), R.string.setting_delete_all_notes_made, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
@@ -148,11 +148,11 @@ public class SettingActivity extends Activity {
     }
 
     public void ClickDestroyAllPlanLesson(View v){
-        StaticMethod.getAlert(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (StaticMethod.destroyAllLessonPlan(getApplicationContext())) {
+                        if (DatabaseUtils.destroyAllLessonPlan(getApplicationContext())) {
                             Toast.makeText(getApplicationContext(), R.string.setting_delete_all_lesson_plan_made, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();

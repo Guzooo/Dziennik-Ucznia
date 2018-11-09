@@ -80,7 +80,7 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
                 final int cursor = c;
 
                 if (cursors.get(cursor).moveToPosition(position - minus)) {
-                    Subject subject = new Subject(cursors.get(cursor));
+                    Subject subject = Subject.getOfCursor(cursors.get(cursor));
 
                     name.setText(subject.getName());
                     np.setText(cardView.getContext().getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));

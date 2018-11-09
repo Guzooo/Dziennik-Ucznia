@@ -49,7 +49,7 @@ public class LessonPlanEditActivity extends Activity {
         timePickerEnd.setIs24HourView(true);
 
         try {
-            db = StaticMethod.getReadableDatabase(this);
+            db = DatabaseUtils.getReadableDatabase(this);
             cursorForSpinnerSubject();
             setAdapterForSpinnerSubject();
             setAdapterForSpinnerDay();
@@ -196,7 +196,7 @@ public class LessonPlanEditActivity extends Activity {
     }
 
     private void deletePlan(){
-        StaticMethod.getAlert(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -219,7 +219,7 @@ public class LessonPlanEditActivity extends Activity {
         if(cursor.moveToFirst()){
             do{
                 position++;
-                if(new Subject(cursor).getId() == id){
+                if(Subject.getOfCursor(cursor).getId() == id){
                     return position;
                 }
             }while (cursor.moveToNext());
