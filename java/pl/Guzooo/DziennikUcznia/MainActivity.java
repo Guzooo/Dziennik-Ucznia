@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +27,6 @@ public class MainActivity extends Activity {
     //preference for errors and new save
     private final String PREFERENCE_DATABASE_1_TO_2 = "database1to2";
     private final String PREFERENCE_ERROR_VERSION_0_2_5 = "errorversion0.2.5";
-    //private final String PREFERENCE_DATABASE_2_TO_3 = "database2to3";
 
     private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
 
@@ -61,10 +59,6 @@ public class MainActivity extends Activity {
         if(sharedPreferences.getInt(PREFERENCE_ERROR_VERSION_0_2_5, 0) == 0){
             errorSaveSubjectOfVersion0_2_5();
         }
-
-        //if(sharedPreferences.getInt(PREFERENCE_DATABASE_2_TO_3, 0) == 0){
-            // TODO: database2to3();
-        //}
 
         goFirstChangeView(savedInstanceState);
 
@@ -337,8 +331,4 @@ public class MainActivity extends Activity {
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
     }
-
-    //private void database2to3(){ //dodano w wersji x na xNEW
-        // TODO: zmien day na poszczegulne daye
-    //}
 }

@@ -36,10 +36,10 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
         View cv = null;
         switch (viewType) {
             case 0:
-                cv = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.subject_card_view, parent, false);
+                cv = LayoutInflater.from(parent.getContext()).inflate(R.layout.subject_card_view, parent, false);
                 break;
             case 1:
-                cv = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_one_text, parent, false);
+                cv = LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_one_text, parent, false);
                 break;
         }
         return new ViewHolder(cv);

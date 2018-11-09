@@ -2,7 +2,6 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -107,7 +106,7 @@ public class SubjectNote {
         this.idSubject = idSubject;
     }
 
-    public ContentValues saveSubjectNote(){ //old //TODO: Przeniesc cala metode z dodawanie, usuwania, edycji
+    public ContentValues saveSubjectNote(){ //old
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("NAME", getName());
