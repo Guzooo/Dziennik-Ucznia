@@ -47,7 +47,7 @@ public class AdapterSubjectSpinner extends ArrayAdapter<String> {
         }
 
         if(cursor.moveToPosition(position - 1)){
-            Subject subject = new Subject(cursor);
+            Subject subject = Subject.getOfCursor(cursor);
 
             name.setText(subject.getName());
         }
@@ -58,7 +58,7 @@ public class AdapterSubjectSpinner extends ArrayAdapter<String> {
     @Override
     public long getItemId(int position) {
         if(cursor.moveToPosition(position - 1)){
-            Subject subject = new Subject(cursor);
+            Subject subject = Subject.getOfCursor(cursor);
             return subject.getId();
         }
         return 0;

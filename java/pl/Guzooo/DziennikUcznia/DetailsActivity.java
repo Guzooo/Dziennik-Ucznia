@@ -59,7 +59,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
                 return;
             }
 
-            db = StaticMethod.getReadableDatabase(this);
+            db = DatabaseUtils.getReadableDatabase(this);
 
             refreshNotesCursor();
             setAdapter();

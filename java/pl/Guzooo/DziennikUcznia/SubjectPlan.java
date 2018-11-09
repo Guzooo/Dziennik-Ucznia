@@ -43,7 +43,7 @@ public class SubjectPlan {
 
     public static SubjectPlan getOfId(int id, Context context){
         SubjectPlan subjectPlan;
-        SQLiteDatabase db = StaticMethod.getReadableDatabase(context);
+        SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
         Cursor cursor = db.query("LESSON_PLAN",
                 SubjectPlan.subjectPlanOnCursor,
                 "_id = ?",
@@ -61,18 +61,9 @@ public class SubjectPlan {
         return subjectPlan;
     }
 
-    SubjectPlan(Cursor cursor){ //old
-        this.id = cursor.getInt(0);
-        this.timeStart = cursor.getInt(1);
-        this.timeEnd = cursor.getInt(2);
-        this.idSubject = cursor.getInt(3);
-        this.day = cursor.getInt(4);
-        this.classroom = cursor.getString(5);
-    }
-
     public void insert(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.insert("LESSON_PLAN", null, contentValues);
             contentValues.clear();
             db.close();
@@ -84,7 +75,7 @@ public class SubjectPlan {
 
     public void update (Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.update("LESSON_PLAN",
                     contentValues,
                     "_id = ?",
@@ -98,7 +89,7 @@ public class SubjectPlan {
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.delete("LESSON_PLAN",
                     "_id = ?",
                     new String[]{Integer.toString(getId())});

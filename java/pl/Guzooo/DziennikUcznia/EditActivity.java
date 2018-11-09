@@ -160,7 +160,7 @@ public class EditActivity extends Activity {
     }
 
     public void deleteSubject(){
-        StaticMethod.getAlert(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

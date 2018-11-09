@@ -1,13 +1,12 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class StaticMethod {
+public class DatabaseUtils {
 
     public static SQLiteDatabase getWritableDatabase(Context context){
         SQLiteOpenHelper openHelper = new HelperDatabase(context);
@@ -60,11 +59,5 @@ public class StaticMethod {
         } catch (SQLException e){
             return false;
         }
-    }
-
-    public static AlertDialog.Builder getAlert(Context context){
-        return new AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alarm)
-                .setMessage(R.string.you_are_sure)
-                .setNegativeButton(R.string.no, null);
     }
 }

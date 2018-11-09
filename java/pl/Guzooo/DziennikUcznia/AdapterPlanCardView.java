@@ -61,7 +61,7 @@ public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardVie
                 final int minus = getAmountTitleOn(position);
 
                 if (cursor.moveToPosition(position - minus)) {
-                    SubjectPlan subjectPlan = new SubjectPlan(cursor);
+                    SubjectPlan subjectPlan = SubjectPlan.getOfCursor(cursor);
                     Subject subject = Subject.getOfId(subjectPlan.getIdSubject(), view.getContext());
 
                     name.setText(subject.getName());
@@ -157,7 +157,7 @@ public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardVie
 
     private void NumberAllLessonInEveryDay(){
         do {
-            SubjectPlan subjectPlan = new SubjectPlan(cursor);
+            SubjectPlan subjectPlan = SubjectPlan.getOfCursor(cursor);
             days.set(subjectPlan.getDay() - 1, days.get(subjectPlan.getDay() - 1) + 1);
         } while (cursor.moveToNext());
     }

@@ -42,7 +42,7 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
         TextView name = cardView.findViewById(R.id.note_name);
 
         if(cursor.moveToPosition(position)) {
-            SubjectNote subjectNote = new SubjectNote(cursor);
+            SubjectNote subjectNote = SubjectNote.getOfCursor(cursor);
 
             name.setText(subjectNote.getName());
         }

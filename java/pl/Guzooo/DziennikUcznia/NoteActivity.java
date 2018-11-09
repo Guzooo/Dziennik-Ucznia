@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.Menu;
@@ -72,7 +70,7 @@ public class NoteActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if(subjectNote.getId() == 0 || chechSave()){
+        if(subjectNote.getId() == 0 || checkSave()){
             super.onBackPressed();
         }
     }
@@ -87,7 +85,7 @@ public class NoteActivity extends Activity {
     }
 
     public void ClickAdd(View v){
-        if(chechSave()) {
+        if(checkSave()) {
             saveNote();
             finish();
         }
@@ -149,7 +147,7 @@ public class NoteActivity extends Activity {
     }
 
     private void deleteNote(){
-        StaticMethod.getAlert(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -162,29 +160,12 @@ public class NoteActivity extends Activity {
     }
 
     private void currentNotes(){ //TODO: Subject zmiana metody zapisu
-        try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(this);
-            Cursor cursor = db.query("SUBJECTS",
-                    Subject.subjectOnCursor,
-                    "_id = ?",
-                    new String[]{Integer.toString(subjectNote.getIdSubject())},
-                    null, null, null);
-
-            if (cursor.moveToFirst()) {
-                Subject subject = new Subject(cursor);
-
-                db.update("SUBJECTS",
-                        subject.saveSubject(this),
-                        "_id = ?",
-                        new String[]{Integer.toString(subject.getId())});
-            }
-            cursor.close();
-        }catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
+        Subject subject = Subject.getOfId(subjectNote.getIdSubject(), this);
+        subject.putInfoSizeNotes(this);
+        subject.update(this);
     }
 
-    private Boolean chechSave(){
+    private Boolean checkSave(){
         if(editTextTitle.getText().toString().trim().equals("")){
             Toast.makeText(this, R.string.note_hint_name, Toast.LENGTH_SHORT).show();
             return false;

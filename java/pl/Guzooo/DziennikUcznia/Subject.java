@@ -54,7 +54,7 @@ public class Subject {
 
     public static Subject getOfId (int id, Context context){
         Subject subject;
-        SQLiteDatabase db = StaticMethod.getReadableDatabase(context);
+        SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
         Cursor cursor = db.query("SUBJECTS",
                 Subject.subjectOnCursor,
                 "_id = ?",
@@ -84,7 +84,7 @@ public class Subject {
 
     public void insert(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.insert("SUBJECTS", null, contentValues);
             contentValues.clear();
             db.close();
@@ -95,7 +95,7 @@ public class Subject {
 
     public void update(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.update("SUBJECTS",
                     contentValues,
                     "_id = ?",
@@ -109,7 +109,7 @@ public class Subject {
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.delete("SUBJECTS",
                     "_id = ?",
                     new String[]{Integer.toString(getId())});
@@ -117,13 +117,13 @@ public class Subject {
         } catch (SQLiteException e){
             Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-        StaticMethod.destroyAllLessonPlan("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
-        StaticMethod.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+        DatabaseUtils.destroyAllLessonPlan("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+        DatabaseUtils.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
     }
 
     public boolean duplicate(Context context){
         try {
-            SQLiteDatabase db = StaticMethod.getWritableDatabase(context);
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.insert("SUBJECTS", null, getOfSubject(this).contentValues);
             return true;
         } catch (SQLiteException e){
@@ -132,16 +132,7 @@ public class Subject {
         }
     }
 
-    public Subject (Cursor cursor){ //old
-        this.id = cursor.getInt(0);
-        setName(cursor.getString(1));
-        setTeacher(cursor.getString(2));
-        fromStringAssessments(cursor.getString(3));
-        setUnpreparedness(cursor.getInt(4));
-        setDescription(cursor.getString(5));
-    }
-
-    public Subject (String object , int id){ //old method
+    public Subject (String object , int id){ //old method z 1 na 2
         this.id = id;
         String[] strings =  object.split("©");
         setName(strings[0]);
@@ -164,7 +155,7 @@ public class Subject {
         return contentValues.size();
     }
 
-    public ContentValues saveSubject(Context context){// old
+    public ContentValues saveSubject(Context context){ //old method z 1 na 2
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("NAME", getName());
@@ -312,7 +303,7 @@ public class Subject {
         else contentValues.put("ASSESSMENTS", toStringAssessments());
     }
 
-    private void fromStringSubjectNotes(String subjectNotes) { //old
+    private void fromStringSubjectNotes(String subjectNotes) { //old method z 1 na 2
         if (!subjectNotes.equals("")) {
             String[] strings = subjectNotes.split("®");
             for (int i = 0; i < strings.length; i += 10) {

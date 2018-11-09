@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
         goFirstChangeView(savedInstanceState);
 
         try {
-            db = StaticMethod.getWritableDatabase(this);
+            db = DatabaseUtils.getWritableDatabase(this);
             setDayOfSubject();
             refreshSubjectsCursors();
             setAdapter();
@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
 
         if (cursor.moveToFirst()) {
             do {
-                Subject subject = new Subject(cursor);
+                Subject subject = Subject.getOfCursor(cursor);
                 db.update("SUBJECTS",
                         subject.saveDay(this, 0),
                         "_id = ?",
@@ -230,13 +230,13 @@ public class MainActivity extends Activity {
                     do {
                         o++;
                         number++;
-                        average += new Subject(cursors.get(i)).getRoundedAverage(sharedPreferences);
+                        average += Subject.getOfCursor(cursors.get(i)).getRoundedAverage(sharedPreferences);
                     } while (cursors.get(i).moveToNext());
                 } else {
                     do {
                         o++;
                         number++;
-                        average += new Subject(cursors.get(i)).getAverage();
+                        average += Subject.getOfCursor(cursors.get(i)).getAverage();
                     } while (cursors.get(i).moveToNext());
                 }
             }
