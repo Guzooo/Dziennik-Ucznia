@@ -196,7 +196,7 @@ public class LessonPlanEditActivity extends Activity {
     }
 
     private void deletePlan(){
-        InterfaceUtils.getAlert(this)
+        InterfaceUtils.getAlertDelete(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

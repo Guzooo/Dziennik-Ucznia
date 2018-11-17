@@ -72,6 +72,11 @@ public class MainActivity extends Activity {
         } catch (SQLiteException e) {
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+
+        if(CheckInformationOnline.getWifiConnecting(this)) {
+            CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
+            checkInformationOnline.execute();
+        }
     }
 
     @Override

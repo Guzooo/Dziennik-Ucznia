@@ -117,7 +117,7 @@ public class SettingActivity extends Activity {
     }
 
     public void ClickDestroyAllSubjects(View v){
-        InterfaceUtils.getAlert(this)
+        InterfaceUtils.getAlertDelete(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -133,7 +133,7 @@ public class SettingActivity extends Activity {
     }
 
     public void ClickDestroyAllNotes(View v){
-        InterfaceUtils.getAlert(this)
+        InterfaceUtils.getAlertDelete(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -148,7 +148,7 @@ public class SettingActivity extends Activity {
     }
 
     public void ClickDestroyAllPlanLesson(View v){
-        InterfaceUtils.getAlert(this)
+        InterfaceUtils.getAlertDelete(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
