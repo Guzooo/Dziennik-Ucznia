@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -48,8 +50,6 @@ public class MainActivity extends Activity {
         recyclerView = findViewById(R.id.main_recycler);
         notepadBox = findViewById(R.id.main_notepad_box);
 
-        editTextNotepad.setText(loadNotepad());
-
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_1_TO_2, 0) == 0){
@@ -61,7 +61,6 @@ public class MainActivity extends Activity {
         }
 
         goFirstChangeView(savedInstanceState);
-
         try {
             db = DatabaseUtils.getWritableDatabase(this);
             setDayOfSubject();
@@ -72,6 +71,8 @@ public class MainActivity extends Activity {
         } catch (SQLiteException e) {
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+
+        loadNotepad();
 
         if(CheckInformationOnline.getWifiConnecting(this)) {
             CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
@@ -95,6 +96,16 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(isNotepadEmpty()){
+            DrawableCompat.setTint(menu.findItem(R.id.action_notepad).getIcon(), ContextCompat.getColor(this, android.R.color.darker_gray));
+        } else {
+            DrawableCompat.setTint(menu.findItem(R.id.action_notepad).getIcon(), ContextCompat.getColor(this, android.R.color.holo_red_light));
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -266,7 +277,7 @@ public class MainActivity extends Activity {
                     .translationY(notepadBox.getHeight() * -1 - getResources().getDimensionPixelSize(R.dimen.card_margin) * 2);
             recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
         }
-
+        invalidateOptionsMenu();
     }
 
     private void saveNotepad(){
@@ -275,9 +286,17 @@ public class MainActivity extends Activity {
         editor.apply();
     }
 
-    private String loadNotepad(){
+    private void loadNotepad(){
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        return sharedPreferences.getString(PREFERENCE_NOTEPAD, "");
+        editTextNotepad.setText(sharedPreferences.getString(PREFERENCE_NOTEPAD, ""));
+    }
+
+    private boolean isNotepadEmpty(){
+        if(editTextNotepad.getText().toString().trim().equals("")){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void database1to2 (){ // dodano w wersji 1 na 2
