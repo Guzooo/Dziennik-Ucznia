@@ -247,16 +247,18 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     }
 
     private void visibilityButtonsRelatedWithNotes(){
-        if(subject.getSizeNotes(this) != 0) {
-            findViewById(R.id.details_delete_all_notes).setVisibility(View.VISIBLE);
-            findViewById(R.id.details_share_all_notes).setVisibility(View.VISIBLE);
-            findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.VISIBLE);
-            findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.details_delete_all_notes).setVisibility(View.GONE);
-            findViewById(R.id.details_share_all_notes).setVisibility(View.GONE);
-            findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.GONE);
-            findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.GONE);
+        if(findViewById(R.id.details_share_all_notes) != null) {
+            if (subject.getSizeNotes(this) != 0) {
+                findViewById(R.id.details_delete_all_notes).setVisibility(View.VISIBLE);
+                findViewById(R.id.details_share_all_notes).setVisibility(View.VISIBLE);
+                findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.VISIBLE);
+                findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.details_delete_all_notes).setVisibility(View.GONE);
+                findViewById(R.id.details_share_all_notes).setVisibility(View.GONE);
+                findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.GONE);
+                findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.GONE);
+            }
         }
     }
 
