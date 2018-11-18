@@ -111,6 +111,7 @@
                     android:layout_height="match_parent"
                     android:drawableEnd="@android:drawable/ic_delete"
                     android:drawableRight="@android:drawable/ic_delete"
+                    android:drawableTint="@android:color/white"
                     android:text="@string/edit_delete_all_assessment"
                     android:onClick="ClickAllMinus"
                     style="@style/AppTheme.Button"/>
