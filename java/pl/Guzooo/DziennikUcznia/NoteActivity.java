@@ -126,9 +126,9 @@ public class NoteActivity extends Activity {
     }
 
     private String getShareText(){
-        String string = editTextTitle.getText().toString().trim();
+        String string = "❗" + Subject.getOfId(subjectNote.getIdSubject(), this).getName() + "❗\n\n✔ " + editTextTitle.getText().toString().trim();
         if(!editTextNote.getText().toString().trim().equals("")){
-            string += "\n\n" + editTextNote.getText().toString().trim();
+            string += ":\n\n" + editTextNote.getText().toString().trim();
         }
         string += getString(R.string.share_info);
         return string;

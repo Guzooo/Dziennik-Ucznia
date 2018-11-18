@@ -2,6 +2,8 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -54,6 +56,8 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
         viewNotesBox = findViewById(R.id.details_notes_box);
 
         findViewById(R.id.details_add_note).setOnClickListener(this);
+        findViewById(R.id.details_share_all_notes).setOnClickListener(this);
+        findViewById(R.id.details_delete_all_notes).setOnClickListener(this);
 
         try {
             if (!readSubject()) {
@@ -70,6 +74,8 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
         } catch (SQLException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+
+        visibilityButtonsRelatedWithNotes();
 
         if (savedInstanceState == null || !savedInstanceState.getBoolean(BUNDLE_VISIBLE_NOTES)) showNotes();
     }
@@ -88,6 +94,8 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
         }catch (SQLException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+
+        visibilityButtonsRelatedWithNotes();
     }
 
     @Override
@@ -140,6 +148,14 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.details_add_note:
                 goToNoteActivity(getIntent().getIntExtra(EXTRA_ID, 0), 0);
+                break;
+
+            case R.id.details_share_all_notes:
+                shareAllNotes();
+                break;
+
+            case R.id.details_delete_all_notes:
+                deleteAllNotes();
                 break;
         }
     }
@@ -228,6 +244,57 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     private void showNotes(){
         if ((viewGroupHomeLayout.findViewById(viewNotesBox.getId()) == null)) viewGroupHomeLayout.addView(viewNotesBox, positionNoteBox);
         else viewGroupHomeLayout.removeView(viewNotesBox);
+    }
+
+    private void visibilityButtonsRelatedWithNotes(){
+        if(subject.getSizeNotes(this) != 0) {
+            findViewById(R.id.details_delete_all_notes).setVisibility(View.VISIBLE);
+            findViewById(R.id.details_share_all_notes).setVisibility(View.VISIBLE);
+            findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.VISIBLE);
+            findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.details_delete_all_notes).setVisibility(View.GONE);
+            findViewById(R.id.details_share_all_notes).setVisibility(View.GONE);
+            findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.GONE);
+            findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.GONE);
+        }
+    }
+
+    private void shareAllNotes(){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, getShareText());
+        Intent intentChose = Intent.createChooser(intent, getString(R.string.share_title));
+        startActivity(intentChose);
+    }
+
+    private String getShareText(){
+        String string = "❗" + subject.getName() + "❗";
+        if(cursor.moveToFirst()) {
+            do {
+                SubjectNote subjectNote = SubjectNote.getOfCursor(cursor);
+                string += "\n\n✔ " + subjectNote.getName();
+                if(!subjectNote.getNote().equals("")){
+                    string += ":\n\n" + subjectNote.getNote();
+                }
+            } while (cursor.moveToNext());
+        }
+        string += getString(R.string.share_info);
+        return string;
+    }
+
+    private void deleteAllNotes(){
+        InterfaceUtils.getAlertDelete(this)
+                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseUtils.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(subject.getId())}, getApplicationContext());
+                        subject.putInfoSizeNotes(getApplicationContext());
+                        refreshNotesCursor();
+                        visibilityButtonsRelatedWithNotes();
+                    }
+                })
+                .show();
     }
 
     private void goToEditActivity(int id){
