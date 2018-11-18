@@ -16,8 +16,6 @@ import java.net.URL;
 
 public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
 
-    private final String PREFERENCE_NUMER_MESSAGE = "preferencenumermessage";
-
     private Context context;
     private String informationPage = "https://docs.google.com/document/d/1kKQm-7FRS2Wgqi-ypYa40p2riliaiSuYKzMNWyykYmg/edit?usp=sharing";
     private AlertDialog.Builder alert;
@@ -88,12 +86,12 @@ public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
 
     private void messageFromTheCreator(String description){
         alert = InterfaceUtils.getAlertEmpty(context)
-                .setTitle("Wiadomość od twórcy:")
+                .setTitle(R.string.information_window_message_from_creator)
                 .setMessage(description);
     }
 
     private void messageFromTheCreatorWitchFacebookButton(){
-        alert.setPositiveButton("Sprawdź fanpage", new AlertDialog.OnClickListener(){
+        alert.setPositiveButton(R.string.setting_facebook, new AlertDialog.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 context.startActivity(getIntentPage("https://www.facebook.com/GuzoooApps"));
@@ -102,7 +100,7 @@ public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
     }
 
     private void messageFromTheCreatorWitchMessengerButton(){
-        alert.setPositiveButton("Wyślij wiadomość", new AlertDialog.OnClickListener(){
+        alert.setPositiveButton(R.string.setting_messenger, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         context.startActivity(getIntentPage("https://www.messenger.com/t/GuzoooApps"));
@@ -112,7 +110,7 @@ public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
 
     private void update(){
         alert = InterfaceUtils.getAlertEmpty(context)
-                .setPositiveButton("Aktualizuj", new AlertDialog.OnClickListener(){
+                .setPositiveButton(R.string.information_window_update, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         context.startActivity(getIntentPage("https://play.google.com/store/apps/details?id=pl.Guzooo.DziennikUcznia"));
@@ -121,12 +119,11 @@ public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
     }
 
     private void availableUpdate(){
-        alert.setTitle("Dostępna aktualizacja");
-
+        alert.setTitle(R.string.information_window_available_update);
     }
 
     private void recommendedUpdate(){
-        alert.setTitle("Zalecana Aktualizacja");
+        alert.setTitle(R.string.information_window_recommended_update);
     }
 
     public static boolean getWifiConnecting(Context context){

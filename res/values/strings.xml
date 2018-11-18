@@ -62,8 +62,12 @@
 
     <string name="notes">Ilość notatek: %1$d</string>
     <string name="unpreparedness">NP: %1$d</string>
+    
+    <string name="information_window_message_from_creator">Wiadomość od twórcy:</string>
+    <string name="information_window_update">Aktualizuj</string>
+    <string name="information_window_available_update">Dostępna aktualizacja</string>
+    <string name="information_window_recommended_update">Zalecana aktualizacja</string>
 
-    <string name="details_add_note">+ Dodaj notatkę</string>
     <string name="details_minus_unpreparedness">-1NP</string>
     <string name="details_description">Opis:</string>
 
@@ -81,6 +85,7 @@
     <string name="note_hint_name">Wpisz nazwę notatki</string>
     <string name="note_hint_description">Wpisz treść notatki</string>
     <string name="note_null">Notatka nie jest uzupełniona</string>
+    <string name="note_action_pin">Przypnij notatke</string>
 
     <string name="plan_null_plan">Nie masz jeszcze planu lekcji\nDotknij plusa poniżej by dodać plan lekcji</string>
 

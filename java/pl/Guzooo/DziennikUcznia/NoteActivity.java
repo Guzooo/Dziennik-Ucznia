@@ -18,6 +18,8 @@ public class NoteActivity extends Activity {
     public static final String EXTRA_ID_NOTE = "idnote";
     public static final String EXTRA_ID_SUBJECT = "idsubject";
 
+//    private final int NOTIFICATION_ID = 035;
+
     private EditText editTextTitle;
     private EditText editTextNote;
 
@@ -57,6 +59,10 @@ public class NoteActivity extends Activity {
             case R.id.action_share:
                 shareNote();
                 return true;
+
+            /*case R.id.action_pin:
+                pinNote();
+                return true;*/
 
             case  R.id.action_trash:
                 deleteNote();
@@ -133,6 +139,23 @@ public class NoteActivity extends Activity {
         string += getString(R.string.share_info);
         return string;
     }
+
+   /* private void pinNote(){
+        Notification.Builder builder = null;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //builder = new Notification.Builder(this, CHANEL_ID);
+        }else {
+            builder = new Notification.Builder(this);
+        }
+        Notification notification = builder
+                .setSmallIcon(R.drawable.ic_pin)
+                .setContentTitle(Subject.getOfId(subjectNote.getIdSubject(), this).getName() + " - " + editTextTitle.getText().toString().trim())
+                .setContentText(editTextNote.getText().toString().trim())
+                .setPriority(Notification.PRIORITY_MAX)
+                .build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_ID, notification);
+    }*/
 
     private void saveNote(){
         subjectNote.setName(editTextTitle.getText().toString().trim());
