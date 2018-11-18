@@ -90,6 +90,7 @@ public class MainActivity extends Activity {
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+        invalidateOptionsMenu();
     }
 
     @Override

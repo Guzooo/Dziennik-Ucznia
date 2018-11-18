@@ -13,5 +13,6 @@
         android:icon="?android:attr/actionModePasteDrawable"
         android:showAsAction="always"
         android:title="@string/notepad"
-        android:orderInCategory="99"/>
+        android:orderInCategory="99"
+        android:iconTint="@android:color/darker_gray"/>
 </menu>
