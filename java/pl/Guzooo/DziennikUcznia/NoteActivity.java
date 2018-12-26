@@ -1,8 +1,5 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
@@ -13,7 +10,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class NoteActivity extends Activity {
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class NoteActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID_NOTE = "idnote";
     public static final String EXTRA_ID_SUBJECT = "idsubject";
@@ -102,11 +103,11 @@ public class NoteActivity extends Activity {
     }
 
     private void setCustomActionBar(){
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getActionBar().setDisplayShowCustomEnabled(true);
-        getActionBar().setCustomView(R.layout.action_bar_edit_text);
+        getSupportActionBar().setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.action_bar_edit_text);
 
-        editTextTitle = getActionBar().getCustomView().findViewById(R.id.action_bar_edit_text_title);
+        editTextTitle = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_edit_text_title);
         editTextTitle.setHint(R.string.note_hint_name);
     }
 

@@ -1,7 +1,8 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.AlertDialog;
 import android.content.Context;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class InterfaceUtils {
 

@@ -1,11 +1,9 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,11 +12,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import androidx.appcompat.app.AlertDialog;
+
 public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
 
     private Context context;
     private String informationPage = "https://docs.google.com/document/d/1kKQm-7FRS2Wgqi-ypYa40p2riliaiSuYKzMNWyykYmg/edit?usp=sharing";
-    private AlertDialog.Builder alert;
+    private androidx.appcompat.app.AlertDialog.Builder alert;
 
     CheckInformationOnline(Context context){
         setContext(context);
@@ -100,7 +100,7 @@ public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
     }
 
     private void messageFromTheCreatorWitchMessengerButton(){
-        alert.setPositiveButton(R.string.setting_messenger, new AlertDialog.OnClickListener(){
+        alert.setPositiveButton(R.string.setting_messenger, new androidx.appcompat.app.AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         context.startActivity(getIntentPage("https://www.messenger.com/t/GuzoooApps"));
@@ -110,7 +110,7 @@ public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
 
     private void update(){
         alert = InterfaceUtils.getAlertEmpty(context)
-                .setPositiveButton(R.string.information_window_update, new AlertDialog.OnClickListener(){
+                .setPositiveButton(R.string.information_window_update, new androidx.appcompat.app.AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         context.startActivity(getIntentPage("https://play.google.com/store/apps/details?id=pl.Guzooo.DziennikUcznia"));

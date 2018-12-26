@@ -1,7 +1,5 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -9,10 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-public class MainActivity extends Activity {
+
+
+public class MainActivity extends AppCompatActivity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
 
@@ -154,11 +156,11 @@ public class MainActivity extends Activity {
     }
 
     private void setCustomActionBar(){
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getActionBar().setDisplayShowCustomEnabled(true);
-        getActionBar().setCustomView(R.layout.action_bar_two_text);
+        getSupportActionBar().setDisplayOptions(getSupportActionBar().DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.action_bar_two_text);
 
-        TextView textViewTitle = getActionBar().getCustomView().findViewById(R.id.action_bar_two_text_title);
+        TextView textViewTitle = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_two_text_title);
         textViewTitle.setText(R.string.app_name);
     }
 
@@ -215,7 +217,7 @@ public class MainActivity extends Activity {
     }
 
     private void refreshActionBarInfo(){
-        textViewSecond = getActionBar().getCustomView().findViewById(R.id.action_bar_two_text_second);
+        textViewSecond = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_two_text_second);
         textViewSecond.setText(getAverage());
     }
 

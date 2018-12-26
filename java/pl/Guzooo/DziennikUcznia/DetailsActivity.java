@@ -1,8 +1,5 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,10 +7,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +19,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DetailsActivity extends Activity implements View.OnClickListener {
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_ID = "id";
 
@@ -178,9 +179,9 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     }
 
     private void setCustomActionBar() {
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getActionBar().setDisplayShowCustomEnabled(true);
-        getActionBar().setCustomView(R.layout.action_bar_two_text);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.action_bar_two_text);
     }
 
     private Boolean readSubject(){
@@ -225,7 +226,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
     }
 
     private void refreshActionBarInfo(){
-        View actionBar = getActionBar().getCustomView();
+        View actionBar = getSupportActionBar().getCustomView();
 
         TextView textViewTitle = actionBar.findViewById(R.id.action_bar_two_text_title);
         TextView textViewSecond = actionBar.findViewById(R.id.action_bar_two_text_second);
@@ -287,7 +288,7 @@ public class DetailsActivity extends Activity implements View.OnClickListener {
 
     private void deleteAllNotes(){
         InterfaceUtils.getAlertDelete(this)
-                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
+                .setPositiveButton(R.string.yes, new androidx.appcompat.app.AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         DatabaseUtils.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(subject.getId())}, getApplicationContext());

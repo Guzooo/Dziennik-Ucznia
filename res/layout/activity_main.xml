@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/main_subject_null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,9 +27,9 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/main_null_subject" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/main_notepad_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:hint="@string/notepad"
             android:inputType="textMultiLine"
             android:maxHeight="100dp" /><!--TODO: programowo 50%-->
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:id="@+id/main_bottom_buttons"
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickSetting"
-            android:src="@drawable/ic_settings_applications_black_24dp" />
+            app:srcCompat="@drawable/ic_settings_applications_black_24dp" />
 
         <ImageButton
             style="@style/AppTheme.Button"
@@ -69,7 +69,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickPlan"
-            android:src="@android:drawable/ic_dialog_dialer" />
+            app:srcCompat="@android:drawable/ic_dialog_dialer" />
 
         <ImageButton
             style="@style/AppTheme.Button"
@@ -77,6 +77,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickPlus"
-            android:src="@android:drawable/ic_input_add" />
+            app:srcCompat="@android:drawable/ic_input_add" />
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
