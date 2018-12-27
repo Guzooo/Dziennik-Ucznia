@@ -238,8 +238,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     private String setAverage(){
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
-            return Float.toString(subject.getAverage()) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences));
-        else return Float.toString(subject.getAverage());
+            return Float.toString(subject.getAverage(this)) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences, this));
+        else
+            return Float.toString(subject.getAverage(this));
     }
 
     private void showNotes(){

@@ -1,12 +1,14 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 public class HelperDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "dziennikucznia";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     HelperDatabase(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -49,5 +51,16 @@ public class HelperDatabase extends SQLiteOpenHelper {
                     + "DAY INTEGER,"
                     + "CLASSROOM TEXT)");
         }
+        if(oldVersion < 3){
+            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN ASSESSMENTS2 TEXT");
+            
+            db.update("SUBJECTS", updateDatabase2to3(), null, null);
+        }
+    }
+    
+    private ContentValues updateDatabase2to3(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("ASSESSMENTS2", "");
+        return contentValues;
     }
 }

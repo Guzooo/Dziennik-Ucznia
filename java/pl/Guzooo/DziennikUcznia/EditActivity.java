@@ -81,7 +81,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void ClickAllMinus(View v){
-        subject.getAssessments().clear();
+        subject.getAssessments(this).clear();
         textViewEditAssessment.setText(subject.getStringAssessments(this));
     }
 

@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -145,6 +147,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void ClickStatistics(View v){
+        Intent intent = new Intent(this, StatisticsActivity.class);
+        startActivity(intent);
+    }
+
     public void ClickPlan(View v){
         Intent intent = new Intent(this, LessonPlanActivity.class);
         startActivity(intent);
@@ -183,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setDayOfSubject(){
         Cursor cursor = db.query("SUBJECTS",
-                Subject.subjectOnCursorWithDay,
+                Subject.subjectOnCursor,
                 "DAY != ?",
                 new String[]{Integer.toString(0)},
                 null, null, null);
@@ -225,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         cursors.clear();
         for (int i = 0; i <= 7 ; i++){
             Cursor cursor = db.query("SUBJECTS",
-                    Subject.subjectOnCursorWithDay,
+                    Subject.subjectOnCursor,
                     "DAY = ?",
                     new String[]{Integer.toString(i)},
                     null, null,
@@ -239,35 +246,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getAverage() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        SharedPreferences settingSharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        SharedPreferences statisticsSharePreferences = getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, MODE_PRIVATE);
         float average = 0f;
+        float assessment;
         int number = 0;
+        boolean roundedAverage = settingSharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT);
         for (int i = 0; i < cursors.size(); i++) {
-            int o = 0;
             if (cursors.get(i).moveToFirst()) {
-                if (sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT)) {
-                    do {
-                        o++;
+                do {
+                    if (roundedAverage) {
+                        assessment = Subject.getOfCursor(cursors.get(i)).getRoundedAverage(settingSharedPreferences, this);
+                    } else {
+                        assessment = Subject.getOfCursor(cursors.get(i)).getAverage(this);
+                    }
+
+                    if(assessment != 0) {
                         number++;
-                        average += Subject.getOfCursor(cursors.get(i)).getRoundedAverage(sharedPreferences);
-                    } while (cursors.get(i).moveToNext());
-                } else {
-                    do {
-                        o++;
-                        number++;
-                        average += Subject.getOfCursor(cursors.get(i)).getAverage();
-                    } while (cursors.get(i).moveToNext());
-                }
+                        average += assessment;
+                    }
+                } while (cursors.get(i).moveToNext());
             }
         }
+        String subtitle = getResources().getString(R.string.statistics_semester, statisticsSharePreferences.getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER)) + getResources().getString(R.string.separation);
         if (number == 0){
-            return "0.0";
+            return subtitle + "0.0";
         }
         average = average / number;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
-            return Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
+        if (average >= settingSharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
+            return subtitle + Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
         }
-        return Float.toString(average);
+        return subtitle + Float.toString(average);
     }
 
     private void showNotepad() {
