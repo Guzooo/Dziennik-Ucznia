@@ -100,7 +100,7 @@
     <string name="statistics_semester_end">Średnia końcowa</string>
     <string name="statistics_select_semester">Wybierz semestr:</string>
     <string name="statistics_beta">Wciąż jest to wersja BETA więc zmiana semestru nie przywróci początkowej ilości nieprzygotowań</string>
-    <string name="statistics_coming_soon">W tym miejscu wkrótce pojawią się informacje na temat ilości poszczególnych ocen, przedmioty z których średnia jest niewystarczająca oraz inne przydatne dane.\nJeśli masz jakieś ciekawe pomyśły pisz! ⬇</string>
+    <string name="statistics_coming_soon">W tym miejscu wkrótce pojawią się informacje na temat ilości poszczególnych ocen, przedmioty z których średnia jest niewystarczająca oraz inne przydatne dane.\nJeśli masz jakieś ciekawe pomysły pisz! ⬇</string>
 
     <string name="setting_facebook">Sprawdź fanpage\nFacebook</string>
     <string name="setting_messenger">Zaproponuj zmiany\nMessenger</string>

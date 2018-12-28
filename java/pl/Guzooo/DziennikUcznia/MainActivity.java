@@ -133,13 +133,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        saveNotepad();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         for (int i = 0; i < cursors.size(); i++) {
             cursors.get(i).close();
         }
         db.close();
-        saveNotepad();
     }
 
     public void ClickSetting(View v){

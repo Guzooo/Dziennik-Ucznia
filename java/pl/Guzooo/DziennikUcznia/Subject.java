@@ -218,6 +218,9 @@ public class Subject {
 
     public int getRoundedAverage(SharedPreferences sharedPreferences, Context context){
         float average = getAverage(context);
+        if(average == 0){
+            return 0;
+        }
         int roundedAverage;
         if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.DEFAULT_AVERAGE_TO_SIX)){
             roundedAverage = 6;
@@ -237,6 +240,9 @@ public class Subject {
 
     public int getRoundedAverage(SharedPreferences sharedPreferences, int num){
         float average = getAverage(num);
+        if(average == 0){
+            return 0;
+        }
         int roundedAverage;
         if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.DEFAULT_AVERAGE_TO_SIX)){
             roundedAverage = 6;
@@ -254,6 +260,15 @@ public class Subject {
         return roundedAverage;
     }
     public float getRoundedAverageEnd(SharedPreferences sharedPreferences){
+        int semesterI = getRoundedAverage(sharedPreferences, 0);
+        int semesterII = getRoundedAverage(sharedPreferences, 1);
+
+        if(semesterI == 0)
+            return semesterII;
+
+        if(semesterII == 0)
+            return semesterI;
+
         return (getRoundedAverage(sharedPreferences, 0) + getRoundedAverage(sharedPreferences, 1)) / 2;
     }
 
