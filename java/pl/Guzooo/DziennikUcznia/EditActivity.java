@@ -1,7 +1,5 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EditActivity extends Activity {
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class EditActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "id";
 
@@ -80,7 +81,7 @@ public class EditActivity extends Activity {
     }
 
     public void ClickAllMinus(View v){
-        subject.getAssessments().clear();
+        subject.getAssessments(this).clear();
         textViewEditAssessment.setText(subject.getStringAssessments(this));
     }
 
@@ -146,7 +147,7 @@ public class EditActivity extends Activity {
 
         subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
 
-        getActionBar().setTitle(R.string.edit_subject);
+        getSupportActionBar().setTitle(R.string.edit_subject);
         editTextName.setText(subject.getName());
         editTextTeacher.setText(subject.getTeacher());
         editTextDescription.setText(subject.getDescription());
@@ -160,7 +161,7 @@ public class EditActivity extends Activity {
     }
 
     public void deleteSubject(){
-        InterfaceUtils.getAlert(this)
+        InterfaceUtils.getAlertDelete(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

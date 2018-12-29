@@ -1,7 +1,5 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -9,8 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-public class MainActivity extends Activity {
+
+
+public class MainActivity extends AppCompatActivity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
 
@@ -48,8 +54,6 @@ public class MainActivity extends Activity {
         recyclerView = findViewById(R.id.main_recycler);
         notepadBox = findViewById(R.id.main_notepad_box);
 
-        editTextNotepad.setText(loadNotepad());
-
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_1_TO_2, 0) == 0){
@@ -61,7 +65,6 @@ public class MainActivity extends Activity {
         }
 
         goFirstChangeView(savedInstanceState);
-
         try {
             db = DatabaseUtils.getWritableDatabase(this);
             setDayOfSubject();
@@ -71,6 +74,13 @@ public class MainActivity extends Activity {
             refreshActionBarInfo();
         } catch (SQLiteException e) {
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+
+        loadNotepad();
+
+        if(CheckInformationOnline.getWifiConnecting(this)) {
+            CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
+            checkInformationOnline.execute();
         }
     }
 
@@ -84,12 +94,23 @@ public class MainActivity extends Activity {
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+        invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(isNotepadEmpty()){
+            DrawableCompat.setTint(menu.findItem(R.id.action_notepad).getIcon(), ContextCompat.getColor(this, android.R.color.darker_gray));
+        } else {
+            DrawableCompat.setTint(menu.findItem(R.id.action_notepad).getIcon(), ContextCompat.getColor(this, android.R.color.holo_red_light));
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -112,17 +133,27 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        saveNotepad();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         for (int i = 0; i < cursors.size(); i++) {
             cursors.get(i).close();
         }
         db.close();
-        saveNotepad();
     }
 
     public void ClickSetting(View v){
         Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
+    }
+
+    public void ClickStatistics(View v){
+        Intent intent = new Intent(this, StatisticsActivity.class);
         startActivity(intent);
     }
 
@@ -137,11 +168,11 @@ public class MainActivity extends Activity {
     }
 
     private void setCustomActionBar(){
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getActionBar().setDisplayShowCustomEnabled(true);
-        getActionBar().setCustomView(R.layout.action_bar_two_text);
+        getSupportActionBar().setDisplayOptions(getSupportActionBar().DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.action_bar_two_text);
 
-        TextView textViewTitle = getActionBar().getCustomView().findViewById(R.id.action_bar_two_text_title);
+        TextView textViewTitle = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_two_text_title);
         textViewTitle.setText(R.string.app_name);
     }
 
@@ -164,7 +195,7 @@ public class MainActivity extends Activity {
 
     private void setDayOfSubject(){
         Cursor cursor = db.query("SUBJECTS",
-                Subject.subjectOnCursorWithDay,
+                Subject.subjectOnCursor,
                 "DAY != ?",
                 new String[]{Integer.toString(0)},
                 null, null, null);
@@ -198,7 +229,7 @@ public class MainActivity extends Activity {
     }
 
     private void refreshActionBarInfo(){
-        textViewSecond = getActionBar().getCustomView().findViewById(R.id.action_bar_two_text_second);
+        textViewSecond = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_two_text_second);
         textViewSecond.setText(getAverage());
     }
 
@@ -206,7 +237,7 @@ public class MainActivity extends Activity {
         cursors.clear();
         for (int i = 0; i <= 7 ; i++){
             Cursor cursor = db.query("SUBJECTS",
-                    Subject.subjectOnCursorWithDay,
+                    Subject.subjectOnCursor,
                     "DAY = ?",
                     new String[]{Integer.toString(i)},
                     null, null,
@@ -220,35 +251,37 @@ public class MainActivity extends Activity {
     }
 
     private String getAverage() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        SharedPreferences settingSharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        SharedPreferences statisticsSharePreferences = getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, MODE_PRIVATE);
         float average = 0f;
+        float assessment;
         int number = 0;
+        boolean roundedAverage = settingSharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT);
         for (int i = 0; i < cursors.size(); i++) {
-            int o = 0;
             if (cursors.get(i).moveToFirst()) {
-                if (sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT)) {
-                    do {
-                        o++;
+                do {
+                    if (roundedAverage) {
+                        assessment = Subject.getOfCursor(cursors.get(i)).getRoundedAverage(settingSharedPreferences, this);
+                    } else {
+                        assessment = Subject.getOfCursor(cursors.get(i)).getAverage(this);
+                    }
+
+                    if(assessment != 0) {
                         number++;
-                        average += Subject.getOfCursor(cursors.get(i)).getRoundedAverage(sharedPreferences);
-                    } while (cursors.get(i).moveToNext());
-                } else {
-                    do {
-                        o++;
-                        number++;
-                        average += Subject.getOfCursor(cursors.get(i)).getAverage();
-                    } while (cursors.get(i).moveToNext());
-                }
+                        average += assessment;
+                    }
+                } while (cursors.get(i).moveToNext());
             }
         }
+        String subtitle = getResources().getString(R.string.statistics_semester, statisticsSharePreferences.getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER)) + getResources().getString(R.string.separation);
         if (number == 0){
-            return "0.0";
+            return subtitle + "0.0";
         }
         average = average / number;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
-            return Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
+        if (average >= settingSharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
+            return subtitle + Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
         }
-        return Float.toString(average);
+        return subtitle + Float.toString(average);
     }
 
     private void showNotepad() {
@@ -261,7 +294,7 @@ public class MainActivity extends Activity {
                     .translationY(notepadBox.getHeight() * -1 - getResources().getDimensionPixelSize(R.dimen.card_margin) * 2);
             recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
         }
-
+        invalidateOptionsMenu();
     }
 
     private void saveNotepad(){
@@ -270,9 +303,17 @@ public class MainActivity extends Activity {
         editor.apply();
     }
 
-    private String loadNotepad(){
+    private void loadNotepad(){
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        return sharedPreferences.getString(PREFERENCE_NOTEPAD, "");
+        editTextNotepad.setText(sharedPreferences.getString(PREFERENCE_NOTEPAD, ""));
+    }
+
+    private boolean isNotepadEmpty(){
+        if(editTextNotepad.getText().toString().trim().equals("")){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void database1to2 (){ // dodano w wersji 1 na 2

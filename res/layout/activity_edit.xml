@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -95,14 +95,14 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@android:drawable/ic_input_add"
+                    app:srcCompat="@android:drawable/ic_input_add"
                     android:onClick="ClickPlus"
                     style="@style/AppTheme.Button"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@android:drawable/ic_delete"
+                    app:srcCompat="@android:drawable/ic_delete"
                     android:onClick="ClickMinus"
                     style="@style/AppTheme.Button"/>
 
@@ -111,6 +111,7 @@
                     android:layout_height="match_parent"
                     android:drawableEnd="@android:drawable/ic_delete"
                     android:drawableRight="@android:drawable/ic_delete"
+                    android:drawableTint="@android:color/white"
                     android:text="@string/edit_delete_all_assessment"
                     android:onClick="ClickAllMinus"
                     style="@style/AppTheme.Button"/>
@@ -166,4 +167,4 @@
             android:text="@string/cancel"
             style="@style/AppTheme.Button"/>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
