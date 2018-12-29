@@ -1,16 +1,15 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.content.DialogInterface;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailsActivity extends Activity implements View.OnClickListener {
 
     public static final String EXTRA_ID = "id";
 
@@ -57,8 +52,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         viewNotesBox = findViewById(R.id.details_notes_box);
 
         findViewById(R.id.details_add_note).setOnClickListener(this);
-        findViewById(R.id.details_share_all_notes).setOnClickListener(this);
-        findViewById(R.id.details_delete_all_notes).setOnClickListener(this);
 
         try {
             if (!readSubject()) {
@@ -75,8 +68,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         } catch (SQLException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-
-        visibilityButtonsRelatedWithNotes();
 
         if (savedInstanceState == null || !savedInstanceState.getBoolean(BUNDLE_VISIBLE_NOTES)) showNotes();
     }
@@ -95,14 +86,11 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         }catch (SQLException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-
-        visibilityButtonsRelatedWithNotes();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.details_menu, menu);
-        DrawableCompat.setTint(menu.findItem(R.id.action_notes).getIcon(), ContextCompat.getColor(this, android.R.color.darker_gray));
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -150,14 +138,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.details_add_note:
                 goToNoteActivity(getIntent().getIntExtra(EXTRA_ID, 0), 0);
                 break;
-
-            case R.id.details_share_all_notes:
-                shareAllNotes();
-                break;
-
-            case R.id.details_delete_all_notes:
-                deleteAllNotes();
-                break;
         }
     }
 
@@ -179,9 +159,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setCustomActionBar() {
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(R.layout.action_bar_two_text);
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setCustomView(R.layout.action_bar_two_text);
     }
 
     private Boolean readSubject(){
@@ -226,7 +206,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void refreshActionBarInfo(){
-        View actionBar = getSupportActionBar().getCustomView();
+        View actionBar = getActionBar().getCustomView();
 
         TextView textViewTitle = actionBar.findViewById(R.id.action_bar_two_text_title);
         TextView textViewSecond = actionBar.findViewById(R.id.action_bar_two_text_second);
@@ -238,67 +218,13 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     private String setAverage(){
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
-            return Float.toString(subject.getAverage(this)) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences, this));
-        else
-            return Float.toString(subject.getAverage(this));
+            return Float.toString(subject.getAverage()) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences));
+        else return Float.toString(subject.getAverage());
     }
 
     private void showNotes(){
         if ((viewGroupHomeLayout.findViewById(viewNotesBox.getId()) == null)) viewGroupHomeLayout.addView(viewNotesBox, positionNoteBox);
         else viewGroupHomeLayout.removeView(viewNotesBox);
-    }
-
-    private void visibilityButtonsRelatedWithNotes(){
-        if(findViewById(R.id.details_share_all_notes) != null) {
-            if (subject.getSizeNotes(this) != 0) {
-                findViewById(R.id.details_delete_all_notes).setVisibility(View.VISIBLE);
-                findViewById(R.id.details_share_all_notes).setVisibility(View.VISIBLE);
-                findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.VISIBLE);
-                findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.VISIBLE);
-            } else {
-                findViewById(R.id.details_delete_all_notes).setVisibility(View.GONE);
-                findViewById(R.id.details_share_all_notes).setVisibility(View.GONE);
-                findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.GONE);
-                findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.GONE);
-            }
-        }
-    }
-
-    private void shareAllNotes(){
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, getShareText());
-        Intent intentChose = Intent.createChooser(intent, getString(R.string.share_title));
-        startActivity(intentChose);
-    }
-
-    private String getShareText(){
-        String string = "❗" + subject.getName() + "❗";
-        if(cursor.moveToFirst()) {
-            do {
-                SubjectNote subjectNote = SubjectNote.getOfCursor(cursor);
-                string += "\n\n✔ " + subjectNote.getName();
-                if(!subjectNote.getNote().equals("")){
-                    string += ":\n\n" + subjectNote.getNote();
-                }
-            } while (cursor.moveToNext());
-        }
-        string += getString(R.string.share_info);
-        return string;
-    }
-
-    private void deleteAllNotes(){
-        InterfaceUtils.getAlertDelete(this)
-                .setPositiveButton(R.string.yes, new androidx.appcompat.app.AlertDialog.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DatabaseUtils.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(subject.getId())}, getApplicationContext());
-                        subject.putInfoSizeNotes(getApplicationContext());
-                        refreshNotesCursor();
-                        visibilityButtonsRelatedWithNotes();
-                    }
-                })
-                .show();
     }
 
     private void goToEditActivity(int id){

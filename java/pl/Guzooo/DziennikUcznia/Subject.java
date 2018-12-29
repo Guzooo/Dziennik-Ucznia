@@ -18,27 +18,26 @@ public class Subject {
     private int id;
     private String name;
     private String teacher;
-    private ArrayList<ArrayList<Float>> assessments =  new ArrayList<> ();
+    private ArrayList<Float> assessments = new ArrayList<>();
     private int unpreparedness;
     private String description;
     private ArrayList<SubjectNote> subjectNotes = new ArrayList<>();
     private ContentValues contentValues = new ContentValues();
 
-    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "ASSESSMENTS2"};
-    private Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description, String assessments2){
+    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION"};
+    public static final String[] subjectOnCursorWithDay = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "DAY"};
+
+    private Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description){
         this.id = id;
         setName(name);
         setTeacher(teacher);
-        this.assessments.add(new ArrayList<Float>());
-        this.assessments.add(new ArrayList<Float>());
-        fromStringAssessments(0, assessments);
-        fromStringAssessments(1, assessments2);
+        fromStringAssessments(assessments);
         setUnpreparedness(unpreparedness);
         setDescription(description);
     }
 
     public static Subject newEmpty (){
-        Subject subject = new Subject (0, "", "", "", 0, "", "");
+        Subject subject = new Subject (0, "", "", "", 0, "");
         subject.contentValues.put("NOTES", 0);
         subject.contentValues.put("DAY", 0);
         return subject;
@@ -50,8 +49,7 @@ public class Subject {
                 cursor.getString(2),
                 cursor.getString(3),
                 cursor.getInt(4),
-                cursor.getString(5),
-                cursor.getString(6));
+                cursor.getString(5));
     }
 
     public static Subject getOfId (int id, Context context){
@@ -80,8 +78,7 @@ public class Subject {
         newSubject.setTeacher(subject.getTeacher());
         newSubject.setUnpreparedness(subject.getUnpreparedness());
         newSubject.setDescription(subject.getDescription());
-        newSubject.fromStringAssessments(0, subject.toStringAssessments(0));
-        newSubject.fromStringAssessments(1, subject.toStringAssessments(1));
+        newSubject.fromStringAssessments(subject.toStringAssessments());
         return newSubject;
     }
 
@@ -140,7 +137,7 @@ public class Subject {
         String[] strings =  object.split("©");
         setName(strings[0]);
         setTeacher(strings[1]);
-        fromStringAssessments(0, strings[2]);
+        fromStringAssessments(strings[2]);
         setDescription(strings[3]);
         fromStringSubjectNotes(strings[4]);
         setUnpreparedness(Integer.parseInt(strings[15]));
@@ -163,8 +160,7 @@ public class Subject {
 
         contentValues.put("NAME", getName());
         contentValues.put("TEACHER", getTeacher());
-        contentValues.put("ASSESSMENTS", toStringAssessments(0));
-        contentValues.put("ASSESSMENTS2", toStringAssessments(1));
+        contentValues.put("ASSESSMENTS", toStringAssessments());
         contentValues.put("UNPREPAREDNESS", getUnpreparedness());
         contentValues.put("DESCRIPTION", getDescription());
         contentValues.put("NOTES", getSizeNotes(context));
@@ -181,46 +177,19 @@ public class Subject {
         return name;
     }
 
-    public float getAverage(int num){
+    public float getAverage(){
         float average = 0;
-        if(assessments.get(num).size() > 0) {
-            for (int i = 0; i < assessments.get(num).size(); i++) {
-                average += assessments.get(num).get(i);
+        if(assessments.size() > 0) {
+            for (int i = 0; i < assessments.size(); i++) {
+                average += assessments.get(i);
             }
-            average = average / assessments.get(num).size();
+            average = average / assessments.size();
         }
         return average;
     }
 
-    public float getAverage(Context context){
-        float average = 0;
-        if(getAssessments(context).size() > 0) {
-            for (int i = 0; i < getAssessments(context).size(); i++) {
-                average += getAssessments(context).get(i);
-            }
-            average = average / getAssessments(context).size();
-        }
-        return average;
-    }
-
-    public float getAverageEnd(){
-        float semesterI = getAverage(0);
-        float semesterII = getAverage(1);
-
-        if(semesterI == 0)
-            return semesterII;
-
-        if(semesterII == 0)
-            return semesterI;
-
-        return (semesterI + semesterII) / 2;
-    }
-
-    public int getRoundedAverage(SharedPreferences sharedPreferences, Context context){
-        float average = getAverage(context);
-        if(average == 0){
-            return 0;
-        }
+    public int getRoundedAverage(SharedPreferences sharedPreferences){
+        float average = getAverage();
         int roundedAverage;
         if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.DEFAULT_AVERAGE_TO_SIX)){
             roundedAverage = 6;
@@ -236,40 +205,6 @@ public class Subject {
             roundedAverage = 1;
         }
         return roundedAverage;
-    }
-
-    public int getRoundedAverage(SharedPreferences sharedPreferences, int num){
-        float average = getAverage(num);
-        if(average == 0){
-            return 0;
-        }
-        int roundedAverage;
-        if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.DEFAULT_AVERAGE_TO_SIX)){
-            roundedAverage = 6;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FIVE, SettingActivity.DEFAULT_AVERAGE_TO_FIVE)){
-            roundedAverage = 5;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FOUR, SettingActivity.DEFAULT_AVERAGE_TO_FOUR)){
-            roundedAverage = 4;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_THREE, SettingActivity.DEFAULT_AVERAGE_TO_THREE)){
-            roundedAverage = 3;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_TWO, SettingActivity.DEFAULT_AVERAGE_TO_TWO)){
-            roundedAverage = 2;
-        } else {
-            roundedAverage = 1;
-        }
-        return roundedAverage;
-    }
-    public float getRoundedAverageEnd(SharedPreferences sharedPreferences){
-        int semesterI = getRoundedAverage(sharedPreferences, 0);
-        int semesterII = getRoundedAverage(sharedPreferences, 1);
-
-        if(semesterI == 0)
-            return semesterII;
-
-        if(semesterII == 0)
-            return semesterI;
-
-        return (getRoundedAverage(sharedPreferences, 0) + getRoundedAverage(sharedPreferences, 1)) / 2;
     }
 
     public String getTeacher() {
@@ -278,9 +213,9 @@ public class Subject {
 
     public String getStringAssessments(Context context){
         String assessmentsString = "";
-        if(getAssessments(context).size() > 0) {
-            for (int i = 0; i < getAssessments(context).size(); i++) {
-                assessmentsString += Float.toString(getAssessments(context).get(i)) + " ";
+        if(assessments.size() > 0) {
+            for (int i = 0; i < assessments.size(); i++) {
+                assessmentsString += Float.toString(assessments.get(i)) + " ";
             }
         } else {
             assessmentsString = context.getResources().getString(R.string.null_string);
@@ -288,8 +223,8 @@ public class Subject {
         return assessmentsString;
     }
 
-    public ArrayList<Float> getAssessments(Context context){
-        return assessments.get(context.getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, Context.MODE_PRIVATE).getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER) -1);
+    public ArrayList<Float> getAssessments(){
+        return assessments;
     }
 
     public int getUnpreparedness(){
@@ -331,32 +266,29 @@ public class Subject {
         contentValues.put("DESCRIPTION", getDescription());
     }
 
-    private String toStringAssessments(int num){
+    private String toStringAssessments(){
         String string = "";
-        for (int i = 0; i < assessments.get(num).size(); i++) {
-            string += Float.toString(assessments.get(num).get(i)) + "®";
+        for (int i = 0; i < assessments.size(); i++) {
+            string += Float.toString(assessments.get(i)) + "®";
         }
         return string;
     }
 
-    private void fromStringAssessments(int num, String assessments){
+    private void fromStringAssessments(String assessments){
         if(!assessments.equals("")) {
             String[] strings = assessments.split("®");
             for (int i = 0; i < strings.length; i++) {
-                this.assessments.get(num).add(Float.parseFloat(strings[i]));
+                this.assessments.add(Float.parseFloat(strings[i]));
             }
         }
-        contentValues.put("ASSESSMENTS", toStringAssessments(0));
-        contentValues.put("ASSESSMENTS2", toStringAssessments(1));
+        contentValues.put("ASSESSMENTS", toStringAssessments());
     }
 
     public void addAssessment(String string, Context context){
-        if (string.equals(""))
-            Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
+        if (string.equals("")) Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         else {
-            getAssessments(context).add(Float.parseFloat(string));
-            contentValues.put("ASSESSMENTS", toStringAssessments(0));
-            contentValues.put("ASSESSMENTS2", toStringAssessments(1));
+            getAssessments().add(Float.parseFloat(string));
+            contentValues.put("ASSESSMENTS", toStringAssessments());
         }
     }
 
@@ -366,14 +298,9 @@ public class Subject {
             return;
         }
         Float assessment = Float.parseFloat(string);
-        if (getAssessments(context).size() == 0)
-            Toast.makeText(context, R.string.subject_null_assessments, Toast.LENGTH_SHORT).show();
-        else if (!getAssessments(context).remove(assessment))
-            Toast.makeText(context, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
-        else {
-            contentValues.put("ASSESSMENTS", toStringAssessments(0));
-            contentValues.put("ASSESSMENTS2", toStringAssessments(1));
-        }
+        if (getAssessments().size() == 0) Toast.makeText(context, R.string.subject_null_assessments, Toast.LENGTH_SHORT).show();
+        else if (!getAssessments().remove(assessment)) Toast.makeText(context, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
+        else contentValues.put("ASSESSMENTS", toStringAssessments());
     }
 
     private void fromStringSubjectNotes(String subjectNotes) { //old method z 1 na 2

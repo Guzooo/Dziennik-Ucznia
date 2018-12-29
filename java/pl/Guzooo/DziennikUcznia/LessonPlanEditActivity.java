@@ -1,5 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,10 +19,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class LessonPlanEditActivity extends AppCompatActivity {
+public class LessonPlanEditActivity extends Activity {
 
     public static final String EXTRA_ID = "id";
 
@@ -193,11 +192,11 @@ public class LessonPlanEditActivity extends AppCompatActivity {
 
         editTextClassroom.setText(subjectPlan.getClassroom());
         buttonSave.setText(R.string.save);
-        getSupportActionBar().setTitle(R.string.lesson_plan_edit);
+        getActionBar().setTitle(R.string.lesson_plan_edit);
     }
 
     private void deletePlan(){
-        InterfaceUtils.getAlertDelete(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
