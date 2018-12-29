@@ -1,5 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,10 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends Activity {
 
     public static final String PREFERENCE_NAME = "averageto";
     public static final String PREFERENCE_AVERAGE_TO_ASSESSMENT = "averagetoassessment";
@@ -118,7 +117,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void ClickDestroyAllSubjects(View v){
-        InterfaceUtils.getAlertDelete(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -134,7 +133,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void ClickDestroyAllNotes(View v){
-        InterfaceUtils.getAlertDelete(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -149,8 +148,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void ClickDestroyAllPlanLesson(View v){
-        InterfaceUtils.getAlertDelete(this)
-                .setPositiveButton(R.string.yes, new androidx.appcompat.app.AlertDialog.OnClickListener() {
+        InterfaceUtils.getAlert(this)
+                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (DatabaseUtils.destroyAllLessonPlan(getApplicationContext())) {

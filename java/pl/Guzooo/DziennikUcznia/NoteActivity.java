@@ -1,5 +1,8 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
@@ -10,16 +13,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class NoteActivity extends AppCompatActivity {
+public class NoteActivity extends Activity {
 
     public static final String EXTRA_ID_NOTE = "idnote";
     public static final String EXTRA_ID_SUBJECT = "idsubject";
-
-//    private final int NOTIFICATION_ID = 035;
 
     private EditText editTextTitle;
     private EditText editTextNote;
@@ -61,10 +58,6 @@ public class NoteActivity extends AppCompatActivity {
                 shareNote();
                 return true;
 
-            /*case R.id.action_pin:
-                pinNote();
-                return true;*/
-
             case  R.id.action_trash:
                 deleteNote();
                 return true;
@@ -103,11 +96,11 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void setCustomActionBar(){
-        getSupportActionBar().setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(R.layout.action_bar_edit_text);
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setCustomView(R.layout.action_bar_edit_text);
 
-        editTextTitle = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_edit_text_title);
+        editTextTitle = getActionBar().getCustomView().findViewById(R.id.action_bar_edit_text_title);
         editTextTitle.setHint(R.string.note_hint_name);
     }
 
@@ -133,30 +126,13 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private String getShareText(){
-        String string = "❗" + Subject.getOfId(subjectNote.getIdSubject(), this).getName() + "❗\n\n✔ " + editTextTitle.getText().toString().trim();
+        String string = editTextTitle.getText().toString().trim();
         if(!editTextNote.getText().toString().trim().equals("")){
-            string += ":\n\n" + editTextNote.getText().toString().trim();
+            string += "\n\n" + editTextNote.getText().toString().trim();
         }
         string += getString(R.string.share_info);
         return string;
     }
-
-   /* private void pinNote(){
-        Notification.Builder builder = null;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //builder = new Notification.Builder(this, CHANEL_ID);
-        }else {
-            builder = new Notification.Builder(this);
-        }
-        Notification notification = builder
-                .setSmallIcon(R.drawable.ic_pin)
-                .setContentTitle(Subject.getOfId(subjectNote.getIdSubject(), this).getName() + " - " + editTextTitle.getText().toString().trim())
-                .setContentText(editTextNote.getText().toString().trim())
-                .setPriority(Notification.PRIORITY_MAX)
-                .build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_ID, notification);
-    }*/
 
     private void saveNote(){
         subjectNote.setName(editTextTitle.getText().toString().trim());
@@ -171,7 +147,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void deleteNote(){
-        InterfaceUtils.getAlertDelete(this)
+        InterfaceUtils.getAlert(this)
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
