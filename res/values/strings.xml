@@ -7,6 +7,7 @@
     <string name="lesson_plan">Plan Lekcji</string>
     <string name="lesson_plan_add">Dodawanie Planu Lekcji</string>
     <string name="lesson_plan_edit">Edycja Planu Lekcji</string>
+    <string name="statistics">Statystyki</string>
     <string name="setting">Ustawienia:</string>
 
     <string name="error_database">Błąd bazy danych</string>
@@ -63,7 +64,11 @@
     <string name="notes">Ilość notatek: %1$d</string>
     <string name="unpreparedness">NP: %1$d</string>
 
-    <string name="details_add_note">+ Dodaj notatkę</string>
+    <string name="information_window_message_from_creator">Wiadomość od twórcy:</string>
+    <string name="information_window_update">Aktualizuj</string>
+    <string name="information_window_available_update">Dostępna aktualizacja</string>
+    <string name="information_window_recommended_update">Zalecana aktualizacja</string>
+
     <string name="details_minus_unpreparedness">-1NP</string>
     <string name="details_description">Opis:</string>
 
@@ -81,6 +86,7 @@
     <string name="note_hint_name">Wpisz nazwę notatki</string>
     <string name="note_hint_description">Wpisz treść notatki</string>
     <string name="note_null">Notatka nie jest uzupełniona</string>
+    <string name="note_action_pin">Przypnij notatke</string>
 
     <string name="plan_null_plan">Nie masz jeszcze planu lekcji\nDotknij plusa poniżej by dodać plan lekcji</string>
 
@@ -89,7 +95,13 @@
     <string name="plan_edit_hint_classroom">Wpisz klasę w której odbędą się zajęcia</string>
     <string name="plan_edit_hint_subject">Wybierz przedmiot</string>
     <string name="plan_edit_null_subject">Nie masz jeszcze przedmiotów\nBy dodać plan, cofnij się i utwórz przedmiot</string>
-    
+
+    <string name="statistics_semester">Semestr: %1$d</string>
+    <string name="statistics_semester_end">Średnia końcowa</string>
+    <string name="statistics_select_semester">Wybierz semestr:</string>
+    <string name="statistics_beta">Wciąż jest to wersja BETA więc zmiana semestru nie przywróci początkowej ilości nieprzygotowań</string>
+    <string name="statistics_coming_soon">W tym miejscu wkrótce pojawią się informacje na temat ilości poszczególnych ocen, przedmioty z których średnia jest niewystarczająca oraz inne przydatne dane.\nJeśli masz jakieś ciekawe pomysły pisz! ⬇</string>
+
     <string name="setting_facebook">Sprawdź fanpage\nFacebook</string>
     <string name="setting_messenger">Zaproponuj zmiany\nMessenger</string>
     <string name="setting_average_to_assessment">Przeliczaj średnie na oceny</string>

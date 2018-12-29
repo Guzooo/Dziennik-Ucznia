@@ -1,18 +1,19 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
-public class LessonPlanActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class LessonPlanActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
