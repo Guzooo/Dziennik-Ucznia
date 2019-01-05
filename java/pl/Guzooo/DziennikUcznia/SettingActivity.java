@@ -43,9 +43,6 @@ public class SettingActivity extends AppCompatActivity {
     private EditText editTextAverageToTwo;
     private EditText editTextAverageToBelt;
 
-    private View viewAverageToAssessmentBox;
-
-    private final int positionAverageToAssessmentBox = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +65,7 @@ public class SettingActivity extends AppCompatActivity {
         editTextAverageToTwo.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_TWO, DEFAULT_AVERAGE_TO_TWO)));
         editTextAverageToBelt.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_BELT, DEFAULT_AVERAGE_TO_BELT)));
 
-        viewAverageToAssessmentBox = findViewById(R.id.setting_average_to_assessment_box);
-
-        ClickCheckAverageToAssessment(checkBoxAverageToAssessment);
+        ClickCheckAverageToAssessment(null);
     }
 
     @Override
@@ -109,12 +104,10 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void ClickCheckAverageToAssessment(View v){
-        ViewGroup viewGroup = findViewById(R.id.setting_home_layout);
-        if(checkBoxAverageToAssessment.isChecked() && viewGroup.findViewById(viewAverageToAssessmentBox.getId()) == null){
-            viewGroup.addView(viewAverageToAssessmentBox, positionAverageToAssessmentBox);
-        } else if(!checkBoxAverageToAssessment.isChecked()) {
-            viewGroup.removeView(viewAverageToAssessmentBox);
-        }
+        if(checkBoxAverageToAssessment.isChecked())
+            findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.setting_average_to_assessment_box).setVisibility(View.GONE);
     }
 
     public void ClickDestroyAllSubjects(View v){
