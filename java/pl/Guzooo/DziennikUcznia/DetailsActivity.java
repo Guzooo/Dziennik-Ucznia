@@ -68,7 +68,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
             refreshNotesCursor();
             setAdapter();
-            setCustomActionBar();
             refreshActionBarInfo();
         } catch (SQLException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
@@ -177,12 +176,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
     }
 
-    private void setCustomActionBar() {
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(R.layout.action_bar_two_text);
-    }
-
     private Boolean readSubject(){
         subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
 
@@ -225,13 +218,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void refreshActionBarInfo(){
-        View actionBar = getSupportActionBar().getCustomView();
-
-        TextView textViewTitle = actionBar.findViewById(R.id.action_bar_two_text_title);
-        TextView textViewSecond = actionBar.findViewById(R.id.action_bar_two_text_second);
-
-        textViewTitle.setText(subject.getName());
-        textViewSecond.setText(setAverage());
+        getSupportActionBar().setTitle(subject.getName());
+        getSupportActionBar().setSubtitle(setAverage());
     }
 
     private String setAverage(){

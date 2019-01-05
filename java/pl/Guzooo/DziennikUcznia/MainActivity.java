@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -70,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
             setDayOfSubject();
             refreshSubjectsCursors();
             setAdapter();
-            setCustomActionBar();
             refreshActionBarInfo();
         } catch (SQLiteException e) {
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
@@ -167,15 +167,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setCustomActionBar(){
-        getSupportActionBar().setDisplayOptions(getSupportActionBar().DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(R.layout.action_bar_two_text);
-
-        TextView textViewTitle = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_two_text_title);
-        textViewTitle.setText(R.string.app_name);
-    }
-
     private void goFirstChangeView(final Bundle bundle){
         ViewTreeObserver viewTreeObserver = recyclerView.getViewTreeObserver();
 
@@ -229,8 +220,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshActionBarInfo(){
-        textViewSecond = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_two_text_second);
-        textViewSecond.setText(getAverage());
+        getSupportActionBar().setSubtitle(getAverage());
     }
 
     private void refreshSubjectsCursors(){
