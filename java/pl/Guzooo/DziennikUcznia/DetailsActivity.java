@@ -34,7 +34,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     private EditText editTextAssessment;
     private TextView textViewAssessment;
     private TextView textViewUnpreparedness;
-    private ViewGroup viewGroupHomeLayout;
 
     private SQLiteDatabase db;
     private Cursor cursor;
@@ -53,7 +52,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         textViewAssessment = findViewById(R.id.details_assessment);
         textViewUnpreparedness = findViewById(R.id.details_unpreparedness);
 
-        viewGroupHomeLayout = findViewById(R.id.details_home_layout);
         viewNotesBox = findViewById(R.id.details_notes_box);
 
         findViewById(R.id.details_add_note).setOnClickListener(this);
@@ -78,7 +76,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         visibilityButtonsRelatedWithNotes();
 
-        if (savedInstanceState == null || !savedInstanceState.getBoolean(BUNDLE_VISIBLE_NOTES)) showNotes();
+        if (savedInstanceState == null || !savedInstanceState.getBoolean(BUNDLE_VISIBLE_NOTES))
+            showNotes();
     }
 
     @Override
@@ -126,7 +125,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(BUNDLE_VISIBLE_NOTES, (viewGroupHomeLayout.findViewById(viewNotesBox.getId()) != null));
+        outState.putBoolean(BUNDLE_VISIBLE_NOTES, (viewNotesBox.getVisibility() == View.VISIBLE));
     }
 
     @Override
@@ -244,23 +243,23 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void showNotes(){
-        if ((viewGroupHomeLayout.findViewById(viewNotesBox.getId()) == null)) viewGroupHomeLayout.addView(viewNotesBox, positionNoteBox);
-        else viewGroupHomeLayout.removeView(viewNotesBox);
+        if (viewNotesBox.getVisibility() == View.VISIBLE)
+            viewNotesBox.setVisibility(View.GONE);
+        else
+            viewNotesBox.setVisibility(View.VISIBLE);
     }
 
     private void visibilityButtonsRelatedWithNotes(){
-        if(findViewById(R.id.details_share_all_notes) != null) {
-            if (subject.getSizeNotes(this) != 0) {
-                findViewById(R.id.details_delete_all_notes).setVisibility(View.VISIBLE);
-                findViewById(R.id.details_share_all_notes).setVisibility(View.VISIBLE);
-                findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.VISIBLE);
-                findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.VISIBLE);
-            } else {
-                findViewById(R.id.details_delete_all_notes).setVisibility(View.GONE);
-                findViewById(R.id.details_share_all_notes).setVisibility(View.GONE);
-                findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.GONE);
-                findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.GONE);
-            }
+        if (subject.getSizeNotes(this) != 0) {
+            findViewById(R.id.details_delete_all_notes).setVisibility(View.VISIBLE);
+            findViewById(R.id.details_share_all_notes).setVisibility(View.VISIBLE);
+            findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.VISIBLE);
+            findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.details_delete_all_notes).setVisibility(View.GONE);
+            findViewById(R.id.details_share_all_notes).setVisibility(View.GONE);
+            findViewById(R.id.details_separator_next_delete_all_notes).setVisibility(View.GONE);
+            findViewById(R.id.details_separator_next_share_all_notes).setVisibility(View.GONE);
         }
     }
 
