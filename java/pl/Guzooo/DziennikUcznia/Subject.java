@@ -292,6 +292,11 @@ public class Subject {
         return assessments.get(context.getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, Context.MODE_PRIVATE).getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER) -1);
     }
 
+    public void getAssessmentsUpdateContentValues(){
+        contentValues.put("ASSESSMENTS", toStringAssessments(0));
+        contentValues.put("ASSESSMENTS2", toStringAssessments(1));
+    }
+
     public int getUnpreparedness(){
         return unpreparedness;
     }

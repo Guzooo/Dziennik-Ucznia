@@ -83,6 +83,7 @@ public class EditActivity extends AppCompatActivity {
     public void ClickAllMinus(View v){
         subject.getAssessments(this).clear();
         textViewEditAssessment.setText(subject.getStringAssessments(this));
+        subject.getAssessmentsUpdateContentValues();
     }
 
     public void ClickDuplicateSubject(View v){
