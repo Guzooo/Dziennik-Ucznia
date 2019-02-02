@@ -45,7 +45,7 @@
         <item>@string/sunday</item>
     </string-array>
 
-    <string name="separation">\ |\ </string>
+    <string name="separation">\ \u2022 \ </string>
 
     <string name="menu_trash">Usuń</string>
     <string name="menu_edit">Edytuj</string>

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -251,9 +252,9 @@ public class MainActivity extends AppCompatActivity {
             if (cursors.get(i).moveToFirst()) {
                 do {
                     if (roundedAverage) {
-                        assessment = Subject.getOfCursor(cursors.get(i)).getRoundedAverage(settingSharedPreferences, this);
+                        assessment = Subject.getOfCursor(cursors.get(i)).getRoundedAverageEnd(settingSharedPreferences);
                     } else {
-                        assessment = Subject.getOfCursor(cursors.get(i)).getAverage(this);
+                        assessment = Subject.getOfCursor(cursors.get(i)).getAverageEnd();
                     }
 
                     if(assessment != 0) {
@@ -263,15 +264,16 @@ public class MainActivity extends AppCompatActivity {
                 } while (cursors.get(i).moveToNext());
             }
         }
-        String subtitle = getResources().getString(R.string.statistics_semester, statisticsSharePreferences.getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER)) + getResources().getString(R.string.separation);
+        String subtitle = getResources().getString(R.string.statistics_semester, statisticsSharePreferences.getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER)) + getResources().getString(R.string.separation) + getResources().getString(R.string.statistics_semester_end) + ": ";
         if (number == 0){
             return subtitle + "0.0";
         }
         average = average / number;
+        String strAverage = String.format(Locale.US, "%.2f", average);
         if (average >= settingSharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
-            return subtitle + Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
+            return subtitle + strAverage + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
         }
-        return subtitle + Float.toString(average);
+        return subtitle + strAverage;
     }
 
     private void showNotepad() {
