@@ -1,9 +1,14 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.strictmode.ResourceMismatchViolation;
+import android.view.Display;
 
 public class HelperDatabase extends SQLiteOpenHelper {
 
@@ -56,8 +61,39 @@ public class HelperDatabase extends SQLiteOpenHelper {
             
             db.update("SUBJECTS", updateDatabase2to3(), null, null);
         }
+        if(oldVersion < 4){
+            db.execSQL("CREATE TABLE ASSESSMENTS (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "ASSESSMENT REAL,"
+                    + "NOTE TEXT,"
+                    + "SEMESTER INTEGER,"
+                    + "TAB_SUBJECT INTEGER,"
+                    + "TAB_CATEGORY_ASSESSMENT)");
+
+            db.execSQL("CREATE TABLE CATEGORY_ASSESSMENT (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "NAME TEXT,"
+                    + "COLOR TEXT)");
+
+            CreateDefaultCategoryOfAssessment();
+        }
     }
-    
+
+    public void CreateDefaultCategoryOfAssessment(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("CATEGORY_ASSESSMENT", null, null);
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(Resources.getSystem().getResourceName(R.string.category_of_assessment_test), "#ff0000"));
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(Resources.getSystem().getResourceName(R.string.category_of_assessment_answer), "#006399"));
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(Resources.getSystem().getResourceName(R.string.category_of_assessment_homework), "#00ff11"));
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(Resources.getSystem().getResourceName(R.string.category_of_assessment_quiz), "#ff0000"));
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(Resources.getSystem().getResourceName(R.string.category_of_assessment_default), "#000000"));
+    }
+
+    private ContentValues ModelCategoryOfAssessment(String name, String color){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("NAME", name);
+        contentValues.put("COLOR", color);
+        return contentValues;
+    }
+
     private ContentValues updateDatabase2to3(){
         ContentValues contentValues = new ContentValues();
         contentValues.put("ASSESSMENTS2", "");

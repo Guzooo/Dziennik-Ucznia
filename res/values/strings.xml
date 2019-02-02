@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Dziennik Ucznia</string>
-    <string name="app_G">© Guzooo 2018</string>
+    <string name="app_G">© Guzooo 2018 - 2019</string>
 
     <string name="add_subject">Dodawanie Przedmiotu</string>
     <string name="edit_subject">Edytowanie Przedmiotu</string>
@@ -68,6 +68,12 @@
     <string name="information_window_update">Aktualizuj</string>
     <string name="information_window_available_update">Dostępna aktualizacja</string>
     <string name="information_window_recommended_update">Zalecana aktualizacja</string>
+
+    <string name="category_of_assessment_test">Sprawdzian</string>
+    <string name="category_of_assessment_quiz">Kartkówka</string>
+    <string name="category_of_assessment_answer">Odpowiedź</string>
+    <string name="category_of_assessment_homework">Praca Domowa</string>
+    <string name="category_of_assessment_default">Domyślna</string>
 
     <string name="details_minus_unpreparedness">-1NP</string>
     <string name="details_description">Opis:</string>
