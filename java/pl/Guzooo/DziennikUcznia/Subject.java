@@ -269,7 +269,7 @@ public class Subject {
         if(semesterII == 0)
             return semesterI;
 
-        return (getRoundedAverage(sharedPreferences, 0) + getRoundedAverage(sharedPreferences, 1)) / 2;
+        return (semesterI + semesterII) / 2;
     }
 
     public String getTeacher() {
@@ -290,6 +290,10 @@ public class Subject {
 
     public ArrayList<Float> getAssessments(Context context){
         return assessments.get(context.getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, Context.MODE_PRIVATE).getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER) -1);
+    }
+
+    public ArrayList<Float> getAssessment(int i){
+        return assessments.get(i);
     }
 
     public void getAssessmentsUpdateContentValues(){

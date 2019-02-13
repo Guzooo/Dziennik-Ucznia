@@ -41,8 +41,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
     private View viewNotesBox;
 
-    private final int positionNoteBox = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

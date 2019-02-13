@@ -1,5 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     //preference for errors and new save
     private final String PREFERENCE_DATABASE_1_TO_2 = "database1to2";
     private final String PREFERENCE_ERROR_VERSION_0_2_5 = "errorversion0.2.5";
+    private final String PREFERENCE_DATABASE_3_TO_4 = "database1to2";
 
     private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
 
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private AdapterSubjectCardView adapter;
 
-    private TextView textViewSecond;
     private EditText editTextNotepad;
     private View notepadBox;
     private RecyclerView recyclerView;
@@ -64,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(sharedPreferences.getInt(PREFERENCE_ERROR_VERSION_0_2_5, 0) == 0){
             errorSaveSubjectOfVersion0_2_5();
+        }
+
+        if(sharedPreferences.getInt(PREFERENCE_DATABASE_3_TO_4, 0) == 0){
+            Log.d("Przed 3to$","heloł");
+            database3to4();
         }
 
         goFirstChangeView(savedInstanceState);
@@ -363,5 +369,68 @@ public class MainActivity extends AppCompatActivity {
         } catch (SQLiteException e){
             Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void database3to4 (){ //dodano w wersji 6 na 7
+        try {
+            Log.d("3to4", "heloł");
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+
+            createDefaultCategoryOfAssessment(db);
+
+            Cursor cursor = db.query("SUBJECTS",
+                    Subject.subjectOnCursor,
+                    null, null, null, null, null);
+            if(cursor.moveToFirst()){
+                do {
+                    Subject subject = Subject.getOfCursor(cursor);
+                    ArrayList<Float> assessment = subject.getAssessment(0);
+
+                    for(int i = 0; i < assessment.size(); i++){
+                        db.insert("ASSESSMENTS", null, AssessmentContent(assessment.get(i), 1, subject.getId()));
+                    }
+                    assessment = subject.getAssessment(1);
+
+                    for(int i = 0; i < assessment.size(); i++){
+                        db.insert("ASSESSMENTS", null, AssessmentContent(assessment.get(i), 2, subject.getId()));
+                    }
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            db.close();
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putInt(PREFERENCE_DATABASE_3_TO_4, 1);
+            editor.apply();
+        } catch (SQLiteException e){
+            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private ContentValues AssessmentContent(float assessment, int semester, int subject){
+        Log.d("Tworzę ocenkę", "Ta ocenka to: " + assessment + ", jest ona dodana do semestru: " + semester + ", i należy do przedmiotu o numerze: " + subject);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("ASSESSMENT", assessment);
+        contentValues.put("NOTE", "");
+        contentValues.put("SEMESTER", semester);
+        contentValues.put("TAB_SUBJECT", subject);
+        contentValues.put("TAB_CATEGORY_ASSESSMENT", 1);
+        return contentValues;
+    }
+
+    private void createDefaultCategoryOfAssessment(SQLiteDatabase db){
+        db.delete("CATEGORY_ASSESSMENT", null, null);
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_default), "#000000"));
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_test), "#ff0000"));
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_answer), "#006399"));
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_homework), "#00ff11"));
+        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_quiz), "#ff0000"));
+    }
+
+    private ContentValues ModelCategoryOfAssessment(String name, String color){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("NAME", name);
+        contentValues.put("COLOR", color);
+        return contentValues;
     }
 }
