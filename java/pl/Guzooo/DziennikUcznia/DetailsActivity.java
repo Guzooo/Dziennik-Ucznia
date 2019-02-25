@@ -19,6 +19,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -222,10 +225,16 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
     private String setAverage(){
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+
+        ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, this);
+        ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, this);
+
+        float average = subject.getAverageEnd(assessments1, assessments2);
+        String strAverage = getResources().getString(R.string.statistics_semester_end) + ": " + String.format(Locale.US, "%.2f", average);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
-            return Float.toString(subject.getAverage(subject.getAssessment(StatisticsActivity.getSemester(this), this))) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(subject.getAssessment(StatisticsActivity.getSemester(this),this),sharedPreferences));
+            return strAverage + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverageEnd(assessments1, assessments2,sharedPreferences));
         else
-            return Float.toString(subject.getAverage(subject.getAssessment(StatisticsActivity.getSemester(this), this)));
+            return strAverage;
     }
 
     private void showNotes(){

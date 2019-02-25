@@ -234,7 +234,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String getAverage() {
         SharedPreferences settingSharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
-        SharedPreferences statisticsSharePreferences = getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, MODE_PRIVATE);
         float average = 0f;
         float assessment;
         int number = 0;
@@ -258,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
                 } while (cursors.get(i).moveToNext());
             }
         }
-        String subtitle = getResources().getString(R.string.statistics_semester, statisticsSharePreferences.getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER)) + getResources().getString(R.string.separation) + getResources().getString(R.string.statistics_semester_end) + ": ";
+        String subtitle = getResources().getString(R.string.statistics_semester, StatisticsActivity.getSemester(this)) + getResources().getString(R.string.separation) + getResources().getString(R.string.statistics_semester_end) + ": ";
         if (number == 0){
             return subtitle + "0.0";
         }
