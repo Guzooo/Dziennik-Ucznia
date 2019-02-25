@@ -159,13 +159,13 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
     public void ClickPlus(View v){
         subject.addAssessment(editTextAssessment.getText().toString().trim(), this);
-        textViewAssessment.setText(subject.getStringAssessments(this));
+        textViewAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
         refreshActionBarInfo();
     }
 
     public void ClickMinus(View v){
         subject.removeAssessment(editTextAssessment.getText().toString().trim(), this);
-        textViewAssessment.setText(subject.getStringAssessments(this));
+        textViewAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
         refreshActionBarInfo();
     }
 
@@ -183,7 +183,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         TextView textViewDescription = findViewById(R.id.details_description);
 
         textViewTeacher.setText(subject.getTeacher());
-        textViewAssessment.setText(subject.getStringAssessments(this));
+        textViewAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
         textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
         textViewDescription.setText(subject.getDescription());
 
@@ -223,9 +223,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     private String setAverage(){
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
-            return Float.toString(subject.getAverage(this)) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(sharedPreferences, this));
+            return Float.toString(subject.getAverage(subject.getAssessment(StatisticsActivity.getSemester(this), this))) + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverage(subject.getAssessment(StatisticsActivity.getSemester(this),this),sharedPreferences));
         else
-            return Float.toString(subject.getAverage(this));
+            return Float.toString(subject.getAverage(subject.getAssessment(StatisticsActivity.getSemester(this), this)));
     }
 
     private void showNotes(){

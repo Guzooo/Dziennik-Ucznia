@@ -6,23 +6,19 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private final String PREFERENCE_NOTEPAD = "notepad";
 
     //preference for errors and new save
-    private final String PREFERENCE_DATABASE_1_TO_2 = "database1to2";
-    private final String PREFERENCE_ERROR_VERSION_0_2_5 = "errorversion0.2.5";
     private final String PREFERENCE_DATABASE_3_TO_4 = "database1to2";
 
     private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
@@ -59,16 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
-        if(sharedPreferences.getInt(PREFERENCE_DATABASE_1_TO_2, 0) == 0){
-            database1to2();
-        }
-
-        if(sharedPreferences.getInt(PREFERENCE_ERROR_VERSION_0_2_5, 0) == 0){
-            errorSaveSubjectOfVersion0_2_5();
-        }
-
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_3_TO_4, 0) == 0){
-            Log.d("Przed 3to$","heloł");
             database3to4();
         }
 
@@ -257,10 +242,13 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < cursors.size(); i++) {
             if (cursors.get(i).moveToFirst()) {
                 do {
+                    Subject subject = Subject.getOfCursor(cursors.get(i));
+                    ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, this);
+                    ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, this);
                     if (roundedAverage) {
-                        assessment = Subject.getOfCursor(cursors.get(i)).getRoundedAverageEnd(settingSharedPreferences);
+                        assessment = subject.getRoundedAverageEnd(assessments1, assessments2, settingSharedPreferences);
                     } else {
-                        assessment = Subject.getOfCursor(cursors.get(i)).getAverageEnd();
+                        assessment = subject.getAverageEnd(assessments1, assessments2);
                     }
 
                     if(assessment != 0) {
@@ -314,66 +302,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void database1to2 (){ // dodano w wersji 1 na 2
-        try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(MainActivity.this);
-            SQLiteDatabase db = openHelper.getWritableDatabase();
-            Cursor cursor = db.query("SUBJECTS",
-                    new String[]{"_id", "OBJECT"},
-                    null, null, null, null, null);
-            if(cursor.moveToFirst()){
-                do{
-                    Subject subject = new Subject(cursor.getString(1), cursor.getInt(0));
-
-                    for(int i = 0; i < subject.getSubjectNotes().size(); i++){
-                        db.insert("NOTES", null, subject.getSubjectNotes().get(i).saveSubjectNote());
-                    }
-
-                    db.update("SUBJECTS",
-                            subject.saveSubject(getApplicationContext()),
-                            "_id = ?",
-                            new String[] {Integer.toString(cursor.getInt(0))});
-
-                }while (cursor.moveToNext());
-            }
-            cursor.close();
-            db.close();
-            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putInt(PREFERENCE_DATABASE_1_TO_2, 1);
-            editor.apply();
-        } catch (SQLiteException e){
-            Toast.makeText(MainActivity.this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void errorSaveSubjectOfVersion0_2_5 (){ // dodano w wersji 4 na 5
-        try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(this);
-            SQLiteDatabase db = openHelper.getWritableDatabase();
-            Cursor cursor = db.query("SUBJECTS",
-                    new String[]{"_id", "DAY"},
-                    null, null, null, null, null);
-
-            if(cursor.moveToFirst()){
-                do{
-                    if(cursor.getType(1) == 0){
-                        db.delete("SUBJECTS", "_id = ?", new String[]{Integer.toString(cursor.getInt(0))});
-                    }
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-            db.close();
-            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putInt(PREFERENCE_ERROR_VERSION_0_2_5, 1);
-            editor.apply();
-        } catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void database3to4 (){ //dodano w wersji 6 na 7
         try {
-            Log.d("3to4", "heloł");
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
 
             createDefaultCategoryOfAssessment(db);
@@ -408,7 +338,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ContentValues AssessmentContent(float assessment, int semester, int subject){
-        Log.d("Tworzę ocenkę", "Ta ocenka to: " + assessment + ", jest ona dodana do semestru: " + semester + ", i należy do przedmiotu o numerze: " + subject);
         ContentValues contentValues = new ContentValues();
         contentValues.put("ASSESSMENT", assessment);
         contentValues.put("NOTE", "");

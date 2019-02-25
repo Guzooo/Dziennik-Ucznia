@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class HelperDatabase extends SQLiteOpenHelper {
 
@@ -58,7 +57,6 @@ public class HelperDatabase extends SQLiteOpenHelper {
             db.update("SUBJECTS", updateDatabase2to3(), null, null);
         }
         if (oldVersion < 4) {
-            Log.d("Database", "heloł");
             db.execSQL("CREATE TABLE ASSESSMENTS (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ASSESSMENT REAL,"
                     + "NOTE TEXT,"

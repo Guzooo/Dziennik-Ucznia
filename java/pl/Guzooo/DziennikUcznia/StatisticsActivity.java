@@ -2,6 +2,7 @@ package pl.Guzooo.DziennikUcznia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class StatisticsActivity extends AppCompatActivity {
 
     public static final String PREFERENCE_NAME = "statistics";
@@ -20,6 +23,10 @@ public class StatisticsActivity extends AppCompatActivity {
     public static final int DEFAULT_SEMESTER = 1;
 
     private SharedPreferences sharedPreferences;
+
+    public static int getSemester(Context context){
+        return context.getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, Context.MODE_PRIVATE).getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +38,8 @@ public class StatisticsActivity extends AppCompatActivity {
         TextView textViewSemesterEnd = findViewById(R.id.statistics_semester_end);
         sharedPreferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
 
-        textViewSemesterI.setText(getResources().getString(R.string.statistics_semester, 1) + " - " + getAverage(0));
-        textViewSemesterII.setText(getResources().getString(R.string.statistics_semester, 2) + " - " + getAverage(1));
+        textViewSemesterI.setText(getResources().getString(R.string.statistics_semester, 1) + " - " + getAverage(1));
+        textViewSemesterII.setText(getResources().getString(R.string.statistics_semester, 2) + " - " + getAverage(2));
         textViewSemesterEnd.setText(getResources().getString(R.string.statistics_semester_end) + " - " + getAverageEnd());
 
         setActionBarSubtitle();
@@ -78,10 +85,18 @@ public class StatisticsActivity extends AppCompatActivity {
 
         if (cursor.moveToFirst()) {
             do {
-                if (roundedAverage) {
-                    assessment = Subject.getOfCursor(cursor).getRoundedAverage(sharedPreferences, num);
+                Subject subject = Subject.getOfCursor(cursor);
+                ArrayList<SubjectAssessment> assessments;
+                if(num == 1){
+                    assessments = subject.getAssessment(1, this);
                 } else {
-                    assessment = Subject.getOfCursor(cursor).getAverage(num);
+                    assessments = subject.getAssessment(2, this);
+                }
+
+                if (roundedAverage) {
+                    assessment = subject.getRoundedAverage(assessments, sharedPreferences);
+                } else {
+                    assessment = Subject.getOfCursor(cursor).getAverage(assessments);
                 }
 
                 if(assessment != 0) {
@@ -117,10 +132,14 @@ public class StatisticsActivity extends AppCompatActivity {
 
         if (cursor.moveToFirst()) {
             do {
+                Subject subject = Subject.getOfCursor(cursor);
+                ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, getApplicationContext());
+                ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, getApplicationContext());
+
                 if (roundedAverage) {
-                    assessment = Subject.getOfCursor(cursor).getRoundedAverageEnd(sharedPreferences);
+                    assessment = Subject.getOfCursor(cursor).getRoundedAverageEnd(assessments1, assessments2, sharedPreferences);
                 } else {
-                    assessment = Subject.getOfCursor(cursor).getAverageEnd();
+                    assessment = Subject.getOfCursor(cursor).getAverageEnd(assessments1, assessments2);
                 }
 
                 if(assessment != 0) {

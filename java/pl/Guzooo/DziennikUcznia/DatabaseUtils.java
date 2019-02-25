@@ -60,4 +60,19 @@ public class DatabaseUtils {
             return false;
         }
     }
+
+    public static Boolean destroyAllAssessment (Context context){
+        return destroyAllAssessment(null, null, context);
+    }
+
+    public static Boolean destroyAllAssessment(String whereClause, String[] whereArgs, Context context){
+        try {
+            SQLiteDatabase db = getWritableDatabase(context);
+            db.delete("ASSESSMENTS", whereClause, whereArgs);
+            db.close();
+            return true;
+        } catch (SQLException e){
+            return false;
+        }
+    }
 }

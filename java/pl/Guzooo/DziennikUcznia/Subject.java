@@ -18,13 +18,13 @@ public class Subject {
     private int id;
     private String name;
     private String teacher;
-    private ArrayList<ArrayList<Float>> assessments =  new ArrayList<> ();
+    private ArrayList<ArrayList<Float>> assessments =  new ArrayList<> (); // z 6 na 7
     private int unpreparedness;
     private String description;
-    private ArrayList<SubjectNote> subjectNotes = new ArrayList<>();
     private ContentValues contentValues = new ContentValues();
 
-    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "ASSESSMENTS2"};
+    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "ASSESSMENTS2"};      //jak z 6 uciekną pozbyć się łocen
+
     private Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description, String assessments2){
         this.id = id;
         setName(name);
@@ -80,8 +80,6 @@ public class Subject {
         newSubject.setTeacher(subject.getTeacher());
         newSubject.setUnpreparedness(subject.getUnpreparedness());
         newSubject.setDescription(subject.getDescription());
-        newSubject.fromStringAssessments(0, subject.toStringAssessments(0));
-        newSubject.fromStringAssessments(1, subject.toStringAssessments(1));
         return newSubject;
     }
 
@@ -122,6 +120,7 @@ public class Subject {
         }
         DatabaseUtils.destroyAllLessonPlan("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
         DatabaseUtils.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+        DatabaseUtils.destroyAllAssessment("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
     }
 
     public boolean duplicate(Context context){
@@ -133,17 +132,6 @@ public class Subject {
             Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
             return false;
         }
-    }
-
-    public Subject (String object , int id){ //old method z 1 na 2
-        this.id = id;
-        String[] strings =  object.split("©");
-        setName(strings[0]);
-        setTeacher(strings[1]);
-        fromStringAssessments(0, strings[2]);
-        setDescription(strings[3]);
-        fromStringSubjectNotes(strings[4]);
-        setUnpreparedness(Integer.parseInt(strings[15]));
     }
 
     public void putInfoSizeNotes(Context context){
@@ -158,20 +146,6 @@ public class Subject {
         return contentValues.size();
     }
 
-    public ContentValues saveSubject(Context context){ //old method z 1 na 2
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("NAME", getName());
-        contentValues.put("TEACHER", getTeacher());
-        contentValues.put("ASSESSMENTS", toStringAssessments(0));
-        contentValues.put("ASSESSMENTS2", toStringAssessments(1));
-        contentValues.put("UNPREPAREDNESS", getUnpreparedness());
-        contentValues.put("DESCRIPTION", getDescription());
-        contentValues.put("NOTES", getSizeNotes(context));
-        contentValues.put("DAY", getDay(context, 0));
-
-        return contentValues;
-    }
 
     public int getId(){
         return id;
@@ -181,43 +155,36 @@ public class Subject {
         return name;
     }
 
-    public float getAverage(int num){
+    private float average(ArrayList<SubjectAssessment> assessments){
         float average = 0;
-        if(assessments.get(num).size() > 0) {
-            for (int i = 0; i < assessments.get(num).size(); i++) {
-                average += assessments.get(num).get(i);
+        if (assessments.size() > 0){
+            for (int i = 0; i < assessments.size(); i++){
+                average += assessments.get(i).getAssessment();
             }
-            average = average / assessments.get(num).size();
+
+            average = average / assessments.size();
         }
         return average;
     }
 
-    public float getAverage(Context context){
-        float average = 0;
-        if(getAssessments(context).size() > 0) {
-            for (int i = 0; i < getAssessments(context).size(); i++) {
-                average += getAssessments(context).get(i);
-            }
-            average = average / getAssessments(context).size();
-        }
-        return average;
+    public float getAverage(ArrayList<SubjectAssessment> assessments){
+        return average(assessments);
     }
 
-    public float getAverageEnd(){
-        float semesterI = getAverage(0);
-        float semesterII = getAverage(1);
+    public float getAverageEnd(ArrayList<SubjectAssessment> assessments1, ArrayList<SubjectAssessment> assessments2){
+        float average1 = average(assessments1);
+        float average2 = average(assessments2);
 
-        if(semesterI == 0)
-            return semesterII;
+        if(average1 == 0)
+            return average2;
 
-        if(semesterII == 0)
-            return semesterI;
+        if(average2 == 0)
+            return average1;
 
-        return (semesterI + semesterII) / 2;
+        return (average1 + average2)/2;
     }
 
-    public int getRoundedAverage(SharedPreferences sharedPreferences, Context context){
-        float average = getAverage(context);
+    private int roundAverage(float average, SharedPreferences sharedPreferences){
         if(average == 0){
             return 0;
         }
@@ -238,49 +205,42 @@ public class Subject {
         return roundedAverage;
     }
 
-    public int getRoundedAverage(SharedPreferences sharedPreferences, int num){
-        float average = getAverage(num);
-        if(average == 0){
-            return 0;
-        }
-        int roundedAverage;
-        if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.DEFAULT_AVERAGE_TO_SIX)){
-            roundedAverage = 6;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FIVE, SettingActivity.DEFAULT_AVERAGE_TO_FIVE)){
-            roundedAverage = 5;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FOUR, SettingActivity.DEFAULT_AVERAGE_TO_FOUR)){
-            roundedAverage = 4;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_THREE, SettingActivity.DEFAULT_AVERAGE_TO_THREE)){
-            roundedAverage = 3;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_TWO, SettingActivity.DEFAULT_AVERAGE_TO_TWO)){
-            roundedAverage = 2;
-        } else {
-            roundedAverage = 1;
-        }
-        return roundedAverage;
+    public int getRoundedAverage(ArrayList<SubjectAssessment> assessments, SharedPreferences sharedPreferences){
+        return roundAverage(average(assessments), sharedPreferences);
     }
-    public float getRoundedAverageEnd(SharedPreferences sharedPreferences){
-        int semesterI = getRoundedAverage(sharedPreferences, 0);
-        int semesterII = getRoundedAverage(sharedPreferences, 1);
 
-        if(semesterI == 0)
-            return semesterII;
+    public int getRoundedAverageEnd(ArrayList<SubjectAssessment> assessments1, ArrayList<SubjectAssessment> assessments2, SharedPreferences sharedPreferences){
+        float averageEnd = getAverageEnd(assessments1, assessments2);
+        return roundAverage(averageEnd, sharedPreferences);
+    }
 
-        if(semesterII == 0)
-            return semesterI;
-
-        return (semesterI + semesterII) / 2;
+    public ArrayList<SubjectAssessment> getAssessment(int semester, Context context){
+        ArrayList<SubjectAssessment> assessments = new ArrayList<>();
+        SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+        Cursor cursor = db.query("ASSESSMENTS",
+                SubjectAssessment.subjectAssessmentOnCursor,
+                "TAB_SUBJECT = ? AND SEMESTER = ?",
+                new String[]{Integer.toString(getId()), Integer.toString(semester)},
+                null ,null, null);
+        if(cursor.moveToFirst()){
+            do {
+                assessments.add(SubjectAssessment.getOfCursor(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return assessments;
     }
 
     public String getTeacher() {
         return teacher;
     }
 
-    public String getStringAssessments(Context context){
+    public String getStringAssessments(ArrayList<SubjectAssessment> assessments, Context context){
         String assessmentsString = "";
-        if(getAssessments(context).size() > 0) {
-            for (int i = 0; i < getAssessments(context).size(); i++) {
-                assessmentsString += Float.toString(getAssessments(context).get(i)) + " ";
+        if(assessments.size() > 0) {
+            for (int i = 0; i < assessments.size(); i++) {
+                assessmentsString += Float.toString(assessments.get(i).getAssessment()) + " ";
             }
         } else {
             assessmentsString = context.getResources().getString(R.string.null_string);
@@ -288,17 +248,8 @@ public class Subject {
         return assessmentsString;
     }
 
-    public ArrayList<Float> getAssessments(Context context){
-        return assessments.get(context.getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, Context.MODE_PRIVATE).getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER) -1);
-    }
-
-    public ArrayList<Float> getAssessment(int i){
+    public ArrayList<Float> getAssessment(int i){ //stare
         return assessments.get(i);
-    }
-
-    public void getAssessmentsUpdateContentValues(){
-        contentValues.put("ASSESSMENTS", toStringAssessments(0));
-        contentValues.put("ASSESSMENTS2", toStringAssessments(1));
     }
 
     public int getUnpreparedness(){
@@ -307,10 +258,6 @@ public class Subject {
 
     public String getDescription() {
         return description;
-    }
-
-    public ArrayList<SubjectNote> getSubjectNotes() {
-        return subjectNotes;
     }
 
     public void setName (String name) {
@@ -340,32 +287,24 @@ public class Subject {
         contentValues.put("DESCRIPTION", getDescription());
     }
 
-    private String toStringAssessments(int num){
-        String string = "";
-        for (int i = 0; i < assessments.get(num).size(); i++) {
-            string += Float.toString(assessments.get(num).get(i)) + "®";
-        }
-        return string;
-    }
-
-    private void fromStringAssessments(int num, String assessments){
+    private void fromStringAssessments(int num, String assessments){ //old
         if(!assessments.equals("")) {
             String[] strings = assessments.split("®");
             for (int i = 0; i < strings.length; i++) {
                 this.assessments.get(num).add(Float.parseFloat(strings[i]));
             }
         }
-        contentValues.put("ASSESSMENTS", toStringAssessments(0));
-        contentValues.put("ASSESSMENTS2", toStringAssessments(1));
     }
 
     public void addAssessment(String string, Context context){
         if (string.equals(""))
             Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         else {
-            getAssessments(context).add(Float.parseFloat(string));
-            contentValues.put("ASSESSMENTS", toStringAssessments(0));
-            contentValues.put("ASSESSMENTS2", toStringAssessments(1));
+            SubjectAssessment assessment = SubjectAssessment.newEmpty();
+            assessment.setAssessment(Float.parseFloat(string));
+            assessment.setSubjectId(getId());
+            assessment.setSemester(StatisticsActivity.getSemester(context));
+            assessment.insert(context);
         }
     }
 
@@ -375,23 +314,25 @@ public class Subject {
             return;
         }
         Float assessment = Float.parseFloat(string);
-        if (getAssessments(context).size() == 0)
+
+        ArrayList<SubjectAssessment> assessments = getAssessment(StatisticsActivity.getSemester(context),context);
+
+
+        if(assessments.size() == 0)
             Toast.makeText(context, R.string.subject_null_assessments, Toast.LENGTH_SHORT).show();
-        else if (!getAssessments(context).remove(assessment))
-            Toast.makeText(context, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
         else {
-            contentValues.put("ASSESSMENTS", toStringAssessments(0));
-            contentValues.put("ASSESSMENTS2", toStringAssessments(1));
+            for(int i = assessments.size()-1; i > -1; i--){
+                if(assessments.get(i).getAssessment() == assessment){
+                    assessments.get(i).delete(context);
+                    return;
+                }
+            }
+            Toast.makeText(context, R.string.subject_null_this_assessment, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void fromStringSubjectNotes(String subjectNotes) { //old method z 1 na 2
-        if (!subjectNotes.equals("")) {
-            String[] strings = subjectNotes.split("®");
-            for (int i = 0; i < strings.length; i += 10) {
-                this.subjectNotes.add(new SubjectNote(strings[i], strings[i + 1], this.id));
-            }
-        }
+    public void removeAllAssessments(Context context){
+        DatabaseUtils.destroyAllAssessment("TAB_SUBJECT = ? AND SEMESTER =?", new String[]{Integer.toString(getId()), Integer.toString(StatisticsActivity.getSemester(context))}, context);
     }
 
     public int getSizeNotes(Context context){

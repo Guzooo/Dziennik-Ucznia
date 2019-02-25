@@ -58,7 +58,6 @@
     <string name="subject_null_this_assessment">Nie znaleźiono tej oceny do usunięcia</string>
 
     <string name="main_null_subject">Nie masz jeszcze przedmiotów\nDotknij plusa w prawym dolnym rogu by dodać przedmiot</string>
-    <string name="main_soon_plan">Plan zostanie dodany wkrótce</string>
     <string name="main_belt">PASEK</string>
 
     <string name="notes">Ilość notatek: %1$d</string>
@@ -82,8 +81,8 @@
     <string name="edit_hint_teacher">Wpisz nauczyciela przedmiotu</string>
     <string name="edit_hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>
     <string name="edit_hint_description">Wpisz dowolne informacje na temat przedmiotu</string>
-    <string name="edit_current_assessment">Aktualne oceny:</string>
-    <string name="edit_edit_assessment">Edytowane oceny:</string>
+    <string name="edit_current_assessment">Poprzednie oceny:</string>
+    <string name="edit_edit_assessment">Aktualne oceny:</string>
     <string name="edit_delete_all_assessment">Wszystkie</string>
     <string name="edit_duplicate_subject">Powiel przedmiot</string>
     <string name="edit_duplicate_subject_made">Przedmiot został powielony</string>
