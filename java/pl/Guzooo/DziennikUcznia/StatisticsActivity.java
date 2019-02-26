@@ -1,6 +1,8 @@
 package pl.Guzooo.DziennikUcznia;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +26,9 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+    private SQLiteDatabase db;
+    private Cursor cursor;
+
     public static int getSemester(Context context){
         return context.getSharedPreferences(StatisticsActivity.PREFERENCE_NAME, Context.MODE_PRIVATE).getInt(StatisticsActivity.PREFERENCE_SEMESTER, StatisticsActivity.DEFAULT_SEMESTER);
     }
@@ -43,6 +48,8 @@ public class StatisticsActivity extends AppCompatActivity {
         textViewSemesterEnd.setText(getResources().getString(R.string.statistics_semester_end) + " - " + getAverageEnd());
 
         setActionBarSubtitle();
+        Cursor();
+        RecyclerView();
     }
 
     public void ClickISemester(View v){
@@ -158,5 +165,28 @@ public class StatisticsActivity extends AppCompatActivity {
             return Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
         }
         return Float.toString(average);
+    }
+
+    private void Cursor(){
+        db = DatabaseUtils.getReadableDatabase(this);
+        cursor = db.query("SUBJECTS",
+                Subject.subjectOnCursor,
+                null, null, null, null,
+                "NAME");
+    }
+
+    private void RecyclerView(){
+        RecyclerView recyclerView = findViewById(R.id.recycler);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(new AdapterStatisticsSubject(cursor, this));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        cursor.close();
+        db.close();
     }
 }
