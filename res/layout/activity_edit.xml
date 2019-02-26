@@ -34,6 +34,7 @@
                 android:singleLine="true"/>
 
             <LinearLayout
+                android:id="@+id/assessmentactualnandprevious"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -81,6 +82,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/assessmentadddell"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

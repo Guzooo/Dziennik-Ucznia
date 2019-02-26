@@ -136,6 +136,8 @@ public class EditActivity extends AppCompatActivity {
 
     private void newSubject(){
         subject = Subject.newEmpty();
+        findViewById(R.id.assessmentactualnandprevious).setVisibility(View.GONE);
+        findViewById(R.id.assessmentadddell).setVisibility(View.GONE);
     }
 
     private void readSubject(){
