@@ -34,6 +34,8 @@
             <ImageView
                 android:layout_width="@dimen/separator_length"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
                 android:src="@color/colorPrimary"/>
 
             <TextView
@@ -46,6 +48,8 @@
             <ImageView
                 android:layout_width="@dimen/separator_length"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
                 android:src="@color/colorPrimary"/>
 
             <TextView
