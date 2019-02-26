@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private final String PREFERENCE_NOTEPAD = "notepad";
 
     //preference for errors and new save
-    private final String PREFERENCE_DATABASE_3_TO_4 = "database1to2";
+    private final String PREFERENCE_DATABASE_3_TO_4 = "database3to4";
 
     private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
 
