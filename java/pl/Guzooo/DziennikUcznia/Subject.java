@@ -33,6 +33,8 @@ public class Subject {
         this.assessments.add(new ArrayList<Float>());
         fromStringAssessments(0, assessments);
         fromStringAssessments(1, assessments2);
+        contentValues.put("ASSESSMENTS", "");
+        contentValues.put("ASSESSMENTS2", "");
         setUnpreparedness(unpreparedness);
         setDescription(description);
     }
