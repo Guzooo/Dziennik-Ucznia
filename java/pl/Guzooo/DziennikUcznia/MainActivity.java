@@ -14,6 +14,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_3_TO_4, 0) == 0){
             database3to4();
         }
+
+        /*
+        Tylko do testów niestandardowego widoku
+         */
+        Intent intent = new Intent(this, DetailsEndEditActivity.class);
+        startActivity(intent);
 
         goFirstChangeView(savedInstanceState);
         try {
