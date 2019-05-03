@@ -3,11 +3,14 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/minimum_length"
         android:singleLine="true"
+        android:layout_gravity="center"
         android:visibility="gone"/>
 </merge>

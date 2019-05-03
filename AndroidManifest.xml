@@ -45,7 +45,7 @@
         <activity
             android:name=".StatisticsActivity"
             android:label="@string/statistics" />
-        <activity android:name=".DetailsEndEditActivity"></activity>
+        <activity android:name=".DetailsAndEditActivity"></activity>
     </application>
 
 </manifest>

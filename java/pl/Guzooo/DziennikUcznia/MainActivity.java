@@ -58,12 +58,6 @@ public class MainActivity extends AppCompatActivity {
             database3to4();
         }
 
-        /*
-        Tylko do testów niestandardowego widoku
-         */
-        Intent intent = new Intent(this, DetailsEndEditActivity.class);
-        startActivity(intent);
-
         goFirstChangeView(savedInstanceState);
         try {
             db = DatabaseUtils.getWritableDatabase(this);

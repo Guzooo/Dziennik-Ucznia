@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,8 +21,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -48,6 +45,14 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        /*
+        Tylko do testu niestandardowego widoku
+        */
+
+        Intent intent = new Intent(this, DetailsAndEditActivity.class);
+        intent.putExtra(DetailsAndEditActivity.EXTRA_ID, getIntent().getExtras().getInt(EXTRA_ID));
+        startActivity(intent);
 
         editTextAssessment = findViewById(R.id.details_edit_assessment);
         textViewAssessment = findViewById(R.id.details_assessment);
@@ -174,7 +179,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
     public void ClickMinusUnpreparedness(View v){
         subject.removeUnpreparedness();
-        textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
+        textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness_with_variable, subject.getUnpreparedness()));
     }
 
     private Boolean readSubject(){
@@ -187,7 +192,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         textViewTeacher.setText(subject.getTeacher());
         textViewAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
-        textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
+        textViewUnpreparedness.setText(getResources().getString(R.string.unpreparedness_with_variable, subject.getUnpreparedness()));
         textViewDescription.setText(subject.getDescription());
 
         return true;
