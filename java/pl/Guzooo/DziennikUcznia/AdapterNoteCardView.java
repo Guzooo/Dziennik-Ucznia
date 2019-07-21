@@ -13,8 +13,8 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
     private Cursor cursor;
     private Listener listener;
 
-    public static interface Listener{
-        public void onClick(int id);
+    public interface Listener{
+        void onClick(int id);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

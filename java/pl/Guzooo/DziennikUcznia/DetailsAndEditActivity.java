@@ -3,8 +3,14 @@ package pl.Guzooo.DziennikUcznia;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,37 +24,52 @@ public class DetailsAndEditActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "id";
 
+    private final String BUNDLE_VISIBLE_NOTES = "visiblenotes";
+
     private Subject subject;
+
+    private View notesBox;
 
     private EditText editTextAssessment;
     private TextAndHoldEditView textAndHoldEditViewTeacher;
     private TextAndHoldEditView textAndHoldEditViewUnpreparedness;
     private TextAndHoldEditView textAndHoldEditViewDescription;
 
+    private SQLiteDatabase db;
+    private Cursor notesCursor;
+    private AdapterNoteCardView notesAdapter;
+
+    private boolean notesSelection;
+    private ArrayList<Integer> notesSelectedId = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_and_edit);
 
+        notesBox = findViewById(R.id.notes_box);
+
+        editTextAssessment = findViewById(R.id.assessment);
         textAndHoldEditViewTeacher = findViewById(R.id.teacher);
         textAndHoldEditViewUnpreparedness = findViewById(R.id.unpreparedness);
         textAndHoldEditViewDescription = findViewById(R.id.description);
 
         subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
+        db = DatabaseUtils.getWritableDatabase(this);
 
-        refreshActionBarInfo();
-        setNotes();
-        setTeacher();
-        setAssessments();
-        setUnpreparedness();
-        setDescription();
+        if(savedInstanceState == null || !savedInstanceState.getBoolean(BUNDLE_VISIBLE_NOTES))
+            ChangeVisibilityNotes();
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-
-
+    protected void onResume() {
+        super.onResume();
+        RefreshActionBarInfo();
+        SetNotes();
+        SetTeacher();
+        SetAssessments();
+        SetUnpreparedness();
+        SetDescription();
     }
 
     @Override
@@ -67,15 +88,11 @@ public class DetailsAndEditActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_notes:
-
+                ChangeVisibilityNotes();
                 return true;
 
             case R.id.action_del:
 
-                return true;
-
-            case R.id.action_rename:
-                //TODO: w xml weż na stringa ;)
                 return true;
 
             case R.id.action_duplicate:
@@ -87,19 +104,118 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         }
     }
 
-    private void setNotes(){
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(BUNDLE_VISIBLE_NOTES, (notesBox.getVisibility() == View.VISIBLE));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    public void ClickNotesDel(View v){
+        notesSelection = true;
+       /* InterfaceUtils.getAlertDelete(this)
+                .setPositiveButton(R.string.yes, new androidx.appcompat.app.AlertDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseUtils.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(subject.getId())}, getApplicationContext());
+                        subject.putInfoSizeNotes(getApplicationContext());
+                        RefreshNotesCursor();
+                        SetVisibilityNotesButtons();
+                    }
+                })
+                .show();*/
+    }
+
+    public void ClickNotesShare(View v){
 
     }
 
-    private void setTeacher(){
+    public void ClickNotesAdd(View v){
+        goToNoteActivity(subject.getId(), 0);
+    }
+
+    private void ChangeVisibilityNotes(){
+        if(notesBox.getVisibility() == View.VISIBLE){
+            notesBox.setVisibility(View.GONE);
+        } else {
+            notesBox.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void SetNotes(){
+        RefreshNotesCursor();
+        SetNotesAdapter();
+        SetVisibilityNotesButtons();
+    }
+
+    private void RefreshNotesCursor(){
+        notesCursor = db.query("NOTES",
+                SubjectNote.subjectNoteOnCursor,
+                "TAB_SUBJECT = ?",
+                new String[] {Integer.toString(subject.getId())},
+                null, null, null);
+        if(notesAdapter != null)
+            notesAdapter.changeCursor(notesCursor);
+    }
+
+    private void SetNotesAdapter(){
+        RecyclerView recyclerView = findViewById(R.id.notes);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        notesAdapter = new AdapterNoteCardView(notesCursor);
+        recyclerView.setAdapter(notesAdapter);
+
+        notesAdapter.setListener(new AdapterNoteCardView.Listener() {
+            @Override
+            public void onClick(int id) {
+                if (notesSelection) {
+                    if(!notesSelectedId.remove((Integer) id)){
+                        notesSelectedId.add(id);
+                    }
+                } else {
+                    goToNoteActivity(0, id);
+                }
+            }
+        });
+    }
+
+    private void SetVisibilityNotesButtons(){
+        if(notesCursor.getCount() != 0){
+            findViewById(R.id.delete_of_notes_box).setVisibility(View.VISIBLE);
+            findViewById(R.id.share_of_notes_box).setVisibility(View.VISIBLE);
+            findViewById(R.id.separator_next_delete_of_notes_box).setVisibility(View.VISIBLE);
+            findViewById(R.id.separator_next_share_of_notes_box).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.delete_of_notes_box).setVisibility(View.GONE);
+            findViewById(R.id.share_of_notes_box).setVisibility(View.GONE);
+            findViewById(R.id.separator_next_delete_of_notes_box).setVisibility(View.GONE);
+            findViewById(R.id.separator_next_share_of_notes_box).setVisibility(View.GONE);
+        }
+    }
+
+    private void SetTeacher(){
         textAndHoldEditViewTeacher.setText(subject.getTeacher());
     }
 
-    private void setAssessments(){
+    private void SetAssessments(){
+        RefreshAssessmentsCursor();
+        SetAssessmentsAdapter();
+    }
+
+    private void RefreshAssessmentsCursor(){
 
     }
 
-    private void setUnpreparedness() {
+    private void SetAssessmentsAdapter(){
+
+    }
+
+    private void SetUnpreparedness() {
         textAndHoldEditViewUnpreparedness.setText(Integer.toString(subject.getUnpreparedness()));
 
         final View titles = findViewById(R.id.unpreparedness_titles);
@@ -127,16 +243,16 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         textAndHoldEditViewUnpreparedness.callChangeView();
     }
 
-    private void setDescription(){
+    private void SetDescription(){
         textAndHoldEditViewDescription.setText(subject.getDescription());
     }
 
-    private void refreshActionBarInfo(){
+    private void RefreshActionBarInfo(){
         getSupportActionBar().setTitle(subject.getName());
-        getSupportActionBar().setSubtitle(setAverage());
+        getSupportActionBar().setSubtitle(SetAverage());
     }
 
-    private String setAverage(){
+    private String SetAverage(){
         SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
 
         ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, this);
@@ -148,5 +264,12 @@ public class DetailsAndEditActivity extends AppCompatActivity {
             return strAverage + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverageEnd(assessments1, assessments2,sharedPreferences)); //TODO: unnecessary delete ;)
         else
             return strAverage;
+    }
+
+    private void goToNoteActivity(int id, int idNote){
+        Intent intent = new Intent(this, NoteActivity.class);
+        intent.putExtra(NoteActivity.EXTRA_ID_SUBJECT, id);
+        intent.putExtra(NoteActivity.EXTRA_ID_NOTE, idNote);
+        startActivity(intent);
     }
 }

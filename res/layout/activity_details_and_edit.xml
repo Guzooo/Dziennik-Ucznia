@@ -5,8 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsAndEditActivity"
-    android:clipToPadding="false">
+    tools:context=".DetailsAndEditActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,6 +26,7 @@
                 app:cardCornerRadius="@dimen/card_corner_radius">
 
                 <LinearLayout
+                    android:id="@+id/notes_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -38,7 +38,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="@dimen/standard_margin"
-                        android:background="@android:color/transparent"
+                        android:onClick="ClickNotesDel"
                         android:src="@drawable/ic_delete_black"
                         android:tint="@android:color/black"/>
 
@@ -55,7 +55,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="@dimen/standard_margin"
-                        android:background="@android:color/transparent"
+                        android:onClick="ClickNotesShare"
                         android:src="@drawable/ic_share_black" />
 
                     <ImageView
@@ -71,8 +71,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="@dimen/standard_margin"
+                        android:onClick="ClickNotesAdd"
                         android:src="@android:drawable/ic_input_add"
-                        android:background="@android:color/transparent"
                         android:tint="@android:color/black"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
