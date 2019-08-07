@@ -212,13 +212,23 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdapterNoteCardView(cursor);
+        adapter = new AdapterNoteCardView(cursor, this);
         recyclerView.setAdapter(adapter);
 
         adapter.setListener(new AdapterNoteCardView.Listener() {
             @Override
             public void onClick(int id) {
                 goToNoteActivity(0, id);
+            }
+
+            @Override
+            public void refreshCursor() {
+                refreshNotesCursor();
+            }
+
+            @Override
+            public String getSubjectName() {
+                return subject.getName();
             }
         });
     }

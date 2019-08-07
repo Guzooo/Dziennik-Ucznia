@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/card_height"
+    android:layout_margin="@dimen/card_margin"
+    app:cardCornerRadius="@dimen/card_corner_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:animateLayoutChanges="true">
+
+            <ImageView
+                android:id="@+id/undo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/standard_margin"
+                android:src="@drawable/undo"
+                style="@style/AppTheme.Icon"/>
+
+            <ImageView
+                android:id="@+id/undo_separator"
+                android:layout_margin="@dimen/standard_margin"
+                android:layout_width="@dimen/separator_length"
+                android:layout_height="match_parent"
+                android:src="@color/colorPrimary"/>
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/standard_margin"
+                android:src="@drawable/close"
+                style="@style/AppTheme.Icon"/>
+
+            <ImageView
+                android:id="@+id/close_separator"
+                android:layout_margin="@dimen/standard_margin"
+                android:layout_width="@dimen/separator_length"
+                android:layout_height="match_parent"
+                android:src="@color/colorPrimary"/>
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/standard_margin"
+                android:src="@drawable/ic_delete_black"
+                style="@style/AppTheme.Icon"/>
+
+            <ImageView
+                android:id="@+id/delete_separator"
+                android:layout_margin="@dimen/standard_margin"
+                android:layout_width="@dimen/separator_length"
+                android:layout_height="match_parent"
+                android:src="@color/colorPrimary"/>
+
+            <ImageView
+                android:id="@+id/share"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/standard_margin"
+                android:src="@drawable/ic_share_black"
+                style="@style/AppTheme.Icon"/>
+
+            <ImageView
+                android:id="@+id/share_separator"
+                android:layout_margin="@dimen/standard_margin"
+                android:layout_width="@dimen/separator_length"
+                android:layout_height="match_parent"
+                android:src="@color/colorPrimary"/>
+
+            <ImageView
+                android:id="@+id/add"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/standard_margin"
+                android:src="@drawable/add"
+                style="@style/AppTheme.Icon"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/select_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/minimum_length"
+                android:text="@string/all"/>
+
+            <TextView
+                android:id="@+id/select_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                android:gravity="end"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

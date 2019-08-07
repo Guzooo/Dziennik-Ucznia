@@ -6,7 +6,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -28,8 +27,6 @@ public class DetailsAndEditActivity extends AppCompatActivity {
 
     private Subject subject;
 
-    private View notesBox;
-
     private EditText editTextAssessment;
     private TextAndHoldEditView textAndHoldEditViewTeacher;
     private TextAndHoldEditView textAndHoldEditViewUnpreparedness;
@@ -38,21 +35,19 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor notesCursor;
     private AdapterNoteCardView notesAdapter;
-
-    private boolean notesSelection;
-    private ArrayList<Integer> notesSelectedId = new ArrayList<>();
+    private RecyclerView notesRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_and_edit);
 
-        notesBox = findViewById(R.id.notes_box);
-
         editTextAssessment = findViewById(R.id.assessment);
         textAndHoldEditViewTeacher = findViewById(R.id.teacher);
         textAndHoldEditViewUnpreparedness = findViewById(R.id.unpreparedness);
         textAndHoldEditViewDescription = findViewById(R.id.description);
+
+        notesRecycler = findViewById(R.id.notes);
 
         subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
         db = DatabaseUtils.getWritableDatabase(this);
@@ -107,7 +102,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(BUNDLE_VISIBLE_NOTES, (notesBox.getVisibility() == View.VISIBLE));
+        outState.putBoolean(BUNDLE_VISIBLE_NOTES, (notesRecycler.getVisibility() == View.VISIBLE));
     }
 
     @Override
@@ -115,41 +110,17 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void ClickNotesDel(View v){
-        notesSelection = true;
-       /* InterfaceUtils.getAlertDelete(this)
-                .setPositiveButton(R.string.yes, new androidx.appcompat.app.AlertDialog.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DatabaseUtils.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(subject.getId())}, getApplicationContext());
-                        subject.putInfoSizeNotes(getApplicationContext());
-                        RefreshNotesCursor();
-                        SetVisibilityNotesButtons();
-                    }
-                })
-                .show();*/
-    }
-
-    public void ClickNotesShare(View v){
-
-    }
-
-    public void ClickNotesAdd(View v){
-        goToNoteActivity(subject.getId(), 0);
-    }
-
     private void ChangeVisibilityNotes(){
-        if(notesBox.getVisibility() == View.VISIBLE){
-            notesBox.setVisibility(View.GONE);
+        if(notesRecycler.getVisibility() == View.VISIBLE){
+            notesRecycler.setVisibility(View.GONE);
         } else {
-            notesBox.setVisibility(View.VISIBLE);
+            notesRecycler.setVisibility(View.VISIBLE);
         }
     }
 
     private void SetNotes(){
         RefreshNotesCursor();
         SetNotesAdapter();
-        SetVisibilityNotesButtons();
     }
 
     private void RefreshNotesCursor(){
@@ -167,35 +138,25 @@ public class DetailsAndEditActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        notesAdapter = new AdapterNoteCardView(notesCursor);
+        notesAdapter = new AdapterNoteCardView(notesCursor, this);
         recyclerView.setAdapter(notesAdapter);
 
         notesAdapter.setListener(new AdapterNoteCardView.Listener() {
             @Override
             public void onClick(int id) {
-                if (notesSelection) {
-                    if(!notesSelectedId.remove((Integer) id)){
-                        notesSelectedId.add(id);
-                    }
-                } else {
-                    goToNoteActivity(0, id);
-                }
+                goToNoteActivity(subject.getId(), id);
+            }
+
+            @Override
+            public void refreshCursor() {
+                RefreshNotesCursor();
+            }
+
+            @Override
+            public String getSubjectName() {
+                return subject.getName();
             }
         });
-    }
-
-    private void SetVisibilityNotesButtons(){
-        if(notesCursor.getCount() != 0){
-            findViewById(R.id.delete_of_notes_box).setVisibility(View.VISIBLE);
-            findViewById(R.id.share_of_notes_box).setVisibility(View.VISIBLE);
-            findViewById(R.id.separator_next_delete_of_notes_box).setVisibility(View.VISIBLE);
-            findViewById(R.id.separator_next_share_of_notes_box).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.delete_of_notes_box).setVisibility(View.GONE);
-            findViewById(R.id.share_of_notes_box).setVisibility(View.GONE);
-            findViewById(R.id.separator_next_delete_of_notes_box).setVisibility(View.GONE);
-            findViewById(R.id.separator_next_share_of_notes_box).setVisibility(View.GONE);
-        }
     }
 
     private void SetTeacher(){

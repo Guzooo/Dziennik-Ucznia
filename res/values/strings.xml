@@ -79,6 +79,9 @@
 
     <string name="description_title">Opis:</string>
 
+    <string name="all">Wszystkie</string>
+    <string name="selected_item">Zaznaczone elementy: %1$d</string>
+
     <string name="teacher">Nauczyciel</string>
     <string name="unpreparedness_full">Nieprzygotowania</string>
     <string name="unpreparedness_current">Aktualne nieprzygotowania</string>
