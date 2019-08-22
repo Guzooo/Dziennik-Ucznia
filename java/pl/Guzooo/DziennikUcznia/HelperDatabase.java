@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
+
+import androidx.core.content.ContextCompat;
 
 public class HelperDatabase extends SQLiteOpenHelper {
 
@@ -67,8 +70,17 @@ public class HelperDatabase extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE CATEGORY_ASSESSMENT (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT,"
                     + "COLOR TEXT)");
-
         }
+    }
+
+    public static void CreateDefaultCategoryOfAssessment(Context context){
+        SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+        db.delete("CATEGORY_ASSESSMENT", null, null);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_test), "#ff0000").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_answer), "#00A5FF").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_homework), "00FF00").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_quiz), "#FD5454").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_default), "#000000").insert(context); //TODO:Color Resources
     }
 
     private ContentValues updateDatabase2to3(){

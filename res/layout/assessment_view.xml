@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/assessment_length"
+    android:layout_height="@dimen/assessment_length"
+    app:cardCornerRadius="@dimen/assessment_card_corner">
+
+    <TextView
+        android:id="@+id/assessment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:textSize="@dimen/assessment_text_size"/>
+
+</androidx.cardview.widget.CardView>

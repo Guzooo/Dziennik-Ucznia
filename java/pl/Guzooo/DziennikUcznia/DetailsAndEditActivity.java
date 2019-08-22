@@ -3,6 +3,7 @@ package pl.Guzooo.DziennikUcznia;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,11 +11,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.GridLayout;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -33,9 +36,14 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     private TextAndHoldEditView textAndHoldEditViewDescription;
 
     private SQLiteDatabase db;
+
     private Cursor notesCursor;
     private AdapterNoteCardView notesAdapter;
     private RecyclerView notesRecycler;
+
+    private Cursor assessmentsCursor;
+    private RecyclerView assessmentsRecycler;
+    private AdapterAssessments assessmentsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         textAndHoldEditViewDescription = findViewById(R.id.description);
 
         notesRecycler = findViewById(R.id.notes);
+        assessmentsRecycler = findViewById(R.id.assessments);
 
         subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
         db = DatabaseUtils.getWritableDatabase(this);
@@ -108,6 +117,10 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        notesCursor.close();
+        assessmentsCursor.close();
+        db.close();
     }
 
     private void ChangeVisibilityNotes(){
@@ -134,12 +147,10 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     }
 
     private void SetNotesAdapter(){
-        RecyclerView recyclerView = findViewById(R.id.notes);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        notesRecycler.setLayoutManager(layoutManager);
         notesAdapter = new AdapterNoteCardView(notesCursor, this);
-        recyclerView.setAdapter(notesAdapter);
+        notesRecycler.setAdapter(notesAdapter);
 
         notesAdapter.setListener(new AdapterNoteCardView.Listener() {
             @Override
@@ -169,11 +180,28 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     }
 
     private void RefreshAssessmentsCursor(){
-
+        assessmentsCursor = db.query("ASSESSMENTS",
+                SubjectAssessment.subjectAssessmentOnCursor,
+                "TAB_SUBJECT = ? AND SEMESTER = ?",
+                new String[] {Integer.toString(subject.getId()), Integer.toString(StatisticsActivity.getSemester(this))},
+                null, null, null);
+        if(assessmentsAdapter != null)
+          assessmentsAdapter.changeCursor(assessmentsCursor);
     }
 
     private void SetAssessmentsAdapter(){
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        int width = size.x;
+        float count = width / getResources().getDimensionPixelSize(R.dimen.assessment_length);
+        float margin = width % getResources().getDimensionPixelSize(R.dimen.assessment_length) / count / 2;
 
+        GridLayoutManager layoutManage = new GridLayoutManager(this, (int) count);
+        assessmentsRecycler.setLayoutManager(layoutManage);
+        assessmentsAdapter = new AdapterAssessments(assessmentsCursor, (int) margin, db,this);
+        assessmentsRecycler.setAdapter(assessmentsAdapter);
+
+        //TODO; listener;
     }
 
     private void SetUnpreparedness() {
