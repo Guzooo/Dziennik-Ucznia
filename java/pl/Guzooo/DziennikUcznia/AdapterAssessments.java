@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -57,18 +58,12 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
         if(cursor.moveToPosition(position)){
             SubjectAssessment assessment = SubjectAssessment.getOfCursor(cursor);
             holder.assessment.setText(assessment.getAssessment() + "");
-            Cursor cursor = db.query("CATEGORY_ASSESSMENT",
-                    new String[]{"NAME", "COLOR"},
-                    "_id = ?",
-                    new String[]{Integer.toString(assessment.getCategoryId())},
-                    null, null, null);
-            holder.background.setCardBackgroundColor(Color.parseColor("#9b69b6"));
-            holder.assessment.setTextColor(Color.parseColor(CategoryAssessment.getForegroundColor("#9b69b6")));
-            if(cursor.moveToFirst()) {
-                //holder.background.setBackgroundColor(Integer.valueOf(cursor.getString(1)));
+            CategoryAssessment categoryAssessment = CategoryAssessment.getOfId(assessment.getCategoryId(), context);
+            if(categoryAssessment.getId() == 0)
+                categoryAssessment = CategoryAssessment.getOfId(CategoryAssessment.getPreferenceDefaultCategory(context), context);
 
-            }
-            cursor.close();
+            holder.background.setCardBackgroundColor(Color.parseColor(categoryAssessment.getColor()));
+            holder.assessment.setTextColor(Color.parseColor(categoryAssessment.getForegroundColor()));
         }
     }
 

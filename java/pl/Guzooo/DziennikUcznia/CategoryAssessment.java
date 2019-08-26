@@ -2,10 +2,10 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.util.Log;
 import android.widget.Toast;
 
 public class CategoryAssessment {
@@ -14,6 +14,20 @@ public class CategoryAssessment {
     private String color;
 
     public static final String[] onCursor = {"_id", "NAME", "COLOR"};
+
+    private static String PREFERENCE_NAME = "categoryassessment";
+    private static String PREFERENCE_DEFAULT_CATEGORY = "defaultcategory";
+
+    public static void setPreferenceDefaultCategory(int id, Context context){
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putInt(PREFERENCE_DEFAULT_CATEGORY, id);
+        editor.apply();
+    }
+
+    public static int getPreferenceDefaultCategory(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(PREFERENCE_DEFAULT_CATEGORY, 0);
+    }
 
     public CategoryAssessment (int id, String name, String color){
         this.id = id;
@@ -113,18 +127,15 @@ public class CategoryAssessment {
         this.color = color;
     }
 
-    public static String getForegroundColor(String color){
+    public String getForegroundColor(){
         String colorOne = color.charAt(1) + "" + color.charAt(2);
         int red = Integer.parseInt(colorOne, 16);
-        Log.d("a ", colorOne + " " + red);
         colorOne = color.charAt(3) + "" + color.charAt(4);
         int green = Integer.parseInt(colorOne, 16);
         colorOne = color.charAt(5) + "" + color.charAt(6);
         int blue = Integer.parseInt(colorOne, 16);
-        Log.d("Kolorki", "R: " + red + ", G: " + green + ",b " + blue);
         double brightness = Math.sqrt((0.241 * (red * red)) + (0.671 * (green * green)) + (0.068 * (blue * blue)));
 
-        Log.d("jasność czy coś", "oto: " + brightness);
         if(brightness > 128) {
             return "#000000";
         } else {

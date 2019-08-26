@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
 
+    private final String PREFERENCE_CATEGORY_OF_ASSESSMENT = "categoryofassessment";
     //preference for errors and new save
     private final String PREFERENCE_DATABASE_3_TO_4 = "database3to4";
 
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
         notepadBox = findViewById(R.id.main_notepad_box);
 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        if(sharedPreferences.getInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 0) == 0){
+            HelperDatabase.CreateDefaultCategoryOfAssessment(this);
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 1);
+            editor.apply();
+        }
 
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_3_TO_4, 0) == 0){
             database3to4();

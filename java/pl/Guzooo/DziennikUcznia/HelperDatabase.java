@@ -2,9 +2,11 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
@@ -76,11 +78,18 @@ public class HelperDatabase extends SQLiteOpenHelper {
     public static void CreateDefaultCategoryOfAssessment(Context context){
         SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
         db.delete("CATEGORY_ASSESSMENT", null, null);
-        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_test), "#ff0000").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_default), "#000000").insert(context); //TODO:Color Resources
         new CategoryAssessment(0, context.getString(R.string.category_of_assessment_answer), "#00A5FF").insert(context);
         new CategoryAssessment(0, context.getString(R.string.category_of_assessment_homework), "00FF00").insert(context);
         new CategoryAssessment(0, context.getString(R.string.category_of_assessment_quiz), "#FD5454").insert(context);
-        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_default), "#000000").insert(context); //TODO:Color Resources
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_test), "#ff0000").insert(context);
+        Cursor cursor = db.query("CATEGORY_ASSESSMENT",
+                new String[] {"_id"},
+                null, null, null, null, null);
+        if(cursor.moveToFirst())
+            CategoryAssessment.setPreferenceDefaultCategory(cursor.getInt(0), context);
+        cursor.close();
+        db.close();
     }
 
     private ContentValues updateDatabase2to3(){
