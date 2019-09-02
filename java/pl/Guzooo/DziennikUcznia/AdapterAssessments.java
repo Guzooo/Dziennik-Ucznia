@@ -4,8 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -23,7 +23,7 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
     private int margin;
 
     public interface Listener{
-        void onClick(int id);
+        void onClick(SubjectAssessment subjectAssessment, int position);
     }
 
     public void setListener(Listener listener){
@@ -54,9 +54,9 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
     }
 
     @Override
-    public void onBindViewHolder(AdapterAssessments.ViewHolder holder, int position) {
+    public void onBindViewHolder(final AdapterAssessments.ViewHolder holder, int position) {
         if(cursor.moveToPosition(position)){
-            SubjectAssessment assessment = SubjectAssessment.getOfCursor(cursor);
+            final SubjectAssessment assessment = SubjectAssessment.getOfCursor(cursor);
             holder.assessment.setText(assessment.getAssessment() + "");
             CategoryAssessment categoryAssessment = CategoryAssessment.getOfId(assessment.getCategoryId(), context);
             if(categoryAssessment.getId() == 0)
@@ -64,6 +64,14 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
 
             holder.background.setCardBackgroundColor(Color.parseColor(categoryAssessment.getColor()));
             holder.assessment.setTextColor(Color.parseColor(categoryAssessment.getForegroundColor()));
+
+            holder.background.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null)
+                        listener.onClick(assessment, holder.getAdapterPosition());
+                }
+            });
         }
     }
 

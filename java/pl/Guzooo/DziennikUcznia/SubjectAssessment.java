@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class SubjectAssessment {
 
     private int id;
@@ -15,22 +17,24 @@ public class SubjectAssessment {
     private int semester;
     private int subjectId;
     private int categoryId;
+    private String data;
 
     private ContentValues contentValues = new ContentValues();
 
-    public static final String[] subjectAssessmentOnCursor = {"_id", "ASSESSMENT", "NOTE", "SEMESTER", "TAB_SUBJECT", "TAB_CATEGORY_ASSESSMENT"};
+    public static final String[] subjectAssessmentOnCursor = {"_id", "ASSESSMENT", "NOTE", "SEMESTER", "TAB_SUBJECT", "TAB_CATEGORY_ASSESSMENT", "DATA"};
 
-    private SubjectAssessment (int id, float assessment, String note, int semester, int idSubject, int idCategoryAssessment){
+    private SubjectAssessment (int id, float assessment, String note, int semester, int idSubject, int idCategoryAssessment, String data){
         this.id = id;
         setAssessment(assessment);
         setNote(note);
         setSemester(semester);
         setSubjectId(idSubject);
         setCategoryId(idCategoryAssessment);
+        setData(data);
     }
 
     public static SubjectAssessment newEmpty (){
-        return new SubjectAssessment(0, 0, "", 0, 0, 1);
+        return new SubjectAssessment(0, 0, "", 0, 0, 1, getToday());
     }
 
     public static SubjectAssessment getOfCursor(Cursor cursor){
@@ -39,7 +43,8 @@ public class SubjectAssessment {
                 cursor.getString(2),
                 cursor.getInt(3),
                 cursor.getInt(4),
-                cursor.getInt(5));
+                cursor.getInt(5),
+                cursor.getString(6));
     }
 
     public static SubjectAssessment getOfId (int id, Context context){
@@ -123,6 +128,10 @@ public class SubjectAssessment {
         return categoryId;
     }
 
+    public String getData(){
+        return data;
+    }
+
     public void setAssessment(float assessment) {
         this.assessment = assessment;
         contentValues.put("ASSESSMENT", getAssessment());
@@ -146,5 +155,18 @@ public class SubjectAssessment {
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
         contentValues.put("TAB_CATEGORY_ASSESSMENT", getCategoryId());
+    }
+
+    public void setData(String data){
+        this.data = data;
+        contentValues.put("DATA", getData());
+    }
+
+    public static String getToday(){
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        return  day + "/" + month + "/" + year;
     }
 }

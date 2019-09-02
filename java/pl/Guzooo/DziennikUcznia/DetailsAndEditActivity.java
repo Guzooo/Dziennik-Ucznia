@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.GridLayout;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -183,10 +182,10 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         assessmentsCursor = db.query("ASSESSMENTS",
                 SubjectAssessment.subjectAssessmentOnCursor,
                 "TAB_SUBJECT = ? AND SEMESTER = ?",
-                new String[] {Integer.toString(subject.getId()), Integer.toString(StatisticsActivity.getSemester(this))},
+                new String[]{Integer.toString(subject.getId()), Integer.toString(StatisticsActivity.getSemester(this))},
                 null, null, null);
-        if(assessmentsAdapter != null)
-          assessmentsAdapter.changeCursor(assessmentsCursor);
+        if (assessmentsAdapter != null)
+            assessmentsAdapter.changeCursor(assessmentsCursor);
     }
 
     private void SetAssessmentsAdapter(){
@@ -201,7 +200,19 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         assessmentsAdapter = new AdapterAssessments(assessmentsCursor, (int) margin, db,this);
         assessmentsRecycler.setAdapter(assessmentsAdapter);
 
-        //TODO; listener;
+        assessmentsAdapter.setListener(new AdapterAssessments.Listener() {
+            @Override
+            public void onClick(SubjectAssessment subjectAssessment, final int position) {
+                AssessmentOptionsFragment.ListenerDismiss listenerDismiss = new AssessmentOptionsFragment.ListenerDismiss() {
+
+                    @Override
+                    public void Refresh() {
+                        RefreshAssessmentsCursor();
+                    }
+                };
+                new AssessmentOptionsFragment().show(subjectAssessment, listenerDismiss, getSupportFragmentManager(), "assessment");
+            }
+        });
     }
 
     private void SetUnpreparedness() {

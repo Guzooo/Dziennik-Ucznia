@@ -5,15 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
-import android.util.Log;
-
-import androidx.core.content.ContextCompat;
 
 public class HelperDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "dziennikucznia";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     HelperDatabase(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -73,6 +69,11 @@ public class HelperDatabase extends SQLiteOpenHelper {
                     + "NAME TEXT,"
                     + "COLOR TEXT)");
         }
+        if(oldVersion < 5){
+            db.execSQL("ALTER TABLE ASSESSMENTS ADD COLUMN DATA TEXT");
+
+            db.update("ASSESSMENTS", updateDatabase4to5(), null, null);
+        }
     }
 
     public static void CreateDefaultCategoryOfAssessment(Context context){
@@ -80,7 +81,7 @@ public class HelperDatabase extends SQLiteOpenHelper {
         db.delete("CATEGORY_ASSESSMENT", null, null);
         new CategoryAssessment(0, context.getString(R.string.category_of_assessment_default), "#000000").insert(context); //TODO:Color Resources
         new CategoryAssessment(0, context.getString(R.string.category_of_assessment_answer), "#00A5FF").insert(context);
-        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_homework), "00FF00").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_homework), "#00FF00").insert(context);
         new CategoryAssessment(0, context.getString(R.string.category_of_assessment_quiz), "#FD5454").insert(context);
         new CategoryAssessment(0, context.getString(R.string.category_of_assessment_test), "#ff0000").insert(context);
         Cursor cursor = db.query("CATEGORY_ASSESSMENT",
@@ -95,6 +96,12 @@ public class HelperDatabase extends SQLiteOpenHelper {
     private ContentValues updateDatabase2to3(){
         ContentValues contentValues = new ContentValues();
         contentValues.put("ASSESSMENTS2", "");
+        return contentValues;
+    }
+
+    private ContentValues updateDatabase4to5(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("DATA", "");
         return contentValues;
     }
 }

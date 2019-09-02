@@ -16,6 +16,7 @@
 
     <string name="save">Zapisz</string>
     <string name="add">Dodaj</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Anuluj</string>
     <string name="null_string">Brak</string>
     <string name="you_are_sure">Jesteś pewny?</string>
@@ -23,8 +24,6 @@
     <string name="no">Nie</string>
 
     <string name="notepad">Notatnik</string>
-    <string name="assessment">Oceny:</string>
-    <string name="hint_assessment">Wpisz ocene</string>
 
     <string name="week_hint">Wybierz dzień</string>
     <string name="monday">Poniedziałek</string>
@@ -83,15 +82,23 @@
     <string name="selected_item">Zaznaczone elementy: %1$d</string>
 
     <string name="teacher">Nauczyciel</string>
+    <string name="assessments">Oceny:</string>
+    <string name="hint_assessment">Wpisz ocene</string>
     <string name="unpreparedness_full">Nieprzygotowania</string>
     <string name="unpreparedness_current">Aktualne nieprzygotowania</string>
     <string name="unpreparedness_start">Domyślne nieprzygotowania</string>
     <string name="description">Opis</string>
+    <string name="assessment">Ocena</string>
 
     <string name="hint_teacher">Wpisz nauczyciela przedmiotu</string>
     <string name="hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>
-    <string name="hint_description">Wpisz dowolne informacje na temat przedmiotu</string>
-    
+    <string name="hint_description_subject">Wpisz dowolne informacje na temat przedmiotu</string>
+
+    <string name="see_assessment_option_after_add">Pokaż okno po dodaniu oceny</string>
+    <string name="semester">Semestr %1$d</string>
+    <string name="hint_description">Wpisz dowolne informacje</string>
+    <string name="cant_save">Nie można zapisać</string>
+
     <!--Do usunięcia-->
     <string name="details_minus_unpreparedness">-1NP</string>
     <string name="details_description">Opis:</string>
@@ -106,6 +113,7 @@
     <string name="edit_duplicate_subject">Powiel przedmiot</string>
     <string name="edit_duplicate_subject_made">Przedmiot został powielony</string>
     <string name="edit_delete_subject">Usuń przedmiot</string>
+    <!--aż do tego miejsca -->
 
     <string name="note_hint_name">Wpisz nazwę notatki</string>
     <string name="note_hint_description">Wpisz treść notatki</string>

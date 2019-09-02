@@ -188,4 +188,10 @@ public class TextAndHoldEditView extends LinearLayout implements View.OnLongClic
             return true;
         return false;
     }
+
+    public void EndEdition(){
+        if(editText.getVisibility() != GONE){
+            onEndEdit();
+        }
+    }
 }
