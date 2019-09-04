@@ -46,14 +46,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        /*
-        Tylko do testu niestandardowego widoku
-        */
-
-        Intent intent = new Intent(this, DetailsAndEditActivity.class);
-        intent.putExtra(DetailsAndEditActivity.EXTRA_ID, getIntent().getExtras().getInt(EXTRA_ID));
-        startActivity(intent);
-
         editTextAssessment = findViewById(R.id.details_edit_assessment);
         textViewAssessment = findViewById(R.id.details_assessment);
         textViewUnpreparedness = findViewById(R.id.details_unpreparedness);

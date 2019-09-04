@@ -1,5 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -7,16 +8,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -29,9 +34,10 @@ public class DetailsAndEditActivity extends AppCompatActivity {
 
     private Subject subject;
 
-    private EditText editTextAssessment;
+    private EditText editTextAssessment;//TODO: trza?
     private TextAndHoldEditView textAndHoldEditViewTeacher;
     private TextAndHoldEditView textAndHoldEditViewUnpreparedness;
+    private EditText editTextStartUnpreparedness;
     private TextAndHoldEditView textAndHoldEditViewDescription;
 
     private SQLiteDatabase db;
@@ -52,7 +58,10 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         editTextAssessment = findViewById(R.id.assessment);
         textAndHoldEditViewTeacher = findViewById(R.id.teacher);
         textAndHoldEditViewUnpreparedness = findViewById(R.id.unpreparedness);
+        editTextStartUnpreparedness = findViewById(R.id.unpreparedness_start_edit);
         textAndHoldEditViewDescription = findViewById(R.id.description);
+
+        textAndHoldEditViewUnpreparedness.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
 
         notesRecycler = findViewById(R.id.notes);
         assessmentsRecycler = findViewById(R.id.assessments);
@@ -87,7 +96,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         switch (item.getItemId()){
 
             case R.id.action_edit:
-
+                EditTitle();
                 return true;
 
             case R.id.action_notes:
@@ -95,11 +104,11 @@ public class DetailsAndEditActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_del:
-
+                Delete();
                 return true;
 
             case R.id.action_duplicate:
-
+                Duplicate();
                 return true;
 
             default:
@@ -114,12 +123,86 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        CloseAllTextAndEdit();
+        subject.setTeacher(textAndHoldEditViewTeacher.getText());
+        subject.setCurrentUnpreparedness(valueOf(textAndHoldEditViewUnpreparedness.getText()), this);
+        subject.setUnpreparedness(valueOf(editTextStartUnpreparedness.getText().toString()));
+        subject.setDescription(textAndHoldEditViewDescription.getText());
+        subject.update(this);
+    }
+
+    private int valueOf(String string){
+        if(string.equals("")){
+            return 0;
+        } else {
+            return Integer.valueOf(string);
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
         notesCursor.close();
         assessmentsCursor.close();
         db.close();
+    }
+
+    private void EditTitle(){
+        final EditText editText = new EditText(this);
+        editText.setText(subject.getName());
+        editText.setTextColor(Color.parseColor("#FFFFFF"));
+        new AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alarm)
+                .setView(editText)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(editText.getText().toString().equals("")){
+                            String text = getString(R.string.cant_save) + getString(R.string.separation) + getString(R.string.edit_hint_name);
+                            Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        subject.setName(editText.getText().toString());
+                        RefreshActionBarInfo();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void Delete(){
+        InterfaceUtils.getAlertDelete(this)
+                .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        subject.delete(getApplicationContext());
+                        finish();
+                    }
+                })
+                .show();
+    }
+
+    private void Duplicate(){
+        if(subject.duplicate(this))
+            Toast.makeText(this, R.string.edit_duplicate_subject_made, Toast.LENGTH_SHORT).show();
+    }
+
+    public void ClickPlusAssessment(View v){
+        SubjectAssessment assessment = subject.addAssessment(editTextAssessment.getText().toString().trim(), this);
+        if(assessment == null)
+            RefreshAssessmentInfo();
+        else
+            OpenAssessmentWindows(assessment, true);
+    }
+
+    public void ClickMinusUnpreparedness(View v){
+        int np = Integer.valueOf(textAndHoldEditViewUnpreparedness.getText());
+        if(np > 0) {
+            np--;
+            textAndHoldEditViewUnpreparedness.setText(np + "");
+        }
     }
 
     private void ChangeVisibilityNotes(){
@@ -178,6 +261,11 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         SetAssessmentsAdapter();
     }
 
+    private void RefreshAssessmentInfo(){
+        RefreshActionBarInfo();
+        RefreshAssessmentsCursor();
+    }
+
     private void RefreshAssessmentsCursor(){
         assessmentsCursor = db.query("ASSESSMENTS",
                 SubjectAssessment.subjectAssessmentOnCursor,
@@ -203,36 +291,39 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         assessmentsAdapter.setListener(new AdapterAssessments.Listener() {
             @Override
             public void onClick(SubjectAssessment subjectAssessment, final int position) {
-                AssessmentOptionsFragment.ListenerDismiss listenerDismiss = new AssessmentOptionsFragment.ListenerDismiss() {
-
-                    @Override
-                    public void Refresh() {
-                        RefreshAssessmentsCursor();
-                    }
-                };
-                new AssessmentOptionsFragment().show(subjectAssessment, listenerDismiss, getSupportFragmentManager(), "assessment");
+                OpenAssessmentWindows(subjectAssessment, false);
             }
         });
     }
 
+    private void OpenAssessmentWindows(SubjectAssessment assessment, boolean insert) {
+        AssessmentOptionsFragment.ListenerDismiss listenerDismiss = new AssessmentOptionsFragment.ListenerDismiss() {
+            @Override
+            public void Refresh() {
+                RefreshAssessmentInfo();
+            }
+        };
+        new AssessmentOptionsFragment().show(assessment, listenerDismiss, insert, getSupportFragmentManager(), "assessment");
+    }
+
     private void SetUnpreparedness() {
-        textAndHoldEditViewUnpreparedness.setText(Integer.toString(subject.getUnpreparedness()));
+        textAndHoldEditViewUnpreparedness.setText(subject.getCurrentUnpreparedness(this) + "");
+        editTextStartUnpreparedness.setText(subject.getUnpreparedness() + "");
 
         final View titles = findViewById(R.id.unpreparedness_titles);
         final View button = findViewById(R.id.unpreparedness_del_one);
-        final EditText editStart = findViewById(R.id.unpreparedness_start_edit);
 
-        textAndHoldEditViewUnpreparedness.AddEditText(editStart);
+        textAndHoldEditViewUnpreparedness.AddEditText(editTextStartUnpreparedness);
         textAndHoldEditViewUnpreparedness.setOnChangeViewListener(new TextAndHoldEditView.onChangeViewListener() {
             @Override
             public void onChangeView(boolean isVisibleText, boolean isEmptyText) {
                 if (!isVisibleText) {
                     button.setVisibility(View.GONE);
                     titles.setVisibility(View.VISIBLE);
-                    editStart.setVisibility(View.VISIBLE);
+                    editTextStartUnpreparedness.setVisibility(View.VISIBLE);
                 } else {
                     titles.setVisibility(View.GONE);
-                    editStart.setVisibility(View.GONE);
+                    editTextStartUnpreparedness.setVisibility(View.GONE);
                     if (isEmptyText)
                         button.setVisibility(View.GONE);
                     else
@@ -271,5 +362,11 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         intent.putExtra(NoteActivity.EXTRA_ID_SUBJECT, id);
         intent.putExtra(NoteActivity.EXTRA_ID_NOTE, idNote);
         startActivity(intent);
+    }
+
+    private void CloseAllTextAndEdit(){
+        textAndHoldEditViewTeacher.EndEdition();
+        textAndHoldEditViewUnpreparedness.EndEdition();
+        textAndHoldEditViewDescription.EndEdition();
     }
 }

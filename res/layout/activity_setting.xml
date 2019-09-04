@@ -301,7 +301,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
-                android:text="Dziennik Ucznia v0.5"/>
+                android:text="Dziennik Ucznia v0.5.7"/>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>

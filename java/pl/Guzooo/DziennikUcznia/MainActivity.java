@@ -14,7 +14,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -213,8 +212,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.setListener(new AdapterSubjectCardView.Listener() {
             @Override
             public void onClick(int id) {
-                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.EXTRA_ID, id);
+                Intent intent = new Intent(getApplicationContext(), DetailsAndEditActivity.class);
+                intent.putExtra(DetailsAndEditActivity.EXTRA_ID, id);
                 startActivity(intent);
             }
         });

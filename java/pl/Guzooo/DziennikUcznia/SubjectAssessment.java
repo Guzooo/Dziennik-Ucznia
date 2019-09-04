@@ -34,7 +34,7 @@ public class SubjectAssessment {
     }
 
     public static SubjectAssessment newEmpty (){
-        return new SubjectAssessment(0, 0, "", 0, 0, 1, getToday());
+        return new SubjectAssessment(0, 0, "", 0, 0, 0, getToday());
     }
 
     public static SubjectAssessment getOfCursor(Cursor cursor){

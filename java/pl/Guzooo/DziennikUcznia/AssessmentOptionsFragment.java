@@ -15,11 +15,9 @@ import androidx.fragment.app.FragmentManager;
 
 import android.text.InputType;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +30,7 @@ public class AssessmentOptionsFragment extends DialogFragment {
     private static final String PREFERENCE_AUTO_SHOW = "autoshow";
 
     private SubjectAssessment subjectAssessment;
+    private boolean insert;
 
     private ListenerDismiss listenerDismiss;
 
@@ -66,30 +65,44 @@ public class AssessmentOptionsFragment extends DialogFragment {
 
         return new AlertDialog.Builder(getContext())
                 .setView(layout)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                .setPositiveButton(getPositiveButtonText(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        assessment.EndEdition();
-                        description.EndEdition();
-                        if(assessment.getText().equals("")){
-                            String text = getString(R.string.cant_save) + getString(R.string.separation) + getString(R.string.hint_assessment);
-                            Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-                        } else {
-                            subjectAssessment.setAssessment(Float.parseFloat(assessment.getText()));
-                            subjectAssessment.setNote(description.getText().trim());
-                            subjectAssessment.update(getContext());
-                            listenerDismiss.Refresh();
-                        }
+                        PositiveButton();
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .create();
     }
 
-    public void show(SubjectAssessment subjectAssessment, ListenerDismiss listenerDismiss, FragmentManager manager, String tag) {
+    private int getPositiveButtonText(){
+        if (insert)
+            return R.string.add;
+        return R.string.ok;
+    }
+
+    private void PositiveButton(){
+        assessment.EndEdition();
+        description.EndEdition();
+        if(assessment.getText().equals("")){
+            String text = getString(R.string.cant_save) + getString(R.string.separation) + getString(R.string.hint_assessment);
+            Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+        } else {
+            subjectAssessment.setAssessment(Float.parseFloat(assessment.getText()));
+            subjectAssessment.setNote(description.getText().trim());
+            if(insert)
+                subjectAssessment.insert(getContext());
+            else
+                subjectAssessment.update(getContext());
+            listenerDismiss.Refresh();
+        }
+    }
+
+    public void show(SubjectAssessment subjectAssessment, ListenerDismiss listenerDismiss, boolean insert, FragmentManager manager, String tag) {
         super.show(manager, tag);
         this.subjectAssessment = subjectAssessment;
         this.listenerDismiss = listenerDismiss;
+        this.insert = insert;
     }
 
     private void ClickDelete(){

@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class HelperDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "dziennikucznia";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
     HelperDatabase(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -74,6 +74,12 @@ public class HelperDatabase extends SQLiteOpenHelper {
 
             db.update("ASSESSMENTS", updateDatabase4to5(), null, null);
         }
+        if(oldVersion < 6){
+            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN UNPREPAREDNESS1 INTEGER");
+            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN UNPREPAREDNESS2 INTEGER");
+
+            db.update("SUBJECTS", updateDatabase5to6(), null, null);
+        }
     }
 
     public static void CreateDefaultCategoryOfAssessment(Context context){
@@ -102,6 +108,13 @@ public class HelperDatabase extends SQLiteOpenHelper {
     private ContentValues updateDatabase4to5(){
         ContentValues contentValues = new ContentValues();
         contentValues.put("DATA", "");
+        return contentValues;
+    }
+
+    private ContentValues updateDatabase5to6(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("UNPREPAREDNESS1", -1);
+        contentValues.put("UNPREPAREDNESS2", -1);
         return contentValues;
     }
 }
