@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
             checkInformationOnline.execute();
         }
+        NotificationsChannels.CreateNotificationsChannels(this);
     }
 
     @Override

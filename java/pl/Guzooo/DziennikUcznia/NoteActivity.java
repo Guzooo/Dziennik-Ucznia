@@ -1,8 +1,10 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,16 +12,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 
 public class NoteActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID_NOTE = "idnote";
     public static final String EXTRA_ID_SUBJECT = "idsubject";
 
-//    private final int NOTIFICATION_ID = 035;
+    private final int NOTIFICATION_ID = 1000;
 
     private EditText editTextTitle;
     private EditText editTextNote;
@@ -61,9 +63,9 @@ public class NoteActivity extends AppCompatActivity {
                 shareNote();
                 return true;
 
-            /*case R.id.action_pin:
+            case R.id.action_pin:
                 pinNote();
-                return true;*/
+                return true;
 
             case  R.id.action_trash:
                 deleteNote();
@@ -141,21 +143,32 @@ public class NoteActivity extends AppCompatActivity {
         return string;
     }
 
-   /* private void pinNote(){
-        Notification.Builder builder = null;
+    private void pinNote(){
+
+        Notification.Builder builder;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //builder = new Notification.Builder(this, CHANEL_ID);
+            NotificationsChannels.CheckChannelNoteIsActive(this);
+            builder = new Notification.Builder(this, NotificationsChannels.CHANNEL_NOTE_ID);
         }else {
             builder = new Notification.Builder(this);
         }
-        Notification notification = builder
+        builder = builder
                 .setSmallIcon(R.drawable.ic_pin)
-                .setContentTitle(Subject.getOfId(subjectNote.getIdSubject(), this).getName() + " - " + editTextTitle.getText().toString().trim())
-                .setContentText(editTextNote.getText().toString().trim())
-                .setPriority(Notification.PRIORITY_MAX)
-                .build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_ID, notification);
+                .setContentTitle(Subject.getOfId(subjectNote.getIdSubject(), this).getName())
+                .setContentText(editTextTitle.getText().toString().trim())
+                .setStyle(new android.app.Notification.BigTextStyle()
+                        .bigText(editTextNote.getText().toString().trim()))
+                .setPriority(Notification.PRIORITY_LOW);
+                //.setContentIntent(getNotifyIntent());
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(NOTIFICATION_ID + subjectNote.getId(), builder.build());
+    }
+
+  /*  private PendingIntent getNotifyIntent(){
+        Log.d("bierze intenta", subjectNote.getName() + " " + subjectNote.getId());
+        Intent intent = new Intent(this, NoteActivity.class);
+        intent.putExtra(EXTRA_ID_NOTE, subjectNote.getId());
+        return PendingIntent.getActivity(this, 0, intent, 0);
     }*/
 
     private void saveNote(){

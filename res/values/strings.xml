@@ -119,6 +119,8 @@
     <string name="note_hint_description">Wpisz treść notatki</string>
     <string name="note_null">Notatka nie jest uzupełniona</string>
     <string name="note_action_pin">Przypnij notatke</string>
+    <string name="notification_channel_note">Notatki</string>
+    <string name="notification_channel_note_description">Przedmiotowe notatki, które użytkownik przypiął</string>
 
     <string name="plan_null_plan">Nie masz jeszcze planu lekcji\nDotknij plusa poniżej by dodać plan lekcji</string>
 
