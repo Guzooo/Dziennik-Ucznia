@@ -24,9 +24,6 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
-            android:name=".DetailsActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".EditActivity"
             android:label="@string/add_subject" />
         <activity

@@ -155,13 +155,20 @@ public class NoteActivity extends AppCompatActivity {
         builder = builder
                 .setSmallIcon(R.drawable.ic_pin)
                 .setContentTitle(Subject.getOfId(subjectNote.getIdSubject(), this).getName())
-                .setContentText(editTextTitle.getText().toString().trim())
+                .setContentText(getNotificationText())
                 .setStyle(new android.app.Notification.BigTextStyle()
                         .bigText(editTextNote.getText().toString().trim()))
                 .setPriority(Notification.PRIORITY_LOW);
                 //.setContentIntent(getNotifyIntent());
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(NOTIFICATION_ID + subjectNote.getId(), builder.build());
+    }
+
+    private String getNotificationText(){
+        String returned = editTextTitle.getText().toString().trim();
+        if(!subjectNote.getNote().equals(""))
+            return returned + getString(R.string.separation) + editTextNote.getText().toString().trim();
+        return returned;
     }
 
   /*  private PendingIntent getNotifyIntent(){
