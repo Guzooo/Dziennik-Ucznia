@@ -117,6 +117,14 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if(checkVisibilityNotes())
+            ChangeVisibilityNotes();
+        else
+            super.onBackPressed();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(BUNDLE_VISIBLE_NOTES, (notesRecycler.getVisibility() == View.VISIBLE));
@@ -206,11 +214,15 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     }
 
     private void ChangeVisibilityNotes(){
-        if(notesRecycler.getVisibility() == View.VISIBLE){
+        if(checkVisibilityNotes()){
             notesRecycler.setVisibility(View.GONE);
         } else {
             notesRecycler.setVisibility(View.VISIBLE);
         }
+    }
+
+    private boolean checkVisibilityNotes(){
+        return notesRecycler.getVisibility() == View.VISIBLE;
     }
 
     private void SetNotes(){
@@ -348,8 +360,11 @@ public class DetailsAndEditActivity extends AppCompatActivity {
 
         ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, this);
         ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, this);
-
         float average = subject.getAverageEnd(assessments1, assessments2);
+
+        if(average == 0.0)
+            return "";
+
         String strAverage = getResources().getString(R.string.statistics_semester_end) + ": " + String.format(Locale.US, "%.2f", average);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
             return strAverage + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverageEnd(assessments1, assessments2,sharedPreferences)); //TODO: unnecessary delete ;)
