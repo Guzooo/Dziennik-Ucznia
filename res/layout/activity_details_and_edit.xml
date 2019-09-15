@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailsAndEditActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <pl.Guzooo.DziennikUcznia.TextAndHoldEditView
+            android:id="@+id/teacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/minimum_length"
+            app:info="@string/teacher"
+            app:hint="@string/hint_teacher"
+            android:layout_margin="@dimen/standard_margin"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/assessments"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/standard_margin"
+                style="@style/AppTheme.TitleBig"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/assessment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/minimum_length"
+                android:hint="@string/hint_assessment"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:inputType="numberDecimal"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_input_add"
+                android:onClick="ClickPlusAssessment"
+                style="@style/AppTheme.Button"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/assessments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/unpreparedness_titles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_margin">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/unpreparedness_current"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
+                style="@style/AppTheme.TitleBig"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/unpreparedness_start"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
+                style="@style/AppTheme.TitleBig"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:animateLayoutChanges="true">
+
+            <pl.Guzooo.DziennikUcznia.TextAndHoldEditView
+                android:id="@+id/unpreparedness"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/minimum_length"
+                android:layout_weight="1"
+                app:prefix="@string/unpreparedness"
+                app:info="@string/unpreparedness_full"
+                app:hint="@string/edit_hint_unpreparedness"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"/>
+
+            <EditText
+                android:id="@+id/unpreparedness_start_edit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:hint="@string/hint_unpreparedness"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"/>
+
+            <Button
+                android:id="@+id/unpreparedness_del_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/details_minus_unpreparedness"
+                android:onClick="ClickMinusUnpreparedness"
+                style="@style/AppTheme.Button"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/description_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description_title"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            style="@style/AppTheme.TitleBig"/>
+
+        <pl.Guzooo.DziennikUcznia.TextAndHoldEditView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/minimum_length"
+            app:info="@string/description"
+            app:hint="@string/hint_description_subject"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"/>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
 
+    private final String PREFERENCE_CATEGORY_OF_ASSESSMENT = "categoryofassessment";
     //preference for errors and new save
     private final String PREFERENCE_DATABASE_3_TO_4 = "database3to4";
 
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
+        if(sharedPreferences.getInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 0) == 0){
+            HelperDatabase.CreateDefaultCategoryOfAssessment(this);
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 1);
+            editor.apply();
+        }
+
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_3_TO_4, 0) == 0){
             database3to4();
         }
@@ -74,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
             checkInformationOnline.execute();
         }
+        NotificationsChannels.CreateNotificationsChannels(this);
     }
 
     @Override
@@ -115,6 +124,15 @@ public class MainActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(notepadBox.getTranslationY() == 0){
+            showNotepad();
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -204,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.setListener(new AdapterSubjectCardView.Listener() {
             @Override
             public void onClick(int id) {
-                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.EXTRA_ID, id);
+                Intent intent = new Intent(getApplicationContext(), DetailsAndEditActivity.class);
+                intent.putExtra(DetailsAndEditActivity.EXTRA_ID, id);
                 startActivity(intent);
             }
         });

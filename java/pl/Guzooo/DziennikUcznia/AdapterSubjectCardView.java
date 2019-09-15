@@ -83,7 +83,7 @@ public class AdapterSubjectCardView extends RecyclerView.Adapter<AdapterSubjectC
                     Subject subject = Subject.getOfCursor(cursors.get(cursor));
 
                     name.setText(subject.getName());
-                    np.setText(cardView.getContext().getResources().getString(R.string.unpreparedness, subject.getUnpreparedness()));
+                    np.setText(cardView.getContext().getResources().getString(R.string.unpreparedness_with_variable, subject.getCurrentUnpreparedness(cardView.getContext())));
                     note.setText(cardView.getContext().getResources().getString(R.string.notes, subject.getSizeNotes(cardView.getContext())));
                 }
 

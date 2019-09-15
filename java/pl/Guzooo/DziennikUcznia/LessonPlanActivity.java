@@ -92,6 +92,7 @@ public class LessonPlanActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new AdapterPlanCardView(cursor, findViewById(R.id.plan_plan_null));
         recyclerView.setAdapter(adapter);
+        recyclerView.scrollToPosition(adapter.getTodayPosition());
 
         adapter.setListener(new AdapterPlanCardView.Listener() {
             @Override

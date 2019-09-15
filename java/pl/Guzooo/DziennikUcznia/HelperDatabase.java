@@ -2,13 +2,14 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class HelperDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "dziennikucznia";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 6;
 
     HelperDatabase(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -67,13 +68,53 @@ public class HelperDatabase extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE CATEGORY_ASSESSMENT (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT,"
                     + "COLOR TEXT)");
-
         }
+        if(oldVersion < 5){
+            db.execSQL("ALTER TABLE ASSESSMENTS ADD COLUMN DATA TEXT");
+
+            db.update("ASSESSMENTS", updateDatabase4to5(), null, null);
+        }
+        if(oldVersion < 6){
+            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN UNPREPAREDNESS1 INTEGER");
+            db.execSQL("ALTER TABLE SUBJECTS ADD COLUMN UNPREPAREDNESS2 INTEGER");
+
+            db.update("SUBJECTS", updateDatabase5to6(), null, null);
+        }
+    }
+
+    public static void CreateDefaultCategoryOfAssessment(Context context){
+        SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+        db.delete("CATEGORY_ASSESSMENT", null, null);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_default), "#000000").insert(context); //TODO:Color Resources
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_answer), "#00A5FF").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_homework), "#00FF00").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_quiz), "#FD5454").insert(context);
+        new CategoryAssessment(0, context.getString(R.string.category_of_assessment_test), "#ff0000").insert(context);
+        Cursor cursor = db.query("CATEGORY_ASSESSMENT",
+                new String[] {"_id"},
+                null, null, null, null, null);
+        if(cursor.moveToFirst())
+            CategoryAssessment.setPreferenceDefaultCategory(cursor.getInt(0), context);
+        cursor.close();
+        db.close();
     }
 
     private ContentValues updateDatabase2to3(){
         ContentValues contentValues = new ContentValues();
         contentValues.put("ASSESSMENTS2", "");
+        return contentValues;
+    }
+
+    private ContentValues updateDatabase4to5(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("DATA", "");
+        return contentValues;
+    }
+
+    private ContentValues updateDatabase5to6(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("UNPREPAREDNESS1", -1);
+        contentValues.put("UNPREPAREDNESS2", -1);
         return contentValues;
     }
 }

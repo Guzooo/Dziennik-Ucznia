@@ -20,12 +20,14 @@ public class Subject {
     private String teacher;
     private ArrayList<ArrayList<Float>> assessments =  new ArrayList<> (); // z 6 na 7
     private int unpreparedness;
+    private int unpreparedness1;
+    private int unpreparedness2;
     private String description;
     private ContentValues contentValues = new ContentValues();
 
-    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "ASSESSMENTS2"};      //jak z 6 uciekną pozbyć się łocen
+    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "ASSESSMENTS2", "UNPREPAREDNESS1", "UNPREPAREDNESS2"};      //jak z 6 uciekną pozbyć się łocen
 
-    private Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description, String assessments2){
+    private Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description, String assessments2, int unpreparedness1, int unpreparedness2){
         this.id = id;
         setName(name);
         setTeacher(teacher);
@@ -37,10 +39,12 @@ public class Subject {
         contentValues.put("ASSESSMENTS2", "");
         setUnpreparedness(unpreparedness);
         setDescription(description);
+        setUnpreparedness1(unpreparedness1);
+        setUnpreparedness2(unpreparedness2);
     }
 
     public static Subject newEmpty (){
-        Subject subject = new Subject (0, "", "", "", 0, "", "");
+        Subject subject = new Subject (0, "", "", "", 0, "", "", -1, -1);
         subject.contentValues.put("NOTES", 0);
         subject.contentValues.put("DAY", 0);
         return subject;
@@ -53,7 +57,9 @@ public class Subject {
                 cursor.getString(3),
                 cursor.getInt(4),
                 cursor.getString(5),
-                cursor.getString(6));
+                cursor.getString(6),
+                cursor.getInt(7),
+                cursor.getInt(8));
     }
 
     public static Subject getOfId (int id, Context context){
@@ -81,6 +87,8 @@ public class Subject {
         newSubject.setName(subject.getName());
         newSubject.setTeacher(subject.getTeacher());
         newSubject.setUnpreparedness(subject.getUnpreparedness());
+        newSubject.setUnpreparedness1(subject.unpreparedness1);
+        newSubject.setUnpreparedness2(subject.unpreparedness2);
         newSubject.setDescription(subject.getDescription());
         return newSubject;
     }
@@ -258,6 +266,18 @@ public class Subject {
         return unpreparedness;
     }
 
+    public int getCurrentUnpreparedness(Context context){
+        int i;
+        if(StatisticsActivity.getSemester(context) == 1){
+            i = unpreparedness1;
+        } else {
+            i = unpreparedness2;
+        }
+        if(i == -1)
+            return getUnpreparedness();
+        return i;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -284,6 +304,24 @@ public class Subject {
         }
     }
 
+    public void setCurrentUnpreparedness(int unpreparedness, Context context){
+        if(StatisticsActivity.getSemester(context) == 1){
+            setUnpreparedness1(unpreparedness);
+        } else {
+            setUnpreparedness2(unpreparedness);
+        }
+    }
+
+    private void setUnpreparedness1(int unpreparedness1) {
+        this.unpreparedness1 = unpreparedness1;
+        contentValues.put("UNPREPAREDNESS1", unpreparedness1);
+    }
+
+    private void setUnpreparedness2(int unpreparedness2) {
+        this.unpreparedness2 = unpreparedness2;
+        contentValues.put("UNPREPAREDNESS2", unpreparedness2);
+    }
+
     public void setDescription(String description){
         this.description = description;
         contentValues.put("DESCRIPTION", getDescription());
@@ -298,16 +336,23 @@ public class Subject {
         }
     }
 
-    public void addAssessment(String string, Context context){
+    public SubjectAssessment addAssessment(String string, Context context){
         if (string.equals(""))
             Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
-        else {
-            SubjectAssessment assessment = SubjectAssessment.newEmpty();
-            assessment.setAssessment(Float.parseFloat(string));
-            assessment.setSubjectId(getId());
-            assessment.setSemester(StatisticsActivity.getSemester(context));
-            assessment.insert(context);
+        else if (AssessmentOptionsFragment.getPreferenceAutoShow(context)){
+            return getNewAssessment(string, context);
+        } else {
+            getNewAssessment(string, context).insert(context);
         }
+        return null;
+    }
+
+    private SubjectAssessment getNewAssessment(String string, Context context){
+        SubjectAssessment assessment = SubjectAssessment.newEmpty();
+        assessment.setAssessment(Float.parseFloat(string));
+        assessment.setSubjectId(getId());
+        assessment.setSemester(StatisticsActivity.getSemester(context));
+        return assessment;
     }
 
     public void removeAssessment(String string, Context context){

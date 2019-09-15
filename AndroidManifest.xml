@@ -19,12 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
-        <activity
-            android:name=".DetailsActivity"
-            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".EditActivity"
             android:label="@string/add_subject" />
@@ -43,7 +41,8 @@
             android:label="@string/lesson_plan_add" />
         <activity
             android:name=".StatisticsActivity"
-            android:label="@string/statistics"/>
+            android:label="@string/statistics" />
+        <activity android:name=".DetailsAndEditActivity"></activity>
     </application>
 
 </manifest>

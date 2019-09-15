@@ -8,12 +8,6 @@
         <item name="android:textColor">#000000</item>
     </style>
 
-    <style name="AppTheme.ActionBarTitle" parent="AppTheme">
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">20dp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="AppTheme.DescriptionText" parent="AppTheme">
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">10dp</item>
@@ -40,5 +34,12 @@
     <style name="AppTheme.Dialog.Alarm" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:colorBackground">@color/colorPrimary</item>
         <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="AppTheme.Icon">
+        <item name="android:minWidth">@dimen/minimum_length</item>
+        <item name="android:minHeight">@dimen/minimum_length</item>
+        <item name="android:tint">@color/colorPrimary</item>
+        <item name="android:padding">@dimen/standard_margin</item>
     </style>
 </resources>

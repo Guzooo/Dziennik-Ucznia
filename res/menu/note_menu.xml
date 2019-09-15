@@ -9,13 +9,13 @@
         app:showAsAction="always"
         android:title="@string/menu_share" />
 
-    <!--<item-->
-        <!--android:id="@+id/action_pin"-->
-        <!--android:icon="@drawable/ic_pin"-->
-        <!--android:orderInCategory="99"-->
-        <!--android:showAsAction="always"-->
-        <!--android:iconTint="@android:color/darker_gray"-->
-        <!--android:title="@string/note_action_pin"/>&lt;!&ndash;TODO: ogarnać ten drawable&ndash;&gt;-->
+    <item
+        android:id="@+id/action_pin"
+        android:icon="@drawable/ic_pin"
+        android:orderInCategory="99"
+        app:showAsAction="always"
+        android:iconTint="@android:color/darker_gray"
+        android:title="@string/note_action_pin"/>
 
     <item
         android:id="@+id/action_trash"

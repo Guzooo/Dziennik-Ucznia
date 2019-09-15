@@ -71,7 +71,7 @@
                         android:id="@+id/edit_edit_assessment_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/assessment" />
+                        android:text="@string/assessments" />
 
                     <TextView
                         android:id="@+id/edit_edit_assessment"

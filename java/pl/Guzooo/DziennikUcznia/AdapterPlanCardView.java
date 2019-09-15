@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardView.ViewHolder> {
 
@@ -201,5 +202,13 @@ public class AdapterPlanCardView extends RecyclerView.Adapter<AdapterPlanCardVie
             }
         }
         return m;
+    }
+
+    public int getTodayPosition(){
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        if(day == 1)
+            day = 8;
+        day -=2;
+        return days.get(day);
     }
 }
