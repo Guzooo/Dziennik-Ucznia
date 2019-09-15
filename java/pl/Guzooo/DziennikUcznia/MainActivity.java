@@ -323,8 +323,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
 
-            createDefaultCategoryOfAssessment(db);
-
             Cursor cursor = db.query("SUBJECTS",
                     Subject.subjectOnCursor,
                     null, null, null, null, null);
@@ -360,23 +358,8 @@ public class MainActivity extends AppCompatActivity {
         contentValues.put("NOTE", "");
         contentValues.put("SEMESTER", semester);
         contentValues.put("TAB_SUBJECT", subject);
-        contentValues.put("TAB_CATEGORY_ASSESSMENT", 1);
-        return contentValues;
-    }
-
-    private void createDefaultCategoryOfAssessment(SQLiteDatabase db){
-        db.delete("CATEGORY_ASSESSMENT", null, null);
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_default), "#000000"));
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_test), "#ff0000"));
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_answer), "#006399"));
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_homework), "#00ff11"));
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_quiz), "#ff0000"));
-    }
-
-    private ContentValues ModelCategoryOfAssessment(String name, String color){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("NAME", name);
-        contentValues.put("COLOR", color);
+        contentValues.put("TAB_CATEGORY_ASSESSMENT", CategoryAssessment.getPreferenceDefaultCategory(this));
+        contentValues.put("DATA", "");
         return contentValues;
     }
 }
