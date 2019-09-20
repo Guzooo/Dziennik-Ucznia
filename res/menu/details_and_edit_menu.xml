@@ -7,7 +7,7 @@
         android:icon="?android:attr/actionModePasteDrawable"
         app:showAsAction="always"
         android:title="@string/notepad"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:iconTint="@android:color/darker_gray"/>
 
     <item
@@ -15,18 +15,18 @@
         android:icon="@android:drawable/ic_menu_edit"
         app:showAsAction="ifRoom"
         android:title="@string/menu_edit"
-        android:orderInCategory="3"/>
+        android:orderInCategory="1"/>
 
     <item
         android:id="@+id/action_duplicate"
-        android:orderInCategory="4"
+        android:orderInCategory="3"
         app:showAsAction="never"
         android:title="@string/edit_duplicate_subject" />
 
     <item
         android:id="@+id/action_del"
         android:icon="@android:drawable/ic_menu_delete"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         app:showAsAction="never"
         android:title="@string/menu_trash" />
 </menu>

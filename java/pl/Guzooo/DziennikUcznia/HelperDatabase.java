@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class HelperDatabase extends SQLiteOpenHelper {
 
@@ -116,5 +117,9 @@ public class HelperDatabase extends SQLiteOpenHelper {
         contentValues.put("UNPREPAREDNESS1", -1);
         contentValues.put("UNPREPAREDNESS2", -1);
         return contentValues;
+    }
+    
+    public static void ErrorToast(Context context){
+        Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
     }
 }
