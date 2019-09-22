@@ -13,6 +13,7 @@ public class SubjectAssessment {
 
     private int id;
     private float assessment;
+    private int weight;
     private String note;
     private int semester;
     private int subjectId;
@@ -21,7 +22,7 @@ public class SubjectAssessment {
 
     private ContentValues contentValues = new ContentValues();
 
-    public static final String[] subjectAssessmentOnCursor = {"_id", "ASSESSMENT", "NOTE", "SEMESTER", "TAB_SUBJECT", "TAB_CATEGORY_ASSESSMENT", "DATA"};
+    public static final String[] subjectAssessmentOnCursor = {"_id", "ASSESSMENT", "NOTE", "SEMESTER", "TAB_SUBJECT", "TAB_CATEGORY_ASSESSMENT", "DATA", "WEIGHT"};
 
     private SubjectAssessment (int id, float assessment, String note, int semester, int idSubject, int idCategoryAssessment, String data){
         this.id = id;
@@ -168,5 +169,13 @@ public class SubjectAssessment {
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
         return  day + "/" + month + "/" + year;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 }

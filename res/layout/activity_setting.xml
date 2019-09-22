@@ -85,6 +85,13 @@
             android:src="@color/colorPrimary" />-->
 
         <CheckBox
+            android:id="@+id/average_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/minimum_length"
+            android:text="@string/setting_average_weight"/>
+
+        <CheckBox
             android:id="@+id/setting_average_to_assessment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -138,6 +138,7 @@
 
     <string name="setting_facebook">Sprawdź fanpage\nFacebook</string>
     <string name="setting_messenger">Zaproponuj zmiany\nMessenger</string>
+    <string name="setting_average_weight">Średnia ważona</string>
     <string name="setting_average_to_assessment">Przeliczaj średnie na oceny</string>
     <string name="setting_six_from">6 od</string>
     <string name="setting_five_from">5 od</string>

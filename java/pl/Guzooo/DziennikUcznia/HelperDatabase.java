@@ -10,7 +10,7 @@ import android.widget.Toast;
 public class HelperDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "dziennikucznia";
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
 
     HelperDatabase(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -81,6 +81,12 @@ public class HelperDatabase extends SQLiteOpenHelper {
 
             db.update("SUBJECTS", updateDatabase5to6(), null, null);
         }
+
+        if(oldVersion < 7){
+            db.execSQL("ALTER TABLE ASSESSMENTS ADD COLUMN WEIGHT INTEGER");
+
+            db.update("ASSESSMENTS", updateDatabase6to7(), null, null);
+        }
     }
 
     public static void CreateDefaultCategoryOfAssessment(Context context){
@@ -116,6 +122,12 @@ public class HelperDatabase extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("UNPREPAREDNESS1", -1);
         contentValues.put("UNPREPAREDNESS2", -1);
+        return contentValues;
+    }
+
+    private ContentValues updateDatabase6to7(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("WEIGHT", 1);
         return contentValues;
     }
     

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SettingActivity extends AppCompatActivity {
 
     public static final String PREFERENCE_NAME = "averageto";
+    public static final String PREFERENCE_AVERAGE_WEIGHT = "averageweight";
     public static final String PREFERENCE_AVERAGE_TO_ASSESSMENT = "averagetoassessment";
     public static final String PREFERENCE_AVERAGE_TO_SIX = "averagetosix";
     public static final String PREFERENCE_AVERAGE_TO_FIVE = "averagetofive";
@@ -26,6 +27,7 @@ public class SettingActivity extends AppCompatActivity {
     public static final String PREFERENCE_AVERAGE_TO_BELT = "averagetobelt";
 
     public static final Boolean DEFAULT_AVERAGE_TO_ASSESSMENT = false;
+    public static final Boolean DEFAULT_AVERAGE_WEIGHT = false;
     public static final Float DEFAULT_AVERAGE_TO_SIX = 5.1f;
     public static final Float DEFAULT_AVERAGE_TO_FIVE = 4.5f;
     public static final Float DEFAULT_AVERAGE_TO_FOUR = 3.6f;
@@ -35,6 +37,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+    private CheckBox checkBoxAverageWeight;
     private CheckBox checkBoxAverageToAssessment;
     private EditText editTextAverageToSix;
     private EditText editTextAverageToFive;
@@ -48,6 +51,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+        checkBoxAverageWeight = findViewById(R.id.average_weight);
         checkBoxAverageToAssessment = findViewById(R.id.setting_average_to_assessment);
         editTextAverageToSix = findViewById(R.id.setting_average_to_six);
         editTextAverageToFive = findViewById(R.id.setting_average_to_five);
@@ -57,6 +61,7 @@ public class SettingActivity extends AppCompatActivity {
         editTextAverageToBelt = findViewById(R.id.setting_average_to_belt);
 
         sharedPreferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+        checkBoxAverageWeight.setChecked(sharedPreferences.getBoolean(PREFERENCE_AVERAGE_WEIGHT, DEFAULT_AVERAGE_WEIGHT));
         checkBoxAverageToAssessment.setChecked(sharedPreferences.getBoolean(PREFERENCE_AVERAGE_TO_ASSESSMENT, DEFAULT_AVERAGE_TO_ASSESSMENT));
         editTextAverageToSix.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_SIX, DEFAULT_AVERAGE_TO_SIX)));
         editTextAverageToFive.setText(Float.toString(sharedPreferences.getFloat(PREFERENCE_AVERAGE_TO_FIVE, DEFAULT_AVERAGE_TO_FIVE)));
@@ -73,6 +78,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onPause();
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        editor.putBoolean(PREFERENCE_AVERAGE_WEIGHT, checkBoxAverageWeight.isChecked());
         editor.putBoolean(PREFERENCE_AVERAGE_TO_ASSESSMENT, checkBoxAverageToAssessment.isChecked());
         editor.putFloat(PREFERENCE_AVERAGE_TO_SIX, getFloatFromText(editTextAverageToSix, DEFAULT_AVERAGE_TO_SIX));
         editor.putFloat(PREFERENCE_AVERAGE_TO_FIVE, getFloatFromText(editTextAverageToFive, DEFAULT_AVERAGE_TO_FIVE));
