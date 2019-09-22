@@ -10,7 +10,7 @@ public abstract class DatabaseObject {
 
     private int id;
 
-    public abstract String[] onCursor();
+    public abstract String[] onCursor(Context context);
     public abstract String databaseName();
 
     public DatabaseObject(){
@@ -23,7 +23,7 @@ public abstract class DatabaseObject {
         try {
             SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
             Cursor cursor = db.query(databaseName(),
-                    onCursor(),
+                    onCursor(context),
                     "_id = ?",
                     new String[]{Integer.toString(id)},
                     null, null, null);
@@ -45,7 +45,7 @@ public abstract class DatabaseObject {
     public void Insert(Context context){
         try{
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
-            db.insert(databaseName(), null, getContentValues());
+            db.insert(databaseName(), null, getContentValues(context));
             db.close();
         } catch (SQLiteException e){
             HelperDatabase.ErrorToast(context);
@@ -55,7 +55,7 @@ public abstract class DatabaseObject {
     public void Update(Context context){
         try {
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
-            db.update(databaseName(), getContentValues(), "_id = ?", new String[]{Integer.toString(getId())});
+            db.update(databaseName(), getContentValues(context), "_id = ?", new String[]{Integer.toString(getId())});
             db.close();
         } catch (SQLiteException e){
             HelperDatabase.ErrorToast(context);
@@ -72,7 +72,7 @@ public abstract class DatabaseObject {
         }
     }
 
-    public abstract ContentValues getContentValues();
+    public abstract ContentValues getContentValues(Context context);
 
     public int getId(){
         return id;
