@@ -33,11 +33,13 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private CardView background;
         private TextView assessment;
+        private TextView data;
 
         private ViewHolder (CardView cv, int margin, Context context){
             super(cv);
             background = cv;
             assessment = cv.findViewById(R.id.assessment);
+            data = cv.findViewById(R.id.data);
 
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                     context.getResources().getDimensionPixelSize(R.dimen.assessment_length),
@@ -57,13 +59,19 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
     public void onBindViewHolder(final AdapterAssessments.ViewHolder holder, int position) {
         if(cursor.moveToPosition(position)){
             final SubjectAssessment assessment = SubjectAssessment.getOfCursor(cursor);
-            holder.assessment.setText(assessment.getAssessment() + "");
+
+            String assessmentStr = assessment.getAssessment() + "";
+            assessmentStr = assessmentStr.replace(".0", "");
+            assessmentStr = assessmentStr.replace(".5", "+");
+            holder.assessment.setText(assessmentStr);
+            holder.data.setText(assessment.getData());
             CategoryAssessment categoryAssessment = CategoryAssessment.getOfId(assessment.getCategoryId(), context);
             if(categoryAssessment.getId() == 0)
                 categoryAssessment = CategoryAssessment.getOfId(CategoryAssessment.getPreferenceDefaultCategory(context), context);
 
             holder.background.setCardBackgroundColor(Color.parseColor(categoryAssessment.getColor()));
             holder.assessment.setTextColor(Color.parseColor(categoryAssessment.getForegroundColor()));
+            holder.data.setTextColor(Color.parseColor(categoryAssessment.getForegroundColor()));
 
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -250,8 +250,13 @@ public class Subject {
         String assessmentsString = "";
         if(assessments.size() > 0) {
             for (int i = 0; i < assessments.size(); i++) {
-                assessmentsString += Float.toString(assessments.get(i).getAssessment()) + " ";
+                assessmentsString += assessments.get(i).getAssessment() + "";
+                if(i+1 != assessments.size()){
+                    assessmentsString += ", ";
+                }
             }
+            assessmentsString = assessmentsString.replaceAll("\\.0", "");
+            assessmentsString = assessmentsString.replaceAll("\\.5", "+");
         } else {
             assessmentsString = context.getResources().getString(R.string.null_string);
         }
