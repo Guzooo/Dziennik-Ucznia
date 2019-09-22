@@ -71,7 +71,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void ClickPlus(View v){
-        subject.addAssessment(editTextAssessment.getText().toString().trim(), this);
+        subject.addAssessment(editTextAssessment.getText().toString().trim(),"" , this);
         textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
     }
 

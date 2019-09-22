@@ -84,11 +84,13 @@
     <string name="teacher">Nauczyciel</string>
     <string name="assessments">Oceny:</string>
     <string name="hint_assessment">Wpisz ocene</string>
+    <string name="hint_assessment_weight">Wpisz wage (1)</string>
     <string name="unpreparedness_full">Nieprzygotowania</string>
     <string name="unpreparedness_current">Aktualne nieprzygotowania</string>
     <string name="unpreparedness_start">Domyślne nieprzygotowania</string>
     <string name="description">Opis</string>
     <string name="assessment">Ocena</string>
+    <string name="weight">Waga</string>
 
     <string name="hint_teacher">Wpisz nauczyciela przedmiotu</string>
     <string name="hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>

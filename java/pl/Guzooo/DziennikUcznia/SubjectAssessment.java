@@ -24,7 +24,7 @@ public class SubjectAssessment {
 
     public static final String[] subjectAssessmentOnCursor = {"_id", "ASSESSMENT", "NOTE", "SEMESTER", "TAB_SUBJECT", "TAB_CATEGORY_ASSESSMENT", "DATA", "WEIGHT"};
 
-    private SubjectAssessment (int id, float assessment, String note, int semester, int idSubject, int idCategoryAssessment, String data){
+    private SubjectAssessment (int id, float assessment, String note, int semester, int idSubject, int idCategoryAssessment, String data, int weight){
         this.id = id;
         setAssessment(assessment);
         setNote(note);
@@ -32,10 +32,11 @@ public class SubjectAssessment {
         setSubjectId(idSubject);
         setCategoryId(idCategoryAssessment);
         setData(data);
+        setWeight(weight);
     }
 
     public static SubjectAssessment newEmpty (){
-        return new SubjectAssessment(0, 0, "", 0, 0, 0, getToday());
+        return new SubjectAssessment(0, 0, "", 0, 0, 0, getToday(), 1);
     }
 
     public static SubjectAssessment getOfCursor(Cursor cursor){
@@ -45,7 +46,8 @@ public class SubjectAssessment {
                 cursor.getInt(3),
                 cursor.getInt(4),
                 cursor.getInt(5),
-                cursor.getString(6));
+                cursor.getString(6),
+                cursor.getInt(7));
     }
 
     public static SubjectAssessment getOfId (int id, Context context){
@@ -177,5 +179,6 @@ public class SubjectAssessment {
 
     public void setWeight(int weight) {
         this.weight = weight;
+        contentValues.put("WEIGHT", weight);
     }
 }

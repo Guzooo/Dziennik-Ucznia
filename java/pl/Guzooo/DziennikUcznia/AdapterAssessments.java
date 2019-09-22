@@ -1,6 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -32,14 +33,20 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private CardView background;
+        private TextView weight;
         private TextView assessment;
         private TextView data;
 
         private ViewHolder (CardView cv, int margin, Context context){
             super(cv);
             background = cv;
+            weight = cv.findViewById(R.id.weight);
             assessment = cv.findViewById(R.id.assessment);
             data = cv.findViewById(R.id.data);
+
+            SharedPreferences preferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
+            if(!preferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT))
+                weight.setVisibility(View.GONE);
 
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                     context.getResources().getDimensionPixelSize(R.dimen.assessment_length),
@@ -63,6 +70,7 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
             String assessmentStr = assessment.getAssessment() + "";
             assessmentStr = assessmentStr.replace(".0", "");
             assessmentStr = assessmentStr.replace(".5", "+");
+            holder.weight.setText(context.getString(R.string.separation) + assessment.getWeight());
             holder.assessment.setText(assessmentStr);
             holder.data.setText(assessment.getData());
             CategoryAssessment categoryAssessment = CategoryAssessment.getOfId(assessment.getCategoryId(), context);
@@ -70,6 +78,7 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
                 categoryAssessment = CategoryAssessment.getOfId(CategoryAssessment.getPreferenceDefaultCategory(context), context);
 
             holder.background.setCardBackgroundColor(Color.parseColor(categoryAssessment.getColor()));
+            holder.weight.setTextColor(Color.parseColor(categoryAssessment.getForegroundColor()));
             holder.assessment.setTextColor(Color.parseColor(categoryAssessment.getForegroundColor()));
             holder.data.setTextColor(Color.parseColor(categoryAssessment.getForegroundColor()));
 

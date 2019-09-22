@@ -83,12 +83,16 @@ public class AssessmentOptionsFragment extends DialogFragment {
 
     private void PositiveButton(){
         assessment.EndEdition();
+        weight.EndEdition();
         description.EndEdition();
         if(assessment.getText().equals("")){
             String text = getString(R.string.cant_save) + getString(R.string.separation) + getString(R.string.hint_assessment);
             Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
         } else {
+            if(weight.getText().equals(""))
+                weight.setText("1");
             subjectAssessment.setAssessment(Float.parseFloat(assessment.getText()));
+            subjectAssessment.setWeight(Integer.valueOf(weight.getText()));
             subjectAssessment.setNote(description.getText().trim());
             if(insert)
                 subjectAssessment.insert(getContext());
@@ -196,8 +200,12 @@ public class AssessmentOptionsFragment extends DialogFragment {
     }
 
     private void SetWeight(View v){
-        TextAndHoldEditView textAndHoldEditView = v.findViewById(R.id.weight);
-        textAndHoldEditView.setVisibility(View.GONE);
+        weight = v.findViewById(R.id.weight);
+        SharedPreferences preferences = getContext().getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if(!preferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT))
+            weight.setVisibility(View.GONE);
+        weight.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+        weight.setText(subjectAssessment.getWeight() + "");
         //TODO:set params edit texta
     }
 

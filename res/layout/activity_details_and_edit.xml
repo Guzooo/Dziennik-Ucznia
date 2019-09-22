@@ -54,6 +54,16 @@
                 android:layout_marginRight="@dimen/standard_margin"
                 android:inputType="numberDecimal"/>
 
+            <EditText
+                android:id="@+id/assessment_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/minimum_length"
+                android:hint="@string/hint_assessment_weight"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:inputType="number"/>
+
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

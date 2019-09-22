@@ -341,20 +341,23 @@ public class Subject {
         }
     }
 
-    public SubjectAssessment addAssessment(String string, Context context){
-        if (string.equals(""))
+    public SubjectAssessment addAssessment(String assessment, String weight, Context context){
+        if (assessment.equals(""))
             Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
         else if (AssessmentOptionsFragment.getPreferenceAutoShow(context)){
-            return getNewAssessment(string, context);
+            return getNewAssessment(assessment, weight, context);
         } else {
-            getNewAssessment(string, context).insert(context);
+            getNewAssessment(assessment, weight, context).insert(context);
         }
         return null;
     }
 
-    private SubjectAssessment getNewAssessment(String string, Context context){
+    private SubjectAssessment getNewAssessment(String assessments, String weight, Context context){
+        if(weight.equals(""))
+            weight = "1";
         SubjectAssessment assessment = SubjectAssessment.newEmpty();
-        assessment.setAssessment(Float.parseFloat(string));
+        assessment.setAssessment(Float.parseFloat(assessments));
+        assessment.setWeight(Integer.valueOf(weight));
         assessment.setSubjectId(getId());
         assessment.setSemester(StatisticsActivity.getSemester(context));
         return assessment;

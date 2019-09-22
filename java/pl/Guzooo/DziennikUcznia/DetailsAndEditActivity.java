@@ -35,6 +35,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     private Subject subject;
 
     private EditText editTextAssessment;//TODO: trza?
+    private EditText editTextAssessmentWeight;
     private TextAndHoldEditView textAndHoldEditViewTeacher;
     private TextAndHoldEditView textAndHoldEditViewUnpreparedness;
     private EditText editTextStartUnpreparedness;
@@ -56,6 +57,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details_and_edit);
 
         editTextAssessment = findViewById(R.id.assessment);
+        editTextAssessmentWeight = findViewById(R.id.assessment_weight);
         textAndHoldEditViewTeacher = findViewById(R.id.teacher);
         textAndHoldEditViewUnpreparedness = findViewById(R.id.unpreparedness);
         editTextStartUnpreparedness = findViewById(R.id.unpreparedness_start_edit);
@@ -79,6 +81,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         RefreshActionBarInfo();
         SetNotes();
         SetTeacher();
+        SetAssessmentWeight();
         SetAssessments();
         SetUnpreparedness();
         SetDescription();
@@ -198,7 +201,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     }
 
     public void ClickPlusAssessment(View v){
-        SubjectAssessment assessment = subject.addAssessment(editTextAssessment.getText().toString().trim(), this);
+        SubjectAssessment assessment = subject.addAssessment(editTextAssessment.getText().toString().trim(), editTextAssessmentWeight.getText().toString().trim(), this);
         if(assessment == null)
             RefreshAssessmentInfo();
         else
@@ -266,6 +269,12 @@ public class DetailsAndEditActivity extends AppCompatActivity {
 
     private void SetTeacher(){
         textAndHoldEditViewTeacher.setText(subject.getTeacher());
+    }
+
+    private void SetAssessmentWeight(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        if(!sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT))
+            editTextAssessmentWeight.setVisibility(View.GONE);
     }
 
     private void SetAssessments(){
