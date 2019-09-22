@@ -369,14 +369,14 @@ public class DetailsAndEditActivity extends AppCompatActivity {
 
         ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, this);
         ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, this);
-        float average = subject.getAverageEnd(assessments1, assessments2);
+        float average = subject.getAverageEnd(assessments1, assessments2, this);
 
         if(average == 0.0)
             return "";
 
         String strAverage = getResources().getString(R.string.statistics_semester_end) + ": " + String.format(Locale.US, "%.2f", average);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
-            return strAverage + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverageEnd(assessments1, assessments2,sharedPreferences)); //TODO: unnecessary delete ;)
+            return strAverage + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverageEnd(assessments1, assessments2,sharedPreferences, this)); //TODO: unnecessary delete ;)
         else
             return strAverage;
     }

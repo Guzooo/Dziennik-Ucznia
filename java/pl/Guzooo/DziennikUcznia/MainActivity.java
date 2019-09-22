@@ -263,9 +263,9 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, this);
                     ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, this);
                     if (roundedAverage) {
-                        assessment = subject.getRoundedAverageEnd(assessments1, assessments2, settingSharedPreferences);
+                        assessment = subject.getRoundedAverageEnd(assessments1, assessments2, settingSharedPreferences, this);
                     } else {
-                        assessment = subject.getAverageEnd(assessments1, assessments2);
+                        assessment = subject.getAverageEnd(assessments1, assessments2, this);
                     }
 
                     if(assessment != 0) {

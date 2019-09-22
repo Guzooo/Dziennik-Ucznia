@@ -165,25 +165,46 @@ public class Subject {
         return name;
     }
 
-    private float average(ArrayList<SubjectAssessment> assessments){
+    private float average(ArrayList<SubjectAssessment> assessments, Context context){
         float average = 0;
-        if (assessments.size() > 0){
-            for (int i = 0; i < assessments.size(); i++){
-                average += assessments.get(i).getAssessment();
-            }
 
-            average = average / assessments.size();
+        if (assessments.size() > 0) {
+            SharedPreferences preferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
+            if(preferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT)) {
+                average = weightedAverage(assessments);
+            } else {
+                average = normalAverage(assessments);
+            }
         }
         return average;
     }
 
-    public float getAverage(ArrayList<SubjectAssessment> assessments){
-        return average(assessments);
+    private float normalAverage(ArrayList<SubjectAssessment> assessments){
+        float average = 0;
+        for (int i = 0; i < assessments.size(); i++) {
+            average += assessments.get(i).getAssessment();
+        }
+
+        return average / assessments.size();
     }
 
-    public float getAverageEnd(ArrayList<SubjectAssessment> assessments1, ArrayList<SubjectAssessment> assessments2){
-        float average1 = average(assessments1);
-        float average2 = average(assessments2);
+    private float weightedAverage(ArrayList<SubjectAssessment> assessments){
+        int dividend = 0;
+        float average = 0;
+        for(SubjectAssessment assessment : assessments){
+            average += assessment.getAssessment() * assessment.getWeight();
+            dividend += assessment.getWeight();
+        }
+        return average / dividend;
+    }
+
+    public float getAverage(ArrayList<SubjectAssessment> assessments, Context context){
+        return average(assessments, context);
+    }
+
+    public float getAverageEnd(ArrayList<SubjectAssessment> assessments1, ArrayList<SubjectAssessment> assessments2, Context context){
+        float average1 = average(assessments1, context);
+        float average2 = average(assessments2, context);
 
         if(average1 == 0)
             return average2;
@@ -215,12 +236,12 @@ public class Subject {
         return roundedAverage;
     }
 
-    public int getRoundedAverage(ArrayList<SubjectAssessment> assessments, SharedPreferences sharedPreferences){
-        return roundAverage(average(assessments), sharedPreferences);
+    public int getRoundedAverage(ArrayList<SubjectAssessment> assessments, SharedPreferences sharedPreferences, Context context){
+        return roundAverage(average(assessments, context), sharedPreferences);
     }
 
-    public int getRoundedAverageEnd(ArrayList<SubjectAssessment> assessments1, ArrayList<SubjectAssessment> assessments2, SharedPreferences sharedPreferences){
-        float averageEnd = getAverageEnd(assessments1, assessments2);
+    public int getRoundedAverageEnd(ArrayList<SubjectAssessment> assessments1, ArrayList<SubjectAssessment> assessments2, SharedPreferences sharedPreferences, Context context){
+        float averageEnd = getAverageEnd(assessments1, assessments2, context);
         return roundAverage(averageEnd, sharedPreferences);
     }
 

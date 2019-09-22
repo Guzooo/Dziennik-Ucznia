@@ -50,10 +50,10 @@ public class AdapterStatisticsSubject extends RecyclerView.Adapter<AdapterStatis
 
     private String getSemesterAssessmentAndAverage(int semester, Subject subject){
         ArrayList<SubjectAssessment> assessments = subject.getAssessment(semester, context);
-        String returned = /*String.format(Locale.US, "%.2f",*/ Float.toString(subject.getAverage(assessments));
+        String returned = /*String.format(Locale.US, "%.2f",*/ Float.toString(subject.getAverage(assessments, context));
         SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT)){
-            returned += context.getResources().getString(R.string.separation) + subject.getRoundedAverage(assessments, sharedPreferences);
+            returned += context.getResources().getString(R.string.separation) + subject.getRoundedAverage(assessments, sharedPreferences, context);
         }
         return returned + "\n\n" + subject.getStringAssessments(assessments, context);
     }
@@ -61,10 +61,10 @@ public class AdapterStatisticsSubject extends RecyclerView.Adapter<AdapterStatis
     private String getAverageEnd(Subject subject){
         ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, context);
         ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, context);
-        String returned = /*String.format(Locale.US, "%.2f", */Float.toString(subject.getAverageEnd(assessments1, assessments2));
+        String returned = /*String.format(Locale.US, "%.2f", */Float.toString(subject.getAverageEnd(assessments1, assessments2, context));
         SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT)){
-            returned += context.getResources().getString(R.string.separation) + subject.getRoundedAverageEnd(assessments1, assessments2, sharedPreferences);
+            returned += context.getResources().getString(R.string.separation) + subject.getRoundedAverageEnd(assessments1, assessments2, sharedPreferences, context);
         }
         return returned;
     }

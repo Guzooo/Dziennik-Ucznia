@@ -101,9 +101,9 @@ public class StatisticsActivity extends AppCompatActivity {
                 }
 
                 if (roundedAverage) {
-                    assessment = subject.getRoundedAverage(assessments, sharedPreferences);
+                    assessment = subject.getRoundedAverage(assessments, sharedPreferences, this);
                 } else {
-                    assessment = Subject.getOfCursor(cursor).getAverage(assessments);
+                    assessment = Subject.getOfCursor(cursor).getAverage(assessments, this);
                 }
 
                 if(assessment != 0) {
@@ -144,9 +144,9 @@ public class StatisticsActivity extends AppCompatActivity {
                 ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, getApplicationContext());
 
                 if (roundedAverage) {
-                    assessment = Subject.getOfCursor(cursor).getRoundedAverageEnd(assessments1, assessments2, sharedPreferences);
+                    assessment = Subject.getOfCursor(cursor).getRoundedAverageEnd(assessments1, assessments2, sharedPreferences, this);
                 } else {
-                    assessment = Subject.getOfCursor(cursor).getAverageEnd(assessments1, assessments2);
+                    assessment = Subject.getOfCursor(cursor).getAverageEnd(assessments1, assessments2, this);
                 }
 
                 if(assessment != 0) {
