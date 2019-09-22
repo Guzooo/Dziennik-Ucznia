@@ -37,13 +37,16 @@ public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
 
             while (((informationString = reader.readLine()) != null && read)){
                 if(informationString.contains(context.getPackageName())) {
-                    String currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+                    int currentVersion = BuildConfig.VERSION_CODE;
                     String[] strings =  informationString.split(context.getPackageName());
                     String onlineVersion = strings[1];
                     String onlineDescription = strings[2];
 
                     strings = onlineVersion.split("-");
-                    onlineVersion = strings[0];
+                    if(strings[0].contains("."))
+                        onlineVersion = 0+"";
+                    else
+                        onlineVersion = strings[0];
                     String finalMark = strings[1];
 
                     if(finalMark.contains("?")){
@@ -56,7 +59,7 @@ public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
                             messageFromTheCreatorWitchMessengerButton();
                         }
                         return true;
-                    } else if (!currentVersion.equals(onlineVersion)){
+                    } else if (currentVersion < Integer.valueOf(onlineVersion)){
                         update();
                         if (finalMark.equals("^")){
                             availableUpdate();
