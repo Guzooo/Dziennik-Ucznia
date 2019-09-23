@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private final String PREFERENCE_NOTEPAD = "notepad";
 
     private final String PREFERENCE_CATEGORY_OF_ASSESSMENT = "categoryofassessment";
+    private final String PREFERENCE_CATEGORY_OF_ASSESSMENT_AGAIN = "categoryofassessments"; //Z 9 na 10;
     //preference for errors and new save
     private final String PREFERENCE_DATABASE_3_TO_4 = "database3to4";
 
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_3_TO_4, 0) == 0){
             database3to4();
+        }
+
+        if(sharedPreferences.getInt(PREFERENCE_CATEGORY_OF_ASSESSMENT_AGAIN, 0) == 0){
+            assessmentCategoryAgain();
         }
 
         goFirstChangeView(savedInstanceState);
@@ -360,6 +365,79 @@ public class MainActivity extends AppCompatActivity {
         contentValues.put("TAB_SUBJECT", subject);
         contentValues.put("TAB_CATEGORY_ASSESSMENT", CategoryAssessment.getPreferenceDefaultCategory(this));
         contentValues.put("DATA", "");
+        return contentValues;
+    }
+
+    private void assessmentCategoryAgain(){
+        SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+        Cursor cursor = db.query("CATEGORY_ASSESSMENT",
+                CategoryAssessment.onCursor,
+                null, null, null, null, null);
+        if(cursor.moveToPosition(1) && cursor.getString(1).equals("Sprawdzian")){
+            int dom = 0;
+            int odp = 0;
+            int prac = 0;
+            int kart = 0;
+            int spra = 0;
+            if(cursor.moveToFirst()){
+                do{
+                    switch (cursor.getString(1)){
+                        case "Domyślna":
+                            dom = cursor.getInt(0);
+                            break;
+                        case "Sprawdzian":
+                            spra = cursor.getInt(0);
+                            break;
+                        case "Odpowiedź":
+                            odp = cursor.getInt(0);
+                            break;
+                        case "Praca Domowa":
+                            prac = cursor.getInt(0);
+                            break;
+                        case "Kartkówka":
+                            kart = cursor.getInt(0);
+                            break;
+                    }
+                }while (cursor.moveToNext());
+
+                HelperDatabase.CreateDefaultCategoryOfAssessment(this);
+                cursor = db.query("CATEGORY_ASSESSMENT",
+                        CategoryAssessment.onCursor,
+                        null, null, null, null, null);
+
+                if(cursor.moveToFirst()){
+                    do{
+                        int oldID = 0;
+                        switch (cursor.getString(1)){
+                            case "Domyślna":
+                                oldID = dom;
+                                break;
+                            case "Sprawdzian":
+                                oldID = spra;
+                                break;
+                            case "Odpowiedź":
+                                oldID = odp;
+                                break;
+                            case "Praca Domowa":
+                                oldID = prac;
+                                break;
+                            case "Kartkówka":
+                                oldID = kart;
+                                break;
+                        }
+                        db.update("ASSESSMENTS",
+                                assessmentCategoryAgainConValue(cursor.getInt(0)),
+                                "TAB_CATEGORY_ASSESSMENT = ?",
+                                new String[]{Integer.toString(oldID)});
+                    }while (cursor.moveToNext());
+                }
+            }
+        }
+    }
+
+    private ContentValues assessmentCategoryAgainConValue(int newID){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TAB_CATEGORY_ASSESSMENT", newID);
         return contentValues;
     }
 }
