@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(sharedPreferences.getInt(PREFERENCE_NUMBER_NOTES_ERROR, 0) == 0){
+            dataAssessmentsError();
             numberNotesError();
         }
 
@@ -131,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_notepad:
                 showNotepad();
                 return true;
+
+          /*  case R.id.action_absence:
+                AddNotesAbsence();
+                return true;*/
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -310,6 +315,10 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
+   /* private void AddNotesAbsence(){
+
+    }*/
+
     private void saveNotepad(){
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         editor.putString(PREFERENCE_NOTEPAD, editTextNotepad.getText().toString().trim());
@@ -476,5 +485,23 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             HelperDatabase.ErrorToast(this);
         }
+    }
+
+    private void dataAssessmentsError(){
+        SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+        Cursor cursor = db.query("ASSESSMENTS",
+                SubjectAssessment.subjectAssessmentOnCursor,
+                null, null, null, null, null);
+        if(cursor.moveToFirst()) {
+            do {
+                SubjectAssessment assessment = SubjectAssessment.getOfCursor(cursor);
+                String[] data = assessment.getData().split("/");
+                int i = Integer.valueOf(data[1]);
+                assessment.setData(data[0] + "/" + (i + 1) + "/" + data[2]);
+                assessment.update(this);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
     }
 }

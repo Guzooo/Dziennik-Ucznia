@@ -230,11 +230,11 @@ public class AssessmentOptionsFragment extends DialogFragment {
                 DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                       subjectAssessment.setData(i2 + "/" + i1 + "/" + i);
+                       subjectAssessment.setData(i2 + "/" + (i1+1) + "/" + i);
                        setDataText(subjectAssessment.getData());
                     }
                 };
-                new DatePickerDialog(getContext(), onDateSetListener, ints.get(2), ints.get(1), ints.get(0)).show();
+                new DatePickerDialog(getContext(), onDateSetListener, ints.get(2), ints.get(1)-1, ints.get(0)).show();
                 return true;
             }
         });

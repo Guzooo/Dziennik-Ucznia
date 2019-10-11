@@ -6,5 +6,11 @@
         android:icon="?android:attr/actionModePasteDrawable"
         app:showAsAction="always"
         android:title="@string/notepad"
-        android:orderInCategory="100" />
+        android:orderInCategory="1" />
+
+   <!-- <item
+        android:id="@+id/action_absence"
+        app:showAsAction="never"
+        android:title="@string/absense"
+        android:orderInCategory="2"/>-->
 </menu>

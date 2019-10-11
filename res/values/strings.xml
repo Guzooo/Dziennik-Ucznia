@@ -24,6 +24,8 @@
     <string name="no">Nie</string>
 
     <string name="notepad">Notatnik</string>
+   <!-- <string name="absense">Nieobecność</string>
+    <string name="absense_made">Notatki o uzupełnieniu lekcji zostały dodane</string>-->
 
     <string name="week_hint">Wybierz dzień</string>
     <string name="monday">Poniedziałek</string>
