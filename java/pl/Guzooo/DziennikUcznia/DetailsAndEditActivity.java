@@ -20,6 +20,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -64,6 +65,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         textAndHoldEditViewDescription = findViewById(R.id.description);
 
         textAndHoldEditViewUnpreparedness.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+        textAndHoldEditViewDescription.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
         notesRecycler = findViewById(R.id.notes);
         assessmentsRecycler = findViewById(R.id.assessments);

@@ -272,6 +272,14 @@
             android:onClick="ClickDestroyAllPlanLesson"
             style="@style/AppTheme.Button"/>
 
+       <!-- <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:text="@string/setting_delete_all_assessments"
+            android:onClick="ClickDestroyAllAssessments"
+            style="@style/AppTheme.Button"/>-->
+
         <Button
             android:layout_marginTop="@dimen/standard_margin"
             android:layout_width="match_parent"
