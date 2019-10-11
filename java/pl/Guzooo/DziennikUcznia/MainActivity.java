@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private final String PREFERENCE_CATEGORY_OF_ASSESSMENT_AGAIN = "categoryofassessments"; //Z 9 na 10;
     //preference for errors and new save
     private final String PREFERENCE_DATABASE_3_TO_4 = "database3to4";
+    private final String PREFERENCE_NUMBER_NOTES_ERROR = "numbernoteserror1011"; //Z 10 na 11;
 
     private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
 
@@ -68,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(sharedPreferences.getInt(PREFERENCE_CATEGORY_OF_ASSESSMENT_AGAIN, 0) == 0){
             assessmentCategoryAgain();
+        }
+
+        if(sharedPreferences.getInt(PREFERENCE_NUMBER_NOTES_ERROR, 0) == 0){
+            numberNotesError();
         }
 
         goFirstChangeView(savedInstanceState);
@@ -446,5 +451,30 @@ public class MainActivity extends AppCompatActivity {
         ContentValues contentValues = new ContentValues();
         contentValues.put("TAB_CATEGORY_ASSESSMENT", newID);
         return contentValues;
+    }
+
+    private void numberNotesError() {
+        try {
+            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+            Cursor cursor = db.query("SUBJECTS",
+                    Subject.subjectOnCursor,
+                    null, null, null, null, null);
+            if(cursor.moveToFirst()) {
+                do {
+                    Subject subject = Subject.getOfCursor(cursor);
+                    subject.putInfoSizeNotes(this);
+                    subject.update(this);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            db.close();
+
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putInt(PREFERENCE_NUMBER_NOTES_ERROR, 1);
+            editor.apply();
+        } catch (SQLiteException e){
+            e.printStackTrace();
+            HelperDatabase.ErrorToast(this);
+        }
     }
 }

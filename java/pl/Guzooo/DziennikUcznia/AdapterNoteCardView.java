@@ -270,6 +270,7 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
                 deletedNotes.clear();
                 listener.refreshCursor();
                 holderControl.VisibilityButtons(cursor.getCount(), deletedNotes.size(), selectedMode);
+                CurentNotesInSubject();
             }
 
             @Override
@@ -301,6 +302,7 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
                         deletedNotes.add(subjectNote);
                         subjectNote.delete(context);
                     }
+                CurentNotesInSubject();
             }
 
             @Override
@@ -355,6 +357,14 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
                 }
                 holderControl.setNumberSelectedNotes(selectNotes.size(), context);
                 notifyDataSetChanged();
+            }
+
+            private void CurentNotesInSubject(){
+                if(cursor.moveToFirst()) {
+                    Subject subject = Subject.getOfId(cursor.getInt(0), context);
+                    subject.putInfoSizeNotes(context);
+                    subject.update(context);
+                }
             }
         };
     }
