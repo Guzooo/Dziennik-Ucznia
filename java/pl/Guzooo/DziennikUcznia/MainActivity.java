@@ -495,10 +495,12 @@ public class MainActivity extends AppCompatActivity {
         if(cursor.moveToFirst()) {
             do {
                 SubjectAssessment assessment = SubjectAssessment.getOfCursor(cursor);
-                String[] data = assessment.getData().split("/");
-                int i = Integer.valueOf(data[1]);
-                assessment.setData(data[0] + "/" + (i + 1) + "/" + data[2]);
-                assessment.update(this);
+                if(assessment.getData().contains("/")) {
+                    String[] data = assessment.getData().split("/");
+                    int i = Integer.valueOf(data[1]);
+                    assessment.setData(data[0] + "/" + (i + 1) + "/" + data[2]);
+                    assessment.update(this);
+                }
             } while (cursor.moveToNext());
         }
         cursor.close();
