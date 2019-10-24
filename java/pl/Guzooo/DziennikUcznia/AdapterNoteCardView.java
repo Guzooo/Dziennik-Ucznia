@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -361,9 +362,11 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
 
             private void CurentNotesInSubject(){
                 if(cursor.moveToFirst()) {
-                    Subject subject = Subject.getOfId(cursor.getInt(0), context);
+                    Subject subject = Subject.getOfId(cursor.getInt(3), context);
                     subject.putInfoSizeNotes(context);
                     subject.update(context);
+                    Log.d("adapter notatek", "idzie normowanie " +
+                            subject.getSizeNotes(context));
                 }
             }
         };
