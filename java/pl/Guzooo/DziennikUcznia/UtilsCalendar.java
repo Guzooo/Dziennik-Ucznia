@@ -20,8 +20,8 @@ public class UtilsCalendar {
         return dateForReading;
     }
 
-    private static String getMonthForReading(String month){
-        int monthNumber = Integer.valueOf(month) -1;
+    private static String getMonthForReading(String monthWrite){
+        int monthNumber = Integer.valueOf(monthWrite) -1;
         DateFormatSymbols symbols = new DateFormatSymbols();
         return symbols.getShortMonths()[monthNumber];
     }

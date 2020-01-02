@@ -1,7 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 
 public class Subject2020 extends DatabaseObject{
@@ -77,7 +76,7 @@ public class Subject2020 extends DatabaseObject{
     }
 
     @Override
-    public ContentValues getContentValues(Context context) {
+    public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
         contentValues.put("NAME", name);
         contentValues.put("TEACHER", teacher);

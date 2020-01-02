@@ -45,7 +45,7 @@ public abstract class DatabaseObject {
     public void insert(Context context){
         try{
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
-            db.insert(databaseName(), null, getContentValues(context));
+            db.insert(databaseName(), null, getContentValues());
             db.close();
         } catch (SQLiteException e){
             HelperDatabase.ErrorToast(context);
@@ -55,7 +55,7 @@ public abstract class DatabaseObject {
     public void update(Context context){
         try {
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
-            db.update(databaseName(), getContentValues(context), "_id = ?", new String[]{Integer.toString(getId())});
+            db.update(databaseName(), getContentValues(), "_id = ?", new String[]{Integer.toString(getId())});
             db.close();
         } catch (SQLiteException e){
             HelperDatabase.ErrorToast(context);
@@ -72,7 +72,7 @@ public abstract class DatabaseObject {
         }
     }
 
-    public abstract ContentValues getContentValues(Context context);
+    public abstract ContentValues getContentValues();
 
     public int getId(){
         return id;
