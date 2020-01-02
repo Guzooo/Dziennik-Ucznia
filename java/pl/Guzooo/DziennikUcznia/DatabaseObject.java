@@ -10,28 +10,28 @@ public abstract class DatabaseObject {
 
     private int id;
 
-    public abstract String[] onCursor(Context context);
+    public abstract String[] onCursor();
     public abstract String databaseName();
 
     public DatabaseObject(){
-        SetEmpty();
+        setVariablesEmpty();
     }
 
-    public abstract void SetOfCursor(Cursor cursor);
+    public abstract void setVariablesOfCursor(Cursor cursor);
 
-    public void SetOfId(int id, Context context){
+    public void setVariablesOfId(int id, Context context){
         try {
             SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
             Cursor cursor = db.query(databaseName(),
-                    onCursor(context),
+                    onCursor(),
                     "_id = ?",
                     new String[]{Integer.toString(id)},
                     null, null, null);
 
             if (cursor.moveToFirst())
-                SetOfCursor(cursor);
+                setVariablesOfCursor(cursor);
             else
-                SetEmpty();
+                setVariablesEmpty();
 
             cursor.close();
             db.close();
@@ -40,9 +40,9 @@ public abstract class DatabaseObject {
         }
     }
 
-    public abstract void SetEmpty();
+    public abstract void setVariablesEmpty();
 
-    public void Insert(Context context){
+    public void insert(Context context){
         try{
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.insert(databaseName(), null, getContentValues(context));
@@ -52,7 +52,7 @@ public abstract class DatabaseObject {
         }
     }
 
-    public void Update(Context context){
+    public void update(Context context){
         try {
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.update(databaseName(), getContentValues(context), "_id = ?", new String[]{Integer.toString(getId())});
@@ -62,7 +62,7 @@ public abstract class DatabaseObject {
         }
     }
 
-    public void Delete(Context context){
+    public void delete(Context context){
         try {
             SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
             db.delete(databaseName(), "_id = ?", new String[]{Integer.toString(getId())});
