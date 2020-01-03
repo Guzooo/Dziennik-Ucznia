@@ -6,23 +6,41 @@ import java.util.Date;
 
 public class UtilsCalendar {
 
-    public static String getTodayForWriting(){
+    public static String getTodayForWrite(){
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(date);
     }
 
-    public static String getDateForReading(String dateWrite){
+    public static String getDateForRead(String dateWrite){
         String[] dateElements = dateWrite.split("/");
         String dateForReading = dateElements[0] + " ";
-        dateForReading += getMonthForReading(dateElements[1]) + " ";
+        dateForReading += getMonthForRead(dateElements[1]) + " ";
         dateForReading += dateElements[2];
         return dateForReading;
     }
 
-    private static String getMonthForReading(String monthWrite){
+    private static String getMonthForRead(String monthWrite){
         int monthNumber = Integer.valueOf(monthWrite) -1;
         DateFormatSymbols symbols = new DateFormatSymbols();
         return symbols.getShortMonths()[monthNumber];
+    }
+
+    public static int getWriteOnlyMinutes(int hours, int minutes){
+        return hours * 60 + minutes;
+    }
+
+    public static String getTimeToReadFromWriteOnlyMinutes(int allMinutes){
+        int hours = getHoursFromWriteOnlyMinutes(allMinutes);
+        int minutes = getMinutesFromWriteOnlyMinutes(allMinutes);
+        return String.format("%02d:%02d", hours, minutes);
+    }
+
+    public static int getHoursFromWriteOnlyMinutes(int allMinutes){
+        return  allMinutes / 60;
+    }
+
+    public static int getMinutesFromWriteOnlyMinutes(int allMinutes){
+        return allMinutes % 60;
     }
 }

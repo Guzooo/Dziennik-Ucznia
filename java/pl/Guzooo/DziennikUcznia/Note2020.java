@@ -8,7 +8,7 @@ public class Note2020 extends DatabaseObject {
     private String note;
     private int idSubject;
 
-    public final static String DATABASE_NAME = "";
+    public final static String DATABASE_NAME = "NOTES";
     public final static String[] ON_CURSOR = new String[] {
             "_id",
             "NAME",

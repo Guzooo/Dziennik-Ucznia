@@ -73,7 +73,7 @@ public class Assessment2020 extends DatabaseObject{
                 0,
                 0,
                 0,
-                UtilsCalendar.getTodayForWriting());
+                UtilsCalendar.getTodayForWrite());
     }
 
     @Override
@@ -138,7 +138,7 @@ public class Assessment2020 extends DatabaseObject{
     }
 
     public String getDate() {
-        return UtilsCalendar.getDateForReading(date);
+        return UtilsCalendar.getDateForRead(date);
     }
 
     public void setDate(String date) {
