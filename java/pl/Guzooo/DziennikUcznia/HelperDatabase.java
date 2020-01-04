@@ -87,6 +87,7 @@ public class HelperDatabase extends SQLiteOpenHelper {
 
             db.update("ASSESSMENTS", updateDatabase6to7(), null, null);
         }
+        //TODO: do category_assessment dodać weight;
     }
 
     public static void CreateDefaultCategoryOfAssessment(Context context){

@@ -64,6 +64,7 @@ public class Assessment2020 extends DatabaseObject{
                 cursor.getString(7));
     }
 
+    //TODO: sprawdzić jak to jest z tą kategorią oceny; może można zmienić; chodzi o to, żeby była domyślna na start
     @Override
     public void setVariablesEmpty() {
         template(0,
