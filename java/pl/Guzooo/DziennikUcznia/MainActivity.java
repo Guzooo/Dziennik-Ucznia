@@ -14,6 +14,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        testOfNewDatabase();
 
         editTextNotepad = findViewById(R.id.main_notepad);
         recyclerView = findViewById(R.id.main_recycler);
@@ -505,5 +508,59 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
         db.close();
+    }
+
+    private void testOfNewDatabase(){
+        SQLiteDatabase db = Database2020.getToReading(this);
+        Cursor cursor = db.query(Subject2020.DATABASE_NAME,
+                Subject2020.ON_CURSOR,
+                null, null, null, null, null);
+        if(cursor.moveToFirst()){
+            do{
+                Subject2020 s = new Subject2020();
+                s.setVariablesOfCursor(cursor);
+                Log.d("Table Subject", "ID: " + s.getId() + " nazwa: " + s.getName() + " opis: " + s.getDescription() + " nauczyciel: " + s.getTeacher() + " np def: " + s.getUnpreparednessDefault());
+            } while (cursor.moveToNext());
+        }
+        cursor = db.query(Note2020.DATABASE_NAME,
+                Note2020.ON_CURSOR,
+                null, null, null, null, null);
+        if(cursor.moveToFirst()){
+            do{
+                Note2020 s = new Note2020();
+                s.setVariablesOfCursor(cursor);
+                Log.d("Table Note", "ID: " + s.getId() + " nazwa: " + s.getTitle() + " notatka: " + s.getNote() + " idSubject: " + s.getIdSubject());
+            } while (cursor.moveToNext());
+        }
+        cursor = db.query(ElementOfPlan2020.DATABASE_NAME,
+                ElementOfPlan2020.ON_CURSOR,
+                null, null, null, null, null);
+        if(cursor.moveToFirst()){
+            do{
+                ElementOfPlan2020 s = new ElementOfPlan2020();
+                s.setVariablesOfCursor(cursor);
+                Log.d("Table Element Of Plan", "ID: " + s.getId() + " klasa: " + s.getClassroom() + " czas: " + s.getTime() + " dzień: " + s.getDay() + " idSubject: " + s.getIdSubject());
+            } while (cursor.moveToNext());
+        }
+        cursor = db.query(Assessment2020.DATABASE_NAME,
+                Assessment2020.ON_CURSOR,
+                null, null, null, null, null);
+        if(cursor.moveToFirst()){
+            do{
+                Assessment2020 s = new Assessment2020();
+                s.setVariablesOfCursor(cursor);
+                Log.d("Table assessnent", "ID: " + s.getId() + " ocena: " + s.getAssessment() + " waga: " + s.getWeight() + " data: " + s.getDate() + " idCategory: " + s.getIdCategory() + " idSubject: " + s.getIdSubject() + " notatka: " + s.getNote() + " semestr: " + s.getSemester());
+            } while (cursor.moveToNext());
+        }
+        cursor = db.query(CategoryOfAssessment2020.DATABASE_NAME,
+                CategoryOfAssessment2020.ON_CURSOR,
+                null, null, null, null, null);
+        if(cursor.moveToFirst()){
+            do{
+                CategoryOfAssessment2020 s = new CategoryOfAssessment2020();
+                s.setVariablesOfCursor(cursor);
+                Log.d("Table category assessment", "ID: " + s.getId() + " nazwa: " + s.getName() + " kolor: " + s.getColor() + " weight: " + s.getDefaultWeight());
+            } while (cursor.moveToNext());
+        }
     }
 }

@@ -6,21 +6,21 @@ import java.util.Date;
 
 public class UtilsCalendar {
 
-    public static String getTodayForWrite(){
+    public static String getTodayToWrite(){
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(date);
     }
 
-    public static String getDateForRead(String dateWrite){
+    public static String getDateToRead(String dateWrite){
         String[] dateElements = dateWrite.split("/");
         String dateForReading = dateElements[0] + " ";
-        dateForReading += getMonthForRead(dateElements[1]) + " ";
+        dateForReading += getMonthToRead(dateElements[1]) + " ";
         dateForReading += dateElements[2];
         return dateForReading;
     }
 
-    private static String getMonthForRead(String monthWrite){
+    private static String getMonthToRead(String monthWrite){
         int monthNumber = Integer.valueOf(monthWrite) -1;
         DateFormatSymbols symbols = new DateFormatSymbols();
         return symbols.getShortMonths()[monthNumber];

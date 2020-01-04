@@ -4,6 +4,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 public class Subject2020 extends DatabaseObject{
+    public static final String NAME = "NAME";
+    public static final String TEACHER = "TEACHER";
+    public static final String UNPREPAREDNESS1 = "UNPREPAREDNESS1";
+    public static final String UNPREPAREDNESS2 = "UNPREPAREDNESS2";
+    public static final String UNPREPAREDNESS = "UNPREPAREDNESS";
+    public static final String DESCRIPTION = "DESCRIPTION";
+
     private String name;
     private String teacher;
     private int unpreparednessOfSemesterI;
@@ -11,19 +18,15 @@ public class Subject2020 extends DatabaseObject{
     private int unpreparednessDefault;
     private String description;
 
-    public final static String DATABASE_NAME = "SUBJECT";
+    public final static String DATABASE_NAME = "SUBJECTS";
     public final static String[] ON_CURSOR = new String[] {
-            "_id",
-            "NAME",
-            "TEACHER",
-            "UNPREPAREDNESS1",
-            "UNPREPAREDNESS2",
-            "UNPREPAREDNESS",
-            "DESCRIPTION"/*,
-            "TODAY",
-            "DAY",
-            "NUMBER_NOTES",
-            "ASSESSMENTS_EXIST*/
+            Database2020.ID,
+            NAME,
+            TEACHER,
+            UNPREPAREDNESS1,
+            UNPREPAREDNESS2,
+            UNPREPAREDNESS,
+            DESCRIPTION
     };
 
 
@@ -78,12 +81,12 @@ public class Subject2020 extends DatabaseObject{
     @Override
     public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("NAME", name);
-        contentValues.put("TEACHER", teacher);
-        contentValues.put("UNPREPAREDNESS1", unpreparednessOfSemesterI);
-        contentValues.put("UNPREPAREDNESS2", unpreparednessOfSemesterII);
-        contentValues.put("UNPREPAREDNESS", unpreparednessDefault);
-        contentValues.put("DESCRIPTION", description);
+        contentValues.put(NAME, name);
+        contentValues.put(TEACHER, teacher);
+        contentValues.put(UNPREPAREDNESS1, unpreparednessOfSemesterI);
+        contentValues.put(UNPREPAREDNESS2, unpreparednessOfSemesterII);
+        contentValues.put(UNPREPAREDNESS, unpreparednessDefault);
+        contentValues.put(DESCRIPTION, description);
         return contentValues;
     }
 
@@ -146,17 +149,5 @@ public class Subject2020 extends DatabaseObject{
     public void getAssessments(Context context){
         //TODO: stworzyć oceny z ich klasy
         // doprecyzować czy nazwe tej funkcji
-    }
-
-    public void SetDay(){
-
-    }
-
-    public void SetNumberNotes(){
-
-    }
-
-    public void SetAssessmentExist(){
-
     }*/
 }

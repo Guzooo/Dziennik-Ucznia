@@ -4,16 +4,20 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 public class Note2020 extends DatabaseObject {
+    public static final String NAME = "NAME";
+    public static final String NOTE = "NOTE";
+    public static final String TAB_SUBJECT = "TAB_SUBJECT";
+
     private String title;
     private String note;
     private int idSubject;
 
     public final static String DATABASE_NAME = "NOTES";
     public final static String[] ON_CURSOR = new String[] {
-            "_id",
-            "NAME",
-            "NOTE",
-            "TAB_SUBJECT"
+            Database2020.ID,
+            NAME,
+            NOTE,
+            TAB_SUBJECT
     };
 
     @Override
@@ -55,9 +59,9 @@ public class Note2020 extends DatabaseObject {
     @Override
     public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("NAME", title);
-        contentValues.put("NOTE", note);
-        contentValues.put("TAB_SUBJECT", idSubject);
+        contentValues.put(NAME, title);
+        contentValues.put(NOTE, note);
+        contentValues.put(TAB_SUBJECT, idSubject);
         return null;
     }
 

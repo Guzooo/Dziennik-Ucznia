@@ -4,6 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 public class ElementOfPlan2020 extends DatabaseObject {
+    public static final String TIME_START = "TIME_START";
+    public static final String TIME_END = "TIME_END";
+    public static final String TAB_SUBJECT = "TAB_SUBJECT";
+    public static final String DAY = "DAY";
+    public static final String CLASSROOM = "CLASSROOM";
+
     private int timeStart;
     private int timeEnd;
     private int idSubject;
@@ -12,11 +18,12 @@ public class ElementOfPlan2020 extends DatabaseObject {
 
     public final static String DATABASE_NAME = "LESSON_PLAN";
     public final static String[] ON_CURSOR = new String[] {
-            "TIME_START",
-            "TIME_END",
-            "TAB_SUBJECT",
-            "DAY",
-            "CLASSROOM"
+            Database2020.ID,
+            TIME_START,
+            TIME_END,
+            TAB_SUBJECT,
+            DAY,
+            CLASSROOM
     };
 
     @Override
@@ -66,11 +73,11 @@ public class ElementOfPlan2020 extends DatabaseObject {
     @Override
     public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("TIME_START", timeStart);
-        contentValues.put("TIME_END", timeEnd);
-        contentValues.put("TAB_SUBJECT", idSubject);
-        contentValues.put("DAY", day);
-        contentValues.put("CLASSROOM", classroom);
+        contentValues.put(TIME_START, timeStart);
+        contentValues.put(TIME_END, timeEnd);
+        contentValues.put(TAB_SUBJECT, idSubject);
+        contentValues.put(DAY, day);
+        contentValues.put(CLASSROOM, classroom);
         return null;
     }
 

@@ -4,6 +4,14 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 public class Assessment2020 extends DatabaseObject{
+    public static final String ASSESSMENT = "ASSESSMENT";
+    public static final String WEIGHT = "WEIGHT";
+    public static final String NOTE = "NOTE";
+    public static final String SEMESTER = "SEMESTER";
+    public static final String TAB_SUBJECT = "TAB_SUBJECT";
+    public static final String TAB_CATEGORY_ASSESSMENT = "TAB_CATEGORY_ASSESSMENT";
+    public static final String DATA = "DATA";
+
     private float assessment;
     private int weight;
     private String note;
@@ -14,14 +22,14 @@ public class Assessment2020 extends DatabaseObject{
 
     public final static String DATABASE_NAME = "ASSESSMENTS";
     public final static String[] ON_CURSOR = new String[] {
-            "_id",
-            "ASSESSMENT",
-            "WEIGHT",
-            "NOTE",
-            "SEMESTER",
-            "TAB_SUBJECT",
-            "TAB_CATEGORY_ASSESSMENT",
-            "DATA"
+            Database2020.ID,
+            ASSESSMENT,
+            WEIGHT,
+            NOTE,
+            SEMESTER,
+            TAB_SUBJECT,
+            TAB_CATEGORY_ASSESSMENT,
+            DATA
     };
 
     private void template(int id,
@@ -74,19 +82,19 @@ public class Assessment2020 extends DatabaseObject{
                 0,
                 0,
                 0,
-                UtilsCalendar.getTodayForWrite());
+                UtilsCalendar.getTodayToWrite());
     }
 
     @Override
     public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("ASSESSMENT", assessment);
-        contentValues.put("WEIGHT", weight);
-        contentValues.put("NOTE", note);
-        contentValues.put("SEMESTER", semester);
-        contentValues.put("TAB_SUBJECT", idSubject);
-        contentValues.put("TAB_CATEGORY_ASSESSMENT", idCategory);
-        contentValues.put("DATA", date);
+        contentValues.put(ASSESSMENT, assessment);
+        contentValues.put(WEIGHT, weight);
+        contentValues.put(NOTE, note);
+        contentValues.put(SEMESTER, semester);
+        contentValues.put(TAB_SUBJECT, idSubject);
+        contentValues.put(TAB_CATEGORY_ASSESSMENT, idCategory);
+        contentValues.put(DATA, date);
         return contentValues;
     }
 
@@ -139,7 +147,7 @@ public class Assessment2020 extends DatabaseObject{
     }
 
     public String getDate() {
-        return UtilsCalendar.getDateForRead(date);
+        return UtilsCalendar.getDateToRead(date);
     }
 
     public void setDate(String date) {

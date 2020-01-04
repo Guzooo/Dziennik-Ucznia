@@ -4,16 +4,20 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 public class CategoryOfAssessment2020 extends DatabaseObject{
+    public static final String NAME = "NAME";
+    public static final String COLOR = "COLOR";
+    public static final String WEIGHT = "WEIGHT";
+
     private String name;
     private String color;
     private int defaultWeight;
 
     public final static String DATABASE_NAME = "CATEGORY_ASSESSMENT";
     public final static String[] ON_CURSOR = new String[] {
-            "_id",
-            "NAME",
-            "COLOR",
-            "WEIGHT"
+            Database2020.ID,
+            NAME,
+            COLOR,
+            WEIGHT
     };
 
     @Override
@@ -54,7 +58,11 @@ public class CategoryOfAssessment2020 extends DatabaseObject{
 
     @Override
     public ContentValues getContentValues() {
-        return null;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NAME, name);
+        contentValues.put(COLOR, color);
+        contentValues.put(WEIGHT, defaultWeight);
+        return contentValues;
     }
 
     public String getName() {
