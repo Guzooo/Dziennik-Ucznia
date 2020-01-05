@@ -43,7 +43,7 @@ public class SubjectPlan {
 
     public static SubjectPlan getOfId(int id, Context context){
         SubjectPlan subjectPlan;
-        SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
+        SQLiteDatabase db = Database2020.getToReading(context);
         Cursor cursor = db.query("LESSON_PLAN",
                 SubjectPlan.subjectPlanOnCursor,
                 "_id = ?",
@@ -63,7 +63,7 @@ public class SubjectPlan {
 
     public void insert(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.insert("LESSON_PLAN", null, contentValues);
             contentValues.clear();
             db.close();
@@ -75,7 +75,7 @@ public class SubjectPlan {
 
     public void update (Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.update("LESSON_PLAN",
                     contentValues,
                     "_id = ?",
@@ -89,7 +89,7 @@ public class SubjectPlan {
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.delete("LESSON_PLAN",
                     "_id = ?",
                     new String[]{Integer.toString(getId())});

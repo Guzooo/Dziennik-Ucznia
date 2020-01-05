@@ -50,7 +50,7 @@ public class LessonPlanEditActivity extends AppCompatActivity {
         timePickerEnd.setIs24HourView(true);
 
         try {
-            db = DatabaseUtils.getReadableDatabase(this);
+            db = Database2020.getToReading(this);
             cursorForSpinnerSubject();
             setAdapterForSpinnerSubject();
             setAdapterForSpinnerDay();

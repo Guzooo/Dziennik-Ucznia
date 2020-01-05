@@ -2,7 +2,9 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
@@ -152,5 +154,64 @@ public class Database2020 extends SQLiteOpenHelper {
 
     public static void ErrorToast(Context context){
         Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+    }
+
+    //STARE TODO:ogarnąć
+    public static Boolean destroyAllSubject(Context context){
+        try {
+            if (!destroyAllNotes("TAB_SUBJECT > ?", new String[]{Integer.toString(0)}, context)) return false;
+            if (!destroyAllLessonPlan("TAB_SUBJECT > ?", new String[]{Integer.toString(0)}, context)) return false;
+            SQLiteDatabase db = getToWriting(context);
+            db.delete("SUBJECTS", null, null);
+            db.close();
+            return true;
+        } catch (SQLiteException e){
+            return false;
+        }
+    }
+
+    public static Boolean destroyAllNotes(Context context){
+        return destroyAllNotes(null, null, context);
+    }
+
+    public static Boolean destroyAllNotes(String whereClause, String[] whereArgs, Context context){
+        try {
+            SQLiteDatabase db = getToWriting(context);
+            db.delete("NOTES", whereClause, whereArgs);
+            db.close();
+            return true;
+        } catch (SQLException e){
+            return false;
+        }
+    }
+
+    public static Boolean destroyAllLessonPlan (Context context){
+        return destroyAllLessonPlan(null, null, context);
+    }
+
+    public static Boolean destroyAllLessonPlan(String whereClause, String[] whereArgs, Context context){
+        try {
+            SQLiteDatabase db = getToWriting(context);
+            db.delete("LESSON_PLAN", whereClause, whereArgs);
+            db.close();
+            return true;
+        } catch (SQLException e){
+            return false;
+        }
+    }
+
+    public static Boolean destroyAllAssessment (Context context){
+        return destroyAllAssessment(null, null, context);
+    }
+
+    public static Boolean destroyAllAssessment(String whereClause, String[] whereArgs, Context context){
+        try {
+            SQLiteDatabase db = getToWriting(context);
+            db.delete("ASSESSMENTS", whereClause, whereArgs);
+            db.close();
+            return true;
+        } catch (SQLException e){
+            return false;
+        }
     }
 }

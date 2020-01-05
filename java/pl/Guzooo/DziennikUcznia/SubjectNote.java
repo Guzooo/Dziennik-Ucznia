@@ -38,7 +38,7 @@ public class SubjectNote {
 
     public static SubjectNote getOfId(int id, Context context){
         SubjectNote subjectNote;
-        SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
+        SQLiteDatabase db = Database2020.getToReading(context);
         Cursor cursor = db.query("NOTES",
                 SubjectNote.subjectNoteOnCursor,
                 "_id = ?",
@@ -58,7 +58,7 @@ public class SubjectNote {
 
     public void insert(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.insert("NOTES", null, contentValues);
             contentValues.clear();
             db.close();
@@ -69,7 +69,7 @@ public class SubjectNote {
 
     public void update(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.update("NOTES",
                     contentValues,
                     "_id = ?",
@@ -83,7 +83,7 @@ public class SubjectNote {
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.delete("NOTES",
                     "_id = ?",
                     new String[]{Integer.toString(getId())});

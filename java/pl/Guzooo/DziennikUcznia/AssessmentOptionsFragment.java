@@ -51,7 +51,7 @@ public class AssessmentOptionsFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        db = DatabaseUtils.getReadableDatabase(getContext());
+        db = Database2020.getToReading(getContext());
         View layout = getActivity().getLayoutInflater().inflate(R.layout.fragment_assessment_options, null);
         SetAutoShowChecked(layout);
         SetDeleteIcon(layout);

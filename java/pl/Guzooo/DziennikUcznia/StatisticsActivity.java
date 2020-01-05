@@ -78,8 +78,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private String getAverage(int num) {
-        SQLiteOpenHelper openHelper = new HelperDatabase(this);
-        SQLiteDatabase db = openHelper.getReadableDatabase();
+        SQLiteDatabase db = Database2020.getToReading(this);
         Cursor cursor = db.query("SUBJECTS",
                 Subject.subjectOnCursor,
                 null, null, null, null, null);
@@ -125,8 +124,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private String getAverageEnd() {
-        SQLiteOpenHelper openHelper = new HelperDatabase(this);
-        SQLiteDatabase db = openHelper.getReadableDatabase();
+        SQLiteDatabase db = Database2020.getToReading(this);
         Cursor cursor = db.query("SUBJECTS",
                 Subject.subjectOnCursor,
                 null, null, null, null, null);
@@ -168,7 +166,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void Cursor(){
-        db = DatabaseUtils.getReadableDatabase(this);
+        db = Database2020.getToReading(this);
         cursor = db.query("SUBJECTS",
                 Subject.subjectOnCursor,
                 null, null, null, null,

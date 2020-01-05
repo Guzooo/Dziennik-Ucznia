@@ -29,7 +29,7 @@ public class LessonPlanActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.plan_recycler);
 
         try {
-            db = DatabaseUtils.getReadableDatabase(this);
+            db = Database2020.getToReading(this);
             refreshCursor();
             setAdapter();
         }catch (SQLiteException e){

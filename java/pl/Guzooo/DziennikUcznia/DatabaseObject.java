@@ -21,7 +21,7 @@ public abstract class DatabaseObject {
 
     public void setVariablesOfId(int id, Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
+            SQLiteDatabase db = Database2020.getToReading(context);
             Cursor cursor = db.query(databaseName(),
                     onCursor(),
                     "_id = ?",
@@ -36,7 +36,7 @@ public abstract class DatabaseObject {
             cursor.close();
             db.close();
         } catch (SQLiteException e){
-            HelperDatabase.ErrorToast(context);
+            Database2020.ErrorToast(context);
         }
     }
 
@@ -44,31 +44,31 @@ public abstract class DatabaseObject {
 
     public void insert(Context context){
         try{
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.insert(databaseName(), null, getContentValues());
             db.close();
         } catch (SQLiteException e){
-            HelperDatabase.ErrorToast(context);
+            Database2020.ErrorToast(context);
         }
     }
 
     public void update(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.update(databaseName(), getContentValues(), "_id = ?", new String[]{Integer.toString(getId())});
             db.close();
         } catch (SQLiteException e){
-            HelperDatabase.ErrorToast(context);
+            Database2020.ErrorToast(context);
         }
     }
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.delete(databaseName(), "_id = ?", new String[]{Integer.toString(getId())});
             db.close();
         } catch (SQLiteException e){
-            HelperDatabase.ErrorToast(context);
+            Database2020.ErrorToast(context);
         }
     }
 

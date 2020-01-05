@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
         if(sharedPreferences.getInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 0) == 0){
-            HelperDatabase.CreateDefaultCategoryOfAssessment(this);
+            //HelperDatabase.CreateDefaultCategoryOfAssessment(this);
             SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
             editor.putInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 1);
             editor.apply();
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         goFirstChangeView(savedInstanceState);
         try {
-            db = DatabaseUtils.getWritableDatabase(this);
+            db = Database2020.getToWriting(this);
             setDayOfSubject();
             refreshSubjectsCursors();
             setAdapter();
@@ -215,17 +215,13 @@ public class MainActivity extends AppCompatActivity {
     private void setDayOfSubject(){
         Cursor cursor = db.query("SUBJECTS",
                 Subject.subjectOnCursor,
-                "DAY != ?",
-                new String[]{Integer.toString(0)},
+                null,
+                null,
                 null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
                 Subject subject = Subject.getOfCursor(cursor);
-                db.update("SUBJECTS",
-                        subject.saveDay(this, 0),
-                        "_id = ?",
-                        new String[]{Integer.toString(subject.getId())});
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -256,10 +252,10 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i <= 7 ; i++){
             Cursor cursor = db.query("SUBJECTS",
                     Subject.subjectOnCursor,
-                    "DAY = ?",
-                    new String[]{Integer.toString(i)},
+                    null,
+                    null,
                     null, null,
-                    "NOTES DESC, NAME");
+                    "NAME");//sortowanie po notatkach
 
             cursors.add(cursor);
         }
@@ -343,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void database3to4 (){ //dodano w wersji 6 na 7
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+            SQLiteDatabase db = Database2020.getToWriting(this);
 
             Cursor cursor = db.query("SUBJECTS",
                     Subject.subjectOnCursor,
@@ -387,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void assessmentCategoryAgain(){ //z 9 na 10(?)
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+            SQLiteDatabase db = Database2020.getToWriting(this);
             Cursor cursor = db.query("CATEGORY_ASSESSMENT",
                     CategoryAssessment.onCursor,
                     null, null, null, null, null);
@@ -418,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     } while (cursor.moveToNext());
 
-                    HelperDatabase.CreateDefaultCategoryOfAssessment(this);
+                    //HelperDatabase.CreateDefaultCategoryOfAssessment(this);
                     cursor = db.query("CATEGORY_ASSESSMENT",
                             CategoryAssessment.onCursor,
                             null, null, null, null, null);
@@ -455,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt(PREFERENCE_CATEGORY_OF_ASSESSMENT_AGAIN, 1);
             editor.apply();
         } catch (SQLiteException e){
-            HelperDatabase.ErrorToast(this);
+            Database2020.ErrorToast(this);
         }
     }
 
@@ -467,7 +463,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void numberNotesError() {
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+            SQLiteDatabase db = Database2020.getToWriting(this);
             Cursor cursor = db.query("SUBJECTS",
                     Subject.subjectOnCursor,
                     null, null, null, null, null);
@@ -486,12 +482,12 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         } catch (SQLiteException e){
             e.printStackTrace();
-            HelperDatabase.ErrorToast(this);
+            Database2020.ErrorToast(this);
         }
     }
 
     private void dataAssessmentsError(){
-        SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+        SQLiteDatabase db = Database2020.getToWriting(this);
         Cursor cursor = db.query("ASSESSMENTS",
                 SubjectAssessment.subjectAssessmentOnCursor,
                 null, null, null, null, null);

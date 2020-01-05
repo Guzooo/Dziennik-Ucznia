@@ -71,7 +71,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         assessmentsRecycler = findViewById(R.id.assessments);
 
         subject = Subject.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
-        db = DatabaseUtils.getWritableDatabase(this);
+        db = Database2020.getToWriting(this);
 
         if(savedInstanceState == null || !savedInstanceState.getBoolean(BUNDLE_VISIBLE_NOTES))
             ChangeVisibilityNotes();

@@ -47,7 +47,7 @@ public class CategoryAssessment {
 
     public static CategoryAssessment getOfId (int id, Context context){
         CategoryAssessment categoryAssessment;
-        SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
+        SQLiteDatabase db = Database2020.getToReading(context);
         Cursor cursor = db.query("CATEGORY_ASSESSMENT",
                 CategoryAssessment.onCursor,
                 "_id = ?",
@@ -67,7 +67,7 @@ public class CategoryAssessment {
 
     public void insert(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.insert("CATEGORY_ASSESSMENT", null, getContentValues());
             db.close();
         } catch (SQLiteException e){
@@ -77,7 +77,7 @@ public class CategoryAssessment {
 
     public void update(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.update("CATEGORY_ASSESSMENT",
                     getContentValues(),
                     "_id = ?",
@@ -90,7 +90,7 @@ public class CategoryAssessment {
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.delete("CATEGORY_ASSESSMENT",
                     "_id = ?",
                     new String[]{Integer.toString(getId())});

@@ -25,18 +25,14 @@ public class Subject {
     private String description;
     private ContentValues contentValues = new ContentValues();
 
-    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "ASSESSMENTS", "UNPREPAREDNESS", "DESCRIPTION", "ASSESSMENTS2", "UNPREPAREDNESS1", "UNPREPAREDNESS2"};      //jak z 6 uciekną pozbyć się łocen
+    public static final String[] subjectOnCursor = {"_id", "NAME", "TEACHER", "UNPREPAREDNESS", "DESCRIPTION", "UNPREPAREDNESS1", "UNPREPAREDNESS2"};      //jak z 6 uciekną pozbyć się łocen
 
-    private Subject (int id, String name, String teacher, String assessments, int unpreparedness, String description, String assessments2, int unpreparedness1, int unpreparedness2){
+    private Subject (int id, String name, String teacher, int unpreparedness, String description, int unpreparedness1, int unpreparedness2){
         this.id = id;
         setName(name);
         setTeacher(teacher);
         this.assessments.add(new ArrayList<Float>());
         this.assessments.add(new ArrayList<Float>());
-        fromStringAssessments(0, assessments);
-        fromStringAssessments(1, assessments2);
-        contentValues.put("ASSESSMENTS", "");
-        contentValues.put("ASSESSMENTS2", "");
         setUnpreparedness(unpreparedness);
         setDescription(description);
         setUnpreparedness1(unpreparedness1);
@@ -44,9 +40,7 @@ public class Subject {
     }
 
     public static Subject newEmpty (){
-        Subject subject = new Subject (0, "", "", "", 0, "", "", -1, -1);
-        subject.contentValues.put("NOTES", 0);
-        subject.contentValues.put("DAY", 0);
+        Subject subject = new Subject (0, "", "",  0, "",  -1, -1);
         return subject;
     }
 
@@ -54,17 +48,15 @@ public class Subject {
         return new Subject(cursor.getInt(0),
                 cursor.getString(1),
                 cursor.getString(2),
-                cursor.getString(3),
-                cursor.getInt(4),
-                cursor.getString(5),
-                cursor.getString(6),
-                cursor.getInt(7),
-                cursor.getInt(8));
+                cursor.getInt(3),
+                cursor.getString(4),
+                cursor.getInt(5),
+                cursor.getInt(6));
     }
 
     public static Subject getOfId (int id, Context context){
         Subject subject;
-        SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
+        SQLiteDatabase db = Database2020.getToReading(context);
         Cursor cursor = db.query("SUBJECTS",
                 Subject.subjectOnCursor,
                 "_id = ?",
@@ -95,7 +87,7 @@ public class Subject {
 
     public void insert(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.insert("SUBJECTS", null, contentValues);
             contentValues.clear();
             db.close();
@@ -106,7 +98,7 @@ public class Subject {
 
     public void update(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.update("SUBJECTS",
                     contentValues,
                     "_id = ?",
@@ -120,7 +112,7 @@ public class Subject {
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.delete("SUBJECTS",
                     "_id = ?",
                     new String[]{Integer.toString(getId())});
@@ -128,14 +120,14 @@ public class Subject {
         } catch (SQLiteException e){
             Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
-        DatabaseUtils.destroyAllLessonPlan("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
-        DatabaseUtils.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
-        DatabaseUtils.destroyAllAssessment("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+        Database2020.destroyAllLessonPlan("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+        Database2020.destroyAllNotes("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
+        Database2020.destroyAllAssessment("TAB_SUBJECT = ?", new String[]{Integer.toString(getId())}, context);
     }
 
     public boolean duplicate(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.insert("SUBJECTS", null, getOfSubject(this).contentValues);
             return true;
         } catch (SQLiteException e){
@@ -247,7 +239,7 @@ public class Subject {
 
     public ArrayList<SubjectAssessment> getAssessment(int semester, Context context){
         ArrayList<SubjectAssessment> assessments = new ArrayList<>();
-        SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+        SQLiteDatabase db = Database2020.getToWriting(context);
         Cursor cursor = db.query("ASSESSMENTS",
                 SubjectAssessment.subjectAssessmentOnCursor,
                 "TAB_SUBJECT = ? AND SEMESTER = ?",
@@ -408,14 +400,13 @@ public class Subject {
     }
 
     public void removeAllAssessments(Context context){
-        DatabaseUtils.destroyAllAssessment("TAB_SUBJECT = ? AND SEMESTER =?", new String[]{Integer.toString(getId()), Integer.toString(StatisticsActivity.getSemester(context))}, context);
+        Database2020.destroyAllAssessment("TAB_SUBJECT = ? AND SEMESTER =?", new String[]{Integer.toString(getId()), Integer.toString(StatisticsActivity.getSemester(context))}, context);
     }
 
     public int getSizeNotes(Context context){
         int size = 0;
         try{
-            SQLiteOpenHelper openHelper = new HelperDatabase(context);
-            SQLiteDatabase db = openHelper.getReadableDatabase();
+            SQLiteDatabase db = Database2020.getToReading(context);
             Cursor cursor = db.query("NOTES",
                     new String[] {"COUNT(_id) AS count"},
                     "TAB_SUBJECT = ?",
@@ -435,8 +426,7 @@ public class Subject {
     private int getDay(Context context, int notThis) {
         int i = 0;
         try {
-            SQLiteOpenHelper openHelper = new HelperDatabase(context);
-            SQLiteDatabase db = openHelper.getReadableDatabase();
+            SQLiteDatabase db = Database2020.getToReading(context);
             Cursor cursor = db.query("LESSON_PLAN",
                     new String[]{"DAY"},
                     "TAB_SUBJECT = ?",

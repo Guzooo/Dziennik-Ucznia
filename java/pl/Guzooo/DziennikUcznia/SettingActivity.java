@@ -121,7 +121,7 @@ public class SettingActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (DatabaseUtils.destroyAllSubject(getApplicationContext())) {
+                        if (Database2020.destroyAllSubject(getApplicationContext())) {
                             Toast.makeText(getApplicationContext(), R.string.setting_delete_all_subjects_made, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
@@ -137,7 +137,7 @@ public class SettingActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (DatabaseUtils.destroyAllNotes(getApplicationContext())) {
+                        if (Database2020.destroyAllNotes(getApplicationContext())) {
                             Toast.makeText(getApplicationContext(), R.string.setting_delete_all_notes_made, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
@@ -152,7 +152,7 @@ public class SettingActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.yes, new androidx.appcompat.app.AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (DatabaseUtils.destroyAllLessonPlan(getApplicationContext())) {
+                        if (Database2020.destroyAllLessonPlan(getApplicationContext())) {
                             Toast.makeText(getApplicationContext(), R.string.setting_delete_all_lesson_plan_made, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();

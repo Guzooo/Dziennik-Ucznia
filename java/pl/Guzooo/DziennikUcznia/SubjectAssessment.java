@@ -52,7 +52,7 @@ public class SubjectAssessment {
 
     public static SubjectAssessment getOfId (int id, Context context){
         SubjectAssessment assessment;
-        SQLiteDatabase db = DatabaseUtils.getReadableDatabase(context);
+        SQLiteDatabase db = Database2020.getToReading(context);
         Cursor cursor = db.query("ASSESSMENTS",
                 SubjectAssessment.subjectAssessmentOnCursor,
                 "_id = ?",
@@ -72,7 +72,7 @@ public class SubjectAssessment {
 
     public void insert(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.insert("ASSESSMENTS", null, contentValues);
             contentValues.clear();
             db.close();
@@ -83,7 +83,7 @@ public class SubjectAssessment {
 
     public void update(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.update("ASSESSMENTS",
                     contentValues,
                     "_id = ?",
@@ -97,7 +97,7 @@ public class SubjectAssessment {
 
     public void delete(Context context){
         try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(context);
+            SQLiteDatabase db = Database2020.getToWriting(context);
             db.delete("ASSESSMENTS",
                     "_id = ?",
                     new String[]{Integer.toString(getId())});
