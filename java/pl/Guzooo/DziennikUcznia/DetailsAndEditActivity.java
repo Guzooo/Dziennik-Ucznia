@@ -20,7 +20,6 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -303,8 +302,8 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
         int width = size.x;
-        float count = width / getResources().getDimensionPixelSize(R.dimen.assessment_length);
-        float margin = width % getResources().getDimensionPixelSize(R.dimen.assessment_length) / count / 2;
+        float count = width / getResources().getDimensionPixelSize(R.dimen.length_assessment);
+        float margin = width % getResources().getDimensionPixelSize(R.dimen.length_assessment) / count / 2;
 
         GridLayoutManager layoutManage = new GridLayoutManager(this, (int) count);
         assessmentsRecycler.setLayoutManager(layoutManage);

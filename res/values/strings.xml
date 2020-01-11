@@ -166,5 +166,14 @@
     <string name="setting_delete_all_lesson_plan_made">Usunąłeś plan lekcji</string>
 
     <!-- NOWE -->
+    <string name="settings_theme">App theme</string>
+    <string name="title_theme">Select theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_battery">Set by Battery Saver</string>
+    <string name="theme_system">System default</string>
+    <string name="title_hard_dark_mode">Hard dark theme</string>
+    <string name="summary_hard_dark_mode">If dark theme is enable, dark is more dark. Ideal for OLED/AMOLED display.</string>
+
     <string name="cant_delete_default_assessments_category">Nie można usunąć domyślnej kategorii</string>
 </resources>

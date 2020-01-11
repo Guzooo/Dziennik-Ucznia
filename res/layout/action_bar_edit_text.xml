@@ -3,7 +3,7 @@
     android:id="@+id/action_bar_edit_text_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/minimum_length"
+    android:minHeight="@dimen/length_minimal"
     android:singleLine="true"
     android:layout_gravity="center">
 

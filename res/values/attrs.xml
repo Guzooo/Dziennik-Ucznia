@@ -8,4 +8,11 @@
         <attr name="separator" format="string"/>
         <attr name="help_edit" format="string"/>
     </declare-styleable>
+
+    <attr name="colorPrimaryG" format="reference"/>
+    <attr name="colorPrimaryDarkG" format="reference"/>
+    <attr name="colorPrimaryTranslucentG" format="reference"/>
+    <attr name="colorSecondaryG" format="reference"/>
+    <attr name="colorSecondaryDarkG" format="reference"/>
+    <attr name="colorAccentG" format="reference"/>
 </resources>

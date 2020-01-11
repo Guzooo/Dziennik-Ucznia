@@ -305,10 +305,10 @@ public class MainActivity extends AppCompatActivity {
         if (notepadBox.getTranslationY() != 0) {
             notepadBox.animate()
                     .translationY(0);
-            recyclerView.setPadding(recyclerView.getPaddingLeft(), notepadBox.getHeight() + getResources().getDimensionPixelSize(R.dimen.card_margin) * 2, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
+            recyclerView.setPadding(recyclerView.getPaddingLeft(), notepadBox.getHeight() + getResources().getDimensionPixelSize(R.dimen.margin_card) * 2, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
         } else {
             notepadBox.animate()
-                    .translationY(notepadBox.getHeight() * -1 - getResources().getDimensionPixelSize(R.dimen.card_margin) * 2);
+                    .translationY(notepadBox.getHeight() * -1 - getResources().getDimensionPixelSize(R.dimen.margin_card) * 2);
             recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
         }
         invalidateOptionsMenu();

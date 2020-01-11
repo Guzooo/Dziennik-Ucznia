@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:text="@string/add"
             android:onClick="ClickAdd"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
 
         <Button
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:text="@string/cancel"
             android:onClick="ClickCancel"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
     </LinearLayout>
 
 </LinearLayout>

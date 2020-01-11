@@ -83,7 +83,7 @@
                 android:id="@+id/plan_edit_classroom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/minimum_length"
+                android:minHeight="@dimen/length_minimal"
                 android:hint="@string/plan_edit_hint_classroom"
                 android:singleLine="true"/>
         </LinearLayout>
@@ -102,7 +102,7 @@
             android:layout_weight="1"
             android:onClick="ClickSave"
             android:text="@string/add"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
 
         <Button
             android:layout_width="match_parent"
@@ -110,6 +110,6 @@
             android:layout_weight="1"
             android:onClick="ClickCancel"
             android:text="@string/cancel"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

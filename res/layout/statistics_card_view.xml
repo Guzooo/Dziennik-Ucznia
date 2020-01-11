@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/card_height"
-    android:layout_margin="@dimen/card_margin"
-    app:cardCornerRadius="@dimen/card_corner_radius">
+    android:minHeight="@dimen/height_card"
+    android:layout_margin="@dimen/margin_card"
+    app:cardCornerRadius="@dimen/corner_radius_card">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="@dimen/standard_margin">
+        android:layout_margin="@dimen/margin_standard">
 
         <TextView
             android:id="@+id/subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:layout_marginBottom="@dimen/standard_margin"/>
+            android:layout_marginBottom="@dimen/margin_standard"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,10 +32,10 @@
                 android:gravity="center"/>
 
             <ImageView
-                android:layout_width="@dimen/separator_length"
+                android:layout_width="@dimen/length_separator"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/margin_standard"
+                android:layout_marginRight="@dimen/margin_standard"
                 android:src="@color/colorPrimary"/>
 
             <TextView
@@ -46,10 +46,10 @@
                 android:gravity="center"/>
 
             <ImageView
-                android:layout_width="@dimen/separator_length"
+                android:layout_width="@dimen/length_separator"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/margin_standard"
+                android:layout_marginRight="@dimen/margin_standard"
                 android:src="@color/colorPrimary"/>
 
             <TextView

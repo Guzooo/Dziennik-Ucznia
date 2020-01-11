@@ -20,7 +20,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/standard_margin"
+                android:layout_margin="@dimen/margin_standard"
                 app:srcCompat="@mipmap/ic_launcher" />
 
             <LinearLayout
@@ -30,14 +30,14 @@
                 android:orientation="vertical">
 
                 <Button
-                    style="@style/AppTheme.Button"
+                    style="@style/Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_facebook"
                     android:onClick="ClickFacebook"/>
 
                 <Button
-                    style="@style/AppTheme.Button"
+                    style="@style/Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_messenger"
@@ -52,19 +52,19 @@
         </LinearLayout>
 
         <TextView
-            android:layout_marginTop="@dimen/standard_margin"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginLeft="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/setting"
             style="@style/AppTheme.TitleBig"/>
 
         <ImageView
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/separator_length"
+            android:layout_height="@dimen/length_separator"
             app:srcCompat="@color/colorPrimary" />
 
         <!--<TextView
@@ -88,14 +88,14 @@
             android:id="@+id/average_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/minimum_length"
+            android:minHeight="@dimen/length_minimal"
             android:text="@string/setting_average_weight"/>
 
         <CheckBox
             android:id="@+id/setting_average_to_assessment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/minimum_length"
+            android:minHeight="@dimen/length_minimal"
             android:text="@string/setting_average_to_assessment"
             android:onClick="ClickCheckAverageToAssessment"/>
 
@@ -103,8 +103,8 @@
             android:id="@+id/setting_average_to_assessment_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin">
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginLeft="@dimen/margin_standard">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -119,7 +119,7 @@
                     android:id="@+id/setting_average_to_six"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/minimum_length"
+                    android:minHeight="@dimen/length_minimal"
                     android:hint="@string/setting_to_six"
                     android:inputType="numberDecimal"/>
             </TableRow>
@@ -137,7 +137,7 @@
                     android:id="@+id/setting_average_to_five"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/minimum_length"
+                    android:minHeight="@dimen/length_minimal"
                     android:hint="@string/setting_to_five"
                     android:inputType="numberDecimal"/>
             </TableRow>
@@ -155,7 +155,7 @@
                     android:id="@+id/setting_average_to_four"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/minimum_length"
+                    android:minHeight="@dimen/length_minimal"
                     android:hint="@string/setting_to_four"
                     android:inputType="numberDecimal"/>
 
@@ -174,7 +174,7 @@
                     android:id="@+id/setting_average_to_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/minimum_length"
+                    android:minHeight="@dimen/length_minimal"
                     android:hint="@string/setting_to_three"
                     android:inputType="numberDecimal"/>
             </TableRow>
@@ -192,18 +192,18 @@
                     android:id="@+id/setting_average_to_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/minimum_length"
+                    android:minHeight="@dimen/length_minimal"
                     android:hint="@string/setting_to_two"
                     android:inputType="numberDecimal"/>
             </TableRow>
         </TableLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin">
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginLeft="@dimen/margin_standard">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -214,7 +214,7 @@
                 android:id="@+id/setting_average_to_belt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/minimum_length"
+                android:minHeight="@dimen/length_minimal"
                 android:hint="@string/setting_to_belt"
                 android:inputType="numberDecimal"/>
         </LinearLayout>
@@ -249,28 +249,28 @@
         </LinearLayout>-->
 
         <TextView
-            android:layout_marginTop="@dimen/standard_margin"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginLeft="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/setting_delete"
             style="@style/AppTheme.TitleBig"/>
 
         <ImageView
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/separator_length"
+            android:layout_height="@dimen/length_separator"
             app:srcCompat="@color/colorPrimary" />
 
         <Button
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/setting_delete_all_lesson_plan"
             android:onClick="ClickDestroyAllPlanLesson"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
 
        <!-- <Button
             android:layout_width="match_parent"
@@ -281,33 +281,33 @@
             style="@style/AppTheme.Button"/>-->
 
         <Button
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/setting_delete_all_notes"
             android:onClick="ClickDestroyAllNotes"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
 
         <Button
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/setting_delete_all_subjects"
             android:onClick="ClickDestroyAllSubjects"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
 
         <ImageView
-            android:layout_margin="@dimen/standard_margin"
+            android:layout_margin="@dimen/margin_standard"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/separator_length"
+            android:layout_height="@dimen/length_separator"
             app:srcCompat="@color/colorPrimary" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/card_height"
-            android:layout_margin="@dimen/card_margin"
-            app:cardCornerRadius="@dimen/card_corner_radius"
+            android:minHeight="@dimen/height_card"
+            android:layout_margin="@dimen/margin_card"
+            app:cardCornerRadius="@dimen/corner_radius_card"
             app:cardBackgroundColor="@color/colorPrimary">
 
             <TextView

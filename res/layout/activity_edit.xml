@@ -21,7 +21,7 @@
                 android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/minimum_length"
+                android:minHeight="@dimen/length_minimal"
                 android:hint="@string/edit_hint_name"
                 android:singleLine="true"/>
 
@@ -29,7 +29,7 @@
                 android:id="@+id/edit_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/minimum_length"
+                android:minHeight="@dimen/length_minimal"
                 android:hint="@string/edit_hint_teacher"
                 android:singleLine="true"/>
 
@@ -43,8 +43,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_marginStart="@dimen/margin_standard"
+                    android:layout_marginLeft="@dimen/margin_standard"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -63,8 +63,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_marginStart="@dimen/margin_standard"
+                    android:layout_marginLeft="@dimen/margin_standard"
                     android:orientation="vertical">
 
                     <TextView
@@ -90,7 +90,7 @@
                     android:id="@+id/edit_assessment"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:minHeight="@dimen/minimum_length"
+                    android:minHeight="@dimen/length_minimal"
                     android:hint="@string/hint_assessment"
                     android:layout_weight="1"
                     android:inputType="numberDecimal"/>
@@ -100,14 +100,14 @@
                     android:layout_height="match_parent"
                     app:srcCompat="@android:drawable/ic_input_add"
                     android:onClick="ClickPlus"
-                    style="@style/AppTheme.Button"/>
+                    style="@style/Button"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:srcCompat="@android:drawable/ic_delete"
                     android:onClick="ClickMinus"
-                    style="@style/AppTheme.Button"/>
+                    style="@style/Button"/>
 
                 <Button
                     android:layout_width="wrap_content"
@@ -117,14 +117,14 @@
                     android:drawableTint="@android:color/white"
                     android:text="@string/edit_delete_all_assessment"
                     android:onClick="ClickAllMinus"
-                    style="@style/AppTheme.Button"/>
+                    style="@style/Button"/>
             </LinearLayout>
 
             <EditText
                 android:id="@+id/edit_unpreparedness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/minimum_length"
+                android:minHeight="@dimen/length_minimal"
                 android:hint="@string/edit_hint_unpreparedness"
                 android:inputType="number"/>
 
@@ -132,13 +132,13 @@
                 android:id="@+id/edit_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/minimum_length"
+                android:minHeight="@dimen/length_minimal"
                 android:hint="@string/edit_hint_description"
                 android:inputType="textMultiLine"/>
 
             <Button
                 android:id="@+id/edit_duplicate_subject"
-                style="@style/AppTheme.Button"
+                style="@style/Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="ClickDuplicateSubject"
@@ -160,7 +160,7 @@
             android:layout_weight="1"
             android:onClick="ClickSave"
             android:text="@string/add"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
 
         <Button
             android:layout_width="94dp"
@@ -168,6 +168,6 @@
             android:layout_weight="1"
             android:onClick="ClickCancel"
             android:text="@string/cancel"
-            style="@style/AppTheme.Button"/>
+            style="@style/Button"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,7 +80,7 @@ public class CategoryOfAssessment2020 extends DatabaseObject{
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(PREFERENCE_DEFAULT_CATEGORY, 1);
     }
-    
+
     private void showToastCantDeleteDefault(Context context){
         Toast.makeText(context, R.string.cant_delete_default_assessments_category, Toast.LENGTH_SHORT).show();
     }

@@ -11,32 +11,32 @@
         android:id="@+id/assessment_option_auto_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/minimum_length"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginStart="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
+        android:minHeight="@dimen/length_minimal"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
         android:text="@string/see_assessment_option_after_add"
         android:checked="true"/>
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/separator_length"
-        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_height="@dimen/length_separator"
+        android:layout_marginTop="@dimen/margin_standard"
         android:src="@color/colorPrimary"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_margin">
+        android:layout_marginTop="@dimen/margin_standard">
 
         <ImageView
             android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_delete_black"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
-            style="@style/AppTheme.Icon"/>
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
+            style="@style/ClickableImages"/>
 
         <TextView
             android:id="@+id/title"
@@ -48,34 +48,34 @@
 
         <ImageView
             android:id="@+id/edit"
-            style="@style/AppTheme.Icon"
+            style="@style/ClickableImages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
             android:src="@android:drawable/ic_menu_edit"
             android:tint="#000000"/>
     </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/separator_length"
-        android:layout_margin="@dimen/standard_margin"
+        android:layout_height="@dimen/length_separator"
+        android:layout_margin="@dimen/margin_standard"
         android:src="@color/colorPrimary"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_margin">
+        android:layout_marginTop="@dimen/margin_standard">
 
         <Spinner
             android:id="@+id/spinner_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:minHeight="@dimen/minimum_length"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"/>
+            android:minHeight="@dimen/length_minimal"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"/>
 
         <!--<ImageView
             android:id="@+1d/add_category"
@@ -90,18 +90,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_margin">
+        android:layout_marginTop="@dimen/margin_standard">
 
         <pl.Guzooo.DziennikUcznia.TextAndHoldEditView
             android:id="@+id/assessment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:minHeight="@dimen/minimum_length"
+            android:minHeight="@dimen/length_minimal"
             app:hint="@string/hint_assessment"
             app:info="@string/assessment"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
             android:layout_gravity="center_vertical"
             android:inputType="numberDecimal"/>
 
@@ -110,12 +110,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:minHeight="@dimen/minimum_length"
+            android:minHeight="@dimen/length_minimal"
             app:hint="@string/hint_assessment_weight"
             app:info="@string/weight"
             app:prefix="@string/separation"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
             android:layout_gravity="center_vertical"/>
 
         <FrameLayout
@@ -123,9 +123,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:minHeight="@dimen/minimum_length"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:minHeight="@dimen/length_minimal"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
             android:layout_gravity="center">
 
             <TextView
@@ -141,8 +141,8 @@
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/minimum_length"
+        android:minHeight="@dimen/length_minimal"
         app:info="@string/description"
         app:hint="@string/hint_description"
-        android:layout_margin="@dimen/standard_margin"/>
+        android:layout_margin="@dimen/margin_standard"/>
 </LinearLayout>

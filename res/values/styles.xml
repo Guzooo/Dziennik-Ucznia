@@ -1,17 +1,75 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textSize">14dp</item>
-        <item name="android:textColor">#000000</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimaryG">@color/light</item>
+        <item name="colorPrimaryDarkG">@color/lightDark</item>
+        <item name="colorPrimaryTranslucentG">@color/lightTranslucent</item>
+        <item name="colorSecondaryG">@color/dark</item>
+        <item name="colorSecondaryDarkG">@color/darkDark</item>
+        <item name="colorAccentG">@color/accent</item>
+
+        <item name="colorPrimary">?attr/colorPrimaryTranslucentG</item>
+        <item name="colorPrimaryDark">?attr/colorPrimaryTranslucentG</item>
+        <item name="colorAccent">?attr/colorAccentG</item>
+
+        <item name="android:textViewStyle">@style/NormalText</item>
+
+        <item name="android:colorBackground">?attr/colorPrimaryG</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:statusBarColor">?attr/colorPrimaryTranslucentG</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:windowActionBar">false</item>
+
+  <!--      <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
     </style>
 
-    <style name="AppTheme.DescriptionText" parent="AppTheme">
-        <item name="android:textColor">#FFFFFF</item>
+    <style name="AppTheme.PreferenceTheme" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:tint">?attr/colorAccentG</item>-->
+    </style>
+
+    <style name="AllClickable">
+        <item name="android:minWidth">@dimen/length_minimal</item>
+        <item name="android:minHeight">@dimen/length_minimal</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
+    </style>
+
+    <style name="ClickableImages" parent="AllClickable">
+        <item name="android:layout_width">@dimen/length_minimal</item>
+        <item name="android:layout_height">@dimen/length_minimal</item>
+        <item name="android:padding">@dimen/padding_clickable_image</item>
+        <item name="android:tint">?attr/colorAccentG</item>
+    </style>
+
+    <style name="NormalText">
+        <item name="android:textColor">?attr/colorAccentG</item>
+        <item name="android:textSize">@dimen/size_text_normal</item>
+    </style>
+
+<!--    <style name="TitleText">
+        <item name="android:textSize">@dimen/size_text_title</item>
+    </style>-->
+
+    <style name="DescriptionText">
+        <item name="android:textColor">?attr/colorPrimaryDarkG</item>
         <item name="android:textSize">10dp</item>
     </style>
+
+    <style name="Button">
+        <item name="android:textColor">?attr/colorPrimaryG</item>
+        <item name="android:backgroundTint">?attr/colorAccentG</item>
+        <item name="android:tint">?attr/colorPrimaryG</item>
+    </style>
+
+    <!--<style name="Button" parent="AppTheme">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="tint">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15dp</item>
+    </style>-->
 
     <style name="AppTheme.TitleBig" parent="AppTheme.Title">
         <item name="android:textSize">20dp</item>
@@ -23,23 +81,8 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme.Button" parent="AppTheme">
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="backgroundTint">@color/colorPrimary</item>
-        <item name="tint">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">15dp</item>
-    </style>
-
     <style name="AppTheme.Dialog.Alarm" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:colorBackground">@color/colorPrimary</item>
         <item name="android:textColor">#FFFFFF</item>
-    </style>
-
-    <style name="AppTheme.Icon">
-        <item name="android:minWidth">@dimen/minimum_length</item>
-        <item name="android:minHeight">@dimen/minimum_length</item>
-        <item name="android:tint">@color/colorPrimary</item>
-        <item name="android:padding">@dimen/standard_margin</item>
     </style>
 </resources>

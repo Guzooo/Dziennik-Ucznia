@@ -49,8 +49,8 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
                 weight.setVisibility(View.GONE);
 
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    context.getResources().getDimensionPixelSize(R.dimen.assessment_length),
-                    context.getResources().getDimensionPixelSize(R.dimen.assessment_length));
+                    context.getResources().getDimensionPixelSize(R.dimen.length_assessment),
+                    context.getResources().getDimensionPixelSize(R.dimen.length_assessment));
             params.setMargins(margin, margin, margin, margin);
             background.setLayoutParams(params);
         }

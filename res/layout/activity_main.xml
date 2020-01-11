@@ -16,9 +16,9 @@
         android:id="@+id/main_subject_null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_margin"
-        android:minHeight="@dimen/card_height"
-        app:cardCornerRadius="@dimen/card_corner_radius"
+        android:layout_margin="@dimen/margin_card"
+        android:minHeight="@dimen/height_card"
+        app:cardCornerRadius="@dimen/corner_radius_card"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -33,16 +33,16 @@
         android:id="@+id/main_notepad_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_margin"
-        android:minHeight="@dimen/card_height"
-        app:cardCornerRadius="@dimen/card_corner_radius"
+        android:layout_margin="@dimen/margin_card"
+        android:minHeight="@dimen/height_card"
+        app:cardCornerRadius="@dimen/corner_radius_card"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/main_notepad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/minimum_length"
+            android:minHeight="@dimen/length_minimal"
             android:layout_gravity="center"
             android:hint="@string/notepad"
             android:inputType="textMultiLine"
@@ -56,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageButton
-            style="@style/AppTheme.Button"
+            style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -64,7 +64,7 @@
             app:srcCompat="@drawable/ic_settings_applications_black_24dp" />
 
         <ImageButton
-            style="@style/AppTheme.Button"
+            style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -72,7 +72,7 @@
             app:srcCompat="@drawable/ic_statistics" />
 
         <ImageButton
-            style="@style/AppTheme.Button"
+            style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -80,7 +80,7 @@
             app:srcCompat="@android:drawable/ic_dialog_dialer" />
 
         <ImageButton
-            style="@style/AppTheme.Button"
+            style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
