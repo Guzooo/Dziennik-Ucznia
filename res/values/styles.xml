@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimaryG">@color/light</item>
@@ -44,11 +44,16 @@
     </style>
 
     <style name="NormalText">
-        <item name="android:textColor">?attr/colorAccentG</item>
+        <item name="android:textColor">?attr/colorSecondaryG</item>
         <item name="android:textSize">@dimen/size_text_normal</item>
     </style>
 
-<!--    <style name="TitleText">
+    <style name="BoldText" parent="NormalText">
+        <item name="android:textSize">@dimen/size_text_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TitleText" parent="NormalText">
         <item name="android:textSize">@dimen/size_text_title</item>
     </style>-->
 
@@ -70,6 +75,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15dp</item>
     </style>-->
+
+    <style name="CardViewStandard">
+        <item name="android:minHeight">@dimen/height_card</item>
+        <item name="android:layout_margin">@dimen/margin_card</item>
+        <item name="cardCornerRadius">@dimen/corner_radius_card</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryG</item>
+    </style>
 
     <style name="AppTheme.TitleBig" parent="AppTheme.Title">
         <item name="android:textSize">20dp</item>

@@ -27,27 +27,6 @@
    <!-- <string name="absense">Nieobecność</string>
     <string name="absense_made">Notatki o uzupełnieniu lekcji zostały dodane</string>-->
 
-    <string name="week_hint">Wybierz dzień</string>
-    <string name="monday">Poniedziałek</string>
-    <string name="tuesday">Wtorek</string>
-    <string name="wednesday">Środa</string>
-    <string name="thursday">Czwartek</string>
-    <string name="friday">Piątek</string>
-    <string name="saturday">Sobota</string>
-    <string name="sunday">Niedziela</string>
-    <string name="null_day">Brak w planie</string>
-
-    <string-array name="week">
-        <item>@string/week_hint</item>
-        <item>@string/monday</item>
-        <item>@string/tuesday</item>
-        <item>@string/wednesday</item>
-        <item>@string/thursday</item>
-        <item>@string/friday</item>
-        <item>@string/saturday</item>
-        <item>@string/sunday</item>
-    </string-array>
-
     <string name="separation">\ \u2022 \ </string>
 
     <string name="menu_trash">Usuń</string>
@@ -63,8 +42,7 @@
     <string name="main_null_subject">Nie masz jeszcze przedmiotów\nDotknij plusa w prawym dolnym rogu by dodać przedmiot</string>
     <string name="main_belt">PASEK</string>
 
-    <string name="notes">Ilość notatek: %1$d</string>
-    <string name="unpreparedness_with_variable">NP: %1$d</string>
+
     <string name="unpreparedness">NP: \ </string>
 
     <string name="information_window_message_from_creator">Wiadomość od twórcy:</string>
@@ -166,6 +144,33 @@
     <string name="setting_delete_all_lesson_plan_made">Usunąłeś plan lekcji</string>
 
     <!-- NOWE -->
+    <string name="number_of_notes">Ilość notatek: %1$d</string>
+    <string name="number_of_unpreparedness">NP: %1$d</string>
+
+    <string name="select_day_hint">Wybierz dzień</string>
+    <string name="monday">Poniedziałek</string>
+    <string name="tuesday">Wtorek</string>
+    <string name="wednesday">Środa</string>
+    <string name="thursday">Czwartek</string>
+    <string name="friday">Piątek</string>
+    <string name="saturday">Sobota</string>
+    <string name="sunday">Niedziela</string>
+    <string name="not_in_plan">Brak w planie</string>
+    <string name="today">Dziś</string>
+    <string name="tomorrow">Jutro</string>
+    <string name="in_a_week">Za tydzień</string>
+
+    <string-array name="week">
+        <item>@string/select_day_hint</item>
+        <item>@string/monday</item>
+        <item>@string/tuesday</item>
+        <item>@string/wednesday</item>
+        <item>@string/thursday</item>
+        <item>@string/friday</item>
+        <item>@string/saturday</item>
+        <item>@string/sunday</item>
+    </string-array>
+
     <string name="settings_theme">App theme</string>
     <string name="title_theme">Select theme</string>
     <string name="theme_light">Light</string>

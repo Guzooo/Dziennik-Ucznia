@@ -1,3 +1,4 @@
+/*
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity  {
 
     private final String PREFERENCE_NOTEPAD = "notepad";
 
@@ -46,24 +47,23 @@ public class MainActivity extends AppCompatActivity {
     private View notepadBox;
     private RecyclerView recyclerView;
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         testOfNewDatabase();
 
-        editTextNotepad = findViewById(R.id.main_notepad);
+ editTextNotepad = findViewById(R.id.main_notepad);
         recyclerView = findViewById(R.id.main_recycler);
         notepadBox = findViewById(R.id.main_notepad_box);
 
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        SharedPreferences sharedPreferences ;//= getPreferences(MODE_PRIVATE);
 
         if(sharedPreferences.getInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 0) == 0){
             //HelperDatabase.CreateDefaultCategoryOfAssessment(this);
-            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 1);
-            editor.apply();
+            //SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+           //editor.putInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 1);
+            //editor.apply();
         }
 
         if(sharedPreferences.getInt(PREFERENCE_DATABASE_3_TO_4, 0) == 0){
@@ -87,13 +87,13 @@ public class MainActivity extends AppCompatActivity {
             setAdapter();
             refreshActionBarInfo();
         } catch (SQLiteException e) {
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
         }
 
         loadNotepad();
 
-        if(CheckInformationOnline.getWifiConnecting(this)) {
-            CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
+       // if(CheckInformationOnline.getWifiConnecting(this)) {
+       //     CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
             checkInformationOnline.execute();
         }
         NotificationsChannels.CreateNotificationsChannels(this);
@@ -136,9 +136,10 @@ public class MainActivity extends AppCompatActivity {
                 showNotepad();
                 return true;
 
-          /*  case R.id.action_absence:
+  case R.id.action_absence:
                 AddNotesAbsence();
-                return true;*/
+                return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -203,8 +204,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onGlobalLayout() {
                     recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    View bottomButtons = findViewById(R.id.main_bottom_buttons);
-                    recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(), recyclerView.getPaddingRight(), bottomButtons.getHeight());
+//                    View bottomButtons = findViewById(R.id.main_bottom_buttons);
+//                    recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(), recyclerView.getPaddingRight(), bottomButtons.getHeight());
 
                     if(bundle == null || !bundle.getBoolean(BUNDLE_VISIBLE_NOTEPAD)) showNotepad();
                 }
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
     public void setAdapter() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdapterSubjectCardView(cursors, findViewById(R.id.main_subject_null));
+//        adapter = new AdapterSubjectCardView(cursors, findViewById(R.id.main_subject_null));
         recyclerView.setAdapter(adapter);
 
         adapter.setListener(new AdapterSubjectCardView.Listener() {
@@ -314,9 +315,10 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
-   /* private void AddNotesAbsence(){
+ private void AddNotesAbsence(){
 
-    }*/
+    }
+
 
     private void saveNotepad(){
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
@@ -451,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt(PREFERENCE_CATEGORY_OF_ASSESSMENT_AGAIN, 1);
             editor.apply();
         } catch (SQLiteException e){
-            Database2020.ErrorToast(this);
+            Database2020.errorToast(this);
         }
     }
 
@@ -482,7 +484,7 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         } catch (SQLiteException e){
             e.printStackTrace();
-            Database2020.ErrorToast(this);
+            Database2020.errorToast(this);
         }
     }
 
@@ -560,3 +562,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+*/

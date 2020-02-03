@@ -2,10 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/height_card"
-    android:layout_margin="@dimen/margin_card"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/corner_radius_card">
+    style="@style/CardViewStandard">
 
     <LinearLayout
         android:layout_gravity="center"
@@ -14,14 +11,15 @@
         android:layout_margin="@dimen/margin_standard">
 
         <TextView
-            android:id="@+id/subject_name"
+            android:id="@+id/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            style="@style/BoldText"/>
 
         <TextView
-            android:id="@+id/subject_np"
+            android:id="@+id/text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_standard"
@@ -29,7 +27,7 @@
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/subject_note"
+            android:id="@+id/text3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

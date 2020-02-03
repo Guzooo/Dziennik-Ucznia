@@ -1,6 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 
 public class Subject2020 extends DatabaseObject{
@@ -106,8 +107,23 @@ public class Subject2020 extends DatabaseObject{
         this.teacher = teacher;
     }
 
+    public int getUnpreparednessOfCurrentSemester(Context context){
+        int semester = StatisticsActivity.getSemester(context);
+        if(semester == 1)
+            return getUnpreparednessOfSemesterI();
+        return getUnpreparednessOfSemesterII();
+    }
+
+    public int getUnpreparednessOfSemesterI(){
+        return getUnpreparednessNotMinus(unpreparednessOfSemesterI);
+    }
+
     public void setUnpreparednessOfSemesterI(int unpreparednessOfSemesterI) {
         this.unpreparednessOfSemesterI = unpreparednessOfSemesterI;
+    }
+
+    public int getUnpreparednessOfSemesterII(){
+        return getUnpreparednessNotMinus(unpreparednessOfSemesterII);
     }
 
     public void setUnpreparednessOfSemesterII(int unpreparednessOfSemesterII) {
@@ -130,7 +146,12 @@ public class Subject2020 extends DatabaseObject{
         this.description = description;
     }
 
- /* public int getUnpreparednessOfCurrentSemester(Context context){
+    private int getUnpreparednessNotMinus(int unpreparedness){
+        if(unpreparedness == -1)
+            return getUnpreparednessDefault();
+        return unpreparedness;
+    }
+ /*   public int getUnpreparednessOfCurrentSemester(Context context){
         getUnpreparednessOfSemester(StatisticsActivity.getSemester(context));
     }
 

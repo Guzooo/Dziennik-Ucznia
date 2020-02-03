@@ -2,11 +2,14 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class Database2020 extends SQLiteOpenHelper {
 
@@ -15,41 +18,46 @@ public class Database2020 extends SQLiteOpenHelper {
     private static final String DB_NAME = "dziennikucznia";
     private static final int DB_VERSION = 8; //TODO: Już nowe
 
+    private SQLiteDatabase db;
+
     Database2020(Context context){
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        createTableSubjects(db);
-        createTableNotes(db);
-        createTableLessonPlan(db);
-        createTableAssessments(db);
-        createTableCategoryAssessment(db);
-        createDefaultCategoryOfAssessment(db);
+        this.db = db;
+        createTableSubjects();
+        createTableNotes();
+        createTableLessonPlan();
+        createTableAssessments();
+        createTableCategoryAssessment();
+        createDefaultCategoryOfAssessment();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion ) {
+        this.db = db;
         if(oldVersion < 8){
-            upgradeDatabaseLessThan8(db);
+            upgradeDatabaseLessThan8();
         }
     }
 
-    private void upgradeDatabaseLessThan8(SQLiteDatabase db){
+    private void upgradeDatabaseLessThan8(){
         //Medoty naprawcze bazy danych dla urządzeń z zainstalowaną wersją 12 lub niższą;
-        changeOldTableNames(db);
-        createTableSubjects(db);
-        moveDataToNewTable(db);
-        deleteOldTable(db);
-        upgradeTableCategoryAssessment(db);
+        changeOldTableNames();
+        createTableSubjects();
+        moveDataToNewTable();
+        deleteOldTable();
+        upgradeTableCategoryAssessment();
+        repairTableLessonPlanColumnDay();
     }
 
-    private void changeOldTableNames(SQLiteDatabase db){
+    private void changeOldTableNames(){
         db.execSQL("ALTER TABLE SUBJECTS RENAME TO oldSUBJECTS");
     }
 
-    private void moveDataToNewTable(SQLiteDatabase db){
+    private void moveDataToNewTable(){
         db.execSQL("INSERT INTO " + Subject2020.DATABASE_NAME + " SELECT "
                 + ID + ", "
                 + Subject2020.NAME + ", "
@@ -60,20 +68,20 @@ public class Database2020 extends SQLiteOpenHelper {
                 + Subject2020.UNPREPAREDNESS2 + " FROM oldSUBJECTS");
     }
 
-    private void deleteOldTable(SQLiteDatabase db){
+    private void deleteOldTable(){
         db.execSQL("DROP TABLE IF EXISTS oldSUBJECTS");
     }
 
-    private void upgradeTableCategoryAssessment(SQLiteDatabase db){
-        addTableWeight(db);
-        setDefaultWeightForExistingElements(db);
+    private void upgradeTableCategoryAssessment(){
+        addTableWeight();
+        setDefaultWeightForExistingElements();
     }
 
-    private void addTableWeight(SQLiteDatabase db){
+    private void addTableWeight(){
         db.execSQL("ALTER TABLE " + CategoryOfAssessment2020.DATABASE_NAME + " ADD COLUMN " + CategoryOfAssessment2020.WEIGHT + " INTEGER");
     }
 
-    private void setDefaultWeightForExistingElements(SQLiteDatabase db){
+    private void setDefaultWeightForExistingElements(){
         db.update(CategoryOfAssessment2020.DATABASE_NAME, defaultWeight(), null, null);
     }
 
@@ -83,7 +91,43 @@ public class Database2020 extends SQLiteOpenHelper {
         return contentValues;
     }
 
-    private void createTableSubjects(SQLiteDatabase db){
+    private void repairTableLessonPlanColumnDay(){
+        Cursor cursor = db.query(ElementOfPlan2020.DATABASE_NAME,
+                ElementOfPlan2020.ON_CURSOR,
+                null, null, null, null, null);
+        if(cursor.moveToFirst())
+            do{
+                ElementOfPlan2020 element = new ElementOfPlan2020();
+                element.setVariablesOfCursor(cursor);
+                int day = element.getDay();
+                int correctDay = getChangeDayToSystemsDay(day);
+                element.setDay(correctDay);
+                int id = element.getId();
+                db.update(ElementOfPlan2020.DATABASE_NAME, element.getContentValues(), "_id = ?", new String[]{Integer.toString(id)});
+            }while (cursor.moveToNext());
+    }
+
+    private int getChangeDayToSystemsDay(int day){
+        switch (day){
+            case 1:
+                return Calendar.MONDAY;
+            case 2:
+                return Calendar.TUESDAY;
+            case 3:
+                return Calendar.WEDNESDAY;
+            case 4:
+                return Calendar.THURSDAY;
+            case 5:
+                return Calendar.FRIDAY;
+            case 6:
+                return Calendar.SATURDAY;
+            case 7:
+                return Calendar.SUNDAY;
+        }
+        return 0;
+    }
+
+    private void createTableSubjects(){
         db.execSQL("CREATE TABLE " + Subject2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Subject2020.NAME + " TEXT,"
                 + Subject2020.DESCRIPTION + " TEXT,"
@@ -93,14 +137,14 @@ public class Database2020 extends SQLiteOpenHelper {
                 + Subject2020.UNPREPAREDNESS2 + " INTEGER)");
     }
 
-    private void createTableNotes(SQLiteDatabase db){
+    private void createTableNotes(){
         db.execSQL("CREATE TABLE " + Note2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Note2020.NAME + " TEXT,"
                 + Note2020.NOTE + " TEXT,"
                 + Note2020.TAB_SUBJECT + " INTEGER)");
     }
 
-    private void createTableLessonPlan(SQLiteDatabase db){
+    private void createTableLessonPlan(){
         db.execSQL("CREATE TABLE " + ElementOfPlan2020.DATABASE_NAME + " (" +  ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + ElementOfPlan2020.TIME_START + " INTEGER,"
                 + ElementOfPlan2020.TIME_END + " INTEGER,"
@@ -109,7 +153,7 @@ public class Database2020 extends SQLiteOpenHelper {
                 + ElementOfPlan2020.CLASSROOM + " TEXT)");
     }
 
-    private void createTableAssessments(SQLiteDatabase db){
+    private void createTableAssessments(){
         db.execSQL("CREATE TABLE " + Assessment2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Assessment2020.ASSESSMENT + " REAL,"
                 + Assessment2020.WEIGHT + " INTEGER,"
@@ -120,26 +164,17 @@ public class Database2020 extends SQLiteOpenHelper {
                 + Assessment2020.DATA + " TEXT)");
     }
 
-    private void createTableCategoryAssessment(SQLiteDatabase db){
+    private void createTableCategoryAssessment(){
         db.execSQL("CREATE TABLE " + CategoryOfAssessment2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + CategoryOfAssessment2020.NAME + " TEXT,"
                 + CategoryOfAssessment2020.COLOR + " TEXT,"
                 + CategoryOfAssessment2020.WEIGHT + " INTEGER)");
     }
 
-    public static void createDefaultCategoryOfAssessment(SQLiteDatabase db){
+    private void createDefaultCategoryOfAssessment(){
         CategoryOfAssessment2020 category = new CategoryOfAssessment2020();
         category.setName("DEFAULT");
         db.insert(CategoryOfAssessment2020.DATABASE_NAME, null, category.getContentValues());
-        //TODO: stara wersja aplikacji i przerzuta na nowa
-        //TODO:kod który ustawia domyślną kategorie dla ocen
-       /*      Cursor cursor = db.query("CATEGORY_ASSESSMENT",
-                new String[] {"_id"},
-                null, null, null, null, null);
-        if(cursor.moveToFirst())
-            CategoryAssessment.setPreferenceDefaultCategory(cursor.getInt(0), context);
-        cursor.close();
-        db.close();*/
     }
 
     public static SQLiteDatabase getToWriting(Context context){
@@ -152,7 +187,7 @@ public class Database2020 extends SQLiteOpenHelper {
         return openHelper.getReadableDatabase();
     }
 
-    public static void ErrorToast(Context context){
+    public static void errorToast(Context context){
         Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
     }
 

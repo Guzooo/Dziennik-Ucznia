@@ -103,7 +103,7 @@ public class LessonPlanEditActivity extends AppCompatActivity {
         }
 
         if(spinnerDay.getSelectedItemId() == 0){
-            Toast.makeText(this, R.string.week_hint, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.select_day_hint, Toast.LENGTH_SHORT).show();
             return;
         }
 

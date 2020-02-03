@@ -36,7 +36,7 @@ public abstract class DatabaseObject {
             cursor.close();
             db.close();
         } catch (SQLiteException e){
-            Database2020.ErrorToast(context);
+            Database2020.errorToast(context);
         }
     }
 
@@ -48,7 +48,7 @@ public abstract class DatabaseObject {
             db.insert(databaseName(), null, getContentValues());
             db.close();
         } catch (SQLiteException e){
-            Database2020.ErrorToast(context);
+            Database2020.errorToast(context);
         }
     }
 
@@ -58,7 +58,7 @@ public abstract class DatabaseObject {
             db.update(databaseName(), getContentValues(), "_id = ?", new String[]{Integer.toString(getId())});
             db.close();
         } catch (SQLiteException e){
-            Database2020.ErrorToast(context);
+            Database2020.errorToast(context);
         }
     }
 
@@ -68,7 +68,7 @@ public abstract class DatabaseObject {
             db.delete(databaseName(), "_id = ?", new String[]{Integer.toString(getId())});
             db.close();
         } catch (SQLiteException e){
-            Database2020.ErrorToast(context);
+            Database2020.errorToast(context);
         }
     }
 

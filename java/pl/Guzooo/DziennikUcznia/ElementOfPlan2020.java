@@ -78,7 +78,7 @@ public class ElementOfPlan2020 extends DatabaseObject {
         contentValues.put(TAB_SUBJECT, idSubject);
         contentValues.put(DAY, day);
         contentValues.put(CLASSROOM, classroom);
-        return null;
+        return contentValues;
     }
 
     public String getTime(){
