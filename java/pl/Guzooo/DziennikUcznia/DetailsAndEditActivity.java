@@ -172,7 +172,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if(editText.getText().toString().equals("")){
-                            String text = getString(R.string.cant_save) + getString(R.string.separation) + getString(R.string.edit_hint_name);
+                            String text = getString(R.string.cant_save) + getString(R.string.separator) + getString(R.string.edit_hint_name);
                             Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -375,9 +375,9 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         if(average == 0.0)
             return "";
 
-        String strAverage = getResources().getString(R.string.statistics_semester_end) + ": " + String.format(Locale.US, "%.2f", average);
+        String strAverage = getResources().getString(R.string.final_average) + ": " + String.format(Locale.US, "%.2f", average);
         if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
-            return strAverage + getResources().getString(R.string.separation) + Integer.toString(subject.getRoundedAverageEnd(assessments1, assessments2,sharedPreferences, this)); //TODO: unnecessary delete ;)
+            return strAverage + getResources().getString(R.string.separator) + Integer.toString(subject.getRoundedAverageEnd(assessments1, assessments2,sharedPreferences, this)); //TODO: unnecessary delete ;)
         else
             return strAverage;
     }

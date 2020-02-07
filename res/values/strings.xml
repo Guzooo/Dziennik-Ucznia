@@ -27,8 +27,6 @@
    <!-- <string name="absense">Nieobecność</string>
     <string name="absense_made">Notatki o uzupełnieniu lekcji zostały dodane</string>-->
 
-    <string name="separation">\ \u2022 \ </string>
-
     <string name="menu_trash">Usuń</string>
     <string name="menu_edit">Edytuj</string>
     <string name="menu_share">Udostępnij</string>
@@ -40,8 +38,6 @@
     <string name="subject_null_this_assessment">Nie znaleźiono tej oceny do usunięcia</string>
 
     <string name="main_null_subject">Nie masz jeszcze przedmiotów\nDotknij plusa w prawym dolnym rogu by dodać przedmiot</string>
-    <string name="main_belt">PASEK</string>
-
 
     <string name="unpreparedness">NP: \ </string>
 
@@ -77,7 +73,6 @@
     <string name="hint_description_subject">Wpisz dowolne informacje na temat przedmiotu</string>
 
     <string name="see_assessment_option_after_add">Pokaż okno po dodaniu oceny</string>
-    <string name="semester">Semestr %1$d</string>
     <string name="hint_description">Wpisz dowolne informacje</string>
     <string name="cant_save">Nie można zapisać</string>
 
@@ -112,8 +107,6 @@
     <string name="plan_edit_hint_subject">Wybierz przedmiot</string>
     <string name="plan_edit_null_subject">Nie masz jeszcze przedmiotów\nBy dodać plan, cofnij się i utwórz przedmiot</string>
 
-    <string name="statistics_semester">Semestr: %1$d</string>
-    <string name="statistics_semester_end">Średnia końcowa</string>
     <string name="statistics_select_semester">Wybierz semestr:</string>
     <string name="statistics_beta">Wciąż jest to wersja BETA więc zmiana semestru nie przywróci początkowej ilości nieprzygotowań</string>
     <string name="statistics_coming_soon">W tym miejscu wkrótce pojawią się informacje na temat ilości poszczególnych ocen, przedmioty z których średnia jest niewystarczająca oraz inne przydatne dane.\nJeśli masz jakieś ciekawe pomysły pisz! ⬇</string>
@@ -144,6 +137,11 @@
     <string name="setting_delete_all_lesson_plan_made">Usunąłeś plan lekcji</string>
 
     <!-- NOWE -->
+    <string name="separator">\ \u2022 \ </string>
+    <string name="semester">Semestr %1$d</string>
+    <string name="semester_with_colon">Semestr: %1$d</string>
+    <string name="final_average">Średnia końcowa: %1$.2f</string>
+    <string name="belt">PASEK</string>
     <string name="number_of_notes">Ilość notatek: %1$d</string>
     <string name="number_of_unpreparedness">NP: %1$d</string>
 

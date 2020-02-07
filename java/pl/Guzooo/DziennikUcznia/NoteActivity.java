@@ -167,7 +167,7 @@ public class NoteActivity extends AppCompatActivity {
     private String getNotificationText(){
         String returned = editTextTitle.getText().toString().trim();
         if(!subjectNote.getNote().equals(""))
-            return returned + getString(R.string.separation) + editTextNote.getText().toString().trim();
+            return returned + getString(R.string.separator) + editTextNote.getText().toString().trim();
         return returned;
     }
 

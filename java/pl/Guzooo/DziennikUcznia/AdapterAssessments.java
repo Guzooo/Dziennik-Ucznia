@@ -70,7 +70,7 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
             String assessmentStr = assessment.getAssessment() + "";
             assessmentStr = assessmentStr.replace(".0", "");
             assessmentStr = assessmentStr.replace(".5", "+");
-            holder.weight.setText(context.getString(R.string.separation) + assessment.getWeight());
+            holder.weight.setText(context.getString(R.string.separator) + assessment.getWeight());
             holder.assessment.setText(assessmentStr);
             holder.data.setText(assessment.getData());
             CategoryAssessment categoryAssessment = CategoryAssessment.getOfId(assessment.getCategoryId(), context);

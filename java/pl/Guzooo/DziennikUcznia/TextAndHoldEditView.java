@@ -23,7 +23,7 @@ public class TextAndHoldEditView extends LinearLayout implements View.OnLongClic
     private String separator;
     private String helpEdit;
 
-    private final String DEFAULT_SEPARATOR = getResources().getString(R.string.separation);
+    private final String DEFAULT_SEPARATOR = getResources().getString(R.string.separator);
     private final String DEFAULT_HELP_EDIT = getResources().getString(R.string.hold_to_edit);
 
     private TextView textView;

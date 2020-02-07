@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -43,9 +42,9 @@ public class StatisticsActivity extends AppCompatActivity {
         TextView textViewSemesterEnd = findViewById(R.id.statistics_semester_end);
         sharedPreferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
 
-        textViewSemesterI.setText(getResources().getString(R.string.statistics_semester, 1) + " - " + getAverage(1));
-        textViewSemesterII.setText(getResources().getString(R.string.statistics_semester, 2) + " - " + getAverage(2));
-        textViewSemesterEnd.setText(getResources().getString(R.string.statistics_semester_end) + " - " + getAverageEnd());
+        textViewSemesterI.setText(getResources().getString(R.string.semester, 1) + " - " + getAverage(1));
+        textViewSemesterII.setText(getResources().getString(R.string.semester, 2) + " - " + getAverage(2));
+        textViewSemesterEnd.setText(getResources().getString(R.string.final_average) + " - " + getAverageEnd());
 
         setActionBarSubtitle();
         Cursor();
@@ -68,7 +67,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void setActionBarSubtitle(){
-        getSupportActionBar().setSubtitle(getResources().getString(R.string.statistics_semester, sharedPreferences.getInt(PREFERENCE_SEMESTER, DEFAULT_SEMESTER)));
+        getSupportActionBar().setSubtitle(getResources().getString(R.string.semester, sharedPreferences.getInt(PREFERENCE_SEMESTER, DEFAULT_SEMESTER)));
     }
 
     private void editPreferenceSemester(int semester){
@@ -118,7 +117,7 @@ public class StatisticsActivity extends AppCompatActivity {
         }
         average = average / number;
         if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
-            return Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
+            return Float.toString(average) + getResources().getString(R.string.separator) + getResources().getString(R.string.belt);
         }
         return Float.toString(average);
     }
@@ -160,7 +159,7 @@ public class StatisticsActivity extends AppCompatActivity {
         }
         average = average / number;
         if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
-            return Float.toString(average) + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
+            return Float.toString(average) + getResources().getString(R.string.separator) + getResources().getString(R.string.belt);
         }
         return Float.toString(average);
     }

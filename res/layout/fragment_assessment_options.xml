@@ -113,7 +113,7 @@
             android:minHeight="@dimen/length_minimal"
             app:hint="@string/hint_assessment_weight"
             app:info="@string/weight"
-            app:prefix="@string/separation"
+            app:prefix="@string/separator"
             android:layout_marginRight="@dimen/margin_standard"
             android:layout_marginEnd="@dimen/margin_standard"
             android:layout_gravity="center_vertical"/>

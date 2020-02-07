@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -290,14 +289,14 @@ public class MainActivity  {
                 } while (cursors.get(i).moveToNext());
             }
         }
-        String subtitle = getResources().getString(R.string.statistics_semester, StatisticsActivity.getSemester(this)) + getResources().getString(R.string.separation) + getResources().getString(R.string.statistics_semester_end) + ": ";
+        String subtitle = getResources().getString(R.string.semester, StatisticsActivity.getSemester(this)) + getResources().getString(R.string.separator) + getResources().getString(R.string.final_average) + ": ";
         if (number == 0){
             return subtitle + "0.0";
         }
         average = average / number;
         String strAverage = String.format(Locale.US, "%.2f", average);
         if (average >= settingSharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
-            return subtitle + strAverage + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
+            return subtitle + strAverage + getResources().getString(R.string.separator) + getResources().getString(R.string.belt);
         }
         return subtitle + strAverage;
     }

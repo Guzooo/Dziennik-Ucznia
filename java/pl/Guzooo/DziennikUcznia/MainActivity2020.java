@@ -1,6 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -38,14 +39,14 @@ public class MainActivity2020 extends GActivity {
         initialization();
         //FirstChangeView();
         try{
-            db = Database2020.getToReading(this);
             setSubjectCursors();
             setSubjectTitles();
             deleteEmptySubjectArrays();
             setMainAdapter();
             setMainRecycler();
+            setActionBarSubtitle();
         } catch (Exception e){
-
+            Database2020.errorToast(this);
         }
     }
 
@@ -87,6 +88,7 @@ public class MainActivity2020 extends GActivity {
     }
 
     private void initialization() {
+        db = Database2020.getToReading(this);
         mainRecycler = findViewById(R.id.recycler);
     }
 
@@ -103,13 +105,13 @@ public class MainActivity2020 extends GActivity {
     private void setSubjectTitles(){
         int today = UtilsCalendar.getTodaysDayOfWeek();
         titles.add(getString(R.string.not_in_plan));
-        titles.add(getString(R.string.today));
-        titles.add(getString(R.string.tomorrow));
-        for(int day = today+2; day <= 7; day++)
+        for(int day = today; day <= 7; day++)
             titles.add(UtilsCalendar.getDayOfWeek(day, this));
         for(int day = 1; day < today; day++)
             titles.add(UtilsCalendar.getDayOfWeek(day, this));
         titles.add(getString(R.string.in_a_week));
+        titles.set(1, getString(R.string.today));
+        titles.set(2, getString(R.string.tomorrow));
     }
 
     private void deleteEmptySubjectArrays(){
@@ -141,6 +143,13 @@ public class MainActivity2020 extends GActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mainRecycler.setLayoutManager(layoutManager);
         mainRecycler.setAdapter(mainAdapter);
+    }
+
+    private void setActionBarSubtitle(){
+        String semester = getSemester();
+        String separator = getString(R.string.separator);
+        String average = getFinalAverage();
+        getSupportActionBar().setSubtitle(semester + separator + average);
     }
 
     private Cursor subjectDayIsNull(){
@@ -215,6 +224,30 @@ public class MainActivity2020 extends GActivity {
 
     private String orderSubject(){
         return " ORDER BY " + Note2020.DATABASE_NAME + " DESC, " + Subject2020.DATABASE_NAME + "." + Subject2020.NAME;
+    }
+
+    private String getSemester(){
+        int semester = StatisticsActivity.getSemester(this);
+        return getString(R.string.semester_with_colon, semester);
+    }
+
+    private String getFinalAverage(){
+        float average = UtilsAverage.getFinalAverage(this);
+        if(isBelt(average))
+            return getString(R.string.final_average, average) + getString(R.string.separator) + getString(R.string.belt);
+        return getString(R.string.final_average, average);
+    }
+
+    private boolean isBelt(float average){
+        if(average >= getMinimumToBelt())
+            return true;
+        return false;
+    }
+
+    private float getMinimumToBelt(){
+        //TODO: usunąć i dodać taką medote do ustawień;
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        return sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT);
     }
 
     /*private void refreshSubjectCursor(){

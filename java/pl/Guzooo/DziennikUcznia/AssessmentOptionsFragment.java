@@ -86,7 +86,7 @@ public class AssessmentOptionsFragment extends DialogFragment {
         weight.EndEdition();
         description.EndEdition();
         if(assessment.getText().equals("")){
-            String text = getString(R.string.cant_save) + getString(R.string.separation) + getString(R.string.hint_assessment);
+            String text = getString(R.string.cant_save) + getString(R.string.separator) + getString(R.string.hint_assessment);
             Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
         } else {
             if(weight.getText().equals(""))
