@@ -166,7 +166,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         final EditText editText = new EditText(this);
         editText.setText(subject.getName());
         editText.setTextColor(Color.parseColor("#FFFFFF"));
-        new AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alarm)
+        new AlertDialog.Builder(this)
                 .setView(editText)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override

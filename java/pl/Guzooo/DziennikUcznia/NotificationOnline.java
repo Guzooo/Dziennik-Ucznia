@@ -1,6 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,20 +13,25 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import androidx.appcompat.app.AlertDialog;
-
-public class CheckInformationOnline extends AsyncTask<Void, Void, Boolean>{
+public class NotificationOnline extends AsyncTask<Void, Void, Boolean>{
 
     private Context context;
     private String informationPage = "https://docs.google.com/document/d/1kKQm-7FRS2Wgqi-ypYa40p2riliaiSuYKzMNWyykYmg/edit?usp=sharing";
-    private androidx.appcompat.app.AlertDialog.Builder alert;
+    private AlertDialog.Builder alert;
 
-    CheckInformationOnline(Context context){
+    NotificationOnline(Context context){
         setContext(context);
     }
 
     private void setContext (Context context){
         this.context = context;
+    }
+
+    public static void checkAutomatically(Context context){
+        if(getWifiConnecting(context)){
+            NotificationOnline notificationOnline = new NotificationOnline(context);
+            notificationOnline.execute();
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -39,20 +40,28 @@ public class MainActivity2020 extends GActivity {
         initialization();
         //FirstChangeView();
         try{
-            setSubjectCursors();
-            setSubjectTitles();
-            deleteEmptySubjectArrays();
+            setSubjectData();
             setMainAdapter();
             setMainRecycler();
             setActionBarSubtitle();
-        } catch (Exception e){
+        } catch (SQLiteException e){
             Database2020.errorToast(this);
         }
+        setNotepad();
+        NotificationOnline.checkAutomatically(this);
+        NotificationsChannels.CreateNotificationsChannels(this);//TODO: czy to musi się wykonywać za każdym uruchomieniem aplikacji
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        try{
+            refreshSubjectData();
+            mainAdapter.changeData(titles,subjectCursors);
+            setActionBarSubtitle();
+        } catch (SQLiteException e){
+            Database2020.errorToast(this);
+        }
     }
 
     @Override
@@ -92,6 +101,47 @@ public class MainActivity2020 extends GActivity {
         mainRecycler = findViewById(R.id.recycler);
     }
 
+    private void refreshSubjectData(){
+        resetSubjectVariables();
+        setSubjectData();
+    }
+
+    private void setSubjectData(){
+        setSubjectCursors();
+        setSubjectTitles();
+        deleteEmptySubjectArrays();
+    }
+
+    private void setMainAdapter(){
+        mainAdapter = new AdapterMainRecycler(titles, subjectCursors);
+        mainAdapter.setListener(new AdapterMainRecycler.Listener() {
+            @Override
+            public void onClick(int id) {
+                //TODO: zmienić przejście do okna szczegółów
+                Intent intent = new Intent(getApplicationContext(), DetailsAndEditActivity.class);
+                intent.putExtra(DetailsAndEditActivity.EXTRA_ID, id);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setMainRecycler(){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mainRecycler.setLayoutManager(layoutManager);
+        mainRecycler.setAdapter(mainAdapter);
+    }
+
+    private void setActionBarSubtitle(){
+        String semester = getSemester();
+        String separator = getString(R.string.separator);
+        String average = getFinalAverage();
+        getSupportActionBar().setSubtitle(semester + separator + average);
+    }
+
+    private void setNotepad(){
+        //TODO: notatnik w głównym Activity
+    }
+
     private void setSubjectCursors(){
         int today = UtilsCalendar.getTodaysDayOfWeek();
         subjectCursors.add(subjectDayIsNull());
@@ -124,32 +174,6 @@ public class MainActivity2020 extends GActivity {
                 size--;
             }
         }
-    }
-
-    private void setMainAdapter(){
-        mainAdapter = new AdapterMainRecycler(titles, subjectCursors);
-        mainAdapter.setListener(new AdapterMainRecycler.Listener() {
-            @Override
-            public void onClick(int id) {
-                //TODO: zmienić przejście do okna szczegółów
-                Intent intent = new Intent(getApplicationContext(), DetailsAndEditActivity.class);
-                intent.putExtra(DetailsAndEditActivity.EXTRA_ID, id);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void setMainRecycler(){
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mainRecycler.setLayoutManager(layoutManager);
-        mainRecycler.setAdapter(mainAdapter);
-    }
-
-    private void setActionBarSubtitle(){
-        String semester = getSemester();
-        String separator = getString(R.string.separator);
-        String average = getFinalAverage();
-        getSupportActionBar().setSubtitle(semester + separator + average);
     }
 
     private Cursor subjectDayIsNull(){
@@ -250,9 +274,8 @@ public class MainActivity2020 extends GActivity {
         return sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT);
     }
 
-    /*private void refreshSubjectCursor(){
-        //TODO: jeśli użyje czegoś na wzór:
-           setSubjectCursors();
-           subjectAdapter.changeCursor(subjectCursor);
-    }*/
+    private void resetSubjectVariables(){
+        titles.clear();
+        subjectCursors.clear();
+    }
 }

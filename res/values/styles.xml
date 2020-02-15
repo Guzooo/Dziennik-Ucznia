@@ -92,9 +92,4 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
-
-    <style name="AppTheme.Dialog.Alarm" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="android:colorBackground">@color/colorPrimary</item>
-        <item name="android:textColor">#FFFFFF</item>
-    </style>
 </resources>

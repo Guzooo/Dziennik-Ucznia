@@ -102,4 +102,9 @@ public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHold
     public AdapterSubject(Cursor cursor){
         this.cursor = cursor;
     }
+
+    public void changeCursor(Cursor cursor){
+        this.cursor = cursor;
+        notifyDataSetChanged();
+    }
 }

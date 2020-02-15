@@ -91,8 +91,8 @@ public class MainActivity  {
 
         loadNotepad();
 
-       // if(CheckInformationOnline.getWifiConnecting(this)) {
-       //     CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
+       // if(NotificationOnline.getWifiConnecting(this)) {
+       //     NotificationOnline checkInformationOnline = new NotificationOnline(this);
             checkInformationOnline.execute();
         }
         NotificationsChannels.CreateNotificationsChannels(this);
