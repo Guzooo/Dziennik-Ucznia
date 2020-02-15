@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycler.ViewHolder>{
+    private RecyclerView recyclerView;
     private Listener listener;
     private ArrayList<String> titles = new ArrayList<>();
     private ArrayList<Cursor> cursors = new ArrayList<>();
@@ -54,6 +55,13 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     }
 
     @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.one_day_subjects, parent, false);
         return new ViewHolder(v);
@@ -80,13 +88,13 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
 
     public void changeData(ArrayList<String> newTitles, ArrayList<Cursor> newCursors){
         changeCursors(newCursors);
-        if(!isTitlesSizeIsSame(newTitles)) {//TODO:recycle do góry;
-            notifyChangeThisAdapter();
+        if(!isTitlesSizeIsSame(newTitles)) {
+            notifyChangeThisAdapter(newTitles);
             return;
         }
         for (int i = 0; i < titles.size(); i++)
-            if (!isTitlesTextIsSame(newTitles, i)) {//TODO:recycle do gory;
-                notifyChangeThisAdapter();
+            if (!isTitlesTextIsSame(newTitles, i)) {
+                notifyChangeThisAdapter(newTitles);
                 return;
             }
         notifyChangeInnerAdapters();
@@ -95,6 +103,57 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     public void closeCursors(){
         for(Cursor cursor : cursors)
             cursor.close();
+    }
+
+    private String getTitle(int position){
+        return titles.get(position);
+    }
+
+    private AdapterSubject getAdapter(int position){
+        return subjectAdapters.get(position);
+    }
+
+    private Cursor getCursor(int position){
+        return cursors.get(position);
+    }
+
+    private void notifyChangeThisAdapter(ArrayList<String> newTitles){
+        scrollToTop();
+        changeTitles(newTitles);
+        changeAdapters();
+        notifyDataSetChanged();
+    }
+
+    private void notifyChangeInnerAdapters(){
+        for (int i = 0; i < subjectAdapters.size(); i++)
+            getAdapter(i).changeCursor(getCursor(i));
+    }
+
+    private void scrollToTop(){
+        recyclerView.scrollToPosition(0);
+    }
+
+    private void changeCursors(ArrayList<Cursor> cursors){
+        closeCursors();
+        this.cursors.clear();
+        this.cursors.addAll(cursors);
+    }
+
+    private void changeTitles(ArrayList<String> titles){
+        this.titles.clear();
+        this.titles.addAll(titles);
+    }
+
+    private void changeAdapters(){
+        this.subjectAdapters.clear();
+        createAdapters();
+    }
+
+    private void createAdapters(){
+        for(Cursor cursor : cursors){
+            AdapterSubject adapter = createAdapter(cursor);
+            subjectAdapters.add(adapter);
+        }
     }
 
     private AdapterSubject createAdapter(Cursor cursor){
@@ -112,54 +171,7 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
             }
         };
     }
-
-    private String getTitle(int position){
-        return titles.get(position);
-    }
-
-    private AdapterSubject getAdapter(int position){
-        return subjectAdapters.get(position);
-    }
-
-    private Cursor getCursor(int position){
-        return cursors.get(position);
-    }
-
-    private void notifyChangeThisAdapter(){
-        changeTitles(titles);
-        changeAdapters();
-        notifyDataSetChanged();
-    }
-
-    private void notifyChangeInnerAdapters(){
-        for (int i = 0; i < subjectAdapters.size(); i++)
-            getAdapter(i).changeCursor(getCursor(i));
-    }
-
-    private void changeCursors(ArrayList<Cursor> cursors){
-        closeCursors();
-        this.cursors.clear();
-        this.cursors.addAll(cursors);
-    }
-
-    private void changeTitles(ArrayList<String> titles){
-        this.titles.clear();
-        this.titles.addAll(titles);
-
-    }
-
-    private void changeAdapters(){
-        this.subjectAdapters.clear();
-        createAdapters();
-    }
-
-    private void createAdapters(){
-        for(Cursor cursor : cursors){
-            AdapterSubject adapter = createAdapter(cursor);
-            subjectAdapters.add(adapter);
-        }
-    }
-
+    
     private boolean isTitlesSizeIsSame(ArrayList<String> newTitles){
         int sizeCurrentTitles = titles.size();
         int sizeNewTitles = newTitles.size();
