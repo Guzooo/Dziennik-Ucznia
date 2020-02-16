@@ -171,7 +171,7 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
             }
         };
     }
-    
+
     private boolean isTitlesSizeIsSame(ArrayList<String> newTitles){
         int sizeCurrentTitles = titles.size();
         int sizeNewTitles = newTitles.size();

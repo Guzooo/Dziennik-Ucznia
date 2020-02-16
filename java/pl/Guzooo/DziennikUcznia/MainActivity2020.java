@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -62,38 +63,82 @@ public class MainActivity2020 extends GActivity {
         } catch (SQLiteException e){
             Database2020.errorToast(this);
         }
+        //TODO: jak ikony nie będą się zmieniać (notatnika) to dodać: invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        //TODO: jak notatnik pusty
+        //ustaw notatnik
+        //else
+        //ustaw notatnik z zawartością
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_notepad:
+                //show/hide notepad;
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //TODO:jak notatnik otwarty
+        //zamknij go
+        //else
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //TODO: zapis czy notatnik jest zamknięty czy otwarty
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        //TODO:zapisz notatnik
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        closeDatabaseElements();
     }
 
     public void ClickSetting(View v){
-
+        //TODO: nowa wersja aktywności
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
     }
 
     public void ClickStatistics(View v){
-
+        //TODO: nowa wersja aktywności
+        Intent intent = new Intent(this, StatisticsActivity.class);
+        startActivity(intent);
     }
 
     public void ClickPlan(View v){
-
+        //TODO: nowa wersja aktywności
+        Intent intent = new Intent(this, LessonPlanActivity.class);
+        startActivity(intent);
     }
 
     public void ClickPlus(View v){
-
+        //TODO: nowa wersja aktywności
+        Intent intent = new Intent(this, EditActivity.class);
+        startActivity(intent);
     }
 
     private void initialization() {
@@ -117,7 +162,7 @@ public class MainActivity2020 extends GActivity {
         mainAdapter.setListener(new AdapterMainRecycler.Listener() {
             @Override
             public void onClick(int id) {
-                //TODO: zmienić przejście do okna szczegółów
+                //TODO: zmienić na nowe okno szczegółów
                 Intent intent = new Intent(getApplicationContext(), DetailsAndEditActivity.class);
                 intent.putExtra(DetailsAndEditActivity.EXTRA_ID, id);
                 startActivity(intent);
@@ -140,6 +185,13 @@ public class MainActivity2020 extends GActivity {
 
     private void setNotepad(){
         //TODO: notatnik w głównym Activity
+    }
+
+    private void closeDatabaseElements(){
+        mainAdapter.closeCursors();
+        for(int i = 0; i < subjectCursors.size(); i++)
+            subjectCursors.get(i).close();
+        db.close();
     }
 
     private void setSubjectCursors(){

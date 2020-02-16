@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickSetting"
-            app:srcCompat="@drawable/ic_settings_applications_black_24dp" />
+            app:srcCompat="@drawable/settings" />
 
         <ImageButton
             style="@style/Button"
@@ -51,7 +51,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickStatistics"
-            app:srcCompat="@drawable/ic_statistics" />
+            app:srcCompat="@drawable/statistics" />
 
         <ImageButton
             style="@style/Button"
