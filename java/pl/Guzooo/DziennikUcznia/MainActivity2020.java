@@ -36,7 +36,7 @@ public class MainActivity2020 extends GActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_old);
 
         initialization();
         //FirstChangeView();

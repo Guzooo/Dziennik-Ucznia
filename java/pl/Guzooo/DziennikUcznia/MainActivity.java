@@ -1,105 +1,57 @@
-/*
-public class MainActivity  {
+package pl.Guzooo.DziennikUcznia;
 
-    private final String PREFERENCE_NOTEPAD = "notepad";
+import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatDelegate;
 
-    private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
+    private BottomNavigationView bottomNavigation;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTheme();
+        setContentView(R.layout.activity_main);
 
-        goFirstChangeView(savedInstanceState);
-        try {
-            db = Database2020.getToWriting(this);
-            setDayOfSubject();
-            refreshSubjectsCursors();
-            setAdapter();
-            refreshActionBarInfo();
-        } catch (SQLiteException e) {
-           // Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
-
-        loadNotepad();
-
-       // if(NotificationOnline.getWifiConnecting(this)) {
-       //     NotificationOnline checkInformationOnline = new NotificationOnline(this);
-            checkInformationOnline.execute();
-        }
-        NotificationsChannels.CreateNotificationsChannels(this);
+        initialization();
+        setFragment();
+        setBottomNavigation();
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-
-        try {
-            refreshSubjectsCursors();
-            refreshActionBarInfo();
-        } catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.settings:
+            case R.id.home:
+            case R.id.statistics:
+            case R.id.lesson_plan:
+                return true;
         }
-        invalidateOpt*/
-/**//*
-ionsMenu();
+        return false;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if(isNotepadEmpty()){
-            DrawableCompat.setTint(menu.findItem(R.id.action_notepad).getIcon(), ContextCompat.getColor(this, android.R.color.darker_gray));
-        } else {
-            DrawableCompat.setTint(menu.findItem(R.id.action_notepad).getIcon(), ContextCompat.getColor(this, android.R.color.holo_red_light));
-        }
-        return super.onPrepareOptionsMenu(menu);
+    private void setTheme(){
+        /*int theme = SettingActivity.getTheme(this); TODO:zrobić setting activity
+        AppCompatDelegate.setDefaultNightMode(theme);*/
     }
 
-    private void goFirstChangeView(final Bundle bundle){
-        ViewTreeObserver viewTreeObserver = recyclerView.getViewTreeObserver();
-
-        if (viewTreeObserver.isAlive()){
-            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                    View bottomButtons = findViewById(R.id.main_bottom_buttons);
-//                    recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(), recyclerView.getPaddingRight(), bottomButtons.getHeight());
-
-                    if(bundle == null || !bundle.getBoolean(BUNDLE_VISIBLE_NOTEPAD)) showNotepad();
-                }
-            });
-        }
+    private void initialization(){
+        bottomNavigation = findViewById(R.id.bottom_navigation);
     }
 
-    private void showNotepad() {
-        if (notepadBox.getTranslationY() != 0) {
-            notepadBox.animate()
-                    .translationY(0);
-            recyclerView.setPadding(recyclerView.getPaddingLeft(), notepadBox.getHeight() + getResources().getDimensionPixelSize(R.dimen.margin_card) * 2, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
-        } else {
-            notepadBox.animate()
-                    .translationY(notepadBox.getHeight() * -1 - getResources().getDimensionPixelSize(R.dimen.margin_card) * 2);
-            recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
-        }
-        invalidateOptionsMenu();
+    private void setFragment() {
+        //TODO: nwm czy potrzebny
     }
 
-
-    private void saveNotepad(){
-        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putString(PREFERENCE_NOTEPAD, editTextNotepad.getText().toString().trim());
-        editor.apply();
+    private void setBottomNavigation(){
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
+        //if(currentFragment == null)
+        MenuItem home = bottomNavigation.getMenu().getItem(1);
+        home.setChecked(true);
+        onNavigationItemSelected(home);
     }
-
-    private void loadNotepad(){
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        editTextNotepad.setText(sharedPreferences.getString(PREFERENCE_NOTEPAD, ""));
-    }
-
-    private boolean isNotepadEmpty(){
-        if(editTextNotepad.getText().toString().trim().equals("")){
-            return true;
-        } else {
-            return false;
-        }
-    }*/
+}

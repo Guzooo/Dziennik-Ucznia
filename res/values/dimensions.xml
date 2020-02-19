@@ -6,6 +6,7 @@
     <dimen name="size_text_description">10sp</dimen>
 
     <dimen name="margin_standard">8dp</dimen>
+    <dimen name="margin_biggest">16dp</dimen>
     <dimen name="padding_clickable_image">8dp</dimen>
     <dimen name="length_separator">1dp</dimen>
     <dimen name="length_minimal">48dp</dimen>

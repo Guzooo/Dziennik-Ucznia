@@ -12,17 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity2020">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+        <activity android:name=".MainActivity2020"/>
         <activity
             android:name=".EditActivity"
             android:label="@string/add_subject" />
@@ -42,7 +42,7 @@
         <activity
             android:name=".StatisticsActivity"
             android:label="@string/statistics" />
-        <activity android:name=".DetailsAndEditActivity"></activity>
+        <activity android:name=".DetailsAndEditActivity" />
     </application>
 
 </manifest>

@@ -87,9 +87,23 @@
         <item name="android:textSize">20dp</item>
     </style>
 
-    <style name="AppTheme.Title" parent="AppTheme">
+    <style name="AppTheme.Title" parent="AppTheme"><!--//TODO: kill-->
         <item name="android:textSize">15dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.BottomNavigation">
+        <item name="android:background">?attr/colorPrimaryTranslucentG</item>
+        <item name="itemIconTint">@color/button_color_state</item>
+        <item name="itemTextColor">@color/button_color_state</item>
+        <item name="rippleColor">?attr/colorPrimaryDarkG</item>
+    </style>
+
+    <style name="AppTheme.FAB">
+        <item name="android:tint">?attr/colorAccentG</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryG</item>
+        <item name="rippleColor">?attr/colorPrimaryDarkG</item>
+        <item name="borderWidth">0dp</item>
     </style>
 </resources>

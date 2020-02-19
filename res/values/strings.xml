@@ -4,11 +4,8 @@
 
     <string name="add_subject">Dodawanie Przedmiotu</string>
     <string name="edit_subject">Edytowanie Przedmiotu</string>
-    <string name="lesson_plan">Plan Lekcji</string>
     <string name="lesson_plan_add">Dodawanie Planu Lekcji</string>
     <string name="lesson_plan_edit">Edycja Planu Lekcji</string>
-    <string name="statistics">Statystyki</string>
-    <string name="setting">Ustawienia:</string>
 
     <string name="hold_to_edit">Przytrzymaj, aby edytować</string>
 
@@ -23,7 +20,7 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
 
-   <!-- <string name="absense">Nieobecność</string>
+    <!-- <string name="absense">Nieobecność</string>
     <string name="absense_made">Notatki o uzupełnieniu lekcji zostały dodane</string>-->
 
     <string name="menu_trash">Usuń</string>
@@ -136,6 +133,11 @@
     <string name="setting_delete_all_lesson_plan_made">Usunąłeś plan lekcji</string>
 
     <!-- NOWE -->
+    <string name="setting">Ustawienia</string>
+    <string name="home">Główna</string>
+    <string name="statistics">Statystyki</string>
+    <string name="lesson_plan">Plan Lekcji</string>
+
     <string name="separator">\ \u2022 \ </string>
     <string name="semester">Semestr %1$d</string>
     <string name="semester_with_colon">Semestr: %1$d</string>
