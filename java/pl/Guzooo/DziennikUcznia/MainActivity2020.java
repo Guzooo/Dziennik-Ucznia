@@ -44,13 +44,9 @@ public class MainActivity2020 extends GActivity {
             setSubjectData();
             setMainAdapter();
             setMainRecycler();
-            setActionBarSubtitle();
         } catch (SQLiteException e){
             Database2020.errorToast(this);
         }
-        setNotepad();
-        NotificationOnline.checkAutomatically(this);
-        NotificationsChannels.CreateNotificationsChannels(this);//TODO: czy to musi się wykonywać za każdym uruchomieniem aplikacji
     }
 
     @Override
@@ -59,7 +55,6 @@ public class MainActivity2020 extends GActivity {
         try{
             refreshSubjectData();
             mainAdapter.changeData(titles,subjectCursors);
-            setActionBarSubtitle();
         } catch (SQLiteException e){
             Database2020.errorToast(this);
         }
@@ -176,17 +171,6 @@ public class MainActivity2020 extends GActivity {
         mainRecycler.setAdapter(mainAdapter);
     }
 
-    private void setActionBarSubtitle(){
-        String semester = getSemester();
-        String separator = getString(R.string.separator);
-        String average = getFinalAverage();
-        getSupportActionBar().setSubtitle(semester + separator + average);
-    }
-
-    private void setNotepad(){
-        //TODO: notatnik w głównym Activity
-    }
-
     private void closeDatabaseElements(){
         mainAdapter.closeCursors();
         for(int i = 0; i < subjectCursors.size(); i++)
@@ -300,30 +284,6 @@ public class MainActivity2020 extends GActivity {
 
     private String orderSubject(){
         return " ORDER BY " + Note2020.DATABASE_NAME + " DESC, " + Subject2020.DATABASE_NAME + "." + Subject2020.NAME;
-    }
-
-    private String getSemester(){
-        int semester = StatisticsActivity.getSemester(this);
-        return getString(R.string.semester_with_colon, semester);
-    }
-
-    private String getFinalAverage(){
-        float average = UtilsAverage.getFinalAverage(this);
-        if(isBelt(average))
-            return getString(R.string.final_average, average) + getString(R.string.separator) + getString(R.string.belt);
-        return getString(R.string.final_average, average);
-    }
-
-    private boolean isBelt(float average){
-        if(average >= getMinimumToBelt())
-            return true;
-        return false;
-    }
-
-    private float getMinimumToBelt(){
-        //TODO: usunąć i dodać taką medote do ustawień;
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
-        return sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT);
     }
 
     private void resetSubjectVariables(){

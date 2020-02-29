@@ -15,7 +15,7 @@ public class GActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SetTheme();
+        setTheme();
     }
 
     @Override
@@ -24,26 +24,26 @@ public class GActivity extends AppCompatActivity {
         refreshTheme();
     }
 
-    private void SetTheme(){
+    private void setTheme(){
         int currentNightMode = this.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if(currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-            /*if (SettingsActivity.getHardDarkTheme(this)) {
+            if (MainSettingsFragment.getHardDarkTheme(this)) {
                 setTheme(R.style.AppTheme_HardDarkMode);
                 currentDarkTheme = HARD_DARK_THEME;
             } else {
                 currentDarkTheme = DARK_THEME;
-            }*/
+            }
         }
     }
 
     private void refreshTheme(){
         int currentNightMode = this.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if(currentNightMode == Configuration.UI_MODE_NIGHT_YES ) {
-           /* if (SettingsActivity.getHardDarkTheme(this) && !currentDarkTheme.equals(HARD_DARK_THEME)) {
+            if (MainSettingsFragment.getHardDarkTheme(this) && !currentDarkTheme.equals(HARD_DARK_THEME)) {
                 this.recreate();
-            } else if(!SettingsActivity.getHardDarkTheme(this) && !currentDarkTheme.equals(DARK_THEME)) {
+            } else if(!MainSettingsFragment.getHardDarkTheme(this) && !currentDarkTheme.equals(DARK_THEME)) {
                 this.recreate();
-            }*/
+            }
         }
     }
 }

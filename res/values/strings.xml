@@ -172,14 +172,14 @@
         <item>@string/sunday</item>
     </string-array>
 
-    <string name="settings_theme">App theme</string>
-    <string name="title_theme">Select theme</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_battery">Set by Battery Saver</string>
-    <string name="theme_system">System default</string>
-    <string name="title_hard_dark_mode">Hard dark theme</string>
-    <string name="summary_hard_dark_mode">If dark theme is enable, dark is more dark. Ideal for OLED/AMOLED display.</string>
+    <string name="settings_theme">Motyw aplikacji</string>
+    <string name="title_theme">Wybierz motyw</string>
+    <string name="theme_light">Jasny</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_battery">Według oszczędzania baterii</string>
+    <string name="theme_system">Według systemu</string>
+    <string name="title_hard_dark_mode">Bardzo ciemny motyw</string>
+    <string name="summary_hard_dark_mode">Jeśli ciemny motyw jest włączony, czarny jest bardziej czarny. Idealny dla wyświetlaczy OLED/AMOLED.</string>
 
     <string name="cant_delete_default_assessments_category">Nie można usunąć domyślnej kategorii</string>
 </resources>

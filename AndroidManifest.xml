@@ -44,5 +44,4 @@
             android:label="@string/statistics" />
         <activity android:name=".DetailsAndEditActivity" />
     </application>
-
 </manifest>

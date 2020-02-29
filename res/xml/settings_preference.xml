@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:title="@string/settings_theme"
+        app:icon="@drawable/color_palette">
+
+        <ListPreference
+            app:title="@string/title_theme"
+            app:key="@string/THEME_ID"
+            app:entries="@array/themes"
+            app:entryValues="@array/themes_values"
+            app:useSimpleSummaryProvider="true"/>
+
+        <SwitchPreference
+            app:title="@string/title_hard_dark_mode"
+            app:summary="@string/summary_hard_dark_mode"
+            app:key="@string/HARD_DARK_ID"
+            app:defaultValue="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/assessments"
+        app:icon="@drawable/assessment"></PreferenceCategory>
+</PreferenceScreen>
