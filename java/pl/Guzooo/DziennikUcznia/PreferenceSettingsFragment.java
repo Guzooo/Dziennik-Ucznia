@@ -34,6 +34,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         setAverageToAssessmentObjects();
         setAverageToBelt();
         setDeleteObjects();
+        //TODO: pasek u góry refresh; gdy zmienie semestr;
     }
 
     private void setTheme() {
@@ -268,6 +269,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         return new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
+                //TODO: pasek u góry refresh;
                 return !newValue.toString().equals("");
             }
         };

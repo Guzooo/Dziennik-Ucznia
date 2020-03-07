@@ -12,7 +12,7 @@
             app:entries="@array/semesters"
             app:entryValues="@array/semesters_values"
             app:useSimpleSummaryProvider="true"
-            app:defaultValue="@integer/DEFAULT_SEMESTER"/>
+            app:defaultValue="@string/DEFAULT_SEMESTER"/>
     </PreferenceCategory>
 
     <PreferenceCategory

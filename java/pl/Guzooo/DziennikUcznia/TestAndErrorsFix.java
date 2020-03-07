@@ -2,12 +2,14 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 
 public class TestAndErrorsFix {
 
+    //Prodżekt "Road To Belt";
     public static View.OnLongClickListener assessmentToBeltLongListener(final Context context){
         return new View.OnLongClickListener() {
             @Override
@@ -24,21 +26,22 @@ public class TestAndErrorsFix {
         int count = 0;
         if(cursor.moveToFirst()) {
             do {
-                sum += UtilsAverage.getSubjectFinalAverage(cursor.getInt(0), context);
+                sum += roundAverage(UtilsAverage.getSubjectFinalAverage(cursor.getInt(0), context), context);
                 count++;
             } while (cursor.moveToNext());
         }
+        cursor.close();
         float average;
         if(count == 0)
             count = 1;
-        int dodatkowe = 0;
+        int dodatkowe = -1;
         do {
-            average = (sum + dodatkowe)/count;
             dodatkowe++;
-        } while (isBelt(average, context));
+            average = (float) (sum + dodatkowe)/count;
+        } while (!isBelt(average, context));
         new AlertDialog.Builder(context)
                 .setTitle("Testowe Beta")
-                .setMessage("Potrzebujesz jeszcze " + dodatkowe-- + " ocen do poaska")
+                .setMessage("Potrzebujesz jeszcze " + dodatkowe + " ocen do paska")
                 .show();
     }
 
@@ -56,5 +59,23 @@ public class TestAndErrorsFix {
         if(average >= MainSettingsFragment.getAverageToBelt(context))
             return true;
         return false;
+    }
+
+    private static float roundAverage(float average, Context context) {
+        if(!MainSettingsFragment.getAverageToAssessment(context))
+            return average;
+        if (average == 0)
+            return 0;
+        if (average >= MainSettingsFragment.getAverageToSix(context))
+            return 6;
+        if (average >= MainSettingsFragment.getAverageToFive(context))
+            return 5;
+        if (average >= MainSettingsFragment.getAverageToFour(context))
+            return 4;
+        if (average >= MainSettingsFragment.getAverageToThree(context))
+            return 3;
+        if (average >= MainSettingsFragment.getAverageToTwo(context))
+            return 2;
+        return 1;
     }
 }

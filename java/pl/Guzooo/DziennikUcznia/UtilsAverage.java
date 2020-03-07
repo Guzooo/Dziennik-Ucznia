@@ -1,7 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
