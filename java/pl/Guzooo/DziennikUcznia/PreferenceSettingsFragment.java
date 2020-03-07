@@ -296,8 +296,13 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
                     Database2020.delAllSubjects(getContext());
                 else
                     Database2020.delAllTable(tableName, getContext());
-                //TODO:refresh; pasek u góry, i summary deletów
+                refreshBeforeDeleteTable();
             }
         };
+    }
+
+    private void refreshBeforeDeleteTable(){
+        //TODO: pasek u góry refresh;
+        setDeleteObjects();
     }
 }

@@ -25,5 +25,5 @@
     <string name="DEFAULT_AVERAGE_TO_THREE">2.70</string>
     <string name="DEFAULT_AVERAGE_TO_TWO">1.75</string>
     <string name="DEFAULT_AVERAGE_TO_BELT">4.75</string>
-    <integer name="DEFAULT_SEMESTER">1</integer>
+    <string name="DEFAULT_SEMESTER">1</string>
 </resources>

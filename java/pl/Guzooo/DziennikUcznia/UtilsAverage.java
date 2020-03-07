@@ -102,40 +102,26 @@ public class UtilsAverage {
     }
 
     private static int getWeight(int assessmentWeight){
-        if(isWeightedAverage())
+        if(MainSettingsFragment.getAverageWeight(context))
             return assessmentWeight;
         return 1;
     }
 
     private static float roundAverage(float average) {
-        //TODO: usunąć share; wszystkie metody powinny być w settings;
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
-        if(!isRoundedAverage())
+        if(!MainSettingsFragment.getAverageToAssessment(context))
             return average;
         if (average == 0)
             return 0;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.DEFAULT_AVERAGE_TO_SIX))
+        if (average >= MainSettingsFragment.getAverageToSix(context))
             return 6;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FIVE, SettingActivity.DEFAULT_AVERAGE_TO_FIVE))
+        if (average >= MainSettingsFragment.getAverageToFive(context))
             return 5;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FOUR, SettingActivity.DEFAULT_AVERAGE_TO_FOUR))
+        if (average >= MainSettingsFragment.getAverageToFour(context))
             return 4;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_THREE, SettingActivity.DEFAULT_AVERAGE_TO_THREE))
+        if (average >= MainSettingsFragment.getAverageToThree(context))
             return 3;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_TWO, SettingActivity.DEFAULT_AVERAGE_TO_TWO))
+        if (average >= MainSettingsFragment.getAverageToTwo(context))
             return 2;
         return 1;
-    }
-
-    private static boolean isRoundedAverage() {
-        //TODO: usunąć i dodać taką medote do ustawień;
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT);
-    }
-
-    private static boolean isWeightedAverage(){
-        //TODO: usunąć i dodać taką medote do ustawień;
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT);
     }
 }
