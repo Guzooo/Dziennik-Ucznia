@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -122,7 +121,7 @@ public class SettingActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (Database2020.destroyAllSubject(getApplicationContext())) {
-                            Toast.makeText(getApplicationContext(), R.string.setting_delete_all_subjects_made, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.done_delete_all_subjects, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
                         }
@@ -138,7 +137,7 @@ public class SettingActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (Database2020.destroyAllNotes(getApplicationContext())) {
-                            Toast.makeText(getApplicationContext(), R.string.setting_delete_all_notes_made, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.done_delete_all_notes, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
                         }
@@ -153,7 +152,7 @@ public class SettingActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (Database2020.destroyAllLessonPlan(getApplicationContext())) {
-                            Toast.makeText(getApplicationContext(), R.string.setting_delete_all_lesson_plan_made, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.done_delete_lesson_plan, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_database, Toast.LENGTH_SHORT).show();
                         }

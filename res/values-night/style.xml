@@ -20,7 +20,7 @@
         <item name="colorPrimaryDark">?attr/colorPrimaryTranslucentG</item>
         <item name="colorAccent">?attr/colorAccentG</item>
 
-        <item name="android:textViewStyle">@style/NormalText</item>
+        <item name="android:textViewStyle">@style/TextNormal</item>
 
         <item name="android:colorBackground">?attr/colorPrimaryG</item>
 

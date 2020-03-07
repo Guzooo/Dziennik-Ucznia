@@ -3,24 +3,114 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        app:title="@string/settings_fast"
+        app:icon="@drawable/flash">
+
+        <ListPreference
+            app:title="@string/title_semester"
+            app:key="@string/ID_SEMESTER"
+            app:entries="@array/semesters"
+            app:entryValues="@array/semesters_values"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@integer/DEFAULT_SEMESTER"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/settings_assessment"
+        app:icon="@drawable/assessment">
+
+        <EditTextPreference
+            app:title="@string/title_average_to_belt"
+            app:key="@string/ID_AVERAGE_TO_BELT"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_BELT"/>
+
+        <SwitchPreference
+            app:title="@string/title_average_weight"
+            app:key="@string/ID_AVERAGE_WEIGHT"
+            app:summary="@string/summary_average_weight"
+            app:defaultValue="@bool/DEFAULT_AVERAGE_WEIGHT"/>
+
+        <SwitchPreference
+            app:title="@string/title_average_to_assessment"
+            app:key="@string/ID_AVERAGE_TO_ASSESSMENT"
+            app:summary="@string/summary_average_to_assessment"
+            app:defaultValue="@bool/DEFAULT_AVERAGE_TO_ASSESSMENT" />
+
+        <EditTextPreference
+            app:title="@string/title_average_to_six"
+            app:key="@string/ID_AVERAGE_TO_SIX"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_SIX"/>
+
+        <EditTextPreference
+            app:title="@string/title_average_to_five"
+            app:key="@string/ID_AVERAGE_TO_FIVE"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_FIVE"/>
+
+        <EditTextPreference
+            app:title="@string/title_average_to_four"
+            app:key="@string/ID_AVERAGE_TO_FOUR"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_FOUR"/>
+
+        <EditTextPreference
+            app:title="@string/title_average_to_three"
+            app:key="@string/ID_AVERAGE_TO_THREE"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_THREE"/>
+
+        <EditTextPreference
+            app:title="@string/title_average_to_two"
+            app:key="@string/ID_AVERAGE_TO_TWO"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_TWO"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:title="@string/settings_theme"
         app:icon="@drawable/color_palette">
 
         <ListPreference
             app:title="@string/title_theme"
-            app:key="@string/THEME_ID"
+            app:key="@string/ID_THEME"
             app:entries="@array/themes"
             app:entryValues="@array/themes_values"
             app:useSimpleSummaryProvider="true"/>
 
         <SwitchPreference
             app:title="@string/title_hard_dark_mode"
+            app:key="@string/ID_HARD_DARK"
             app:summary="@string/summary_hard_dark_mode"
-            app:key="@string/HARD_DARK_ID"
             app:defaultValue="false"/>
     </PreferenceCategory>
 
+    <!--<PreferenceCategory
+        app:title="@string/settings_download"
+        app:icon="@drawable/download">
+
+    </PreferenceCategory>-->
+
     <PreferenceCategory
-        app:title="@string/assessments"
-        app:icon="@drawable/assessment"></PreferenceCategory>
+        app:title="@string/settings_delete"
+        app:icon="@drawable/delete">
+
+        <Preference
+            app:title="@string/title_lesson_plan"
+            app:key="@string/ID_DEL_LESSON_PLAN"/>
+
+        <Preference
+            app:title="@string/title_notes"
+            app:key="@string/ID_DEL_NOTES"/>
+
+        <Preference
+            app:title="@string/title_assessments"
+            app:key="@string/ID_DEL_ASSESSMENTS"/>
+
+
+        <Preference
+            app:title="@string/title_subjects"
+            app:key="@string/ID_DEL_SUBJECTS"/>
+    </PreferenceCategory>
 </PreferenceScreen>

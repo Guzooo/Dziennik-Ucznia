@@ -109,28 +109,13 @@
 
     <string name="setting_facebook">Sprawdź fanpage\nFacebook</string>
     <string name="setting_messenger">Zaproponuj zmiany\nMessenger</string>
-    <string name="setting_average_weight">Średnia ważona</string>
-    <string name="setting_average_to_assessment">Przeliczaj średnie na oceny</string>
-    <string name="setting_six_from">6 od</string>
-    <string name="setting_five_from">5 od</string>
-    <string name="setting_four_from">4 od</string>
-    <string name="setting_three_from">3 od</string>
-    <string name="setting_two_from">2 od</string>
     <string name="setting_to_six">Wpisz potrzebną średnią do uzyskania oceny 6</string>
     <string name="setting_to_five">Wpisz potrzebną średnią do uzyskania oceny 5</string>
     <string name="setting_to_four">Wpisz potrzebną średnią do uzyskania oceny 4</string>
     <string name="setting_to_three">Wpisz potrzebną średnią do uzyskania oceny 3</string>
     <string name="setting_to_two">Wpisz potrzebną średnią do uzyskania oceny 2</string>
-    <string name="setting_belt_from">pasek od</string>
     <string name="setting_to_belt">Wpisz potrzebną średnią do uzyskania paska</string>
     <string name="setting_end_day">Przestań pokazywań dzisiejsze przedmioty po:</string>
-    <string name="setting_delete">Usuń:</string>
-    <string name="setting_delete_all_subjects">Usuń wszystkie przedmioty</string>
-    <string name="setting_delete_all_subjects_made">Usunąłeś wszystkie przedmioty</string>
-    <string name="setting_delete_all_notes">Usuń wszystkie notatki</string>
-    <string name="setting_delete_all_notes_made">Usunąłeś wszystkie notatki</string>
-    <string name="setting_delete_all_lesson_plan">Usuń plan lekcji</string>
-    <string name="setting_delete_all_lesson_plan_made">Usunąłeś plan lekcji</string>
 
     <!-- NOWE -->
     <string name="setting">Ustawienia</string>
@@ -172,7 +157,14 @@
         <item>@string/sunday</item>
     </string-array>
 
+    <string name="cant_delete_default_assessments_category">Nie można usunąć domyślnej kategorii</string>
+
     <string name="settings_theme">Motyw aplikacji</string>
+    <string name="settings_assessment">Oceny</string>
+    <string name="settings_delete">Usuń</string>
+    <string name="settings_fast">Szybkie</string>
+    <string name="settings_download">Internet</string>
+
     <string name="title_theme">Wybierz motyw</string>
     <string name="theme_light">Jasny</string>
     <string name="theme_dark">Ciemny</string>
@@ -181,5 +173,47 @@
     <string name="title_hard_dark_mode">Bardzo ciemny motyw</string>
     <string name="summary_hard_dark_mode">Jeśli ciemny motyw jest włączony, czarny jest bardziej czarny. Idealny dla wyświetlaczy OLED/AMOLED.</string>
 
-    <string name="cant_delete_default_assessments_category">Nie można usunąć domyślnej kategorii</string>
+    <string name="title_average_to_belt">Pasek od</string>
+    <string name="title_average_weight">Średnia ważona</string>
+    <string name="summary_average_weight">Umożliwia dodawanie wagi do ocen</string>
+    <string name="title_average_to_assessment">Średnie na oceny</string>
+    <string name="summary_average_to_assessment">Przeliczaj średnie przedmiotów na oceny</string>
+    <string name="title_average_to_six">Szóstka od</string>
+    <string name="title_average_to_five">Piątka od</string>
+    <string name="title_average_to_four">Czwórka od</string>
+    <string name="title_average_to_three">Trójka od</string>
+    <string name="title_average_to_two">Dwójka od</string>
+
+    <string name="title_lesson_plan">Plan lekcji</string>
+    <plurals name="summary_lesson_plan">
+        <item quantity="one">%d pozycja</item>
+        <item quantity="few">%d pozycje</item>
+        <item quantity="many">%d pozycji</item>
+    </plurals>
+    <string name="in_lesson_plan">w planie lekcji</string>
+    <string name="done_delete_lesson_plan">Usunąłeś plan lekcji</string>
+    <string name="title_notes">Notatki</string>
+    <plurals name="summary_all_notes">
+        <item quantity="one">%d notatka</item>
+        <item quantity="few">%d notatki</item>
+        <item quantity="many">%d notatek</item>
+    </plurals>
+    <string name="done_delete_all_notes">Usunąłeś wszystkie notatki</string>
+    <string name="title_assessments">Oceny</string>
+    <plurals name="summary_all_assessments">
+        <item quantity="one">%d ocena</item>
+        <item quantity="few">%d oceny</item>
+        <item quantity="many">%d ocen</item>
+    </plurals>
+    <string name="done_delete_all_assessments">Usunąłeś wszystkie oceny</string>
+    <string name="title_subjects">Przedmioty</string>
+    <plurals name="summary_all_subejcts">
+        <item quantity="one">%d przedmiot w tym</item>
+        <item quantity="few">%d przedmioty w tym</item>
+        <item quantity="many">%d przedmiotów w tym</item>
+    </plurals>
+    <string name="done_delete_all_subjects">Usunąłeś wszystkie przedmioty</string>
+    <string name="del_question">Czy chcesz usunąć %1$s?</string>
+
+    <string name="title_semester">Semestr</string>
 </resources>

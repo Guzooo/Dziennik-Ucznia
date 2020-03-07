@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
-            style="@style/BoldText"/>
+            style="@style/TextBold"/>
 
         <TextView
             android:id="@+id/text2"

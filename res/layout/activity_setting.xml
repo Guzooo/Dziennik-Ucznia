@@ -89,14 +89,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/length_minimal"
-            android:text="@string/setting_average_weight"/>
+            android:text="@string/title_average_weight"/>
 
         <CheckBox
             android:id="@+id/setting_average_to_assessment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/length_minimal"
-            android:text="@string/setting_average_to_assessment"
+            android:text="@string/title_average_to_assessment"
             android:onClick="ClickCheckAverageToAssessment"/>
 
         <TableLayout
@@ -113,7 +113,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_six_from" />
+                    android:text="@string/title_average_to_six" />
 
                 <EditText
                     android:id="@+id/setting_average_to_six"
@@ -131,7 +131,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_five_from" />
+                    android:text="@string/title_average_to_five" />
 
                 <EditText
                     android:id="@+id/setting_average_to_five"
@@ -149,7 +149,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_four_from" />
+                    android:text="@string/title_average_to_four" />
 
                 <EditText
                     android:id="@+id/setting_average_to_four"
@@ -168,7 +168,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_three_from" />
+                    android:text="@string/title_average_to_three" />
 
                 <EditText
                     android:id="@+id/setting_average_to_three"
@@ -186,7 +186,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_two_from" />
+                    android:text="@string/title_average_to_two" />
 
                 <EditText
                     android:id="@+id/setting_average_to_two"
@@ -208,7 +208,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/setting_belt_from"/>
+                android:text="@string/title_average_to_belt"/>
 
             <EditText
                 android:id="@+id/setting_average_to_belt"
@@ -254,7 +254,7 @@
             android:layout_marginLeft="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setting_delete"
+            android:text="@string/settings_delete"
             style="@style/AppTheme.TitleBig"/>
 
         <ImageView
@@ -268,7 +268,7 @@
             android:layout_marginTop="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setting_delete_all_lesson_plan"
+            android:text="@string/title_lesson_plan"
             android:onClick="ClickDestroyAllPlanLesson"
             style="@style/Button"/>
 
@@ -284,7 +284,7 @@
             android:layout_marginTop="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setting_delete_all_notes"
+            android:text="@string/title_notes"
             android:onClick="ClickDestroyAllNotes"
             style="@style/Button"/>
 
@@ -292,7 +292,7 @@
             android:layout_marginTop="@dimen/margin_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setting_delete_all_subjects"
+            android:text="@string/title_subjects"
             android:onClick="ClickDestroyAllSubjects"
             style="@style/Button"/>
 

@@ -13,7 +13,7 @@
         android:layout_marginStart="@dimen/margin_standard"
         android:layout_marginEnd="@dimen/margin_standard"
         android:gravity="center_vertical"
-        style="@style/TitleText"/>
+        style="@style/TextTitle"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

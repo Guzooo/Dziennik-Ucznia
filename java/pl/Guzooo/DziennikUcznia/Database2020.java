@@ -191,7 +191,64 @@ public class Database2020 extends SQLiteOpenHelper {
         Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
     }
 
-    //STARE TODO:ogarnąć
+    public static int getTableCount(String tableName, Context context){
+        return getTableCount(tableName, null, null, context);
+    }
+
+    public static int getTableCountOnlySubjectElement(String tableName, String idSubjectColumn, Context context){
+        String where = idSubjectColumn + " > ?";
+        String[] whereArgs = new String[]{"0"};
+        return getTableCount(tableName, where, whereArgs, context);
+    }
+
+    private static int getTableCount(String tableName, String where, String[] whereArgs, Context context){
+        int count = 0;
+        SQLiteDatabase db = getToReading(context);
+        Cursor cursor = db.query(tableName,
+                new String[]{"count(*)"},
+                where,
+                whereArgs,
+                null, null, null);
+        if(cursor.moveToFirst())
+            count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    public static boolean delAllSubjects(Context context){
+        if(!delAllSubjectsElements(context))
+            return false;
+        return delAllTable(Subject2020.DATABASE_NAME, context);
+    }
+
+    private static boolean delAllSubjectsElements(Context context){
+        String[] whereArgs = new String[] {"0"};
+        if(!delTable(Assessment2020.DATABASE_NAME, Assessment2020.TAB_SUBJECT + " > ?", whereArgs, context))
+            return false;
+        if(!delTable(Note2020.DATABASE_NAME, Note2020.TAB_SUBJECT + " > ?", whereArgs, context))
+            return false;
+        if(!delTable(ElementOfPlan2020.DATABASE_NAME, ElementOfPlan2020.TAB_SUBJECT + " > ?", whereArgs, context))
+            return false;
+        return true;
+    }
+
+    public static boolean delAllTable(String tableName, Context context){
+        return delTable(tableName, null, null, context);
+    }
+
+    private static boolean delTable(String tableName, String whereClause, String[] whereArgs, Context context){
+        try {
+            SQLiteDatabase db = getToWriting(context);
+            db.delete(tableName, whereClause, whereArgs);
+            db.close();
+            return true;
+        } catch (SQLiteException e){
+            return false;
+        }
+    }
+
+    //STARE TODO:kill
     public static Boolean destroyAllSubject(Context context){
         try {
             if (!destroyAllNotes("TAB_SUBJECT > ?", new String[]{Integer.toString(0)}, context)) return false;
@@ -233,10 +290,6 @@ public class Database2020 extends SQLiteOpenHelper {
         } catch (SQLException e){
             return false;
         }
-    }
-
-    public static Boolean destroyAllAssessment (Context context){
-        return destroyAllAssessment(null, null, context);
     }
 
     public static Boolean destroyAllAssessment(String whereClause, String[] whereArgs, Context context){

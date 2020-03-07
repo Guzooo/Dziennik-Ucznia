@@ -11,11 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigation;
-
-    private MainSettingsFragment settingsFragment = new MainSettingsFragment();
-    private MainHomeFragment homeFragment = new MainHomeFragment();
-    private MainStatisticsFragment statisticsFragment = new MainStatisticsFragment();
-    private MainFragments currentFragment;
+    private MainFragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +37,13 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.settings:
-                replaceFragment(settingsFragment);
+                replaceFragment(new MainSettingsFragment());
                 return true;
             case R.id.home:
-                replaceFragment(homeFragment);
+                replaceFragment(new MainHomeFragment());
                 return true;
             case R.id.statistics:
-                replaceFragment(statisticsFragment);
+                replaceFragment(new MainStatisticsFragment());
                 return true;
             case R.id.lesson_plan:
                 return true;
@@ -60,7 +56,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void setFragment() {
-        MainFragments fragment = (MainFragments) getSupportFragmentManager().findFragmentById(R.id.content);
+        MainFragment fragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.content);
         if(fragment != null)
             replaceFragment(fragment);
     }
@@ -109,7 +105,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         return sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT);
     }
 
-    private void replaceFragment(MainFragments fragment){
+    private void replaceFragment(MainFragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); //TODO inne animacje

@@ -171,4 +171,5 @@ public class Subject2020 extends DatabaseObject{
         //TODO: stworzyć oceny z ich klasy
         // doprecyzować czy nazwe tej funkcji
     }*/
+ //TODO: usuwanie tam ocen, notatek itp;
 }

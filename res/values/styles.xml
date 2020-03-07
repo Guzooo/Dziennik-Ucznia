@@ -12,7 +12,7 @@
         <item name="colorPrimaryDark">?attr/colorPrimaryTranslucentG</item>
         <item name="colorAccent">?attr/colorAccentG</item>
 
-        <item name="android:textViewStyle">@style/NormalText</item>
+        <item name="android:textViewStyle">@style/TextNormal</item>
 
         <item name="android:colorBackground">?attr/colorPrimaryG</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -30,6 +30,11 @@
         <item name="android:tint">?attr/colorAccentG</item>
     </style>
 
+    <style name="Logo">
+        <item name="android:layout_width">@dimen/length_logo</item>
+        <item name="android:layout_height">@dimen/length_logo</item>
+    </style>
+
     <style name="AllClickable">
         <item name="android:minWidth">@dimen/length_minimal</item>
         <item name="android:minHeight">@dimen/length_minimal</item>
@@ -43,26 +48,44 @@
         <item name="android:tint">?attr/colorAccentG</item>
     </style>
 
-    <style name="NormalText">
+    <style name="ClickableImages.G">
+        <item name="android:tint">@color/gWhite</item>
+    </style>
+
+    <style name="TextNormal">
         <item name="android:textColor">?attr/colorSecondaryG</item>
         <item name="android:textSize">@dimen/size_text_normal</item>
     </style>
 
-    <style name="BoldText" parent="NormalText">
+    <style name="TextTitle">
+        <item name="android:textSize">@dimen/size_text_title</item>
+    </style>
+
+    <style name="TextTitle.G">
+        <item name="android:textColor">@color/gWhite</item>
+    </style>
+
+    <style name="TextBold">
         <item name="android:textSize">@dimen/size_text_bold</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TitleText" parent="NormalText">
-        <item name="android:textSize">@dimen/size_text_title</item>
-    </style>-->
-
-    <style name="DescriptionText">
+    <style name="TextLittle"><!--//TODO: kill-->
         <item name="android:textColor">?attr/colorPrimaryDarkG</item>
         <item name="android:textSize">10dp</item>
     </style>
 
-    <style name="Button">
+    <style name="AppTheme.TitleBig" parent="AppTheme.Title"><!--//TODO: kill-->
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="AppTheme.Title" parent="AppTheme"><!--//TODO: kill-->
+        <item name="android:textSize">15dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Button"><!--//TODO: kill-->
         <item name="android:textColor">?attr/colorPrimaryG</item>
         <item name="android:backgroundTint">?attr/colorAccentG</item>
         <item name="android:tint">?attr/colorPrimaryG</item>
@@ -83,24 +106,14 @@
         <item name="android:backgroundTint">?attr/colorPrimaryG</item>
     </style>
 
-    <style name="AppTheme.TitleBig" parent="AppTheme.Title">
-        <item name="android:textSize">20dp</item>
-    </style>
-
-    <style name="AppTheme.Title" parent="AppTheme"><!--//TODO: kill-->
-        <item name="android:textSize">15dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="AppTheme.BottomNavigation">
+    <style name="BottomNavigation">
         <item name="android:background">?attr/colorPrimaryTranslucentG</item>
         <item name="itemIconTint">@color/button_color_state</item>
         <item name="itemTextColor">@color/button_color_state</item>
         <item name="rippleColor">?attr/colorPrimaryDarkG</item>
     </style>
 
-    <style name="AppTheme.FAB">
+    <style name="FAB">
         <item name="android:tint">?attr/colorAccentG</item>
         <item name="android:backgroundTint">?attr/colorPrimaryG</item>
         <item name="rippleColor">?attr/colorPrimaryDarkG</item>

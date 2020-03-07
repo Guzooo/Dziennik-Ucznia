@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toStartOf="@id/fab_add"
         app:layout_constraintRight_toLeftOf="@id/fab_add"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        style="@style/AppTheme.FAB"/>
+        style="@style/FAB"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
@@ -34,14 +34,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        style="@style/AppTheme.FAB"/>
+        style="@style/FAB"/>
 
-<!--TODO: sprawdzić czy można robić animacje-->
+    <!--TODO: sprawdzić czy można robić animacje-->
+    <!--TODO: jeśli można klikac w to co jest pod spotem, daj clicable = false-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/main_activities_nav_menu"
         app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/AppTheme.BottomNavigation"/>
+        style="@style/BottomNavigation"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
