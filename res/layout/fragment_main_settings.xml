@@ -48,7 +48,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_margin="@dimen/margin_standard"/>
+                        android:layout_margin="@dimen/margin_standard"
+                        style="@style/TextNormal.G"/>
 
                     <ImageView
                         android:id="@+id/close"

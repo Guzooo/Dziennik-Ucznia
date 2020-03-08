@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Dziennik Ucznia</string>
     <string name="app_G">© Guzooo 2018 - 2020</string>
+    <string name="app_v">v%1$s</string>
 
     <string name="add_subject">Dodawanie Przedmiotu</string>
     <string name="edit_subject">Edytowanie Przedmiotu</string>

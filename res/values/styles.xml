@@ -57,6 +57,10 @@
         <item name="android:textSize">@dimen/size_text_normal</item>
     </style>
 
+    <style name="TextNormal.G">
+        <item name="android:textColor">@color/gWhite</item>
+    </style>
+
     <style name="TextTitle">
         <item name="android:textSize">@dimen/size_text_title</item>
     </style>

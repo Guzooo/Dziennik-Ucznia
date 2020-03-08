@@ -83,7 +83,10 @@ public class MainSettingsFragment extends MainFragment {
         try {
             String packageName = getActivity().getPackageName();
             PackageInfo info = getActivity().getPackageManager().getPackageInfo(packageName, 0);
-            version.setText("v" + info.versionName);
+            String appInfo = getString(R.string.app_name);
+            appInfo += getString(R.string.separator);
+            appInfo += getString(R.string.app_v, info.versionName);
+            version.setText(appInfo);
         } catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();
         }
