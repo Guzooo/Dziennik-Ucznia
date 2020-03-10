@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GActivity extends AppCompatActivity {
+public abstract class GActivity extends AppCompatActivity {
 
     private final String DARK_THEME = "darktheme";
     private final String HARD_DARK_THEME = "harddarktheme";
@@ -19,8 +19,8 @@ public class GActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {//TODO:jakby się nie zmieniał theme to trzeba resume
+        super.onRestart();
         refreshTheme();
     }
 
@@ -45,5 +45,9 @@ public class GActivity extends AppCompatActivity {
                 this.recreate();
             }
         }
+    }
+
+    public int getBottomPadding(){
+        return 0;
     }
 }

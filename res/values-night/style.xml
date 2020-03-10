@@ -21,14 +21,8 @@
         <item name="colorAccent">?attr/colorAccentG</item>
 
         <item name="android:textViewStyle">@style/TextNormal</item>
-
         <item name="android:colorBackground">?attr/colorPrimaryG</item>
-
-        <item name="android:statusBarColor">?attr/colorPrimaryTranslucentG</item>
         <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowActionBarOverlay">false</item>
-        <item name="android:windowActionBar">false</item>
 
         <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
     </style>

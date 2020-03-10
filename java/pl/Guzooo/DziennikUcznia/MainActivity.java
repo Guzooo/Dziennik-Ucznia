@@ -1,17 +1,23 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigation;
     private MainFragment currentFragment;
+
+    private FloatingActionButton addFAB;
+    private FloatingActionButton actionFAB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +25,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         setContentView(R.layout.activity_main);
 
         initialization();
+        setFullScreen();
         setFragment();
         setBottomNavigation();
         setActionBarSubtitle();
@@ -51,8 +58,22 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         return false;
     }
 
+    @Override
+    public int getBottomPadding() {
+        int bottom = bottomNavigation.getHeight();
+        return bottom;
+    }
+
     private void initialization(){
         bottomNavigation = findViewById(R.id.bottom_navigation);
+        addFAB = findViewById(R.id.fab_add);
+        actionFAB = findViewById(R.id.fab_action);
+    }
+
+    private void setFullScreen(){
+        UtilsFullScreen.setUIVisibility(bottomNavigation);
+        UtilsFullScreen.setApplyWindowInsets(bottomNavigation, getWindowsInsetsListener());
+        UtilsFullScreen.setPaddings(findViewById(R.id.nest_scroll), this);
     }
 
     private void setFragment() {
@@ -81,6 +102,31 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         //TODO: notatnik w głównym Activity
     }
 
+    private void replaceFragment(MainFragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content, fragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); //TODO inne animacje
+        transaction.commit();
+        currentFragment = fragment;
+    }
+
+    private OnApplyWindowInsetsListener getWindowsInsetsListener(){
+        return new OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                setBottomNavigationSpacing(insets);
+                return insets;
+            }
+        };
+    }
+
+    private void setBottomNavigationSpacing(WindowInsetsCompat insets){
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) bottomNavigation.getLayoutParams();
+        params.bottomMargin = insets.getSystemWindowInsetBottom();
+        params.rightMargin = insets.getSystemWindowInsetRight();
+        params.leftMargin = insets.getSystemWindowInsetLeft();
+    }
+
     private String getSemester(){
         int semester = StatisticsActivity.getSemester(this);
         return getString(R.string.semester_with_colon, semester);
@@ -94,22 +140,8 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private boolean isBelt(float average){
-        if(average >= getMinimumToBelt())
+        if(average >= MainSettingsFragment.getAverageToBelt(this))
             return true;
         return false;
-    }
-
-    private float getMinimumToBelt(){
-        //TODO: usunąć i dodać taką medote do ustawień;
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
-        return sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT);
-    }
-
-    private void replaceFragment(MainFragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content, fragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); //TODO inne animacje
-        transaction.commit();
-        currentFragment = fragment;
     }
 }

@@ -1,5 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.view.View;
+
 import androidx.fragment.app.Fragment;
 
 public abstract class MainFragment extends Fragment {
@@ -10,6 +12,10 @@ public abstract class MainFragment extends Fragment {
 
     public boolean isVisibleAddFAB(){
         return true;
+    }
+
+    public View getFullScreenView(){
+        return null;
     }
 
     public int getIconActionFAB(){
