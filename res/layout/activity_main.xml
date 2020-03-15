@@ -51,4 +51,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:clickable="true"
         style="@style/BottomNavigation"/>
+
+    <pl.Guzooo.DziennikUcznia.PillMenu
+        android:id="@+id/pill_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        app:menu="@menu/main_add"
+        app:initialFAB="@id/fab_add"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

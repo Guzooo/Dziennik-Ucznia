@@ -3,6 +3,7 @@ package pl.Guzooo.DziennikUcznia;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.OnApplyWindowInsetsListener;
@@ -11,13 +12,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener, PillMenu.OnPillMenuItemSelectedListener {
 
     private BottomNavigationView bottomNavigation;
     private MainFragment currentFragment;
 
     private FloatingActionButton addFAB;
     private FloatingActionButton actionFAB;
+    private PillMenu pillMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         setFullScreen();
         setFragment();
         setBottomNavigation();
+        setPillMenu();
+        setAddFAB();
         setActionBarSubtitle();
         setNotepad();
         NotificationOnline.checkAutomatically(this);
@@ -59,6 +63,36 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     @Override
+    public void onPillMenuItemSelected(int id) {
+        switch (id){
+            case R.id.add_assessment:
+                addAssessment();
+                break;
+            case R.id.add_note:
+                addNote();
+                break;
+            case R.id.add_lesson_plan:
+                addLessonPlan();
+                break;
+            case R.id.add_subject:
+                addSubject();
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(pillMenu.isVisible())
+            pillMenu.hide();
+        else if(currentFragment.onBackPressed())
+            ;
+        else if(!currentFragment.isHome())
+            openHomeFragment();
+        else
+            super.onBackPressed();
+    }
+
+    @Override
     public int getBottomPadding() {
         int bottom = bottomNavigation.getHeight();
         return bottom;
@@ -68,6 +102,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         bottomNavigation = findViewById(R.id.bottom_navigation);
         addFAB = findViewById(R.id.fab_add);
         actionFAB = findViewById(R.id.fab_action);
+        pillMenu = findViewById(R.id.pill_menu);
     }
 
     private void setFullScreen(){
@@ -84,11 +119,22 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
 
     private void setBottomNavigation(){
         bottomNavigation.setOnNavigationItemSelectedListener(this);
-        if(currentFragment == null) {
-            MenuItem home = bottomNavigation.getMenu().getItem(1);
-            home.setChecked(true);
-            onNavigationItemSelected(home);
-        }
+        if(currentFragment == null)
+            openHomeFragment();
+    }
+
+    private void setPillMenu(){
+        pillMenu.setFullScreen(this);
+        pillMenu.setOnPillMenuItemSelectedListener(this);
+    }
+
+    private void setAddFAB(){
+       addFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pillMenu.show();
+            }
+        });
     }
 
     private void setActionBarSubtitle(){
@@ -100,6 +146,22 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
 
     private void setNotepad(){
         //TODO: notatnik w głównym Activity
+    }
+
+    private void addAssessment(){
+        Toast.makeText(this, "ocena", Toast.LENGTH_SHORT).show();
+    }
+
+    private void addNote(){
+        Toast.makeText(this, "notatka", Toast.LENGTH_SHORT).show();
+    }
+
+    private void addLessonPlan(){
+        Toast.makeText(this, "plan lekcji", Toast.LENGTH_SHORT).show();
+    }
+
+    private void addSubject(){
+        Toast.makeText(this, "przedmiot", Toast.LENGTH_SHORT).show();
     }
 
     private void replaceFragment(MainFragment fragment){
@@ -125,6 +187,12 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         params.bottomMargin = insets.getSystemWindowInsetBottom();
         params.rightMargin = insets.getSystemWindowInsetRight();
         params.leftMargin = insets.getSystemWindowInsetLeft();
+    }
+
+    private void openHomeFragment(){
+        MenuItem home = bottomNavigation.getMenu().getItem(1);
+        home.setChecked(true);
+        onNavigationItemSelected(home);
     }
 
     private String getSemester(){

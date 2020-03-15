@@ -15,6 +15,7 @@
         <item name="android:textViewStyle">@style/TextNormal</item>
         <item name="android:colorBackground">?attr/colorPrimaryG</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item><!--TODO: sprawdz light theme bez sys i reczny-->
         <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
 
         <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
@@ -83,10 +84,10 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="Button"><!--//TODO: kill-->
-        <item name="android:textColor">?attr/colorPrimaryG</item>
-        <item name="android:backgroundTint">?attr/colorAccentG</item>
-        <item name="android:tint">?attr/colorPrimaryG</item>
+    <style name="Button"><!--//TODO: może zostawić-->
+        <item name="android:textColor">?attr/colorAccentG</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryDarkG</item>
+        <item name="android:tint">?attr/colorAccentG</item>
     </style>
 
     <!--<style name="Button" parent="AppTheme">
@@ -106,8 +107,8 @@
 
     <style name="BottomNavigation">
         <item name="android:background">?attr/colorPrimaryTranslucentG</item>
-        <item name="itemIconTint">@color/button_color_state</item>
-        <item name="itemTextColor">@color/button_color_state</item>
+        <item name="itemIconTint">@color/checked_state</item>
+        <item name="itemTextColor">@color/checked_state</item>
         <item name="rippleColor">?attr/colorPrimaryDarkG</item>
     </style>
 
@@ -116,5 +117,11 @@
         <item name="android:backgroundTint">?attr/colorPrimaryG</item>
         <item name="rippleColor">?attr/colorPrimaryDarkG</item>
         <item name="borderWidth">0dp</item>
+    </style>
+
+    <style name="PillButton">
+        <item name="android:textColor">@color/pill_text_state</item>
+        <item name="android:background">@drawable/pill</item>
+        <item name="android:backgroundTint">@color/pill_background_state</item>
     </style>
 </resources>

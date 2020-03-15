@@ -9,6 +9,11 @@
         <attr name="help_edit" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="PillMenu">
+        <attr name="menu" format="reference"/>
+        <attr name="initialFAB" format="reference"/>
+    </declare-styleable>
+
     <attr name="colorPrimaryG" format="reference"/>
     <attr name="colorPrimaryDarkG" format="reference"/>
     <attr name="colorPrimaryTranslucentG" format="reference"/>

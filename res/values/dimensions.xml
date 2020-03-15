@@ -16,6 +16,8 @@
     <dimen name="margin_card">5dp</dimen>
     <dimen name="corner_radius_card">10dp</dimen>
 
+    <dimen name="corner_radius_pill">30dp</dimen>
+
     <dimen name="length_assessment">75dp</dimen>
     <dimen name="text_size_assessment">18dp</dimen>
     <dimen name="corner_radius_assessment">4dp</dimen>

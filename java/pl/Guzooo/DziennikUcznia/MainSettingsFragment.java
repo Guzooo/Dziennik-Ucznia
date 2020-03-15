@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
@@ -44,15 +43,6 @@ public class MainSettingsFragment extends MainFragment {
 
     @Override
     public boolean isVisibleAddFAB() {
-        return false;
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        if(isInfoOpen()) {
-            hideInfoG();
-            return true;
-        }
         return false;
     }
 
@@ -90,12 +80,6 @@ public class MainSettingsFragment extends MainFragment {
         } catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();
         }
-    }
-
-    private boolean isInfoOpen(){
-        if(infoG.getVisibility() == View.VISIBLE && ViewCompat.isAttachedToWindow(infoG))
-            return true;
-        return false;
     }
 
     private View.OnClickListener getClickListenerOpenInfo(){

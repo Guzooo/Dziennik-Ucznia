@@ -12,4 +12,9 @@ public class MainHomeFragment extends MainFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main_home, container, false);
     }
+
+    @Override
+    public boolean isHome() {
+        return true;
+    }
 }
