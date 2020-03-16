@@ -6,7 +6,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Insets;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +34,8 @@ public class PillMenu extends ConstraintLayout {
     private int initialFABid;
 
     private OnPillMenuItemSelectedListener listener;
+    private AnimatorSet animShow;
+    private AnimatorSet animHide;
 
     public interface OnPillMenuItemSelectedListener {
         void onPillMenuItemSelected (int id);
@@ -61,72 +63,13 @@ public class PillMenu extends ConstraintLayout {
 
     public void show(){
         setPositionFAB();
-        setVisibility(VISIBLE);
-        ObjectAnimator anim = ObjectAnimator.ofFloat(background, "alpha", 0, 1)
-                .setDuration(200);
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(layoutFAB, "rotation", 0, 135)
-                .setDuration(200);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(anim, anim2);
-        ArrayList<Animator> animB = new ArrayList<>();
-        animB.add(set);
-        for(int i = linearLayout.getChildCount() -1; i >= 0; i--){
-            int dlugoscPlus = linearLayout.getChildAt(i).getWidth();
-            dlugoscPlus += getRootWindowInsets().getSystemWindowInsetRight();
-            dlugoscPlus += getResources().getDimensionPixelOffset(R.dimen.margin_biggest) * 2;
-            ObjectAnimator animbi = ObjectAnimator.ofFloat(linearLayout.getChildAt(i), "translationX", dlugoscPlus, 0)
-                    .setDuration(200);
-            animB.add(animbi);
-        }
-        AnimatorSet del = new AnimatorSet();
-        del.playSequentially(animB);
-        del.setDuration(200);
-        del.start();
+        setAnimations();
+        animShow.start();
     }
 
     public void hide(){
-        ObjectAnimator anim = ObjectAnimator.ofFloat(background, "alpha", 1, 0)
-                .setDuration(200);
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(layoutFAB, "rotation", 135, 0)
-                .setDuration(200);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(anim, anim2);
-        ArrayList<Animator> animB = new ArrayList<>();
-        for(int i = 0; i < linearLayout.getChildCount(); i++){
-            int dlugoscPlus = linearLayout.getChildAt(i).getWidth();
-            dlugoscPlus += getRootWindowInsets().getSystemWindowInsetRight();
-            dlugoscPlus += getResources().getDimensionPixelOffset(R.dimen.margin_biggest) * 2;
-            ObjectAnimator animbi = ObjectAnimator.ofFloat(linearLayout.getChildAt(i), "translationX", 0, dlugoscPlus)
-                    .setDuration(200);
-            animB.add(animbi);
-        }
-        animB.add(set);
-        AnimatorSet del = new AnimatorSet();
-        del.playSequentially(animB);
-        del.setDuration(200);
-        final View v = this;
-        del.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-               v.setVisibility(INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-        del.start();
+        if(!animHide.isRunning())
+            animHide.start();
     }
 
     public boolean isVisible(){
@@ -152,6 +95,15 @@ public class PillMenu extends ConstraintLayout {
 
     private void setFAB(){
         setOnClickListener(getHideOnClickListener());
+    }
+
+    private OnClickListener getHideOnClickListener(){
+        return new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hide();
+            }
+        };
     }
 
     private void createButtons(){
@@ -182,6 +134,32 @@ public class PillMenu extends ConstraintLayout {
         addToPillMenu(button);
     }
 
+    private void setParams(Button button){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.margin_biggest);
+        button.setLayoutParams(params);
+    }
+
+    private void setListener(Button button, int id){
+        OnClickListener clickListener = getMenuOptionClickListener(id);
+        button.setOnClickListener(clickListener);
+    }
+
+    private OnClickListener getMenuOptionClickListener(final int id){
+        return new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null && !animHide.isRunning())
+                    listener.onPillMenuItemSelected(id);
+                hide();
+            }
+        };
+    }
+
+    private void addToPillMenu(Button button){
+        linearLayout.addView(button);
+    }
+
     private void setPositionFAB(){
         View parent = (View) getParent();
         FloatingActionButton initialFAB = parent.findViewById(initialFABid);
@@ -203,37 +181,142 @@ public class PillMenu extends ConstraintLayout {
         return true;
     }
 
-    private void setParams(Button button){
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.margin_biggest);
-        button.setLayoutParams(params);
+    private void setAnimations(){
+        if(animShow == null) {
+            setButtonPositionBehindScreen();
+            setAnimationShow();
+        }
+        if(animHide == null)
+            setAnimationHide();
     }
 
-    private void setListener(Button button, int id){
-        OnClickListener clickListener = getMenuOptionClickListener(id);
-        button.setOnClickListener(clickListener);
+    private void setButtonPositionBehindScreen(){
+        for(int i = 0; i < linearLayout.getChildCount(); i++){
+            View currentButton = linearLayout.getChildAt(i);
+            int positionBehindScreen = getTranslationPlus(currentButton);
+            currentButton.setX(positionBehindScreen);
+        }
     }
 
-    private OnClickListener getMenuOptionClickListener(final int id){
-        return new OnClickListener() {
+    private void setAnimationShow(){
+        AnimatorSet visible = getVisibility(1, 135);
+        ArrayList<Animator> allAnimators = new ArrayList<>();
+        allAnimators.add(visible);
+        allAnimators.addAll(getButtonsAnimatorShow());
+        AnimatorSet fullAnimator = getFullAnimator(allAnimators);
+        fullAnimator.addListener(getShowAnimatorListener());
+        animShow = fullAnimator;
+    }
+
+    private void setAnimationHide(){
+        AnimatorSet visible = getVisibility(0 ,0);
+        ArrayList<Animator> allAnimators = getButtonsAnimatorHide();
+        allAnimators.add(visible);
+        AnimatorSet fullAnimator = getFullAnimator(allAnimators);
+        fullAnimator.addListener(getHideAnimatorListener());
+        animHide = fullAnimator;
+    }
+
+    private AnimatorSet getVisibility(int alphaFinal, int rotationFinal){
+        AnimatorSet visibility = new AnimatorSet();
+        ObjectAnimator alphaBackground = getAlphaBackground(alphaFinal);
+        ObjectAnimator rotationFAB = getRotationFAB(rotationFinal);
+        visibility.playTogether(alphaBackground, rotationFAB);
+        return visibility;
+    }
+
+    private ObjectAnimator getAlphaBackground(int alphaFinal){
+        return ObjectAnimator.ofFloat(background, "alpha", alphaFinal);
+    }
+
+    private ObjectAnimator getRotationFAB(int rotationFinal){
+        return ObjectAnimator.ofFloat(layoutFAB, "rotation", rotationFinal);
+    }
+
+    private ArrayList<Animator> getButtonsAnimatorHide(){
+        ArrayList<Animator> animators = new ArrayList<>();
+        for(int i = 0; i < linearLayout.getChildCount(); i++){
+            View currentButton = linearLayout.getChildAt(i);
+            int translationPlus = getTranslationPlus(currentButton);
+            ObjectAnimator currentAnim = getTranslationButton(currentButton, translationPlus);
+            animators.add(currentAnim);
+        }
+        return animators;
+    }
+
+    private ArrayList<Animator> getButtonsAnimatorShow(){
+        ArrayList<Animator> animators = new ArrayList<>();
+        for(int i = linearLayout.getChildCount() -1; i >= 0; i--){
+            View currentButton = linearLayout.getChildAt(i);
+            ObjectAnimator currentAnim = getTranslationButton(currentButton, 0);
+            animators.add(currentAnim);
+        }
+        return animators;
+    }
+
+    private int getTranslationPlus(View v){
+        int translationPlus = v.getWidth();
+        translationPlus += getResources().getDimensionPixelOffset(R.dimen.margin_biggest) * 2;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            translationPlus += getRootWindowInsets().getSystemWindowInsetRight();
+        return translationPlus * 2;//TODO: "* 2" Kill gdy wszystkei będzą enable
+    }
+
+    private ObjectAnimator getTranslationButton(View v, int finalTranslationX){
+        return ObjectAnimator.ofFloat(v, "translationX", finalTranslationX);
+    }
+
+    private AnimatorSet getFullAnimator(ArrayList<Animator> animators){
+        AnimatorSet fullAnimator = new AnimatorSet();
+        fullAnimator.playSequentially(animators);
+        fullAnimator.setDuration(200);
+        return fullAnimator;
+    }
+
+    private Animator.AnimatorListener getShowAnimatorListener(){
+        return new Animator.AnimatorListener() {
             @Override
-            public void onClick(View v) {
-                if(listener != null)
-                    listener.onPillMenuItemSelected(id);
-                hide();
+            public void onAnimationStart(Animator animation) {
+                setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
             }
         };
     }
 
-    private void addToPillMenu(Button button){
-        linearLayout.addView(button);
-    }
-
-    private OnClickListener getHideOnClickListener(){
-        return new OnClickListener() {
+    private Animator.AnimatorListener getHideAnimatorListener(){
+        return new Animator.AnimatorListener() {
             @Override
-            public void onClick(View v) {
-                hide();
+            public void onAnimationStart(Animator animation) {
+                animShow.cancel();
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                setVisibility(INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
             }
         };
     }
