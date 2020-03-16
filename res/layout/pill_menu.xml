@@ -5,7 +5,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorPrimaryTranslucentG"/>
+        android:background="?attr/colorPrimaryTranslucentG"
+        android:alpha="0"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
