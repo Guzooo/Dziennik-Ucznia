@@ -40,8 +40,9 @@ public class TestAndErrorsFix {
             average = (float) (sum + dodatkowe)/count;
         } while (!isBelt(average, context));
         new AlertDialog.Builder(context)
-                .setTitle("Testowe Beta")
+                .setTitle("Testowe Beta \u2022 Road To Belt")
                 .setMessage("Potrzebujesz jeszcze " + dodatkowe + " ocen do paska")
+                .setPositiveButton("Ok", null)
                 .show();
     }
 

@@ -22,7 +22,7 @@ public class SubjectAssessment {
 
     private ContentValues contentValues = new ContentValues();
 
-    public static final String[] subjectAssessmentOnCursor = {"_id", "ASSESSMENT", "NOTE", "SEMESTER", "TAB_SUBJECT", "TAB_CATEGORY_ASSESSMENT", "DATA", "WEIGHT"};
+    public static final String[] subjectAssessmentOnCursor = {"_id", "ASSESSMENT", "NOTE", "SEMESTER", "TAB_SUBJECT", "TAB_CATEGORY_ASSESSMENT", "DATA", "ASSESSMENT"};
 
     private SubjectAssessment (int id, float assessment, String note, int semester, int idSubject, int idCategoryAssessment, String data, int weight){
         this.id = id;

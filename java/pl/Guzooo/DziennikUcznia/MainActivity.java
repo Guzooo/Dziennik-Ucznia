@@ -32,6 +32,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         setBottomNavigation();
         setPillMenu();
         setAddFAB();
+        setActionFAB();
         setActionBarSubtitle();
         setNotepad();
         NotificationOnline.checkAutomatically(this);
@@ -42,6 +43,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     protected void onRestart() {
         super.onRestart();
         setActionBarSubtitle();
+        currentFragment.onRestart();
     }
 
     @Override
@@ -57,6 +59,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
                 replaceFragment(new MainStatisticsFragment());
                 return true;
             case R.id.lesson_plan:
+                replaceFragment(new MainLessonPlanFragment());
                 return true;
         }
         return false;
@@ -133,6 +136,15 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
             @Override
             public void onClick(View v) {
                 pillMenu.show();
+            }
+        });
+    }
+
+    private void setActionFAB(){
+        actionFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentFragment.clickIconActionFAB();
             }
         });
     }
