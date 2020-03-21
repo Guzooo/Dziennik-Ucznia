@@ -129,12 +129,12 @@ public class MainHomeFragment extends MainFragment {
     }
 
     private void openNotepad(){
-        EditText editText = new EditText(getContext());
-        editText.setSingleLine(false);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(editText.getLayoutParams());
-        params.setMarginStart(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
-        params.setMarginEnd(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
-        editText.setLayoutParams(params);
+        HoldEditText editText = new HoldEditText(getContext(), null);
+        //editText.setSingleLine(false);
+        //FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(editText.getLayoutParams());
+        //params.setMarginStart(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
+        //params.setMarginEnd(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
+        //editText.setLayoutParams(params);
         new AlertDialog.Builder(getContext())
                 .setTitle("Notatnik")
                 .setView(editText)

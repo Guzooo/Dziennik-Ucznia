@@ -7,7 +7,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 
-public class TestAndErrorsFix {
+public class TestMethods {
 
     //Prodżekt "Road To Belt";
     public static View.OnLongClickListener assessmentToBeltLongListener(final Context context){

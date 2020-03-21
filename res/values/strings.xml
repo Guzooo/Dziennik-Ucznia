@@ -8,8 +8,6 @@
     <string name="lesson_plan_add">Dodawanie Planu Lekcji</string>
     <string name="lesson_plan_edit">Edycja Planu Lekcji</string>
 
-    <string name="hold_to_edit">Przytrzymaj, aby edytować</string>
-
     <string name="error_database">Błąd bazy danych</string>
 
     <string name="save">Zapisz</string>
@@ -124,6 +122,7 @@
     <string name="statistics">Statystyki</string>
     <string name="lesson_plan">Plan Lekcji</string>
 
+    <string name="hold_to_edit">Przytrzymaj, aby edytować</string>
     <string name="separator">\ \u2022 \ </string>
     <string name="semester">Semestr %1$d</string>
     <string name="semester_with_colon">Semestr: %1$d</string>

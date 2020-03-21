@@ -270,7 +270,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 //TODO: pasek u góry refresh;
-                return !newValue.toString().equals("");
+                return !newValue.toString().isEmpty();
             }
         };
     }

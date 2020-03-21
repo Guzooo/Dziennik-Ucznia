@@ -39,14 +39,12 @@ public class TextAndHoldEditView extends LinearLayout implements View.OnLongClic
     public TextAndHoldEditView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextAndHoldEditView, 0, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HoldEditText, 0, 0);
 
-        prefix = a.getString(R.styleable.TextAndHoldEditView_prefix);
-        text = a.getString(R.styleable.TextAndHoldEditView_text);
-        info = a.getString(R.styleable.TextAndHoldEditView_info);
-        hint = a.getString(R.styleable.TextAndHoldEditView_hint);
-        separator = a.getString(R.styleable.TextAndHoldEditView_separator);
-        helpEdit = a.getString(R.styleable.TextAndHoldEditView_help_edit);
+        prefix = a.getString(R.styleable.HoldEditText_prefix);
+        text = a.getString(R.styleable.HoldEditText_text);
+        info = a.getString(R.styleable.HoldEditText_info);
+        hint = a.getString(R.styleable.HoldEditText_hint);
 
         a.recycle();
 

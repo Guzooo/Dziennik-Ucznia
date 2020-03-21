@@ -62,7 +62,7 @@ public class MainSettingsFragment extends MainFragment {
         //TODO: wyłączyć akcelerowanie sprzetowe dla G, jeśli dalej będzie zielone przy ponownym łądowaniu fragmentu
         // https://developer.android.com/guide/topics/graphics/hardware-accel.html
         logoG.setOnClickListener(getClickListenerOpenInfo());
-        logoG.setOnLongClickListener(TestAndErrorsFix.assessmentToBeltLongListener(getContext()));
+        logoG.setOnLongClickListener(TestMethods.assessmentToBeltLongListener(getContext()));
         infoG.findViewById(R.id.close).setOnClickListener(getClickListenerCloseInfo());
         infoG.findViewById(R.id.facebook).setOnClickListener(getClickListenerOpenPage(FACEBOOK));
         infoG.findViewById(R.id.messenger).setOnClickListener(getClickListenerOpenPage(MESSENGER));
