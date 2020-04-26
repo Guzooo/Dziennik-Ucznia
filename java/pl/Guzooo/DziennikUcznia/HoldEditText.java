@@ -197,7 +197,7 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 hideEditMode();
-                Log.d("G HoldEditText", "EditorActionListenr");
+                Log.d("G HoldEditText", "EditorActionListener");
                 return false;
             }
         };

@@ -2,8 +2,11 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +31,8 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings_preference, rootKey);
 
+
+        setTitles();
         setTheme();
         setHardDarkTheme();
         setAverageToAssessment();
@@ -35,6 +40,12 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         setAverageToBelt();
         setDeleteObjects();
         //TODO: pasek u góry refresh; gdy zmienie semestr;
+    }
+
+    private void setTitles(){
+        ArrayList<Preference> preferences = getTitles();
+        setAccentToPreferencesIcon(preferences);
+
     }
 
     private void setTheme() {
@@ -76,9 +87,28 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         ArrayList<String> tableNames = getDelTableNames();
         ArrayList<Integer> counts = getDelCounts(tableNames);
         ArrayList<String> manySummary = getDelSummary(plurals, counts);
-        ArrayList<Preference.OnPreferenceClickListener> listeners = getDelClickListeners(tableNames, manySummary);
+        ArrayList<Preference.OnPreferenceClickListener> listeners = getDelClickListeners(preferences, tableNames, manySummary);
         setDelSummary(preferences, manySummary);
         setDelClickListener(preferences, listeners);
+    }
+
+    private ArrayList<Preference> getTitles(){
+        ArrayList<Preference> preferences = new ArrayList<>();
+        int count = getPreferenceScreen().getPreferenceCount();
+        for(int i = 0; i < count; i++) {
+            Preference preference = getPreferenceScreen().getPreference(i);
+            preferences.add(preference);
+        }
+        return preferences;
+    }
+
+    private void setAccentToPreferencesIcon(ArrayList<Preference> preferences){
+        for(Preference preference : preferences) {
+            Resources.Theme theme = getContext().getTheme();
+            TypedArray a = theme.obtainStyledAttributes(new int[]{R.attr.colorAccentG});
+            int color = a.getColor(0, 0);
+            preference.getIcon().setTint(color);//TODO: podreślone jest ratuj
+        }
     }
 
     private void setVisibilityAverageToAssessmentObjects(boolean visibility){
@@ -144,10 +174,11 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         return manySummary;
     }
 
-    private ArrayList<Preference.OnPreferenceClickListener> getDelClickListeners(ArrayList<String> tableNames, ArrayList<String> manySummary){
+    private ArrayList<Preference.OnPreferenceClickListener> getDelClickListeners(ArrayList<Preference> preferences, ArrayList<String> tableNames, ArrayList<String> manySummary){
         ArrayList<Preference.OnPreferenceClickListener> listeners = new ArrayList<>();
         for(int i = 0; i < tableNames.size(); i++){
-            Preference.OnPreferenceClickListener listener = getDelDialog(tableNames.get(i), manySummary.get(i));
+            String title = preferences.get(i).getTitle().toString().toLowerCase();
+            Preference.OnPreferenceClickListener listener = getDelDialog(tableNames.get(i), title, manySummary.get(i));
             listeners.add(listener);
         }
         return listeners;
@@ -261,6 +292,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
             @Override
             public void onBindEditText(EditText editText) {
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                editText.setSelection(editText.length());
             }
         };
     }
@@ -275,13 +307,15 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         };
     }
 
-    private Preference.OnPreferenceClickListener getDelDialog(final String tableName, final String question){
+    private Preference.OnPreferenceClickListener getDelDialog(final String tableName, final String titleDel, final String question){
         return new Preference.OnPreferenceClickListener() {
-            String title = getString(R.string.del_question, question);
+            String title = getString(R.string.settings_delete) + " " + titleDel;
+            String message = getString(R.string.del_question, question);
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 new AlertDialog.Builder(getContext())
-                        .setMessage(title)
+                        .setTitle(title)
+                        .setMessage(message)
                         .setPositiveButton(android.R.string.yes, getDeleteListener(tableName))
                         .setNegativeButton(android.R.string.no, null)
                         .show();

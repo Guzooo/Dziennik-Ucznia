@@ -221,4 +221,6 @@
     <string name="del_question">Czy chcesz usunąć %1$s?</string>
 
     <string name="title_semester">Semestr</string>
+    <string name="semester_first">Pierwszy</string>
+    <string name="semester_second">Drugi</string>
 </resources>

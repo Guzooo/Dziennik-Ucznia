@@ -23,7 +23,5 @@
         <item name="android:textViewStyle">@style/TextNormal</item>
         <item name="android:colorBackground">?attr/colorPrimaryG</item>
         <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
-
-        <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
     </style>
 </resources>

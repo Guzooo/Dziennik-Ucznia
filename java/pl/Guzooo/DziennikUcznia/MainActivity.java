@@ -24,6 +24,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UtilTheme.setTheme(this);
         setContentView(R.layout.activity_main);
 
         initialization();
