@@ -83,7 +83,24 @@
             app:title="@string/title_hard_dark_mode"
             app:key="@string/ID_HARD_DARK"
             app:summary="@string/summary_hard_dark_mode"
-            app:defaultValue="false"/>
+            app:defaultValue="@bool/DEFAULT_HARD_DARK"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/settings_features"
+        app:icon="@drawable/features">
+
+        <SwitchPreference
+            app:title="@string/title_assessment_window"
+            app:key="@string/ID_ASSESSMENT_WINDOW"
+            app:summary="@string/summary_assessment_window"
+            app:defaultValue="@bool/DEFAULT_ASSESSMENT_WINDOW"/>
+
+        <SwitchPreference
+            app:title="@string/title_hold_edit_text_help_icon"
+            app:key="@string/ID_HOLD_EDIT_TEXT_HELP_ICON"
+            app:summary="@string/summary_hold_edit_text_help_icon"
+            app:defaultValue="@bool/DEFAULT_HOLD_EDIT_TEXT_HELP_ICON"/>
     </PreferenceCategory>
 
     <!--<PreferenceCategory

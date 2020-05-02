@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
@@ -31,7 +30,6 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings_preference, rootKey);
 
-
         setTitles();
         setTheme();
         setHardDarkTheme();
@@ -45,7 +43,6 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
     private void setTitles(){
         ArrayList<Preference> preferences = getTitles();
         setAccentToPreferencesIcon(preferences);
-
     }
 
     private void setTheme() {
@@ -71,7 +68,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
             edit.setOnBindEditTextListener(getBindFloatEditText());
             edit.setOnPreferenceChangeListener(getDontSaveEmptyValueChangeListener());
         }
-        boolean visibility = MainSettingsFragment.getAverageToAssessment(getContext());
+        boolean visibility = DataManager.getAverageToAssessment(getContext());
         setVisibilityAverageToAssessmentObjects(visibility);
     }
 

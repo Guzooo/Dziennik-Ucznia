@@ -101,25 +101,25 @@ public class UtilsAverage {
     }
 
     private static int getWeight(int assessmentWeight){
-        if(MainSettingsFragment.getAverageWeight(context))
+        if(DataManager.getAverageWeight(context))
             return assessmentWeight;
         return 1;
     }
 
     private static float roundAverage(float average) {
-        if(!MainSettingsFragment.getAverageToAssessment(context))
+        if(!DataManager.getAverageToAssessment(context))
             return average;
         if (average == 0)
             return 0;
-        if (average >= MainSettingsFragment.getAverageToSix(context))
+        if (average >= DataManager.getAverageToSix(context))
             return 6;
-        if (average >= MainSettingsFragment.getAverageToFive(context))
+        if (average >= DataManager.getAverageToFive(context))
             return 5;
-        if (average >= MainSettingsFragment.getAverageToFour(context))
+        if (average >= DataManager.getAverageToFour(context))
             return 4;
-        if (average >= MainSettingsFragment.getAverageToThree(context))
+        if (average >= DataManager.getAverageToThree(context))
             return 3;
-        if (average >= MainSettingsFragment.getAverageToTwo(context))
+        if (average >= DataManager.getAverageToTwo(context))
             return 2;
         return 1;
     }

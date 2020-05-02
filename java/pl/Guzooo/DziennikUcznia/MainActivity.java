@@ -27,6 +27,8 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         UtilTheme.setTheme(this);
         setContentView(R.layout.activity_main);
 
+        BugFix.startFixingBugs(this);
+
         initialization();
         setFullScreen();
         setFragment();
@@ -221,7 +223,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private boolean isBelt(float average){
-        if(average >= MainSettingsFragment.getAverageToBelt(this))
+        if(average >= DataManager.getAverageToBelt(this))
             return true;
         return false;
     }

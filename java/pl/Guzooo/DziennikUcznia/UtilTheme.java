@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 public class UtilTheme {
 
     public static void setTheme(Context context){
-        int savedTheme = MainSettingsFragment.getTheme(context);
+        int savedTheme = DataManager.getTheme(context);
         AppCompatDelegate.setDefaultNightMode(savedTheme);
     }
 }

@@ -168,6 +168,7 @@
     <string name="settings_assessment">Oceny</string>
     <string name="settings_delete">Usuń</string>
     <string name="settings_fast">Szybkie</string>
+    <string name="settings_features">Funkcje</string>
     <string name="settings_download">Internet</string>
 
     <string name="title_theme">Wybierz motyw</string>
@@ -223,4 +224,9 @@
     <string name="title_semester">Semestr</string>
     <string name="semester_first">Pierwszy</string>
     <string name="semester_second">Drugi</string>
+
+    <string name="title_assessment_window">Okno edycji oceny</string>
+    <string name="summary_assessment_window">Pokaż okno po dodaniu nowej oceny</string>
+    <string name="title_hold_edit_text_help_icon">Ikona pomocnicza edycji</string>
+    <string name="summary_hold_edit_text_help_icon">Wyświetlaj ikone obok elementów które można edytować przez przytrzymanie</string>
 </resources>

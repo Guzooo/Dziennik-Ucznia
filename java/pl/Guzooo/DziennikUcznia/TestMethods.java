@@ -57,25 +57,25 @@ public class TestMethods {
     }
 
     private static boolean isBelt(float average, Context context){
-        if(average >= MainSettingsFragment.getAverageToBelt(context))
+        if(average >= DataManager.getAverageToBelt(context))
             return true;
         return false;
     }
 
     private static float roundAverage(float average, Context context) {
-        if(!MainSettingsFragment.getAverageToAssessment(context))
+        if(!DataManager.getAverageToAssessment(context))
             return average;
         if (average == 0)
             return 0;
-        if (average >= MainSettingsFragment.getAverageToSix(context))
+        if (average >= DataManager.getAverageToSix(context))
             return 6;
-        if (average >= MainSettingsFragment.getAverageToFive(context))
+        if (average >= DataManager.getAverageToFive(context))
             return 5;
-        if (average >= MainSettingsFragment.getAverageToFour(context))
+        if (average >= DataManager.getAverageToFour(context))
             return 4;
-        if (average >= MainSettingsFragment.getAverageToThree(context))
+        if (average >= DataManager.getAverageToThree(context))
             return 3;
-        if (average >= MainSettingsFragment.getAverageToTwo(context))
+        if (average >= DataManager.getAverageToTwo(context))
             return 2;
         return 1;
     }
