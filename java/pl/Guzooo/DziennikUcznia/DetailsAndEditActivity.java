@@ -273,8 +273,8 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     }
 
     private void SetAssessmentWeight(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
-        if(!sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT))
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, MODE_PRIVATE);
+        if(!sharedPreferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_WEIGHT, SettingActivityOLD.DEFAULT_AVERAGE_WEIGHT))
             editTextAssessmentWeight.setVisibility(View.GONE);
     }
 
@@ -366,7 +366,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
     }
 
     private String SetAverage(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, MODE_PRIVATE);
 
         ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, this);
         ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, this);
@@ -376,7 +376,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
             return "";
 
         String strAverage = getResources().getString(R.string.final_average) + ": " + String.format(Locale.US, "%.2f", average);
-        if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT))
+        if(sharedPreferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivityOLD.DEFAULT_AVERAGE_TO_ASSESSMENT))
             return strAverage + getResources().getString(R.string.separator) + Integer.toString(subject.getRoundedAverageEnd(assessments1, assessments2,sharedPreferences, this)); //TODO: unnecessary delete ;)
         else
             return strAverage;

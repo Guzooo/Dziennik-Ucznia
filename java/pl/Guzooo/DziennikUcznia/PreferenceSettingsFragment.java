@@ -298,7 +298,6 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         return new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                //TODO: pasek u góry refresh;
                 return !newValue.toString().isEmpty();
             }
         };
@@ -335,7 +334,6 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
     }
 
     private void refreshBeforeDeleteTable(){
-        //TODO: pasek u góry refresh;
         setDeleteObjects();
     }
 }

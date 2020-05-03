@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -161,8 +160,8 @@ public class Subject {
         float average = 0;
 
         if (assessments.size() > 0) {
-            SharedPreferences preferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
-            if(preferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT)) {
+            SharedPreferences preferences = context.getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, Context.MODE_PRIVATE);
+            if(preferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_WEIGHT, SettingActivityOLD.DEFAULT_AVERAGE_WEIGHT)) {
                 average = weightedAverage(assessments);
             } else {
                 average = normalAverage(assessments);
@@ -212,15 +211,15 @@ public class Subject {
             return 0;
         }
         int roundedAverage;
-        if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_SIX, SettingActivity.DEFAULT_AVERAGE_TO_SIX)){
+        if(average >= sharedPreferences.getFloat(SettingActivityOLD.PREFERENCE_AVERAGE_TO_SIX, SettingActivityOLD.DEFAULT_AVERAGE_TO_SIX)){
             roundedAverage = 6;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FIVE, SettingActivity.DEFAULT_AVERAGE_TO_FIVE)){
+        } else if(average >= sharedPreferences.getFloat(SettingActivityOLD.PREFERENCE_AVERAGE_TO_FIVE, SettingActivityOLD.DEFAULT_AVERAGE_TO_FIVE)){
             roundedAverage = 5;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_FOUR, SettingActivity.DEFAULT_AVERAGE_TO_FOUR)){
+        } else if(average >= sharedPreferences.getFloat(SettingActivityOLD.PREFERENCE_AVERAGE_TO_FOUR, SettingActivityOLD.DEFAULT_AVERAGE_TO_FOUR)){
             roundedAverage = 4;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_THREE, SettingActivity.DEFAULT_AVERAGE_TO_THREE)){
+        } else if(average >= sharedPreferences.getFloat(SettingActivityOLD.PREFERENCE_AVERAGE_TO_THREE, SettingActivityOLD.DEFAULT_AVERAGE_TO_THREE)){
             roundedAverage = 3;
-        } else if(average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_TWO, SettingActivity.DEFAULT_AVERAGE_TO_TWO)){
+        } else if(average >= sharedPreferences.getFloat(SettingActivityOLD.PREFERENCE_AVERAGE_TO_TWO, SettingActivityOLD.DEFAULT_AVERAGE_TO_TWO)){
             roundedAverage = 2;
         } else {
             roundedAverage = 1;

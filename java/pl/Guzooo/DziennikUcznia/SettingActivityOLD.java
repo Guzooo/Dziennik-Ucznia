@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivityOLD extends AppCompatActivity {
 
     public static final String PREFERENCE_NAME = "averageto";
     public static final String PREFERENCE_AVERAGE_WEIGHT = "averageweight";

@@ -35,6 +35,13 @@ public class UtilsAverage {
         return result;
     }
 
+
+    public static boolean isBelt(float average, Context context){
+        if(average >= DataManager.getAverageToBelt(context))
+            return true;
+        return false;
+    }
+
     public static float getSubjectSemesterAverage(int idSubject, int semester, Context context){
         initialization(context);
         float result = getSubjectSemesterAverage(idSubject, semester);

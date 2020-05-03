@@ -201,8 +201,8 @@ public class AssessmentOptionsFragment extends DialogFragment {
 
     private void SetWeight(View v){
         weight = v.findViewById(R.id.weight);
-        SharedPreferences preferences = getContext().getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
-        if(!preferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT))
+        SharedPreferences preferences = getContext().getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if(!preferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_WEIGHT, SettingActivityOLD.DEFAULT_AVERAGE_WEIGHT))
             weight.setVisibility(View.GONE);
         weight.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
         weight.setText(subjectAssessment.getWeight() + "");

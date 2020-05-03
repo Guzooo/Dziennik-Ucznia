@@ -27,7 +27,7 @@
             android:name=".EditActivity"
             android:label="@string/add_subject" />
         <activity
-            android:name=".SettingActivity"
+            android:name=".SettingActivityOLD"
             android:label="@string/app_G" />
         <activity
             android:name=".NoteActivity" />

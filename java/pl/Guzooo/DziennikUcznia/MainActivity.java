@@ -153,10 +153,8 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void setActionBarSubtitle(){
-        String semester = getSemester();
-        String separator = getString(R.string.separator);
-        String average = getFinalAverage();
-        getSupportActionBar().setSubtitle(semester + separator + average);
+        String subtitle = currentFragment.getActionBarSubtitle();
+        getSupportActionBar().setSubtitle(subtitle);
     }
 
     private void setNotepad(){
@@ -208,23 +206,5 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         MenuItem home = bottomNavigation.getMenu().getItem(1);
         home.setChecked(true);
         onNavigationItemSelected(home);
-    }
-
-    private String getSemester(){
-        int semester = StatisticsActivity.getSemester(this);
-        return getString(R.string.semester_with_colon, semester);
-    }
-
-    private String getFinalAverage(){
-        float average = UtilsAverage.getFinalAverage(this);
-        if(isBelt(average))
-            return getString(R.string.final_average, average) + getString(R.string.separator) + getString(R.string.belt);
-        return getString(R.string.final_average, average);
-    }
-
-    private boolean isBelt(float average){
-        if(average >= DataManager.getAverageToBelt(this))
-            return true;
-        return false;
     }
 }

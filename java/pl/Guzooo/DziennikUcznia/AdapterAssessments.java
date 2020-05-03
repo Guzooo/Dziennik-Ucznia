@@ -44,8 +44,8 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
             assessment = cv.findViewById(R.id.assessment);
             data = cv.findViewById(R.id.data);
 
-            SharedPreferences preferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
-            if(!preferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_WEIGHT, SettingActivity.DEFAULT_AVERAGE_WEIGHT))
+            SharedPreferences preferences = context.getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, Context.MODE_PRIVATE);
+            if(!preferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_WEIGHT, SettingActivityOLD.DEFAULT_AVERAGE_WEIGHT))
                 weight.setVisibility(View.GONE);
 
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(

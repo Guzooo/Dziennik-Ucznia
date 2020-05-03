@@ -51,8 +51,8 @@ public class AdapterStatisticsSubject extends RecyclerView.Adapter<AdapterStatis
     private String getSemesterAssessmentAndAverage(int semester, Subject subject){
         ArrayList<SubjectAssessment> assessments = subject.getAssessment(semester, context);
         String returned = /*String.format(Locale.US, "%.2f",*/ Float.toString(subject.getAverage(assessments, context));
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
-        if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT)){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if(sharedPreferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivityOLD.DEFAULT_AVERAGE_TO_ASSESSMENT)){
             returned += context.getResources().getString(R.string.separator) + subject.getRoundedAverage(assessments, sharedPreferences, context);
         }
         return returned + "\n\n" + subject.getStringAssessments(assessments, context);
@@ -62,8 +62,8 @@ public class AdapterStatisticsSubject extends RecyclerView.Adapter<AdapterStatis
         ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, context);
         ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, context);
         String returned = /*String.format(Locale.US, "%.2f", */Float.toString(subject.getAverageEnd(assessments1, assessments2, context));
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
-        if(sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT)){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if(sharedPreferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivityOLD.DEFAULT_AVERAGE_TO_ASSESSMENT)){
             returned += context.getResources().getString(R.string.separator) + subject.getRoundedAverageEnd(assessments1, assessments2, sharedPreferences, context);
         }
         return returned;

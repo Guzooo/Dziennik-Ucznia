@@ -1,12 +1,9 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -15,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.PreferenceManager;
 
 public class MainSettingsFragment extends MainFragment {
 
@@ -33,6 +29,11 @@ public class MainSettingsFragment extends MainFragment {
         setG();
         setVersionInfo();
         return layout;
+    }
+
+    @Override
+    public String getActionBarSubtitle() {
+        return "";
     }
 
     @Override

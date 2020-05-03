@@ -82,11 +82,11 @@ public class StatisticsActivity extends AppCompatActivity {
                 Subject.subjectOnCursor,
                 null, null, null, null, null);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, MODE_PRIVATE);
         float average = 0f;
         float assessment;
         int number = 0;
-        boolean roundedAverage = sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT);
+        boolean roundedAverage = sharedPreferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivityOLD.DEFAULT_AVERAGE_TO_ASSESSMENT);
 
         if (cursor.moveToFirst()) {
             do {
@@ -116,7 +116,7 @@ public class StatisticsActivity extends AppCompatActivity {
             return "0.0";
         }
         average = average / number;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
+        if (average >= sharedPreferences.getFloat(SettingActivityOLD.PREFERENCE_AVERAGE_TO_BELT, SettingActivityOLD.DEFAULT_AVERAGE_TO_BELT)) {
             return Float.toString(average) + getResources().getString(R.string.separator) + getResources().getString(R.string.belt);
         }
         return Float.toString(average);
@@ -128,11 +128,11 @@ public class StatisticsActivity extends AppCompatActivity {
                 Subject.subjectOnCursor,
                 null, null, null, null, null);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, MODE_PRIVATE);
         float average = 0f;
         float assessment;
         int number = 0;
-        boolean roundedAverage = sharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT);
+        boolean roundedAverage = sharedPreferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivityOLD.DEFAULT_AVERAGE_TO_ASSESSMENT);
 
         if (cursor.moveToFirst()) {
             do {
@@ -158,7 +158,7 @@ public class StatisticsActivity extends AppCompatActivity {
             return "0.0";
         }
         average = average / number;
-        if (average >= sharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
+        if (average >= sharedPreferences.getFloat(SettingActivityOLD.PREFERENCE_AVERAGE_TO_BELT, SettingActivityOLD.DEFAULT_AVERAGE_TO_BELT)) {
             return Float.toString(average) + getResources().getString(R.string.separator) + getResources().getString(R.string.belt);
         }
         return Float.toString(average);
