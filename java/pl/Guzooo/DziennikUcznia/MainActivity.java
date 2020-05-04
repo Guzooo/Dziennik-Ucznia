@@ -36,16 +36,20 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         setPillMenu();
         setAddFAB();
         setActionFAB();
-        setActionBarSubtitle();
         setNotepad();
         NotificationOnline.checkAutomatically(this);
         NotificationsChannels.CreateNotificationsChannels(this);//TODO: czy to musi się wykonywać za każdym uruchomieniem aplikacji
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        setActionBarSubtitle();
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
-        setActionBarSubtitle();
         currentFragment.onRestart();
     }
 

@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,24 +18,12 @@ import java.util.ArrayList;
 
 public class MainHomeFragment extends MainFragment {
 
-/*
-    //  TODO: usunąć zakomentowanie po usunięciu dopiska 2020 z nazwy klasy
-    //  private final String PREFERENCE_NOTEPAD = "notepad";
-
-    private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
-
-    private EditText notepad;
-*/
-
     private SQLiteDatabase db;
     private AdapterMainRecycler mainAdapter;
+    private RecyclerView mainRecycler;
 
     private ArrayList<String> titles = new ArrayList<>();
     private ArrayList<Cursor> subjectCursors = new ArrayList<>();
-
-    private RecyclerView mainRecycler;
-
-    private String notepad;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +44,7 @@ public class MainHomeFragment extends MainFragment {
         super.onRestart();
         try{
             refreshSubjectData();
-            mainAdapter.changeData(titles,subjectCursors);
+            mainAdapter.changeData(titles, subjectCursors);
         } catch (SQLiteException e){
             Database2020.errorToast(getContext());
         }

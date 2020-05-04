@@ -16,7 +16,7 @@
         <item name="android:colorBackground">?attr/colorPrimaryG</item>
         <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar">true</item><!--TODO: sprawdz light theme bez sys i reczny-->
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="Logo">

@@ -7,9 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHolder>{
+public class AdapterLessonPlanDay extends RecyclerView.Adapter<AdapterLessonPlanDay.ViewHolder> {
     private Listener listener;
     private Cursor cursor;
 
@@ -24,40 +25,38 @@ public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private View mainView;
         private TextView name;
-        private TextView unpreparedness;
-        private TextView numberNotes;
+        private TextView time;
+        private TextView classroom;
 
         public ViewHolder(View v){
             super(v);
             mainView = v;
             name = v.findViewById(R.id.text1);
-            unpreparedness = v.findViewById(R.id.text2);
-            numberNotes = v.findViewById(R.id.text3);
+            time = v.findViewById(R.id.text2);
+            classroom = v.findViewById(R.id.text3);
         }
 
         private Context getContext(){
             return mainView.getContext();
         }
 
-        private void setName(Subject2020 subject){
-            String name = subject.getName();
+        private void setName(String name){
             this.name.setText(name);
         }
 
-        private void setUnpreparedness(Subject2020 subject){
-            int unpreparedness = subject.getUnpreparednessOfCurrentSemester(getContext());
-            String unpreparednessStr = getContext().getString(R.string.number_of_unpreparedness, unpreparedness);
-            this.unpreparedness.setText(unpreparednessStr);
+        private void setTime(ElementOfPlan2020 elementOfPlan){
+            String time = elementOfPlan.getTime();
+            this.time.setText(time);
         }
 
-        private void setNumberNotes(int numberNotes){
-            String numberNotesStr = getContext().getString(R.string.number_of_notes, numberNotes);
-            this.numberNotes.setText(numberNotesStr);
+        private void setClassroom(ElementOfPlan2020 elementOfPlan2020){
+            String classroom = elementOfPlan2020.getClassroom();
+            this.classroom.setText(classroom);
         }
     }
 
     @Override
-    public AdapterSubject.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.three_text_card_view, parent, false);
         return new ViewHolder(v);
     }
@@ -65,29 +64,29 @@ public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if(cursor.moveToPosition(position)){
-            Subject2020 subject = getSubject();
-            holder.setName(subject);
-            holder.setUnpreparedness(subject);
-            holder.setNumberNotes(getNumberNotes());
+            ElementOfPlan2020 elementOfPlan = getElementOfPlan();
+            holder.setName(getSubjectName());
+            holder.setTime(elementOfPlan);
+            holder.setClassroom(elementOfPlan);
             setOnClickThisView(holder, position);
         }
     }
 
-    private Subject2020 getSubject(){
-        Subject2020 subject = new Subject2020();
-        subject.setVariablesOfCursor(cursor);
-        return subject;
+    private ElementOfPlan2020 getElementOfPlan(){
+        ElementOfPlan2020 elementOfPlan = new ElementOfPlan2020();
+        elementOfPlan.setVariablesOfCursor(cursor);
+        return elementOfPlan;
     }
 
-    private int getNumberNotes(){
-        int columnNumberNotesIndex = cursor.getColumnIndex(Note2020.DATABASE_NAME);
-        return cursor.getInt(columnNumberNotesIndex);
+    private String getSubjectName(){
+        int columnSubjectNameIndex = cursor.getColumnIndex(Subject2020.DATABASE_NAME);
+        return cursor.getString(columnSubjectNameIndex);
     }
 
     private void setOnClickThisView(ViewHolder holder, final int position){
         holder.mainView.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 if(listener != null && cursor.moveToPosition(position))
                     listener.onClick(cursor.getInt(0));
             }
@@ -99,7 +98,7 @@ public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHold
         return cursor.getCount();
     }
 
-    public AdapterSubject(Cursor cursor){
+    public AdapterLessonPlanDay(Cursor cursor){
         this.cursor = cursor;
     }
 

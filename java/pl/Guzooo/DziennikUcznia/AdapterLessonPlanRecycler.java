@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycler.ViewHolder>{
+public class AdapterLessonPlanRecycler extends RecyclerView.Adapter<AdapterLessonPlanRecycler.ViewHolder> {
     private RecyclerView recyclerView;
     private Listener listener;
     private ArrayList<String> titles = new ArrayList<>();
     private ArrayList<Cursor> cursors = new ArrayList<>();
-    private ArrayList<AdapterSubject> subjectAdapters = new ArrayList<>();
+    private ArrayList<AdapterLessonPlanDay> lessonPlanDayAdapters= new ArrayList<>();
 
     public interface Listener{
         void onClick(int id);
@@ -43,11 +43,11 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
             return mainView.getContext();
         }
 
-        private void setTile(String title){
+        private void setTitle(String title){
             this.title.setText(title);
         }
 
-        private void setRecycler(AdapterSubject adapter){
+        private void setRecycler(AdapterLessonPlanDay adapter){
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             recycler.setLayoutManager(layoutManager);
             recycler.setAdapter(adapter);
@@ -58,7 +58,6 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
-
     }
 
     @Override
@@ -70,8 +69,8 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String title = getTitle(position);
-        AdapterSubject adapter = getAdapter(position);
-        holder.setTile(title);
+        AdapterLessonPlanDay adapter = getAdapter(position);
+        holder.setTitle(title);
         holder.setRecycler(adapter);
     }
 
@@ -80,27 +79,27 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
         return cursors.size();
     }
 
-    public AdapterMainRecycler(ArrayList<String> titles, ArrayList<Cursor> cursors){
+    public AdapterLessonPlanRecycler(ArrayList<String> titles, ArrayList<Cursor> cursors){
         this.titles.addAll(titles);
         this.cursors.addAll(cursors);
         createAdapters();
     }
 
-    public void changeData(ArrayList<String> newTitles, ArrayList<Cursor> newCursors){
-        changeCursors(newCursors);
-        if(!isTitlesSizeIsSame(newTitles)) {
+    public void changeData(ArrayList<String> newTitles, ArrayList<Cursor> newCursor){
+        changeCursors(newCursor);
+        if(!isTitlesSizeIsSame(newTitles)){
             notifyChangeThisAdapter(newTitles);
             return;
         }
-        for (int i = 0; i < titles.size(); i++)
-            if (!isTitlesTextIsSame(newTitles, i)) {
+        for(int i = 0; i < titles.size(); i++)
+            if(!isTitlesTextIsSame(newTitles, i)){
                 notifyChangeThisAdapter(newTitles);
                 return;
             }
-        notifyChangeInnerAdapters();
+        notifyChangeInnerAdapter();
     }
 
-    public void closeCursors(){
+    public void closeCursor(){
         for(Cursor cursor : cursors)
             cursor.close();
     }
@@ -109,8 +108,8 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
         return titles.get(position);
     }
 
-    private AdapterSubject getAdapter(int position){
-        return subjectAdapters.get(position);
+    private AdapterLessonPlanDay getAdapter(int position){
+        return lessonPlanDayAdapters.get(position);
     }
 
     private Cursor getCursor(int position){
@@ -124,17 +123,17 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
         notifyDataSetChanged();
     }
 
-    private void notifyChangeInnerAdapters(){
-        for(int i = 0; i < subjectAdapters.size(); i++)
+    private void notifyChangeInnerAdapter(){
+        for(int i = 0; i < lessonPlanDayAdapters.size(); i++)
             getAdapter(i).changeCursor(getCursor(i));
     }
 
-    private void scrollToTop(){
+    private void scrollToTop() {
         recyclerView.scrollToPosition(0);
     }
 
     private void changeCursors(ArrayList<Cursor> cursors){
-        closeCursors();
+        closeCursor();
         this.cursors.clear();
         this.cursors.addAll(cursors);
     }
@@ -145,28 +144,28 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     }
 
     private void changeAdapters(){
-        this.subjectAdapters.clear();
+        this.lessonPlanDayAdapters.clear();
         createAdapters();
     }
 
     private void createAdapters(){
         for(Cursor cursor : cursors){
-            AdapterSubject adapter = createAdapter(cursor);
-            subjectAdapters.add(adapter);
+            AdapterLessonPlanDay adapter = createAdapter(cursor);
+            lessonPlanDayAdapters.add(adapter);
         }
     }
 
-    private AdapterSubject createAdapter(Cursor cursor){
-        AdapterSubject subjectAdapter = new AdapterSubject(cursor);
-        subjectAdapter.setListener(getListener());
-        return subjectAdapter;
+    private AdapterLessonPlanDay createAdapter(Cursor cursor){
+        AdapterLessonPlanDay lessonPlanDayAdapter = new AdapterLessonPlanDay(cursor);
+        lessonPlanDayAdapter.setListener(getListener());
+        return lessonPlanDayAdapter;
     }
 
-    private AdapterSubject.Listener getListener(){
-        return new AdapterSubject.Listener() {
+    private AdapterLessonPlanDay.Listener getListener(){
+        return new AdapterLessonPlanDay.Listener(){
             @Override
             public void onClick(int id) {
-                if(listener != null)
+                if (listener != null)
                     listener.onClick(id);
             }
         };
