@@ -18,6 +18,7 @@ public class MainSettingsFragment extends MainFragment {
     private final String FACEBOOK = "https://www.facebook.com/GuzoooApps";
     private final String MESSENGER = "https://www.messenger.com/t/GuzoooApps";
 
+    private View nestScroll;
     private View logoG;
     private View infoG;
 
@@ -25,6 +26,7 @@ public class MainSettingsFragment extends MainFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_main_settings, container, false);
         initialization(layout);
+        setFullScreen();
         setSettingPreferenceFragment();
         setG();
         setVersionInfo();
@@ -42,8 +44,13 @@ public class MainSettingsFragment extends MainFragment {
     }
 
     private void initialization(View v){
+        nestScroll = v.findViewById(R.id.nest_scroll);
         logoG = v.findViewById(R.id.logo_g);
         infoG = v.findViewById(R.id.info_g);
+    }
+
+    private void setFullScreen(){
+        UtilsFullScreen.setPaddings(nestScroll, this);
     }
 
     private void setSettingPreferenceFragment(){

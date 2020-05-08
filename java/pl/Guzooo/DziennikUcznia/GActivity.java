@@ -2,8 +2,12 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsCompat;
+
+import java.util.ArrayList;
 
 public abstract class GActivity extends AppCompatActivity {
 
@@ -12,16 +16,41 @@ public abstract class GActivity extends AppCompatActivity {
 
     private String currentDarkTheme;
 
+    private WindowInsetsCompat insets;
+    private ArrayList<View> viewsWithoutPaddings = new ArrayList<>();
+
+    public WindowInsetsCompat getInsets() {
+        return insets;
+    }
+
+    public void setInsets(WindowInsetsCompat insets) {
+        this.insets = insets;
+    }
+
+    public void addViewWihoutPaddings(View v){
+        viewsWithoutPaddings.add(v);
+    }
+
+    public void setPaddings(){
+        for(View v : viewsWithoutPaddings)
+            UtilsFullScreen.setPaddings(v, insets, this);
+        viewsWithoutPaddings.clear();
+    }
+
+    public int getBottomPadding(){
+        return 0;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setTheme();
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onRestart() {//TODO:jakby się nie zmieniał theme to trzeba resume
-        super.onRestart();
         refreshTheme();
+        super.onRestart();
     }
 
     private void setTheme(){
@@ -45,9 +74,5 @@ public abstract class GActivity extends AppCompatActivity {
                 this.recreate();
             }
         }
-    }
-
-    public int getBottomPadding(){
-        return 0;
     }
 }

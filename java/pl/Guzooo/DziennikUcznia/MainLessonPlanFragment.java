@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -30,6 +31,7 @@ public class MainLessonPlanFragment extends MainFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.only_recycler, container, false);
         initialization(layout);
+        setFullScreen();
         try{
             setElementOfLessonPlanData();
             setAdapter();
@@ -73,6 +75,10 @@ public class MainLessonPlanFragment extends MainFragment {
         recycler = v.findViewById(R.id.recycler);
     }
 
+    private void setFullScreen(){
+        UtilsFullScreen.setPaddings(recycler, this);
+    }
+
     private void setElementOfLessonPlanData(){
         setElementOfLessonPlanCursors();
         setElementOfLessonPlanTitles();
@@ -112,11 +118,9 @@ public class MainLessonPlanFragment extends MainFragment {
 
     private void goToToday(){
         int todayPosition = getTodayFromTitles();
-        NestedScrollView v = getActivity().findViewById(R.id.nest_scroll);
-        v.setSmoothScrollingEnabled(true);
-        v.scrollTo(0, todayPosition*100);
-        v.arrowScroll(2);
-        Log.d("frag", "scroll to " + todayPosition);
+        RecyclerView.SmoothScroller smoothScroller = getSmoothScroller();
+        smoothScroller.setTargetPosition(todayPosition);
+        recycler.getLayoutManager().startSmoothScroll(smoothScroller);
     }
 
     private void setElementOfLessonPlanCursors(){
@@ -198,5 +202,13 @@ public class MainLessonPlanFragment extends MainFragment {
             if(titles.get(i).equals(todayName))
                 return i;
         return 0;
+    }
+
+    private LinearSmoothScroller getSmoothScroller(){
+        return new LinearSmoothScroller(getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
     }
 }

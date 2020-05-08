@@ -1,88 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nest_scroll"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context=".MainSettingsFragment">
+    android:layout_height="match_parent"
+    tools:context=".MainSettingsFragment"
+    android:clipToPadding="false">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/logo_g"
-            android:src="@mipmap/ic_g"
-            android:layout_margin="@dimen/margin_standard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/Logo"/>
-
-        <LinearLayout
-            android:id="@+id/info_g"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/gBlack"
-            android:visibility="invisible"
-            android:clickable="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/logo_g"
+                android:src="@mipmap/ic_g"
+                android:layout_margin="@dimen/margin_standard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                style="@style/Logo"/>
 
             <LinearLayout
+                android:id="@+id/info_g"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/gBlack"
+                android:visibility="invisible"
+                android:clickable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/version"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="@dimen/margin_standard"
+                        style="@style/TextNormal.G"/>
+
+                    <ImageView
+                        android:id="@+id/close"
+                        android:src="@drawable/close"
+                        style="@style/ClickableImages.G"/>
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/version"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:text="@string/app_G"
                     android:layout_margin="@dimen/margin_standard"
-                    style="@style/TextNormal.G"/>
+                    android:layout_gravity="center"
+                    style="@style/TextTitle.G"/>
 
-                <ImageView
-                    android:id="@+id/close"
-                    android:src="@drawable/close"
-                    style="@style/ClickableImages.G"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_standard"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:id="@+id/facebook"
+                        android:src="@drawable/facebook"
+                        android:layout_marginRight="@dimen/margin_standard"
+                        android:layout_marginEnd="@dimen/margin_standard"
+                        style="@style/ClickableImages.G"/>
+
+                    <ImageView
+                        android:id="@+id/messenger"
+                        android:src="@drawable/messenger"
+                        style="@style/ClickableImages.G"/>
+                </LinearLayout>
             </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_G"
-                android:layout_margin="@dimen/margin_standard"
-                android:layout_gravity="center"
-                style="@style/TextTitle.G"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_standard"
-                android:layout_gravity="center">
-
-                <ImageView
-                    android:id="@+id/facebook"
-                    android:src="@drawable/facebook"
-                    android:layout_marginRight="@dimen/margin_standard"
-                    android:layout_marginEnd="@dimen/margin_standard"
-                    style="@style/ClickableImages.G"/>
-
-                <ImageView
-                    android:id="@+id/messenger"
-                    android:src="@drawable/messenger"
-                    style="@style/ClickableImages.G"/>
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

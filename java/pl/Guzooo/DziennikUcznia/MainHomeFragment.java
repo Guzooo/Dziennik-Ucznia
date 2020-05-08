@@ -29,6 +29,7 @@ public class MainHomeFragment extends MainFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.only_recycler, container, false);
         initialization(layout);
+        setFullScreen();
         try{
             setSubjectData();
             setMainAdapter();
@@ -75,6 +76,10 @@ public class MainHomeFragment extends MainFragment {
         db = Database2020.getToReading(getContext());
         mainRecycler = v.findViewById(R.id.recycler);
         //TODO:notepad = settings.getNotepad();
+    }
+
+    private void setFullScreen(){
+        UtilsFullScreen.setPaddings(mainRecycler, this);
     }
 
     private void setSubjectData(){

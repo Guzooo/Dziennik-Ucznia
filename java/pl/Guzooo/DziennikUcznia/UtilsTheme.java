@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-public class UtilTheme {
+public class UtilsTheme {
 
     public static void setTheme(Context context){
         int savedTheme = DataManager.getTheme(context);

@@ -6,6 +6,7 @@ import android.view.ViewTreeObserver;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 public class UtilsFullScreen {
 
@@ -19,32 +20,28 @@ public class UtilsFullScreen {
         ViewCompat.setOnApplyWindowInsetsListener(v, listener);
     }
 
-    public static void setPaddings(View v){//Nie używana
-        setPaddings(v, 0,0,0,0);
+    public static void setPaddings(View v, Fragment fragment){
+        GActivity activity = (GActivity) fragment.getActivity();
+        WindowInsetsCompat insets = activity.getInsets();
+        if(insets == null)
+            activity.addViewWihoutPaddings(v);
+        else
+            setPaddings(v, insets, activity);
     }
 
     public static void setPaddings(View v, GActivity activity){
-        ViewCompat.setOnApplyWindowInsetsListener(v, getApplyPaddingsListener(activity));
+        ViewCompat.setOnApplyWindowInsetsListener(v, getApplyPaddingListener(activity));
     }
 
-    public static void setPaddings(View v, int left, int top, int right, int bottom){//Nie Uzywana
-        ViewCompat.setOnApplyWindowInsetsListener(v, getApplyPaddingsListener(left, top, right, bottom));
+    public static void setPaddings(View v, WindowInsetsCompat insets, GActivity activity){
+        v.setPadding(insets.getSystemWindowInsetLeft(),
+                insets.getSystemWindowInsetTop(),
+                insets.getSystemWindowInsetRight(),
+                insets.getSystemWindowInsetBottom() + activity.getBottomPadding());
+
     }
 
-    private static OnApplyWindowInsetsListener getApplyPaddingsListener(final int left, final int top, final int right, final int bottom){//Nie Używana
-        return new OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-                v.setPadding(insets.getSystemWindowInsetLeft() + left,
-                        insets.getSystemWindowInsetTop() + top,
-                        insets.getSystemWindowInsetRight() + right,
-                        insets.getSystemWindowInsetBottom() + bottom);
-                return insets;
-            }
-        };
-    }
-
-    private static OnApplyWindowInsetsListener getApplyPaddingsListener(final GActivity activity){
+    private static OnApplyWindowInsetsListener getApplyPaddingListener(final GActivity activity){
         return new OnApplyWindowInsetsListener() {
             @Override
             public WindowInsetsCompat onApplyWindowInsets(final View v, final WindowInsetsCompat insets) {
@@ -52,10 +49,7 @@ public class UtilsFullScreen {
                 viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        v.setPadding(insets.getSystemWindowInsetLeft(),
-                                insets.getSystemWindowInsetTop(),
-                                insets.getSystemWindowInsetRight(),
-                                insets.getSystemWindowInsetBottom() + activity.getBottomPadding());
+                        setPaddings(v, insets, activity);
                     }
                 });
                 return insets;

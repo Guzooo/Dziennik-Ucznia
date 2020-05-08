@@ -6,17 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nest_scroll"
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false">
-
-        <FrameLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_action"

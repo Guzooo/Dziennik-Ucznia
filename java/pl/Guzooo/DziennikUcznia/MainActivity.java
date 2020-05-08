@@ -22,9 +22,15 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     private PillMenu pillMenu;
 
     @Override
+    public int getBottomPadding() {
+        int bottom = bottomNavigation.getHeight();
+        return bottom;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UtilTheme.setTheme(this);
+        UtilsTheme.setTheme(this);
         setContentView(R.layout.activity_main);
 
         BugFix.startFixingBugs(this);
@@ -102,12 +108,6 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
             super.onBackPressed();
     }
 
-    @Override
-    public int getBottomPadding() {
-        int bottom = bottomNavigation.getHeight();
-        return bottom;
-    }
-
     private void initialization(){
         bottomNavigation = findViewById(R.id.bottom_navigation);
         addFAB = findViewById(R.id.fab_add);
@@ -118,7 +118,6 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     private void setFullScreen(){
         UtilsFullScreen.setUIVisibility(bottomNavigation);
         UtilsFullScreen.setApplyWindowInsets(bottomNavigation, getWindowsInsetsListener());
-        UtilsFullScreen.setPaddings(findViewById(R.id.nest_scroll), this);
     }
 
     private void setFragment() {
@@ -193,6 +192,8 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         return new OnApplyWindowInsetsListener() {
             @Override
             public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                setInsets(insets);
+                setPaddings();
                 setBottomNavigationSpacing(insets);
                 return insets;
             }
