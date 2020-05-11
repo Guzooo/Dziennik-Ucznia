@@ -23,6 +23,16 @@ public class MainSettingsFragment extends MainFragment {
     private View infoG;
 
     @Override
+    public String getActionBarSubtitle() {
+        return "";
+    }
+
+    @Override
+    public boolean isVisibleAddFAB() {
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_main_settings, container, false);
         initialization(layout);
@@ -31,16 +41,6 @@ public class MainSettingsFragment extends MainFragment {
         setG();
         setVersionInfo();
         return layout;
-    }
-
-    @Override
-    public String getActionBarSubtitle() {
-        return "";
-    }
-
-    @Override
-    public boolean isVisibleAddFAB() {
-        return false;
     }
 
     private void initialization(View v){

@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 public class Subject2020 extends DatabaseObject{
     public static final String NAME = "NAME";
     public static final String TEACHER = "TEACHER";
@@ -108,7 +110,7 @@ public class Subject2020 extends DatabaseObject{
     }
 
     public int getUnpreparednessOfCurrentSemester(Context context){
-        int semester = StatisticsActivity.getSemester(context);
+        int semester = DataManager.getSemester(context);
         if(semester == 1)
             return getUnpreparednessOfSemesterI();
         return getUnpreparednessOfSemesterII();
@@ -138,6 +140,14 @@ public class Subject2020 extends DatabaseObject{
         this.unpreparednessDefault = unpreparednessDefault;
     }
 
+    private int getUnpreparednessNotMinus(int unpreparedness){
+        if(unpreparedness == -1)
+            return getUnpreparednessDefault();
+        return unpreparedness;
+    }
+
+    //TODO:popracuj nad metodami z nieprzygotowaniami
+
     public String getDescription() {
         return description;
     }
@@ -146,21 +156,18 @@ public class Subject2020 extends DatabaseObject{
         this.description = description;
     }
 
-    private int getUnpreparednessNotMinus(int unpreparedness){
-        if(unpreparedness == -1)
-            return getUnpreparednessDefault();
-        return unpreparedness;
-    }
- /*   public int getUnpreparednessOfCurrentSemester(Context context){
-        getUnpreparednessOfSemester(StatisticsActivity.getSemester(context));
+    public float getFinalAverage(Context context){
+        return UtilsAverage.getSubjectFinalAverage(getId(), context);
     }
 
-    public int getUnpreparednessOfSemester(int semester){
-        if(semester == 1)
-            return unpreparednessOfSemesterI;
-        return unpreparednessOfSemesterII;
+    public float getSemesterAverage(int semester, Context context){
+        return UtilsAverage.getSubjectSemesterAverage(getId(), semester, context);
     }
 
+    public ArrayList<Assessment2020> getAssessments(int semester, Context context){
+        return UtilsAverage.getAssemssents(getId(), semester, context);
+    }
+ /*
     public void useUnpreparedness(Context context){
         if (StatisticsActivity.getSemester(context) == 1)
             unpreparednessOfSemesterI--;

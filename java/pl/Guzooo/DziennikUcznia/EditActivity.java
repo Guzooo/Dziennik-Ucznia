@@ -72,17 +72,17 @@ public class EditActivity extends AppCompatActivity {
 
     public void ClickPlus(View v){
         subject.addAssessment(editTextAssessment.getText().toString().trim(),"" , this);
-        textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
+        textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(DataManager.getSemester(this), this), this));
     }
 
     public void ClickMinus(View v){
         subject.removeAssessment(editTextAssessment.getText().toString().trim(), this);
-        textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
+        textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(DataManager.getSemester(this), this), this));
     }
 
     public void ClickAllMinus(View v){
         subject.removeAllAssessments(this);
-        textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
+        textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(DataManager.getSemester(this), this), this));
     }
 
     public void ClickDuplicateSubject(View v){
@@ -155,8 +155,8 @@ public class EditActivity extends AppCompatActivity {
         editTextDescription.setText(subject.getDescription());
         viewCurrentAssessmentBox.setVisibility(View.VISIBLE);
         textViewEditAssessmentTitle.setText(R.string.edit_edit_assessment);
-        textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
-        textViewCurrentAssessment.setText(subject.getStringAssessments(subject.getAssessment(StatisticsActivity.getSemester(this), this), this));
+        textViewEditAssessment.setText(subject.getStringAssessments(subject.getAssessment(DataManager.getSemester(this), this), this));
+        textViewCurrentAssessment.setText(subject.getStringAssessments(subject.getAssessment(DataManager.getSemester(this), this), this));
         editTextUnpreparedness.setText(Integer.toString(subject.getUnpreparedness()));
         buttonSave.setText(R.string.save);
         buttonDuplicate.setVisibility(View.VISIBLE);

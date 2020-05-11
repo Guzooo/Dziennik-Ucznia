@@ -18,4 +18,5 @@
     <attr name="colorSecondaryG" format="reference"/>
     <attr name="colorSecondaryDarkG" format="reference"/>
     <attr name="colorAccentG" format="reference"/>
+    <attr name="colorAttentionG" format="reference"/>
 </resources>

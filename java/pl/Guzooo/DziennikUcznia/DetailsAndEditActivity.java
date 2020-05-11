@@ -292,7 +292,7 @@ public class DetailsAndEditActivity extends AppCompatActivity {
         assessmentsCursor = db.query("ASSESSMENTS",
                 SubjectAssessment.subjectAssessmentOnCursor,
                 "TAB_SUBJECT = ? AND SEMESTER = ?",
-                new String[]{Integer.toString(subject.getId()), Integer.toString(StatisticsActivity.getSemester(this))},
+                new String[]{Integer.toString(subject.getId()), Integer.toString(DataManager.getSemester(this))},
                 null, null, null);
         if (assessmentsAdapter != null)
             assessmentsAdapter.changeCursor(assessmentsCursor);

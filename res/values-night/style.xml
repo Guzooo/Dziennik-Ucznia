@@ -6,6 +6,7 @@
         <item name="colorPrimaryTranslucentG">@color/hardDarkTranslucent</item>
         <item name="colorSecondaryG">@color/darkDark</item>
         <item name="colorSecondaryDarkG">@color/dark</item>
+        <item name="colorAttentionG">@color/attention</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat">
@@ -15,6 +16,7 @@
         <item name="colorSecondaryG">@color/light</item>
         <item name="colorSecondaryDarkG">@color/lightDark</item>
         <item name="colorAccentG">@color/accent</item>
+        <item name="colorAttentionG">@color/attention</item>
 
         <item name="colorPrimary">?attr/colorPrimaryTranslucentG</item>
         <item name="colorPrimaryDark">?attr/colorPrimaryTranslucentG</item>

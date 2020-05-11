@@ -142,7 +142,7 @@ public class AssessmentOptionsFragment extends DialogFragment {
 
     private void SetTitle(View v){
         TextView textViewOne = v.findViewById(R.id.title);
-        textViewOne.setText(getContext().getString(R.string.semester, StatisticsActivity.getSemester(getContext())));
+        textViewOne.setText(getContext().getString(R.string.semester, DataManager.getSemester(getContext())));
     }
 
     private void SetEditIcon(View v){

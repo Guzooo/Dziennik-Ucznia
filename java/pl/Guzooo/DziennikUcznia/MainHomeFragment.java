@@ -26,6 +26,21 @@ public class MainHomeFragment extends MainFragment {
     private ArrayList<Cursor> subjectCursors = new ArrayList<>();
 
     @Override
+    public boolean isHome() {
+        return true;
+    }
+
+    @Override
+    public int getIconActionFAB() {
+        return R.drawable.notepad;
+    }
+
+    @Override
+    public void clickIconActionFAB() {
+        openNotepad();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.only_recycler, container, false);
         initialization(layout);
@@ -55,21 +70,6 @@ public class MainHomeFragment extends MainFragment {
     public void onDestroyView() {
         super.onDestroyView();
         closeDatabaseElements();
-    }
-
-    @Override
-    public boolean isHome() {
-        return true;
-    }
-
-    @Override
-    public int getIconActionFAB() {
-        return R.drawable.notepad;
-    }
-
-    @Override
-    public void clickIconActionFAB() {
-        openNotepad();
     }
 
     private void initialization(View v){

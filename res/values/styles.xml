@@ -7,6 +7,7 @@
         <item name="colorSecondaryG">@color/dark</item>
         <item name="colorSecondaryDarkG">@color/darkDark</item>
         <item name="colorAccentG">@color/accent3</item>
+        <item name="colorAttentionG">@color/attention</item>
 
         <item name="colorPrimary">?attr/colorPrimaryTranslucentG</item>
         <item name="colorPrimaryDark">?attr/colorPrimaryTranslucentG</item>
@@ -39,6 +40,11 @@
 
     <style name="ClickableImages.G">
         <item name="android:tint">@color/gWhite</item>
+    </style>
+
+    <style name="AttentionImage" parent="ClickableImages">
+        <item name="android:tint">?attr/colorAttentionG</item>
+        <item name="android:src">@drawable/attention</item>
     </style>
 
     <style name="TextNormal">

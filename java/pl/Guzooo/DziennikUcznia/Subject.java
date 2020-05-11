@@ -285,7 +285,7 @@ public class Subject {
 
     public int getCurrentUnpreparedness(Context context){
         int i;
-        if(StatisticsActivity.getSemester(context) == 1){
+        if(DataManager.getSemester(context) == 1){
             i = unpreparedness1;
         } else {
             i = unpreparedness2;
@@ -322,7 +322,7 @@ public class Subject {
     }
 
     public void setCurrentUnpreparedness(int unpreparedness, Context context){
-        if(StatisticsActivity.getSemester(context) == 1){
+        if(DataManager.getSemester(context) == 1){
             setUnpreparedness1(unpreparedness);
         } else {
             setUnpreparedness2(unpreparedness);
@@ -371,7 +371,7 @@ public class Subject {
         assessment.setAssessment(Float.parseFloat(assessments));
         assessment.setWeight(Integer.valueOf(weight));
         assessment.setSubjectId(getId());
-        assessment.setSemester(StatisticsActivity.getSemester(context));
+        assessment.setSemester(DataManager.getSemester(context));
         return assessment;
     }
 
@@ -382,7 +382,7 @@ public class Subject {
         }
         Float assessment = Float.parseFloat(string);
 
-        ArrayList<SubjectAssessment> assessments = getAssessment(StatisticsActivity.getSemester(context),context);
+        ArrayList<SubjectAssessment> assessments = getAssessment(DataManager.getSemester(context),context);
 
 
         if(assessments.size() == 0)
@@ -399,7 +399,7 @@ public class Subject {
     }
 
     public void removeAllAssessments(Context context){
-        Database2020.destroyAllAssessment("TAB_SUBJECT = ? AND SEMESTER =?", new String[]{Integer.toString(getId()), Integer.toString(StatisticsActivity.getSemester(context))}, context);
+        Database2020.destroyAllAssessment("TAB_SUBJECT = ? AND SEMESTER =?", new String[]{Integer.toString(getId()), Integer.toString(DataManager.getSemester(context))}, context);
     }
 
     public int getSizeNotes(Context context){

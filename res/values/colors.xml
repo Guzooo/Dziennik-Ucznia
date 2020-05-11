@@ -15,10 +15,12 @@
     <color name="accent2">#fff83a</color>
     <color name="accent3">#ff8f3a</color>
 
-    <color name="colorPrimary">#0F1216</color>
+    <color name="colorPrimary">#0F1216</color><!--Del-->
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#737373</color>
 
     <color name="gBlack">#000000</color>
     <color name="gWhite">#FFFFFF</color>
+
+    <color name="attention">#FF0000</color>
 </resources>

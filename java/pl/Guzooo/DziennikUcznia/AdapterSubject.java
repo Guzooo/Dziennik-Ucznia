@@ -73,6 +73,20 @@ public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHold
         }
     }
 
+    @Override
+    public int getItemCount() {
+        return cursor.getCount();
+    }
+
+    public AdapterSubject(Cursor cursor){
+        this.cursor = cursor;
+    }
+
+    public void changeCursor(Cursor cursor){
+        this.cursor = cursor;
+        notifyDataSetChanged();
+    }
+
     private Subject2020 getSubject(){
         Subject2020 subject = new Subject2020();
         subject.setVariablesOfCursor(cursor);
@@ -92,19 +106,5 @@ public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHold
                     listener.onClick(cursor.getInt(0));
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return cursor.getCount();
-    }
-
-    public AdapterSubject(Cursor cursor){
-        this.cursor = cursor;
-    }
-
-    public void changeCursor(Cursor cursor){
-        this.cursor = cursor;
-        notifyDataSetChanged();
     }
 }

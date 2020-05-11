@@ -58,7 +58,6 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
-
     }
 
     @Override

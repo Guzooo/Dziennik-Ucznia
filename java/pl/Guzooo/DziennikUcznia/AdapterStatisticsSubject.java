@@ -23,10 +23,10 @@ public class AdapterStatisticsSubject extends RecyclerView.Adapter<AdapterStatis
         private TextView semesterEnd;
         public ViewHolder (CardView v){
             super(v);
-            title = v.findViewById(R.id.subject);
-            semester1 = v.findViewById(R.id.semester1);
-            semester2 = v.findViewById(R.id.semester2);
-            semesterEnd = v.findViewById(R.id.semesterEnd);
+            title = v.findViewById(R.id.title);
+            semester1 = v.findViewById(R.id.text1);
+            semester2 = v.findViewById(R.id.text2);
+            semesterEnd = v.findViewById(R.id.text3);
         }
     }
 

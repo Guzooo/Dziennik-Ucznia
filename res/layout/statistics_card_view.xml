@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/height_card"
-    android:layout_margin="@dimen/margin_card"
-    app:cardCornerRadius="@dimen/corner_radius_card">
+    style="@style/CardViewStandard">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,48 +11,85 @@
         android:layout_margin="@dimen/margin_standard">
 
         <TextView
-            android:id="@+id/subject"
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_marginBottom="@dimen/margin_standard"/>
+            android:layout_marginBottom="@dimen/margin_standard"
+            android:textAlignment="center"
+            android:text="Angielski"
+            style="@style/TextBold"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_standard">
 
             <TextView
-                android:id="@+id/semester1"
+                android:id="@+id/text1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="3.4285715 \u2022 3"/>
 
-            <ImageView
-                android:layout_width="@dimen/length_separator"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_standard"
-                android:layout_marginRight="@dimen/margin_standard"
-                android:src="@color/colorPrimary"/>
+            <Space
+                android:layout_width="@dimen/margin_standard"
+                android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/semester2"
+                android:id="@+id/text2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="4.375 \u2022 4"/>
 
-            <ImageView
-                android:layout_width="@dimen/length_separator"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_standard"
-                android:layout_marginRight="@dimen/margin_standard"
-                android:src="@color/colorPrimary"/>
+            <Space
+                android:layout_width="@dimen/margin_standard"
+                android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/semesterEnd"
+                android:id="@+id/text3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="3.9017859 \u2022 4"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text1_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="5, 3+, 3+, 2+, 3, 3, 3+"/>
+
+            <Space
+                android:layout_width="@dimen/margin_standard"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/text2_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="4, 5, 5, 4, 4, 4, 4+, 4+"/>
+
+            <Space
+                android:layout_width="@dimen/margin_standard"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/text3_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"/>
 

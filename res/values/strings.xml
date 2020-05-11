@@ -229,4 +229,11 @@
     <string name="summary_assessment_window">Pokaż okno po dodaniu nowej oceny</string>
     <string name="title_hold_edit_text_help_icon">Ikona pomocnicza edycji</string>
     <string name="summary_hold_edit_text_help_icon">Wyświetlaj ikone obok elementów które można edytować przez przytrzymanie</string>
+
+    <string name="semester1">Semestr 1</string>
+    <string name="semester2">Semestr 2</string>
+    <string name="semester_end">Średnia końcowa</string>
+    <string name="lack_assessments">Brak ocen</string>
+
+    <string name="choose_semester_info">Zmiana semestru została przeniesiona do ustawień</string>
 </resources>
