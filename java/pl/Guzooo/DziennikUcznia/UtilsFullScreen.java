@@ -16,21 +16,13 @@ public class UtilsFullScreen {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
     }
 
-    public static void setApplyWindowInsets(View v, OnApplyWindowInsetsListener listener){
-        ViewCompat.setOnApplyWindowInsetsListener(v, listener);
-    }
-
     public static void setPaddings(View v, Fragment fragment){
         GActivity activity = (GActivity) fragment.getActivity();
         WindowInsetsCompat insets = activity.getInsets();
         if(insets == null)
-            activity.addViewWihoutPaddings(v);
+            setPaddings(v, activity);
         else
             setPaddings(v, insets, activity);
-    }
-
-    public static void setPaddings(View v, GActivity activity){
-        ViewCompat.setOnApplyWindowInsetsListener(v, getApplyPaddingListener(activity));
     }
 
     public static void setPaddings(View v, WindowInsetsCompat insets, GActivity activity){
@@ -41,18 +33,42 @@ public class UtilsFullScreen {
 
     }
 
+    public static void setPaddings(View v, GActivity activity){
+        setApplyWindowInsets(v, getApplyPaddingListener(activity));
+    }
+
+    public static void setApplyWindowInsets(View v, OnApplyWindowInsetsListener listener){
+        ViewCompat.setOnApplyWindowInsetsListener(v, listener);
+    }
+
     private static OnApplyWindowInsetsListener getApplyPaddingListener(final GActivity activity){
         return new OnApplyWindowInsetsListener() {
             @Override
             public WindowInsetsCompat onApplyWindowInsets(final View v, final WindowInsetsCompat insets) {
+                setPaddingsOnlyInsert(v, insets);
                 ViewTreeObserver viewTreeObserver = v.getViewTreeObserver();
-                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        setPaddings(v, insets, activity);
-                    }
-                });
+                viewTreeObserver.addOnGlobalLayoutListener(getLayoutListenerPaddingsOfActivity(v, activity));
                 return insets;
+            }
+        };
+    }
+
+    private static void setPaddingsOnlyInsert(View v, WindowInsetsCompat insets){
+        v.setPadding(insets.getSystemWindowInsetLeft(),
+                insets.getSystemWindowInsetTop(),
+                insets.getSystemWindowInsetRight(),
+                insets.getSystemWindowInsetBottom());
+    }
+
+    private static ViewTreeObserver.OnGlobalLayoutListener getLayoutListenerPaddingsOfActivity(final View v, final GActivity activity){
+        return new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                v.setPadding(v.getPaddingLeft(),
+                        v.getPaddingTop(),
+                        v.getPaddingRight(),
+                        v.getPaddingBottom() + activity.getBottomPadding());
+                v.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         };
     }

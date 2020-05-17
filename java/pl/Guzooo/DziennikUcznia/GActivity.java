@@ -2,12 +2,9 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowInsetsCompat;
-
-import java.util.ArrayList;
 
 public abstract class GActivity extends AppCompatActivity {
 
@@ -17,7 +14,6 @@ public abstract class GActivity extends AppCompatActivity {
     private String currentDarkTheme;
 
     private WindowInsetsCompat insets;
-    private ArrayList<View> viewsWithoutPaddings = new ArrayList<>();
 
     public WindowInsetsCompat getInsets() {
         return insets;
@@ -25,16 +21,6 @@ public abstract class GActivity extends AppCompatActivity {
 
     public void setInsets(WindowInsetsCompat insets) {
         this.insets = insets;
-    }
-
-    public void addViewWihoutPaddings(View v){
-        viewsWithoutPaddings.add(v);
-    }
-
-    public void setPaddings(){
-        for(View v : viewsWithoutPaddings)
-            UtilsFullScreen.setPaddings(v, insets, this);
-        viewsWithoutPaddings.clear();
     }
 
     public int getBottomPadding(){

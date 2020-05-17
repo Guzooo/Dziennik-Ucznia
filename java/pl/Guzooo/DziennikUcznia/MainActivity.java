@@ -24,6 +24,8 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     @Override
     public int getBottomPadding() {
         int bottom = bottomNavigation.getHeight();
+        bottom += addFAB.getHeight();
+        bottom += getResources().getDimensionPixelOffset(R.dimen.margin_biggest) * 2;
         return bottom;
     }
 
@@ -193,7 +195,6 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
             @Override
             public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
                 setInsets(insets);
-                setPaddings();
                 setBottomNavigationSpacing(insets);
                 return insets;
             }
