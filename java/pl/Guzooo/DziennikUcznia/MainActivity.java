@@ -1,5 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,8 +26,10 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     @Override
     public int getBottomPadding() {
         int bottom = bottomNavigation.getHeight();
-        bottom += addFAB.getHeight();
-        bottom += getResources().getDimensionPixelOffset(R.dimen.margin_biggest) * 2;
+        if(currentFragment.isVisibleAddFAB()) {
+            bottom += addFAB.getHeight();
+            bottom += getResources().getDimensionPixelOffset(R.dimen.margin_biggest) * 2;
+        }
         return bottom;
     }
 
@@ -65,16 +69,16 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.settings:
-                replaceFragment(new MainSettingsFragment());
+                setCurrentFragment(new MainSettingsFragment());
                 return true;
             case R.id.home:
-                replaceFragment(new MainHomeFragment());
+                setCurrentFragment(new MainHomeFragment());
                 return true;
             case R.id.statistics:
-                replaceFragment(new MainStatisticsFragment());
+                setCurrentFragment(new MainStatisticsFragment());
                 return true;
             case R.id.lesson_plan:
-                replaceFragment(new MainLessonPlanFragment());
+                setCurrentFragment(new MainLessonPlanFragment());
                 return true;
         }
         return false;
@@ -125,7 +129,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     private void setFragment() {
         MainFragment fragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.content);
         if(fragment != null)
-            replaceFragment(fragment);
+            setCurrentFragment(fragment);
     }
 
     private void setBottomNavigation(){
@@ -175,11 +179,22 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void addLessonPlan(){
+        Intent intent = new Intent(this, LessonPlanEditActivity.class);
+        startActivity(intent);
         Toast.makeText(this, "plan lekcji", Toast.LENGTH_SHORT).show();
     }
 
     private void addSubject(){
+        Intent intent = new Intent(this, EditActivity.class);
+        startActivity(intent);
         Toast.makeText(this, "przedmiot", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setCurrentFragment(MainFragment fragment){
+        replaceFragment(fragment);
+        //setActionBarSubtitle(); TODO:Ogarnąć Action Bara
+        setAddFabByFragment();
+        setActionFabByFragment();
     }
 
     private void replaceFragment(MainFragment fragment){
@@ -188,6 +203,44 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); //TODO inne animacje
         transaction.commit();
         currentFragment = fragment;
+    }
+
+    private void setAddFabByFragment() {
+        if (currentFragment.isVisibleAddFAB())
+            addFAB.show();
+        else
+            addFAB.hide();
+    }
+
+    private void setActionFabByFragment(){
+        if(actionFAB.isShown())
+            actionFAB.hide(getOnHideActionFabListener());
+        else if(isFragmentHasActionFAB())
+            setActionFabDrawable();
+    }
+
+    private FloatingActionButton.OnVisibilityChangedListener getOnHideActionFabListener(){
+        return new FloatingActionButton.OnVisibilityChangedListener() {
+            @Override
+            public void onHidden(FloatingActionButton fab) {
+                super.onHidden(fab);
+                if(isFragmentHasActionFAB())
+                    setActionFabDrawable();
+            }
+        };
+    }
+
+    private boolean isFragmentHasActionFAB(){
+        if(currentFragment.getIconActionFAB() == 0)
+            return false;
+        return true;
+    }
+
+    private void setActionFabDrawable(){
+        int id = currentFragment.getIconActionFAB();
+        Drawable icon = getResources().getDrawable(id);
+        actionFAB.setImageDrawable(icon);
+        actionFAB.show();
     }
 
     private OnApplyWindowInsetsListener getWindowsInsetsListener(){

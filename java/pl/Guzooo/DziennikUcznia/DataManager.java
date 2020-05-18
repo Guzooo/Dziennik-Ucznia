@@ -88,7 +88,27 @@ public class DataManager {
         return Integer.valueOf(result);
     }
 
-    //preferencje do zarządzania zgodnością
+    public static boolean getAssessmentWindow(Context context){
+        String id = context.getString(R.string.ID_ASSESSMENT_WINDOW);
+        boolean def = context.getResources().getBoolean(R.bool.DEFAULT_ASSESSMENT_WINDOW);
+        return getPref(context).getBoolean(id, def);
+    }
+
+    public static boolean getHoldEditTextHelpIcon(Context context){
+        String id = context.getString(R.string.ID_HOLD_EDIT_TEXT_HELP_ICON);
+        boolean def = context.getResources().getBoolean(R.bool.DEFAULT_HOLD_EDIT_TEXT_HELP_ICON);
+        return getPref(context).getBoolean(id, def);
+    }
+
+    //preferencje from other place
+
+    public static String getNotepad(Context context){
+        String id = context.getString(R.string.ID_NOTEPAD);
+        String def = context.getString(R.string.DEFAULT_NOTEPAD);
+        return getPref(context).getString(id, def);
+    }
+
+    //preferencje for compliance management
 
     public static int getInitialVersion(Context context){
         String id = context.getString(R.string.ID_INITIAL_VERSION);

@@ -46,8 +46,9 @@ public class UtilsFullScreen {
             @Override
             public WindowInsetsCompat onApplyWindowInsets(final View v, final WindowInsetsCompat insets) {
                 setPaddingsOnlyInsert(v, insets);
+                ViewTreeObserver.OnGlobalLayoutListener listener = getLayoutListenerPaddingsOfActivity(v, activity);
                 ViewTreeObserver viewTreeObserver = v.getViewTreeObserver();
-                viewTreeObserver.addOnGlobalLayoutListener(getLayoutListenerPaddingsOfActivity(v, activity));
+                viewTreeObserver.addOnGlobalLayoutListener(listener);
                 return insets;
             }
         };

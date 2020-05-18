@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -120,14 +121,15 @@ public class MainHomeFragment extends MainFragment {
     }
 
     private void openNotepad(){
-        HoldEditText editText = new HoldEditText(getContext(), null);
+        TextView editText = new TextView(getContext(), null);
+        editText.setText(DataManager.getNotepad(getContext()));
         //editText.setSingleLine(false);
         //FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(editText.getLayoutParams());
         //params.setMarginStart(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
         //params.setMarginEnd(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
         //editText.setLayoutParams(params);
         new AlertDialog.Builder(getContext())
-                .setTitle("Notatnik")
+                .setTitle("Notatnik \u2022 czasowo bez edycji")
                 .setView(editText)
                 .setPositiveButton("Ok", null)
                 .setNegativeButton("Anuluj", null)
