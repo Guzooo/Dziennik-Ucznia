@@ -32,7 +32,7 @@ public class UtilsAverage {
 
     public static float getSemesterAverage(int semester, Context context){
         initialization(context);
-        Cursor cursor = getIdOfSubjectContainingAssessment();
+        Cursor cursor = getIdOfSubjectContainingAssessment(semester);
         float average = 0;
         int numberOfSubjects = 0;
         if(cursor.moveToFirst())
@@ -110,11 +110,20 @@ public class UtilsAverage {
     }
 
     private static Cursor getIdOfSubjectContainingAssessment(){
+        return getIdOfSubjectContainingAssessment(0);
+    }
+
+    private static Cursor getIdOfSubjectContainingAssessment(int semester){
+        String where = "";
+        if(semester != 0)
+            where = " WHERE " + Assessment2020.SEMESTER + " = " + semester;
+
         return db.rawQuery("SELECT " + Database2020.ID
                         + " FROM " + Subject2020.DATABASE_NAME
                         + " WHERE " + Database2020.ID + " IN ("
                             + "SELECT DISTINCT " + Assessment2020.TAB_SUBJECT
                             + " FROM " + Assessment2020.DATABASE_NAME
+                            + where
                         + " )"
                         , null);
     }
@@ -138,7 +147,7 @@ public class UtilsAverage {
 
     private static ArrayList<Assessment2020> getAssessments(int idSubject, int semester){
         ArrayList<Assessment2020> assessments = new ArrayList<>();
-        Cursor cursor = UtilsAverage.getAssessmentsCursor(idSubject, semester);
+        Cursor cursor = getAssessmentsCursor(idSubject, semester);
         if(cursor.moveToFirst())
             do{
                 Assessment2020 assessment = new Assessment2020();
