@@ -129,10 +129,10 @@ public class MainHomeFragment extends MainFragment {
         //params.setMarginEnd(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
         //editText.setLayoutParams(params);
         new AlertDialog.Builder(getContext())
-                .setTitle("Notatnik \u2022 czasowo bez edycji")
+                .setTitle("NOTATNIK \u2022 CZASOWO BEZ EDYCJI")
                 .setView(editText)
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Anuluj", null)
+                .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
 
     }

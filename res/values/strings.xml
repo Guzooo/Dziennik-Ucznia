@@ -69,7 +69,6 @@
 
     <string name="see_assessment_option_after_add">Pokaż okno po dodaniu oceny</string>
     <string name="hint_description">Wpisz dowolne informacje</string>
-    <string name="cant_save">Nie można zapisać</string>
 
     <!--Do usunięcia-->
     <string name="details_minus_unpreparedness">-1NP</string>
@@ -130,6 +129,8 @@
     <string name="belt">PASEK</string>
     <string name="number_of_notes">Ilość notatek: %1$d</string>
     <string name="number_of_unpreparedness">NP: %1$d</string>
+    <string name="next">Kolejny</string>
+    <string name="cant_save">Nie można zapisać</string>
 
     <string name="add_subject">Przedmiot</string>
     <string name="add_lesson_plan">Plan lekcji</string>
@@ -137,6 +138,12 @@
     <string name="add_assessment">Ocene</string>
 
     <string name="notepad">Notatnik</string><!--nwm-->
+
+    <string name="add_subject_title">Dodaj przedmiot</string>
+    <string name="enter_subject_name">Wpisz nazwe przedmiotu</string>
+    <string name="enter_subject_teacher">Wpisz nauczyciela przedmiotu</string>
+    <string name="enter_unpreparedness">Wpisz ilość nieprzygotować</string>
+    <string name="enter_subject_description">Wpisz dowolne informacje na temat przedmiotu</string>
 
     <string name="select_day_hint">Wybierz dzień</string>
     <string name="monday">Poniedziałek</string>

@@ -75,8 +75,8 @@ public class Subject2020 extends DatabaseObject{
         template(0,
                 "",
                 "",
-                0,
-                0,
+                -1,
+                -1,
                 0,
                 "");
     }

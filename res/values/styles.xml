@@ -28,7 +28,6 @@
     <style name="AllClickable">
         <item name="android:minWidth">@dimen/length_minimal</item>
         <item name="android:minHeight">@dimen/length_minimal</item>
-        <item name="android:background">?android:attr/actionBarItemBackground</item>
     </style>
 
     <style name="ClickableImages" parent="AllClickable">
@@ -36,6 +35,7 @@
         <item name="android:layout_height">@dimen/length_minimal</item>
         <item name="android:padding">@dimen/padding_clickable_image</item>
         <item name="android:tint">?attr/colorAccentG</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
     </style>
 
     <style name="ClickableImages.G">

@@ -185,9 +185,16 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void addSubject(){
-        Intent intent = new Intent(this, EditActivity.class);
-        startActivity(intent);
-        Toast.makeText(this, "przedmiot", Toast.LENGTH_SHORT).show();
+        new AddSubjectFragment().show(getInsertListener(), getSupportFragmentManager());
+    }
+
+    private AddSubjectFragment.InsertListener getInsertListener(){
+        return new AddSubjectFragment.InsertListener() {
+            @Override
+            public void beforeInsert() {
+                currentFragment.onRestart();
+            }
+        };
     }
 
     private void setCurrentFragment(MainFragment fragment){
