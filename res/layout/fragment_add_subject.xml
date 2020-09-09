@@ -8,6 +8,7 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_standard"
         android:inputType="textCapWords"
         android:hint="@string/enter_subject_name"
         style="@style/AllClickable"/>
@@ -16,6 +17,7 @@
         android:id="@+id/teacher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_standard"
         android:inputType="textCapWords"
         android:hint="@string/enter_subject_teacher"
         style="@style/AllClickable"/>
@@ -24,6 +26,7 @@
         android:id="@+id/unpreparedness"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_standard"
         android:inputType="number"
         android:hint="@string/enter_unpreparedness"
         style="@style/AllClickable"/>

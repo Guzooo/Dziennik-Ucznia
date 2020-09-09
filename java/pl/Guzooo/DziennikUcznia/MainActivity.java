@@ -179,8 +179,9 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void addLessonPlan(){
-        Intent intent = new Intent(this, LessonPlanEditActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, LessonPlanEditActivity.class);
+        startActivity(intent);*/
+        new AddElementOfPlanFragment().show(getSupportFragmentManager(), "ELEMENT");
         Toast.makeText(this, "plan lekcji", Toast.LENGTH_SHORT).show();
     }
 
@@ -188,8 +189,8 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         new AddSubjectFragment().show(getInsertListener(), getSupportFragmentManager());
     }
 
-    private AddSubjectFragment.InsertListener getInsertListener(){
-        return new AddSubjectFragment.InsertListener() {
+    private MainMenuInsertListener getInsertListener(){
+        return new MainMenuInsertListener() {
             @Override
             public void beforeInsert() {
                 currentFragment.onRestart();

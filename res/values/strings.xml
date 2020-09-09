@@ -3,7 +3,7 @@
     <string name="app_G">© Guzooo 2018 - 2020</string>
     <string name="app_v">v%1$s</string>
 
-<!--    <string name="add_subject">Dodawanie Przedmiotu</string>-->
+    <!--    <string name="add_subject">Dodawanie Przedmiotu</string>-->
     <string name="edit_subject">Edytowanie Przedmiotu</string>
     <string name="lesson_plan_add">Dodawanie Planu Lekcji</string>
     <string name="lesson_plan_edit">Edycja Planu Lekcji</string>
@@ -142,8 +142,10 @@
     <string name="add_subject_title">Dodaj przedmiot</string>
     <string name="enter_subject_name">Wpisz nazwe przedmiotu</string>
     <string name="enter_subject_teacher">Wpisz nauczyciela przedmiotu</string>
-    <string name="enter_unpreparedness">Wpisz ilość nieprzygotować</string>
+    <string name="enter_unpreparedness">Wpisz ilość nieprzygotowań</string>
     <string name="enter_subject_description">Wpisz dowolne informacje na temat przedmiotu</string>
+
+    <string name="add_element_of_lesson_plan_title">Dodaj pozycje w planie lekcji</string>
 
     <string name="select_day_hint">Wybierz dzień</string>
     <string name="monday">Poniedziałek</string>
@@ -243,4 +245,7 @@
     <string name="lack_assessments">Brak ocen</string>
 
     <string name="choose_semester_info">Zmiana semestru została przeniesiona do ustawień</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

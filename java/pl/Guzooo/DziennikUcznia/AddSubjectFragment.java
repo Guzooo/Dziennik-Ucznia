@@ -19,20 +19,16 @@ public class AddSubjectFragment extends DialogFragment {
     private EditText unpreparedness;
     private EditText description;
 
-    private InsertListener insertListener;
-
-    public interface InsertListener{
-        void beforeInsert();
-    }
+    private MainMenuInsertListener insertListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View layout = getActivity().getLayoutInflater().inflate(R.layout.add_subject_fragment, null);
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_subject, null);
         initialization(layout);
         return getAlertDialog(layout);
     }
 
-    public void show(InsertListener insertListener, FragmentManager manager){
+    public void show(MainMenuInsertListener insertListener, FragmentManager manager){
         super.show(manager, TAG);
         this.insertListener = insertListener;
     }

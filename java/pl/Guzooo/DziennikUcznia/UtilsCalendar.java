@@ -62,7 +62,7 @@ public class UtilsCalendar {
     public static String getTimeToReadFromWriteOnlyMinutes(int allMinutes){
         int hours = getHoursFromWriteOnlyMinutes(allMinutes);
         int minutes = getMinutesFromWriteOnlyMinutes(allMinutes);
-        return String.format("%02d:%02d", hours, minutes);
+        return getTimeToRead(hours, minutes);
     }
 
     public static int getHoursFromWriteOnlyMinutes(int allMinutes){
@@ -71,5 +71,15 @@ public class UtilsCalendar {
 
     public static int getMinutesFromWriteOnlyMinutes(int allMinutes){
         return allMinutes % 60;
+    }
+
+    public static String getTimeToRead(int hours, int minutes){
+        return String.format("%02d:%02d", hours, minutes);
+    }
+
+    public static int[] getTimeToOperating(String timeRead){
+        String[] timeStr = timeRead.split(":");
+        return new int[]{Integer.parseInt(timeStr[0]),
+                        Integer.parseInt((timeStr[1]))};
     }
 }
