@@ -55,6 +55,25 @@ public class UtilsCalendar {
         }
     }
 
+    public static int getDayOfWeek(String day, Context context){
+        if(day.equals(context.getString(R.string.monday)))
+            return Calendar.MONDAY;
+        else if (day.equals(context.getString(R.string.tuesday)))
+            return Calendar.TUESDAY;
+        else if (day.equals(context.getString(R.string.wednesday)))
+            return Calendar.WEDNESDAY;
+        else if (day.equals(context.getString(R.string.thursday)))
+            return Calendar.THURSDAY;
+        else if (day.equals(context.getString(R.string.friday)))
+            return Calendar.FRIDAY;
+        else if (day.equals(context.getString(R.string.saturday)))
+            return Calendar.SATURDAY;
+        else if (day.equals(context.getString(R.string.sunday)))
+            return Calendar.SUNDAY;
+        else
+            return 0;
+    }
+
     public static int getWriteOnlyMinutes(int hours, int minutes){
         return hours * 60 + minutes;
     }

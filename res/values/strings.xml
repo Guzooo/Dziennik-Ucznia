@@ -95,12 +95,6 @@
 
     <string name="plan_null_plan">Nie masz jeszcze planu lekcji\nDotknij plusa poniżej by dodać plan lekcji</string>
 
-    <string name="plan_edit_start_lesson">Początek lekcji</string>
-    <string name="plan_edit_end_lesson">Koniec lekcji</string>
-    <string name="plan_edit_hint_classroom">Wpisz klasę w której odbędą się zajęcia</string>
-    <string name="plan_edit_hint_subject">Wybierz przedmiot</string>
-    <string name="plan_edit_null_subject">Nie masz jeszcze przedmiotów\nBy dodać plan, cofnij się i utwórz przedmiot</string>
-
     <string name="statistics_select_semester">Wybierz semestr:</string>
     <string name="statistics_beta">Wciąż jest to wersja BETA więc zmiana semestru nie przywróci początkowej ilości nieprzygotowań</string>
     <string name="statistics_coming_soon">W tym miejscu wkrótce pojawią się informacje na temat ilości poszczególnych ocen, przedmioty z których średnia jest niewystarczająca oraz inne przydatne dane.\nJeśli masz jakieś ciekawe pomysły pisz! ⬇</string>
@@ -146,6 +140,12 @@
     <string name="enter_subject_description">Wpisz dowolne informacje na temat przedmiotu</string>
 
     <string name="add_element_of_lesson_plan_title">Dodaj pozycje w planie lekcji</string>
+    <string name="plan_edit_hint_subject">Wybierz przedmiot</string> <!--usuń kiedyś-->
+    <string name="plan_edit_null_subject">Nie masz jeszcze przedmiotów\nBy dodać plan, cofnij się i utwórz przedmiot</string> <!--usuń kiedyś-->
+    <string name="plan_edit_start_lesson">Początek lekcji</string>
+    <string name="plan_edit_end_lesson">Koniec lekcji</string>
+    <string name="plan_edit_hint_classroom">Wpisz klasę w której odbędą się zajęcia</string>
+
 
     <string name="select_day_hint">Wybierz dzień</string>
     <string name="monday">Poniedziałek</string>
@@ -245,7 +245,4 @@
     <string name="lack_assessments">Brak ocen</string>
 
     <string name="choose_semester_info">Zmiana semestru została przeniesiona do ustawień</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
