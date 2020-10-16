@@ -47,35 +47,23 @@
     <string name="category_of_assessment_homework">Praca Domowa</string>
     <string name="category_of_assessment_default">Domyślna</string>
 
-    <string name="description_title">Opis:</string>
-
     <string name="all">Wszystkie</string>
     <string name="selected_item">Zaznaczone elementy: %1$d</string>
 
-    <string name="teacher">Nauczyciel</string>
-    <string name="assessments">Oceny:</string>
-    <string name="hint_assessment">Wpisz ocene</string>
-    <string name="hint_assessment_weight">Wpisz wage (1)</string>
     <string name="unpreparedness_full">Nieprzygotowania</string>
-    <string name="unpreparedness_current">Aktualne nieprzygotowania</string>
-    <string name="unpreparedness_start">Domyślne nieprzygotowania</string>
-    <string name="description">Opis</string>
     <string name="assessment">Ocena</string>
     <string name="weight">Waga</string>
 
     <string name="hint_teacher">Wpisz nauczyciela przedmiotu</string>
     <string name="hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>
-    <string name="hint_description_subject">Wpisz dowolne informacje na temat przedmiotu</string>
 
     <string name="see_assessment_option_after_add">Pokaż okno po dodaniu oceny</string>
     <string name="hint_description">Wpisz dowolne informacje</string>
 
     <!--Do usunięcia-->
     <string name="details_minus_unpreparedness">-1NP</string>
-    <string name="details_description">Opis:</string>
 
     <string name="edit_hint_name">Wpisz nazwę przedmiotu</string>
-    <string name="edit_hint_teacher">Wpisz nauczyciela przedmiotu</string>
     <string name="edit_hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>
     <string name="edit_hint_description">Wpisz dowolne informacje na temat przedmiotu</string>
     <string name="edit_current_assessment">Poprzednie oceny:</string>
@@ -145,7 +133,6 @@
     <string name="plan_edit_start_lesson">Początek lekcji</string>
     <string name="plan_edit_end_lesson">Koniec lekcji</string>
     <string name="plan_edit_hint_classroom">Wpisz klasę w której odbędą się zajęcia</string>
-
 
     <string name="select_day_hint">Wybierz dzień</string>
     <string name="monday">Poniedziałek</string>
@@ -245,4 +232,16 @@
     <string name="lack_assessments">Brak ocen</string>
 
     <string name="choose_semester_info">Zmiana semestru została przeniesiona do ustawień</string>
+
+    <string name="teacher">Nauczyciel</string>
+    <string name="teacher_hint">Wpisz nauczyciela przedmiotu</string>
+    <string name="section_assessments">Oceny:</string>
+    <string name="assessment_hint">Wpisz ocene</string>
+    <string name="assessment_weight_hint">Wpisz wage (1)</string>
+    <string name="section_unpreparedness">Nieprzygotowania:</string>
+    <string name="unpreparedness_current">Aktualne nieprzygotowania</string>
+    <string name="unpreparedness_start">Domyślne nieprzygotowania</string>
+    <string name="section_description">Opis:</string>
+    <string name="description">Opis</string>
+    <string name="description_hint">Wpisz dowolne informacje</string>
 </resources>

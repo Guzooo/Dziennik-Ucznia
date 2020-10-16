@@ -56,22 +56,17 @@
         <item name="android:textColor">@color/gWhite</item>
     </style>
 
+    <style name="TextBold">
+        <item name="android:textSize">@dimen/size_text_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextTitle">
         <item name="android:textSize">@dimen/size_text_title</item>
     </style>
 
     <style name="TextTitle.G">
         <item name="android:textColor">@color/gWhite</item>
-    </style>
-
-    <style name="TextBold">
-        <item name="android:textSize">@dimen/size_text_bold</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextLittle"><!--//TODO: kill-->
-        <item name="android:textColor">?attr/colorPrimaryDarkG</item>
-        <item name="android:textSize">10dp</item>
     </style>
 
     <style name="AppTheme.TitleBig" parent="AppTheme.Title"><!--//TODO: kill-->

@@ -12,13 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name=".SubjectDetailsActivity"></activity>
+        <activity
+            android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
@@ -26,8 +29,7 @@
         <activity
             android:name=".SettingActivityOLD"
             android:label="@string/app_G" />
-        <activity
-            android:name=".NoteActivity" />
+        <activity android:name=".NoteActivity" />
         <activity
             android:name=".LessonPlanActivity"
             android:label="@string/lesson_plan" />
@@ -39,4 +41,5 @@
             android:label="@string/statistics" />
         <activity android:name=".DetailsAndEditActivity" />
     </application>
+
 </manifest>

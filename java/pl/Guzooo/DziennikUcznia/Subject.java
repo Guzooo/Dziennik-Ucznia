@@ -355,7 +355,7 @@ public class Subject {
 
     public SubjectAssessment addAssessment(String assessment, String weight, Context context){
         if (assessment.equals(""))
-            Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.assessment_hint, Toast.LENGTH_SHORT).show();
         else if (AssessmentOptionsFragment.getPreferenceAutoShow(context)){
             return getNewAssessment(assessment, weight, context);
         } else {
@@ -377,7 +377,7 @@ public class Subject {
 
     public void removeAssessment(String string, Context context){
         if (string.equals("")){
-            Toast.makeText(context, R.string.hint_assessment, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.assessment_hint, Toast.LENGTH_SHORT).show();
             return;
         }
         Float assessment = Float.parseFloat(string);
