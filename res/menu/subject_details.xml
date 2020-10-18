@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/edit"
+        android:icon="@drawable/action_bar_edit"
+        android:title="EDYTUJ"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:orderInCategory="1"
+        android:actionLayout="@layout/action_bar_edit_text" />
+
+    <item
+        android:id="@+id/notes"
+        android:icon="@drawable/action_bar_notes"
+        android:title="@string/notes"
+        app:showAsAction="always"
+        android:orderInCategory="2"/>
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/action_bar_delete"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="3"/>
+</menu>

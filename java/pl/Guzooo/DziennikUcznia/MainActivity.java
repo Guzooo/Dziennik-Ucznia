@@ -1,6 +1,5 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -60,7 +59,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     @Override
-    protected void onRestart() {
+    protected void onRestart() {//Nwm czy nie resume
         super.onRestart();
         currentFragment.onRestart();
     }

@@ -92,7 +92,7 @@ public class AdapterStatisticsAverage extends RecyclerView.Adapter<AdapterStatis
             String separator = getContext().getResources().getString(R.string.separator);
             String roundedAverageStr = String.valueOf(roundedAverage);
             roundedAverageStr = roundedAverageStr.replaceAll("\\.0", "");
-            if(!DataManager.getAverageToAssessment(getContext()))
+            if(!DataManager.isAverageToAssessment(getContext()))
                 set = averageStr;
             set = averageStr + separator + roundedAverageStr;
             averageEnd.setText(set);
@@ -105,7 +105,7 @@ public class AdapterStatisticsAverage extends RecyclerView.Adapter<AdapterStatis
             String separator = getContext().getResources().getString(R.string.separator);
             String roundedAverageStr = String.valueOf(roundedAverage);
             roundedAverageStr = roundedAverageStr.replaceAll("\\.0", "");
-            if(!DataManager.getAverageToAssessment(getContext()))
+            if(!DataManager.isAverageToAssessment(getContext()))
                 return averageStr;
             return averageStr + separator + roundedAverageStr;
         }

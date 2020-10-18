@@ -22,7 +22,6 @@
     <!-- <string name="absense">Nieobecność</string>
     <string name="absense_made">Notatki o uzupełnieniu lekcji zostały dodane</string>-->
 
-    <string name="menu_trash">Usuń</string>
     <string name="menu_edit">Edytuj</string>
     <string name="menu_share">Udostępnij</string>
 
@@ -33,8 +32,6 @@
     <string name="subject_null_this_assessment">Nie znaleźiono tej oceny do usunięcia</string>
 
     <string name="main_null_subject">Nie masz jeszcze przedmiotów\nDotknij plusa w prawym dolnym rogu by dodać przedmiot</string>
-
-    <string name="unpreparedness">NP: \ </string>
 
     <string name="information_window_message_from_creator">Wiadomość od twórcy:</string>
     <string name="information_window_update">Aktualizuj</string>
@@ -50,7 +47,6 @@
     <string name="all">Wszystkie</string>
     <string name="selected_item">Zaznaczone elementy: %1$d</string>
 
-    <string name="unpreparedness_full">Nieprzygotowania</string>
     <string name="assessment">Ocena</string>
     <string name="weight">Waga</string>
 
@@ -111,6 +107,8 @@
     <string name="belt">PASEK</string>
     <string name="number_of_notes">Ilość notatek: %1$d</string>
     <string name="number_of_unpreparedness">NP: %1$d</string>
+    <string name="delete">Usuń</string>
+    <string name="notes">Notatki</string>
     <string name="next">Kolejny</string>
     <string name="cant_save">Nie można zapisać</string>
 
@@ -194,7 +192,7 @@
     </plurals>
     <string name="in_lesson_plan">w planie lekcji</string>
     <string name="done_delete_lesson_plan">Usunąłeś plan lekcji</string>
-    <string name="title_notes">Notatki</string>
+    <string name="title_notes">@string/notes</string>
     <plurals name="summary_all_notes">
         <item quantity="one">%d notatka</item>
         <item quantity="few">%d notatki</item>
@@ -239,6 +237,8 @@
     <string name="assessment_hint">Wpisz ocene</string>
     <string name="assessment_weight_hint">Wpisz wage (1)</string>
     <string name="section_unpreparedness">Nieprzygotowania:</string>
+    <string name="unpreparedness">Nieprzygotowania</string>
+    <string name="unpreparedness_prefix">NP: \ </string>
     <string name="unpreparedness_current">Aktualne nieprzygotowania</string>
     <string name="unpreparedness_start">Domyślne nieprzygotowania</string>
     <string name="section_description">Opis:</string>

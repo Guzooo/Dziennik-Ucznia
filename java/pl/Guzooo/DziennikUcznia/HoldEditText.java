@@ -18,13 +18,14 @@ import java.util.ArrayList;
 
 public class HoldEditText extends FrameLayout implements View.OnLongClickListener{
     //TODO: popracować nad przycinaniem dzieci
-    private String prefix;
-    private String text;
-    private String hint;
-    private String info;
+    private String prefix = "";
+    private String text = "";
+    private String hint = "";
+    private String info = "";
     private String separator = getResources().getString(R.string.separator);
     private String helpEdit = getResources().getString(R.string.hold_to_edit);
 
+    private View mainView;
     private ViewGroup editMode;
     private EditText editText;
     private ViewGroup normalMode;
@@ -34,12 +35,14 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     private ArrayList<EditText> otherEditsInEditMode = new ArrayList<>();
 
     public static HoldEditText getCustomView (FrameLayout frameLayout,
-                               ViewGroup editMode,
-                               EditText editText,
-                               ViewGroup normalMode,
-                               View goToEdit,
-                               TextView textView){
-        HoldEditText customView = (HoldEditText) frameLayout;
+                                              ViewGroup editMode,
+                                              EditText editText,
+                                              ViewGroup normalMode,
+                                              View goToEdit,
+                                              TextView textView,
+                                              Context context){
+        HoldEditText customView = new HoldEditText(context);
+        customView.mainView = frameLayout;
         customView.editMode = editMode;
         customView.editText = editText;
         customView.normalMode = normalMode;
@@ -47,6 +50,10 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
         customView.textView = textView;
         customView.setViews();
         return customView;
+    }
+
+    public HoldEditText(Context context){
+        super(context);
     }
 
     public HoldEditText(Context context, AttributeSet attrs) {
@@ -66,6 +73,7 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
             refreshEditMode();
             showKeyboard();
             UtilsAnimation.showBackgroundView(normalMode, editMode);
+            //TODO: animacja zmiany wysokości
         }
     }
 
@@ -73,13 +81,33 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
         if(isOpenEditMode()) {
             refreshNormalMode();
             UtilsAnimation.hideBackgroundView(normalMode, editMode);
+            //TODO: animacja zmiany wysokości
         }
+    }
+
+    public void setPrefix(String string){
+        prefix = string;
+        setTextView();
+    }
+
+    public void setText(String string){
+        text = string;
+        setTextView();
+    }
+
+    public void setInfo(String string){
+        info = string;
+        setTextView();
     }
 
     public void addOtherEditors(EditText newEdit){
         newEdit.setOnEditorActionListener(getEndEditActionListener());
         newEdit.setOnFocusChangeListener(getEndEditFocusChangeListener());
         otherEditsInEditMode.add(newEdit);
+    }
+
+    public EditText getEditText(){
+         return editText;
     }
 
     private void initialization(AttributeSet attrs){
@@ -92,6 +120,7 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
         info = getStringOfTyped(a, R.styleable.HoldEditText_info);
         a.recycle();
 
+        mainView = this;
         editMode = (ViewGroup) getChildAt(0);
         normalMode = (ViewGroup) getChildAt(1);
         editText = (EditText) editMode.getChildAt(0);
@@ -113,7 +142,7 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     }
 
     private void setMainView(){
-        setOnLongClickListener(this);
+        mainView.setOnLongClickListener(this);
     }
 
     private void setGoToEdit(){

@@ -2,7 +2,6 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
@@ -63,7 +62,7 @@ public class TestMethods {
     }
 
     private static float roundAverage(float average, Context context) {
-        if(!DataManager.getAverageToAssessment(context))
+        if(!DataManager.isAverageToAssessment(context))
             return average;
         if (average == 0)
             return 0;

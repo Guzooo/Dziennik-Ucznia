@@ -111,8 +111,8 @@
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/length_minimal"
                 android:layout_weight="1"
-                app:prefix="@string/unpreparedness"
-                app:info="@string/unpreparedness_full"
+                app:prefix="@string/unpreparedness_prefix"
+                app:info="@string/unpreparedness"
                 app:hint="@string/edit_hint_unpreparedness"
                 android:layout_marginStart="@dimen/margin_standard"
                 android:layout_marginEnd="@dimen/margin_standard"/>

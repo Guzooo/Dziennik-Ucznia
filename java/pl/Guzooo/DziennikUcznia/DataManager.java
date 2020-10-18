@@ -21,19 +21,19 @@ public class DataManager {
         return Integer.valueOf(theme);
     }
 
-    public static boolean getHardDarkTheme(Context context){
+    public static boolean isHardDarkTheme(Context context){
         String id = context.getString(R.string.ID_HARD_DARK);
         boolean def = context.getResources().getBoolean(R.bool.DEFAULT_HARD_DARK);
         return getPref(context).getBoolean(id, def);
     }
 
-    public static boolean getAverageWeight(Context context){
+    public static boolean isAverageWeight(Context context){
         String id = context.getString(R.string.ID_AVERAGE_WEIGHT);
         boolean def = context.getResources().getBoolean(R.bool.DEFAULT_AVERAGE_WEIGHT);
         return getPref(context).getBoolean(id, def);
     }
 
-    public static boolean getAverageToAssessment(Context context){
+    public static boolean isAverageToAssessment(Context context){
         String id = context.getString(R.string.ID_AVERAGE_TO_ASSESSMENT);
         boolean def = context.getResources().getBoolean(R.bool.DEFAULT_AVERAGE_TO_ASSESSMENT);
         return getPref(context).getBoolean(id, def);
@@ -88,13 +88,13 @@ public class DataManager {
         return Integer.valueOf(result);
     }
 
-    public static boolean getAssessmentWindow(Context context){
+    public static boolean isAssessmentWindow(Context context){
         String id = context.getString(R.string.ID_ASSESSMENT_WINDOW);
         boolean def = context.getResources().getBoolean(R.bool.DEFAULT_ASSESSMENT_WINDOW);
         return getPref(context).getBoolean(id, def);
     }
 
-    public static boolean getHoldEditTextHelpIcon(Context context){
+    public static boolean isHoldEditTextHelpIcon(Context context){
         String id = context.getString(R.string.ID_HOLD_EDIT_TEXT_HELP_ICON);
         boolean def = context.getResources().getBoolean(R.bool.DEFAULT_HOLD_EDIT_TEXT_HELP_ICON);
         return getPref(context).getBoolean(id, def);

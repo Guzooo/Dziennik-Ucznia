@@ -42,7 +42,7 @@ public abstract class GActivity extends AppCompatActivity {
     private void setTheme(){
         int currentNightMode = this.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if(currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-            if (DataManager.getHardDarkTheme(this)) {
+            if (DataManager.isHardDarkTheme(this)) {
                 setTheme(R.style.AppTheme_HardDarkMode);
                 currentDarkTheme = HARD_DARK_THEME;
             } else {
@@ -54,9 +54,9 @@ public abstract class GActivity extends AppCompatActivity {
     private void refreshTheme(){
         int currentNightMode = this.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if(currentNightMode == Configuration.UI_MODE_NIGHT_YES ) {
-            if (DataManager.getHardDarkTheme(this) && !currentDarkTheme.equals(HARD_DARK_THEME)) {
+            if (DataManager.isHardDarkTheme(this) && !currentDarkTheme.equals(HARD_DARK_THEME)) {
                 this.recreate();
-            } else if(!DataManager.getHardDarkTheme(this) && !currentDarkTheme.equals(DARK_THEME)) {
+            } else if(!DataManager.isHardDarkTheme(this) && !currentDarkTheme.equals(DARK_THEME)) {
                 this.recreate();
             }
         }

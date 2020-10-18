@@ -95,8 +95,8 @@ public class MainHomeFragment extends MainFragment {
             @Override
             public void onClick(int id) {
                 //TODO: zmienić na nowe okno szczegółów
-                Intent intent = new Intent(getContext(), DetailsAndEditActivity.class);
-                intent.putExtra(DetailsAndEditActivity.EXTRA_ID, id);
+                Intent intent = new Intent(getContext(), SubjectDetailsActivity.class);
+                intent.putExtra(SubjectDetailsActivity.EXTRA_ID, id);
                 startActivity(intent);
             }
         });

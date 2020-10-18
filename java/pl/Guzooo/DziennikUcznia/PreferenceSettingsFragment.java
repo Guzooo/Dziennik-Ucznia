@@ -68,7 +68,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
             edit.setOnBindEditTextListener(getBindFloatEditText());
             edit.setOnPreferenceChangeListener(getDontSaveEmptyValueChangeListener());
         }
-        boolean visibility = DataManager.getAverageToAssessment(getContext());
+        boolean visibility = DataManager.isAverageToAssessment(getContext());
         setVisibilityAverageToAssessmentObjects(visibility);
     }
 

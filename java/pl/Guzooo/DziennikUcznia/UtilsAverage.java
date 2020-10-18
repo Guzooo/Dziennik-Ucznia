@@ -189,13 +189,13 @@ public class UtilsAverage {
     }
 
     private static int getWeight(Assessment2020 assessment){
-        if(DataManager.getAverageWeight(context))
+        if(DataManager.isAverageWeight(context))
             return assessment.getWeight();
         return 1;
     }
 
     private static float roundAverage(float average) {
-        if(!DataManager.getAverageToAssessment(context))
+        if(!DataManager.isAverageToAssessment(context))
             return average;
         if (average == 0)
             return 0;
