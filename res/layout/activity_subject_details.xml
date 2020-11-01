@@ -14,6 +14,10 @@
         android:orientation="vertical"
         android:animateLayoutChanges="true">
 
+        <pl.Guzooo.DziennikUcznia.ChangeTitle
+            android:id="@+id/toolbar_change_title"
+            style="@style/customToolbar"/>
+
         <!--TODO:Kiedyś zrobić nowy view, i postawić jako osobny, niezależny obiekt-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notes"

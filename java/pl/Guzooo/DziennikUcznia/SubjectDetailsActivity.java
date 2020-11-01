@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +24,7 @@ public class SubjectDetailsActivity extends GActivity {
 
     private Subject2020 subject;
 
+    private ChangeTitle changeTitle;
     private HoldEditText teacher;
     private EditText assessment;
     private EditText assessmentWeight;
@@ -45,11 +45,11 @@ public class SubjectDetailsActivity extends GActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_details);
-
         initialization();
         loadInstanceState(savedInstanceState);
         setFullScreen();
         setActionBar();
+        setChangeTitle();
         setNotes();
         setTeacher();
         setAssessment();
@@ -73,6 +73,10 @@ public class SubjectDetailsActivity extends GActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+
+            case R.id.edit:
+                clickEdit();
+                return true;
 
             case R.id.notes:
                 clickNotes();
@@ -119,6 +123,7 @@ public class SubjectDetailsActivity extends GActivity {
     private void initialization(){
         initialSubject();
         db = Database2020.getToWriting(this);
+        changeTitle = findViewById(R.id.toolbar_change_title);
         teacher = findViewById(R.id.teacher);
         assessment = findViewById(R.id.assessment_edit_text);
         assessmentWeight = findViewById(R.id.assessment_weight_edit_text);
@@ -152,6 +157,10 @@ public class SubjectDetailsActivity extends GActivity {
         getSupportActionBar().setSubtitle(""+UtilsAverage.getSubjectFinalAverage(subject.getId(), this));
     }
 
+    private void setChangeTitle(){
+        changeTitle.moveViewToActionBar(this);
+    }
+
     private void setNotes(){
 
     }
@@ -181,6 +190,10 @@ public class SubjectDetailsActivity extends GActivity {
         description.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         String text = subject.getDescription();
         description.setText(text);
+    }
+
+    private void clickEdit(){
+        changeTitle.show();
     }
 
     private void clickNotes(){

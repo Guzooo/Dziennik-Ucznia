@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:minHeight="@dimen/length_minimal"
+        android:layout_gravity="center"
+        android:shadowColor="?attr/colorPrimaryG"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"/>
+
+    <ImageView
+        android:src="@drawable/close"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        style="@style/ClickableImages"/>
+
+    <ImageView
+        android:src="@drawable/done"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        style="@style/ClickableImages"/>
+</merge>

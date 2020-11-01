@@ -119,4 +119,11 @@
         <item name="android:background">@drawable/pill</item>
         <item name="android:backgroundTint">@color/pill_background_state</item>
     </style>
+
+    <style name="customToolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">?attr/colorPrimaryTranslucentG</item>
+        <item name="android:clickable">true</item>
+    </style>
 </resources>

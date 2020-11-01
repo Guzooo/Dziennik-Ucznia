@@ -22,7 +22,6 @@
     <!-- <string name="absense">Nieobecność</string>
     <string name="absense_made">Notatki o uzupełnieniu lekcji zostały dodane</string>-->
 
-    <string name="menu_edit">Edytuj</string>
     <string name="menu_share">Udostępnij</string>
 
     <string name="share_title">Udostępnij do…</string>
@@ -109,6 +108,7 @@
     <string name="number_of_unpreparedness">NP: %1$d</string>
     <string name="delete">Usuń</string>
     <string name="notes">Notatki</string>
+    <string name="edit">Edytuj</string>
     <string name="next">Kolejny</string>
     <string name="cant_save">Nie można zapisać</string>
 
