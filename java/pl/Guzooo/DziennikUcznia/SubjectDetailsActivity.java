@@ -75,7 +75,7 @@ public class SubjectDetailsActivity extends GActivity {
         switch (item.getItemId()){
 
             case R.id.edit:
-                clickEdit();
+                clickEdit(item);
                 return true;
 
             case R.id.notes:
@@ -93,7 +93,9 @@ public class SubjectDetailsActivity extends GActivity {
 
     @Override
     public void onBackPressed() {
-        if(isVisibilityNotes())
+        if(changeTitle.isVisible())
+            changeTitle.hide();
+        else if(isVisibilityNotes())
             setVisibilityNotes(false);
         else
             super.onBackPressed();
@@ -192,7 +194,8 @@ public class SubjectDetailsActivity extends GActivity {
         description.setText(text);
     }
 
-    private void clickEdit(){
+    private void clickEdit(MenuItem item){
+        //changeTitle.setShowInitial((View) item);
         changeTitle.show();
     }
 

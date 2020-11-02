@@ -7,7 +7,7 @@
         android:layout_weight="1"
         android:minHeight="@dimen/length_minimal"
         android:layout_gravity="center"
-        android:shadowColor="?attr/colorPrimaryG"
+        android:singleLine="true"
         android:layout_marginStart="@dimen/margin_standard"
         android:layout_marginEnd="@dimen/margin_standard"/>
 

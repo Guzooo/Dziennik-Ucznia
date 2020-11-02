@@ -4,11 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.TextView;
+
+import androidx.annotation.StringRes;
 
 public class UtilsAnimation {
+
+    interface OnChangeTextListener {
+        void setText(String text);
+    }
 
     public static void showCircleCenter(View viewForShow, View viewInitial){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -28,6 +37,41 @@ public class UtilsAnimation {
             anim.start();
         } else
             viewForHide.setVisibility(View.INVISIBLE);
+    }
+
+    public static void changeText(TextView textView, @StringRes int newText){
+        Context context = textView.getContext();
+        String string = context.getString(newText);
+        changeText(textView, string);
+    }
+
+    public static void changeText(final TextView textView, final String newText){
+        String startText = textView.getText().toString();
+        OnChangeTextListener listener = getOnChangeTextViewListener(textView);
+        changeText(startText, newText, listener);
+    }
+
+    public static void changeText(final String startText, final String newText, final OnChangeTextListener listener){
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            String currentText = startText;
+            @Override
+            public void run() {
+                if(!currentText.equals(newText)) {
+                    if (newText.startsWith(currentText))
+                        currentText = newText.substring(0, currentText.length() + 1);
+                    else if(newText.endsWith(currentText))
+                        currentText = newText.substring(newText.length() - currentText.length()-1);
+                    else if(currentText.endsWith(newText))
+                        currentText = currentText.substring(1);
+                    else
+                        currentText = currentText.substring(0, currentText.length() - 1);
+                    listener.setText(currentText);
+
+                    handler.postDelayed(this, 10);
+                }
+            }
+        });
     }
 
     public static void showBackgroundView(final View foreground, final View background){
@@ -120,6 +164,15 @@ public class UtilsAnimation {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 v.setVisibility(View.INVISIBLE);
+            }
+        };
+    }
+
+    private static OnChangeTextListener getOnChangeTextViewListener(final TextView textView){
+        return new OnChangeTextListener() {
+            @Override
+            public void setText(String text) {
+                textView.setText(text);
             }
         };
     }

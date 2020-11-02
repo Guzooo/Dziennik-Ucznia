@@ -3,9 +3,11 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,19 +16,19 @@ import androidx.appcompat.app.ActionBar;
 
 public class ChangeTitle extends LinearLayout {
 
-    private View mainView;
     private EditText editText;
     private View negativeButton;
     private View positiveButton;
 
     private ActionBar actionBar;
+    private View showInitial = this;
 
     public ChangeTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialization();
         setButton();
         setActionBar(context);
-        hide();
+        setVisibility(GONE);
     }
 
     public void moveViewToActionBar(GActivity activity){
@@ -35,30 +37,40 @@ public class ChangeTitle extends LinearLayout {
     }
 
     public void show(){
-        setVisibility(VISIBLE);
-        editText.setText(actionBar.getTitle());
+        if(!isVisible()) {
+            setEditText();
+            int width = this.getWidth() -
+                    ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * 6) / 2);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ViewAnimationUtils.createCircularReveal(this,  width, getHeight()/2, 0, width).start();
+            }
+            setVisibility(VISIBLE);
+        }
     }
 
     public void hide(){
-        setVisibility(GONE);
+        if(isVisible())
+            UtilsAnimation.hideCircleCenter(this, showInitial);
+    }
+
+    public boolean isVisible(){
+        if(getVisibility() == VISIBLE)
+            return true;
+        return false;
+    }
+
+    public void setShowInitial(View initialView){
+        showInitial = initialView;
     }
 
     private void initialization(){
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.change_title, this, true);
 
-        mainView = this;
         editText = (EditText) getChildAt(0);
         negativeButton = getChildAt(1);
         positiveButton = getChildAt(2);
-    }
-
-    private ViewGroup getActionBarContainer(Activity activity){
-        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
-        ViewGroup mainLinear = (ViewGroup) decorView.getChildAt(0);
-        ViewGroup mainFrame = (ViewGroup) mainLinear.getChildAt(1);
-        ViewGroup decorContentParent = (ViewGroup) mainFrame.getChildAt(0);
-        return (ViewGroup) decorContentParent.getChildAt(1);
     }
 
     private void setButton(){
@@ -69,6 +81,19 @@ public class ChangeTitle extends LinearLayout {
     private void setActionBar(Context context){
         GActivity activity = (GActivity) context;
         actionBar = activity.getSupportActionBar();
+    }
+
+    private ViewGroup getActionBarContainer(Activity activity){
+        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+        ViewGroup mainLinear = (ViewGroup) decorView.getChildAt(0);
+        ViewGroup mainFrame = (ViewGroup) mainLinear.getChildAt(1);
+        ViewGroup decorContentParent = (ViewGroup) mainFrame.getChildAt(0);
+        return (ViewGroup) decorContentParent.getChildAt(1);
+    }
+
+    private void setEditText() {
+        CharSequence title = actionBar.getTitle();
+        editText.setText(title);
     }
 
     private OnClickListener getOnClickNegativeListener(){
@@ -84,14 +109,25 @@ public class ChangeTitle extends LinearLayout {
         return new OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeTitleOnActionBar();
+                changeActionBarTitle();
                 hide();
             }
         };
     }
 
-    private void changeTitleOnActionBar(){
-        String title = UtilsEditText.getString(editText);
-        actionBar.setTitle(title);
+    private void changeActionBarTitle(){
+        String startTitle = actionBar.getTitle().toString();
+        String newTitle = UtilsEditText.getString(editText);
+        UtilsAnimation.OnChangeTextListener listener = getOnChangeActionBarTitleListener();
+        UtilsAnimation.changeText(startTitle, newTitle, listener);
+    }
+
+    private UtilsAnimation.OnChangeTextListener getOnChangeActionBarTitleListener(){
+        return new UtilsAnimation.OnChangeTextListener() {
+            @Override
+            public void setText(String text) {
+                actionBar.setTitle(text);
+            }
+        };
     }
 }
