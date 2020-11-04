@@ -92,12 +92,12 @@ public class UtilsAnimation {
                         currentText = newText.substring(0, currentText.length() + 1);
                     else if(newText.endsWith(currentText))
                         currentText = newText.substring(newText.length() - currentText.length()-1);
-                    else if(currentText.endsWith(newText))
+                    else if(currentText.endsWith(newText) && !newText.isEmpty())
                         currentText = currentText.substring(1);
                     else
                         currentText = currentText.substring(0, currentText.length() - 1);
                     listener.setText(currentText);
-
+                    
                     handler.postDelayed(this, 10);
                 }
             }

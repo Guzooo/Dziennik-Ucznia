@@ -51,6 +51,10 @@ public class ChangeTitle extends LinearLayout {
         return false;
     }
 
+    public void setDefaultValue(String hint){
+        editText.setHint(hint);
+    }
+
     private void initialization(){
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.change_title, this, true);
@@ -104,9 +108,16 @@ public class ChangeTitle extends LinearLayout {
 
     private void changeActionBarTitle(){
         String startTitle = actionBar.getTitle().toString();
-        String newTitle = UtilsEditText.getString(editText);
+        String newTitle = getNewText();
         UtilsAnimation.OnChangeTextListener listener = getOnChangeActionBarTitleListener();
         UtilsAnimation.changeText(startTitle, newTitle, listener);
+    }
+
+    private String getNewText(){
+        String edit = UtilsEditText.getString(editText);
+        if(edit.isEmpty())
+            return editText.getHint().toString();
+        return edit;
     }
 
     private UtilsAnimation.OnChangeTextListener getOnChangeActionBarTitleListener(){

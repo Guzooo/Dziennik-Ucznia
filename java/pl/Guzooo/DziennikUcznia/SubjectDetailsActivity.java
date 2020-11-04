@@ -161,6 +161,7 @@ public class SubjectDetailsActivity extends GActivity {
 
     private void setChangeTitle(){
         changeTitle.moveViewToActionBar(this);
+        changeTitle.setDefaultValue(subject.getName());
     }
 
     private void setNotes(){
