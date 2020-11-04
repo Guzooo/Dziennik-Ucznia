@@ -20,6 +20,8 @@ public class ChangeTitle extends LinearLayout {
 
     private ActionBar actionBar;
 
+    //TODO: reakcja na przycisk akcji na klawiarurze
+    //TODO: znikniecie klawiatury po zamknieciu widoku
     public ChangeTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialization();
@@ -36,6 +38,7 @@ public class ChangeTitle extends LinearLayout {
     public void show(){
         if(!isVisible()) {
             setEditText();
+            UtilsKeyboard.showKeyboard(editText, getContext());
             UtilsAnimation.showCircle(this, UtilsAnimation.RIGHT);
         }
     }
@@ -83,8 +86,8 @@ public class ChangeTitle extends LinearLayout {
     }
 
     private void setEditText() {
-        CharSequence title = actionBar.getTitle();
-        editText.setText(title);
+        String title = actionBar.getTitle().toString();
+        UtilsEditText.setText(editText, title);
     }
 
     private OnClickListener getOnClickNegativeListener(){

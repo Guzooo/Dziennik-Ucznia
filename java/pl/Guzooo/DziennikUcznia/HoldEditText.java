@@ -71,7 +71,7 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     public void showEditMode(){
         if(!isOpenEditMode()) {
             refreshEditMode();
-            showKeyboard();
+            UtilsKeyboard.showKeyboard(editText, getContext());
             UtilsAnimation.showBackgroundView(normalMode, editMode);
             //TODO: animacja zmiany wysokości
         }
@@ -161,15 +161,7 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     }
 
     private void refreshEditMode(){
-        editText.setText(text);
-        editText.setSelection(text.length());
-    }
-
-    private void showKeyboard(){
-        if(editText.requestFocus()){
-            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-        }
+        UtilsEditText.setText(editText, text);
     }
 
     private void refreshNormalMode(){
@@ -254,6 +246,6 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     }
 
     private void setTextFromEditText(){
-        text = editText.getText().toString().trim();
+        text = UtilsEditText.getString(editText);
     }
 }

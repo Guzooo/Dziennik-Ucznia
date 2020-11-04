@@ -24,7 +24,6 @@ public class UtilsAnimation {
     public static final int RIGHT = 2;
     public static final int BOTTOM = 3;
 
-
     interface OnChangeTextListener {
         void setText(String text);
     }
@@ -97,7 +96,7 @@ public class UtilsAnimation {
                     else
                         currentText = currentText.substring(0, currentText.length() - 1);
                     listener.setText(currentText);
-                    
+
                     handler.postDelayed(this, 10);
                 }
             }
