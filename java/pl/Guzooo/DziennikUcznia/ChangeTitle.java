@@ -3,11 +3,9 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,7 +19,6 @@ public class ChangeTitle extends LinearLayout {
     private View positiveButton;
 
     private ActionBar actionBar;
-    private View showInitial = this;
 
     public ChangeTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -39,29 +36,19 @@ public class ChangeTitle extends LinearLayout {
     public void show(){
         if(!isVisible()) {
             setEditText();
-            int width = this.getWidth() -
-                    ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * 6) / 2);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewAnimationUtils.createCircularReveal(this,  width, getHeight()/2, 0, width).start();
-            }
-            setVisibility(VISIBLE);
+            UtilsAnimation.showCircle(this, UtilsAnimation.RIGHT);
         }
     }
 
     public void hide(){
         if(isVisible())
-            UtilsAnimation.hideCircleCenter(this, showInitial);
+            UtilsAnimation.hideCircle(this, UtilsAnimation.RIGHT);
     }
 
     public boolean isVisible(){
         if(getVisibility() == VISIBLE)
             return true;
         return false;
-    }
-
-    public void setShowInitial(View initialView){
-        showInitial = initialView;
     }
 
     private void initialization(){

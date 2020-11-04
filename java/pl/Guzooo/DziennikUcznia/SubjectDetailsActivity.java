@@ -75,7 +75,7 @@ public class SubjectDetailsActivity extends GActivity {
         switch (item.getItemId()){
 
             case R.id.edit:
-                clickEdit(item);
+                clickEdit();
                 return true;
 
             case R.id.notes:
@@ -194,8 +194,7 @@ public class SubjectDetailsActivity extends GActivity {
         description.setText(text);
     }
 
-    private void clickEdit(MenuItem item){
-        //changeTitle.setShowInitial((View) item);
+    private void clickEdit(){
         changeTitle.show();
     }
 

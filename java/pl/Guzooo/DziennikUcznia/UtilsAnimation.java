@@ -11,28 +11,58 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.TextView;
 
+import androidx.annotation.IntDef;
 import androidx.annotation.StringRes;
 
 public class UtilsAnimation {
+
+    @IntDef(value = {LEFT, TOP, RIGHT, BOTTOM})
+    private @interface Position{}
+
+    public static final int LEFT = 0;
+    public static final int TOP = 1;
+    public static final int RIGHT = 2;
+    public static final int BOTTOM = 3;
+
 
     interface OnChangeTextListener {
         void setText(String text);
     }
 
     public static void showCircleCenter(View viewForShow, View viewInitial){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int[] positions = getAbsoluteCenter(viewInitial);
+        int[] circlePositions = getAbsoluteCenter(viewInitial);
+        showCircle(viewForShow, circlePositions);
+    }
+
+    public static void showCircle(View viewForShow, @Position int position){
+        int[] circlePosition = getAbsoluteCenterPosition(viewForShow, position);
+        showCircle(viewForShow, circlePosition);
+
+    }
+
+    public static void showCircle(View viewForShow, int[] circlePositions){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             float radius = getRadius(viewForShow);
-            ViewAnimationUtils.createCircularReveal(viewForShow, positions[0], positions[1], 0, radius).start();
+            ViewAnimationUtils.createCircularReveal(viewForShow, circlePositions[0], circlePositions[1], 0, radius)
+                    .start();
         }
         viewForShow.setVisibility(View.VISIBLE);
     }
 
-    public static void hideCircleCenter(final View viewForHide, View viewInitial){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int[] positions = getAbsoluteCenter(viewInitial);
+    public static void hideCircleCenter(View viewForHide, View viewInitial){
+        int[] circlePositions = getAbsoluteCenter(viewInitial);
+        hideCircle(viewForHide, circlePositions);
+    }
+
+    public static void hideCircle(View viewForHide, @Position int position){
+        int[] circlePosition = getAbsoluteCenterPosition(viewForHide, position);
+        hideCircle(viewForHide, circlePosition);
+    }
+
+    public static void  hideCircle(View viewForHide, int[] circlePositions){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             float radius = getRadius(viewForHide);
-            Animator anim = ViewAnimationUtils.createCircularReveal(viewForHide, positions[0], positions[1], radius, 0);
+            Animator anim = ViewAnimationUtils.createCircularReveal(viewForHide, circlePositions[0], circlePositions[1], radius, 0);
             anim.addListener(getAnimationListenerInvisibleEnd(viewForHide));
             anim.start();
         } else
@@ -45,7 +75,7 @@ public class UtilsAnimation {
         changeText(textView, string);
     }
 
-    public static void changeText(final TextView textView, final String newText){
+    public static void changeText(final TextView textView, String newText){
         String startText = textView.getText().toString();
         OnChangeTextListener listener = getOnChangeTextViewListener(textView);
         changeText(startText, newText, listener);
@@ -146,10 +176,24 @@ public class UtilsAnimation {
 
     private static int[] getAbsoluteCenter(View v){
         int[] positions = new int[2];
-        v.getLocationInWindow(positions);
-        positions[0] += v.getWidth()/2;
-        positions[1] -= v.getHeight()/2;
+        positions[0] = (int) v.getX() + v.getWidth()/2;
+        positions[1] = (int) v.getY() + v.getHeight()/2;
         return positions;
+    }
+
+    private static int[] getAbsoluteCenterPosition(View v, @Position int position){
+        switch (position){
+            case LEFT:
+                return getAbsoluteCenterLeft(v);
+            case TOP:
+                return getAbsoluteCenterTop(v);
+            case RIGHT:
+                return getAbsoluteCenterRight(v);
+            case BOTTOM:
+                return getAbsoluteCenterBottom(v);
+            default:
+                return null;
+        }
     }
 
     private static float getRadius(View v){
@@ -175,5 +219,33 @@ public class UtilsAnimation {
                 textView.setText(text);
             }
         };
+    }
+
+    private static int[] getAbsoluteCenterLeft(View v){
+        int[] positions = new int[2];
+        positions[0] = (int) v.getX();
+        positions[1] = (int) v.getY() + v.getHeight()/2;
+        return positions;
+    }
+
+    private static int[] getAbsoluteCenterTop(View v){
+        int[] positions = new int[2];
+        positions[0] = (int) v.getX() + v.getWidth()/2;
+        positions[1] = (int) v.getY();
+        return positions;
+    }
+
+    private static int[] getAbsoluteCenterRight(View v){
+        int[] positions = new int[2];
+        positions[0] = (int) v.getX() + v.getWidth();
+        positions[1] = (int) v.getY() + v.getHeight()/2;
+        return positions;
+    }
+
+    private static int[] getAbsoluteCenterBottom(View v){
+        int[] positions = new int[2];
+        positions[0] = (int) v.getX() + v.getWidth()/2;
+        positions[1] = (int) v.getY() + v.getHeight();
+        return positions;
     }
 }
