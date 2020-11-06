@@ -3,7 +3,9 @@ package pl.Guzooo.DziennikUcznia;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +31,8 @@ public class SubjectDetailsActivity extends GActivity {
     private EditText assessment;
     private EditText assessmentWeight;
     private HoldEditText unpreparedness;
+    private EditText currentUnpreparedness;
+    private EditText startUnpreparedness;
     private HoldEditText description;
 
     private SQLiteDatabase db;
@@ -129,13 +133,7 @@ public class SubjectDetailsActivity extends GActivity {
         teacher = findViewById(R.id.teacher);
         assessment = findViewById(R.id.assessment_edit_text);
         assessmentWeight = findViewById(R.id.assessment_weight_edit_text);
-        unpreparedness = HoldEditText.getCustomView((FrameLayout) findViewById(R.id.unpreparedness),//TODO:raczej inna metoda;
-                                                    (ViewGroup) findViewById(R.id.unpreparedness_edit),
-                                                    (EditText) findViewById(R.id.unpreparedness_current),
-                                                    (ViewGroup)findViewById(R.id.unpreparedness_normal),
-                                                    findViewById(R.id.unpreparedness_button_edit),
-                                                    (TextView)findViewById(R.id.unpreparedness_text),
-                                                    this);
+        initialUnpreparedness();
         description = findViewById(R.id.description);
     }
 
@@ -155,8 +153,8 @@ public class SubjectDetailsActivity extends GActivity {
 
     private void setActionBar(){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(subject.getName());//todo:gowno
-        getSupportActionBar().setSubtitle(""+UtilsAverage.getSubjectFinalAverage(subject.getId(), this));
+        getSupportActionBar().setTitle(subject.getName());
+        getSupportActionBar().setSubtitle(getActionBarSubtitle());
     }
 
     private void setChangeTitle(){
@@ -179,14 +177,12 @@ public class SubjectDetailsActivity extends GActivity {
     }
 
     private void setUnpreparedness(){
-        String prefix = getString(R.string.unpreparedness_prefix);
-        String text = subject.getUnpreparednessOfCurrentSemester(this) + "";
-        String info = getString(R.string.unpreparedness);
-        unpreparedness.setPrefix(prefix);
-        unpreparedness.setText(text);
-        unpreparedness.setInfo(info);
-        EditText unpreparednessStart = findViewById(R.id.unpreparedness_start);
-        unpreparedness.addOtherEditors(unpreparednessStart);
+        setUnpreparednessText();
+        setUnpreparednessTextAdditional();
+        setUnpreparednessSecondEditText();
+        setCurrentUnpreparednessHint();
+        unpreparedness.setOnHoldEditTextChangeVisibilityListener(getOnUnpreparednessChangeViewListener());
+        setUnpreparednessMinusButton();
     }
 
     private void setDescription(){
@@ -227,6 +223,124 @@ public class SubjectDetailsActivity extends GActivity {
         int id = getIntent().getIntExtra(EXTRA_ID, 0);
         subject = new Subject2020();
         subject.setVariablesOfId(id, this);
+    }
+
+    private void initialUnpreparedness(){
+        FrameLayout main = findViewById(R.id.unpreparedness);
+        ViewGroup editMode = findViewById(R.id.unpreparedness_edit);
+        currentUnpreparedness = findViewById(R.id.unpreparedness_current);
+        startUnpreparedness = findViewById(R.id.unpreparedness_start);
+        ViewGroup normalMode = findViewById(R.id.unpreparedness_normal);
+        View goToEdit = findViewById(R.id.unpreparedness_button_edit);
+        TextView text = findViewById(R.id.unpreparedness_text);
+        unpreparedness = HoldEditText.getCustomView(main, editMode, currentUnpreparedness, normalMode, goToEdit, text, this);
+    }
+
+    private String getActionBarSubtitle(){
+        int id = subject.getId();
+        float average = UtilsAverage.getSubjectFinalAverage(id, this);
+        return getString(R.string.final_average, average);
+    }
+
+    private void setCurrentUnpreparednessHint(){
+        String unpreparedness = UtilsEditText.getString(startUnpreparedness);
+        setCurrentUnpreparednessHint(unpreparedness);
+    }
+
+    private void setUnpreparednessText(){
+        String text = subject.getRealUnpreparednessOfCurrentSemester(this) + "";
+        unpreparedness.setText(text);
+    }
+
+    private void setUnpreparednessTextAdditional(){
+        String prefix = getString(R.string.unpreparedness_prefix);
+        String info = getString(R.string.unpreparedness);
+        unpreparedness.setPrefix(prefix);
+        unpreparedness.setInfo(info);
+    }
+
+    private void setUnpreparednessSecondEditText(){
+        String unpreparednessDefault = subject.getUnpreparednessDefault() + "";
+        startUnpreparedness.setText(unpreparednessDefault);
+        startUnpreparedness.setHint("0");
+        startUnpreparedness.addTextChangedListener(getChangedStartUnpreparednessListener());
+        unpreparedness.addOtherEditors(startUnpreparedness);
+    }
+
+    private TextWatcher getChangedStartUnpreparednessListener(){
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String startUnpreparedness = s.toString();
+                setCurrentUnpreparednessHint(startUnpreparedness);
+            }
+        };
+    }
+
+    private void setCurrentUnpreparednessHint(String startUnpreparedness){
+        if(!startUnpreparedness.isEmpty())
+            currentUnpreparedness.setHint(startUnpreparedness);
+        else
+            currentUnpreparedness.setHint("0");
+    }
+
+    private HoldEditText.OnHoldEditTextChangeVisibilityListener getOnUnpreparednessChangeViewListener(){
+        return new HoldEditText.OnHoldEditTextChangeVisibilityListener() {
+            @Override
+            public void onShowEditMode() {
+                setCurrentUnpreparednessEditText();
+            }
+
+            @Override
+            public void onHideEditMode() {
+                setCurrentUnpreparedness();
+                setStartUnpreparedness();
+                setUnpreparednessText();
+            }
+        };
+    }
+
+    private void setCurrentUnpreparednessEditText(){
+        int unpreparedness = subject.getUnpreparednessOfCurrentSemester(this);
+        String string = "";
+        if(unpreparedness > -1)
+            string += unpreparedness;
+        UtilsEditText.setText(currentUnpreparedness, string);
+    }
+
+    private void setCurrentUnpreparedness(){
+        int unpreparedness = UtilsEditText.getInt(currentUnpreparedness, -1);
+        subject.setUnpreparednessOfCurrentSemester(unpreparedness, this);
+    }
+
+    private void setStartUnpreparedness(){
+        int unpreparedness = UtilsEditText.getInt(startUnpreparedness, 0);
+        subject.setUnpreparednessDefault(unpreparedness);
+    }
+
+    private void setUnpreparednessMinusButton(){
+        View minus = findViewById(R.id.unpreparedness_button_minus);
+        minus.setOnClickListener(getOnClickMinusUnpreparednessListener());
+    }
+
+    private View.OnClickListener getOnClickMinusUnpreparednessListener(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subject.useUnpreparedness(getApplicationContext());
+                setUnpreparednessText();
+            }
+        };
     }
 
     private OnApplyWindowInsetsListener getWindowsInsetsListener(){

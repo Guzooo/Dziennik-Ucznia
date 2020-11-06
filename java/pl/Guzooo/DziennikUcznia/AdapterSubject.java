@@ -45,7 +45,7 @@ public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHold
         }
 
         private void setUnpreparedness(Subject2020 subject){
-            int unpreparedness = subject.getUnpreparednessOfCurrentSemester(getContext());
+            int unpreparedness = subject.getRealUnpreparednessOfCurrentSemester(getContext());
             String unpreparednessStr = getContext().getString(R.string.number_of_unpreparedness, unpreparedness);
             this.unpreparedness.setText(unpreparednessStr);
         }

@@ -3,6 +3,7 @@ package pl.Guzooo.DziennikUcznia;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -109,44 +110,37 @@ public class Subject2020 extends DatabaseObject{
         this.teacher = teacher;
     }
 
+    public int getRealUnpreparednessOfCurrentSemester(Context context){
+        int unpreparedness = getUnpreparednessOfCurrentSemester(context);
+        return getRealUnpreparedness(unpreparedness);
+    }
+
     public int getUnpreparednessOfCurrentSemester(Context context){
         int semester = DataManager.getSemester(context);
-        if(semester == 1)
-            return getUnpreparednessOfSemesterI();
-        return getUnpreparednessOfSemesterII();
+        return getUnpreparednessOfSemester(semester);
     }
 
-    public int getUnpreparednessOfSemesterI(){
-        return getUnpreparednessNotMinus(unpreparednessOfSemesterI);
+    public void setUnpreparednessOfCurrentSemester(int unpreparedness, Context context){
+        int semester = DataManager.getSemester(context);
+        setUnpreparednessOfSemester(unpreparedness, semester);
     }
 
-    public void setUnpreparednessOfSemesterI(int unpreparednessOfSemesterI) {
-        this.unpreparednessOfSemesterI = unpreparednessOfSemesterI;
-    }
-
-    public int getUnpreparednessOfSemesterII(){
-        return getUnpreparednessNotMinus(unpreparednessOfSemesterII);
-    }
-
-    public void setUnpreparednessOfSemesterII(int unpreparednessOfSemesterII) {
-        this.unpreparednessOfSemesterII = unpreparednessOfSemesterII;
-    }
-
-    public int getUnpreparednessDefault() {
+    public int getUnpreparednessDefault(){
         return unpreparednessDefault;
     }
 
-    public void setUnpreparednessDefault(int unpreparednessDefault) {
+    public void setUnpreparednessDefault(int unpreparednessDefault){
         this.unpreparednessDefault = unpreparednessDefault;
     }
 
-    private int getUnpreparednessNotMinus(int unpreparedness){
-        if(unpreparedness == -1)
-            return getUnpreparednessDefault();
-        return unpreparedness;
+    public void useUnpreparedness(Context context){
+        int unpreparedness = getRealUnpreparednessOfCurrentSemester(context);
+        if(unpreparedness > 0)
+            unpreparedness--;
+        else
+            Toast.makeText(context,R.string.unpreparedness_info_end, Toast.LENGTH_SHORT).show();
+        setUnpreparednessOfCurrentSemester(unpreparedness, context);
     }
-
-    //TODO:popracuj nad metodami z nieprzygotowaniami
 
     public String getDescription() {
         return description;
@@ -179,4 +173,38 @@ public class Subject2020 extends DatabaseObject{
         // doprecyzować czy nazwe tej funkcji
     }*/
  //TODO: usuwanie tam ocen, notatek itp;
+
+    private int getUnpreparednessOfSemester(int semester) {
+        if (semester == 1)
+            return getUnpreparednessOfSemesterI();
+        return getUnpreparednessOfSemesterII();
+    }
+
+    private void setUnpreparednessOfSemester(int unpreparedness, int semester) {
+        if (semester == 1)
+            setUnpreparednessOfSemesterI(unpreparedness);
+        setUnpreparednessOfSemesterII(unpreparedness);
+    }
+
+    private int getRealUnpreparedness(int unpreparedness) {
+        if (unpreparedness == -1)
+            return unpreparednessDefault;
+        return unpreparedness;
+    }
+
+    private int getUnpreparednessOfSemesterI() {
+        return unpreparednessOfSemesterI;
+    }
+
+    private void setUnpreparednessOfSemesterI(int unpreparednessOfSemesterI) {
+        this.unpreparednessOfSemesterI = unpreparednessOfSemesterI;
+    }
+
+    private int getUnpreparednessOfSemesterII() {
+        return unpreparednessOfSemesterII;
+    }
+
+    private void setUnpreparednessOfSemesterII(int unpreparednessOfSemesterII) {
+        this.unpreparednessOfSemesterII = unpreparednessOfSemesterII;
+    }
 }

@@ -119,9 +119,9 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="3"
                         android:layout_marginEnd="@dimen/margin_standard"
                         android:layout_marginRight="@dimen/margin_standard"
-                        android:layout_weight="3"
                         android:text="@string/unpreparedness_current" />
 
                     <EditText
@@ -139,9 +139,9 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="3"
                         android:layout_marginEnd="@dimen/margin_standard"
                         android:layout_marginRight="@dimen/margin_standard"
-                        android:layout_weight="3"
                         android:text="@string/unpreparedness_start" />
 
                     <EditText

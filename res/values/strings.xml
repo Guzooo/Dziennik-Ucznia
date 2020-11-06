@@ -232,7 +232,7 @@
     <string name="choose_semester_info">Zmiana semestru została przeniesiona do ustawień</string>
 
     <string name="teacher">Nauczyciel</string>
-    <string name="teacher_hint">Wpisz nauczyciela przedmiotu</string>
+    <string name="teacher_hint">@string/enter_subject_teacher</string>
     <string name="section_assessments">Oceny:</string>
     <string name="assessment_hint">Wpisz ocene</string>
     <string name="assessment_weight_hint">Wpisz wage (1)</string>
@@ -241,6 +241,7 @@
     <string name="unpreparedness_prefix">NP: \ </string>
     <string name="unpreparedness_current">Aktualne nieprzygotowania</string>
     <string name="unpreparedness_start">Domyślne nieprzygotowania</string>
+    <string name="unpreparedness_info_end">Użyłeś już wszystkie nieprzygotowania\nw tym semestrze</string>
     <string name="section_description">Opis:</string>
     <string name="description">Opis</string>
     <string name="description_hint">Wpisz dowolne informacje</string>

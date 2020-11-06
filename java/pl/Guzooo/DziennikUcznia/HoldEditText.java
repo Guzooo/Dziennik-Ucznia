@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -33,6 +32,12 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     private TextView textView;
 
     private ArrayList<EditText> otherEditsInEditMode = new ArrayList<>();
+    private OnHoldEditTextChangeVisibilityListener listener;
+
+    public interface OnHoldEditTextChangeVisibilityListener {
+        void onShowEditMode();
+        void onHideEditMode();
+    }
 
     public static HoldEditText getCustomView (FrameLayout frameLayout,
                                               ViewGroup editMode,
@@ -74,6 +79,8 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
             UtilsKeyboard.showKeyboard(editText, getContext());
             UtilsAnimation.showBackgroundView(normalMode, editMode);
             //TODO: animacja zmiany wysokości
+            if(listener != null)
+                listener.onShowEditMode();
         }
     }
 
@@ -82,6 +89,8 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
             refreshNormalMode();
             UtilsAnimation.hideBackgroundView(normalMode, editMode);
             //TODO: animacja zmiany wysokości
+            if(listener != null)
+                listener.onHideEditMode();
         }
     }
 
@@ -108,6 +117,14 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
 
     public EditText getEditText(){
          return editText;
+    }
+
+    public ArrayList<EditText> getOtherEditsInEditMode(){
+        return otherEditsInEditMode;
+    }
+
+    public void setOnHoldEditTextChangeVisibilityListener(OnHoldEditTextChangeVisibilityListener listener){
+        this.listener = listener;
     }
 
     private void initialization(AttributeSet attrs){
