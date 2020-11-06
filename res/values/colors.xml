@@ -11,9 +11,9 @@
     <color name="hardDark">#000000</color>
     <color name="hardDarkTranslucent">#E6000000</color><!--TODO: hard dark potrzebuje swojego koloru dark-->
 
-    <color name="accent">#3affa0</color>
-    <color name="accent2">#fff83a</color>
-    <color name="accent3">#ff8f3a</color>
+    <color name="accent">#34ab2b</color>
+    <color name="accent2">#fdc321</color>
+    <color name="accent3">#e65c00</color>
 
     <color name="colorPrimary">#0F1216</color><!--Del-->
     <color name="colorPrimaryDark">#000000</color>

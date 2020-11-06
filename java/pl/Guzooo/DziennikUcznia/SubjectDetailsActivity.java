@@ -1,5 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -200,11 +202,16 @@ public class SubjectDetailsActivity extends GActivity {
     }
 
     private void clickDelete(){
-
+        new AlertDialog.Builder(this)//TODO: ogarnij tekstyyy
+                .setTitle("CZY CHCESZ USUNĄć " + getSupportActionBar().getTitle())
+                .setMessage("A WRAZ Z NIM X NOTETES, Y ASSESSMNT AND Z POSITION OF LESSON PLAN")
+                .setPositiveButton(android.R.string.yes, getOnClickPositiveDeleteSubjectListener())
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     private boolean isVisibilityNotes(){
-        return false;
+        return false;//TODO:ofc zle
     }
 
     private void setVisibilityNotes(boolean open){
@@ -212,11 +219,17 @@ public class SubjectDetailsActivity extends GActivity {
     }
 
     private void closeAllHoldEditText(){
-
+        teacher.hideEditMode();
+        unpreparedness.hideEditMode();
+        description.hideEditMode();
     }
 
     private void updateSubject(){
-
+        String name = getSupportActionBar().getTitle().toString();
+        subject.setName(name);
+        subject.setTeacher(teacher.getText());
+        subject.setDescription(description.getText());
+        subject.update(this);
     }
 
     private void initialSubject(){
@@ -236,15 +249,39 @@ public class SubjectDetailsActivity extends GActivity {
         unpreparedness = HoldEditText.getCustomView(main, editMode, currentUnpreparedness, normalMode, goToEdit, text, this);
     }
 
+    private OnApplyWindowInsetsListener getWindowsInsetsListener(){
+        return new OnApplyWindowInsetsListener(){
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets){
+                setInsets(insets);
+                return insets;
+            }
+        };
+    }
+
     private String getActionBarSubtitle(){
         int id = subject.getId();
         float average = UtilsAverage.getSubjectFinalAverage(id, this);
         return getString(R.string.final_average, average);
     }
 
-    private void setCurrentUnpreparednessHint(){
-        String unpreparedness = UtilsEditText.getString(startUnpreparedness);
-        setCurrentUnpreparednessHint(unpreparedness);
+    private void setAssessmentWeight(){
+        if(!DataManager.isAverageWeight(this))
+            assessmentWeight.setVisibility(View.GONE);
+    }
+
+    private void setAssessmentButton(){
+        View assessmentAdd = findViewById(R.id.assessment_add);
+        assessmentAdd.setOnClickListener(getAddAssessmentOnClickListener());
+    }
+
+    private View.OnClickListener getAddAssessmentOnClickListener(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: wywalanie okna z oceną
+            }
+        };
     }
 
     private void setUnpreparednessText(){
@@ -285,6 +322,11 @@ public class SubjectDetailsActivity extends GActivity {
                 setCurrentUnpreparednessHint(startUnpreparedness);
             }
         };
+    }
+
+    private void setCurrentUnpreparednessHint(){
+        String unpreparedness = UtilsEditText.getString(startUnpreparedness);
+        setCurrentUnpreparednessHint(unpreparedness);
     }
 
     private void setCurrentUnpreparednessHint(String startUnpreparedness){
@@ -343,31 +385,12 @@ public class SubjectDetailsActivity extends GActivity {
         };
     }
 
-    private OnApplyWindowInsetsListener getWindowsInsetsListener(){
-        return new OnApplyWindowInsetsListener(){
+    private DialogInterface.OnClickListener getOnClickPositiveDeleteSubjectListener(){
+        return new DialogInterface.OnClickListener() {
             @Override
-            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets){
-                setInsets(insets);
-                return insets;
-            }
-        };
-    }
-
-    private void setAssessmentWeight(){
-        if(!DataManager.isAverageWeight(this))
-            assessmentWeight.setVisibility(View.GONE);
-    }
-
-    private void setAssessmentButton(){
-        View assessmentAdd = findViewById(R.id.assessment_add);
-        assessmentAdd.setOnClickListener(getAddAssessmentOnClickListener());
-    }
-
-    private View.OnClickListener getAddAssessmentOnClickListener(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: wywalanie okna z oceną
+            public void onClick(DialogInterface dialog, int which) {
+                subject.delete(getApplicationContext());
+                finish();
             }
         };
     }

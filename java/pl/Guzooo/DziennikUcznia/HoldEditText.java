@@ -99,6 +99,10 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
         setTextView();
     }
 
+    public String getText(){
+        return text;
+    }
+
     public void setText(String string){
         text = string;
         setTextView();
@@ -117,10 +121,6 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
 
     public EditText getEditText(){
          return editText;
-    }
-
-    public ArrayList<EditText> getOtherEditsInEditMode(){
-        return otherEditsInEditMode;
     }
 
     public void setOnHoldEditTextChangeVisibilityListener(OnHoldEditTextChangeVisibilityListener listener){
