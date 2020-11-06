@@ -171,6 +171,7 @@ public class SubjectDetailsActivity extends GActivity {
     private void setTeacher(){
         String text = subject.getTeacher();
         teacher.setText(text);
+        teacher.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
     }
 
     private void setAssessment(){
@@ -188,9 +189,9 @@ public class SubjectDetailsActivity extends GActivity {
     }
 
     private void setDescription(){
-        description.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         String text = subject.getDescription();
         description.setText(text);
+        description.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
     }
 
     private void clickEdit(){
