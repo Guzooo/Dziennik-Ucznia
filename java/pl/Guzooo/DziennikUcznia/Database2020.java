@@ -195,9 +195,15 @@ public class Database2020 extends SQLiteOpenHelper {
         return getTableCount(tableName, null, null, context);
     }
 
-    public static int getTableCountOnlySubjectElement(String tableName, String idSubjectColumn, Context context){
-        String where = idSubjectColumn + " > ?";
+    public static int getTableCountOnlySubjectElement(String tableName, String nameSubjectColumn, Context context){
+        String where = nameSubjectColumn + " > ?";
         String[] whereArgs = new String[]{"0"};
+        return getTableCount(tableName, where, whereArgs, context);
+    }
+
+    public static int getTableCountOnlyThisSubjectElement(String tableName, String nameSubjectColumn, int idSubject, Context context){
+        String where = nameSubjectColumn + " = ?";
+        String[] whereArgs = new String[]{idSubject + ""};
         return getTableCount(tableName, where, whereArgs, context);
     }
 

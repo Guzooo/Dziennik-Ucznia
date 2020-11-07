@@ -14,11 +14,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SubjectDetailsActivity extends GActivity {
 
@@ -68,6 +72,7 @@ public class SubjectDetailsActivity extends GActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        //TODO: odswiezyc pasek, oraz oceny i notatki
     }
 
     @Override
@@ -204,8 +209,8 @@ public class SubjectDetailsActivity extends GActivity {
 
     private void clickDelete(){
         new AlertDialog.Builder(this)//TODO: ogarnij tekstyyy
-                .setTitle("CZY CHCESZ USUNĄć " + getSupportActionBar().getTitle())
-                .setMessage("A WRAZ Z NIM X NOTETES, Y ASSESSMNT AND Z POSITION OF LESSON PLAN")
+                .setTitle(getDeleteTitle())
+                .setMessage(getDeleteMessage())
                 .setPositiveButton(android.R.string.yes, getOnClickPositiveDeleteSubjectListener())
                 .setNegativeButton(android.R.string.no, null)
                 .show();
@@ -386,11 +391,70 @@ public class SubjectDetailsActivity extends GActivity {
         };
     }
 
+    private String getDeleteTitle(){
+        String subjectName = getSupportActionBar().getTitle().toString();
+        return getString(R.string.delete_subject, subjectName);
+    }
+    //TODO: tutaj i w PreferenceSettingsFragment poprzątać te opisy bo tragedia...
+    private String getDeleteMessage(){
+        ArrayList<String> tableNames = getDelSubjectTableNames();
+        ArrayList<String> columnNames = getDelSubjectColumnNames();
+        ArrayList<Integer> plurals = getDelSubjectPlurals();
+        ArrayList<Integer> counts = getDelSubjectCounts(tableNames, columnNames);
+        String message = " " + getSummary(plurals.get(0), counts.get(0));
+        message += ", " + getSummary(plurals.get(1), counts.get(1));
+        message += ", " + getSummary(plurals.get(2), counts.get(2));
+        message += " " + getString(R.string.in_lesson_plan);
+        return getString(R.string.delete_subject_question, message);
+    }
+
+    private ArrayList<String> getDelSubjectTableNames(){
+        return new ArrayList<>(Arrays.asList(
+                Assessment2020.DATABASE_NAME,
+                Note2020.DATABASE_NAME,
+                ElementOfPlan2020.DATABASE_NAME
+        ));
+    }
+
+    private ArrayList<String> getDelSubjectColumnNames(){
+        return new ArrayList<>(Arrays.asList(
+                Assessment2020.TAB_SUBJECT,
+                Note2020.TAB_SUBJECT,
+                ElementOfPlan2020.TAB_SUBJECT
+        ));
+    }
+
+    private ArrayList<Integer> getDelSubjectPlurals(){
+        return new ArrayList<>(Arrays.asList(
+                R.plurals.summary_all_assessments,
+                R.plurals.summary_all_notes,
+                R.plurals.summary_lesson_plan
+        ));
+    }
+
+    private ArrayList<Integer> getDelSubjectCounts(ArrayList<String> tableNames, ArrayList<String> columnNames){
+        ArrayList<Integer> counts = new ArrayList<>();
+        for(int i = 0; i < tableNames.size(); i++){
+            String tableName = tableNames.get(i);
+            String columnName = columnNames.get(i);
+            int count = Database2020.getTableCountOnlyThisSubjectElement(tableName, columnName, subject.getId(), this);
+            counts.add(count);
+        }
+        return counts;
+    }
+
+    private String getSummary(int plurals, int variable){
+        return getResources().getQuantityString(plurals, variable, variable);
+    }
+
     private DialogInterface.OnClickListener getOnClickPositiveDeleteSubjectListener(){
         return new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String subjectName = getSupportActionBar().getTitle().toString();
+                String doneToast = getString(R.string.delete_subject_done, subjectName);
                 subject.delete(getApplicationContext());
+                Toast.makeText(getApplicationContext(), doneToast, Toast.LENGTH_SHORT).show();
                 finish();
             }
         };

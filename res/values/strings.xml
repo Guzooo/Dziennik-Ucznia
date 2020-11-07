@@ -245,4 +245,7 @@
     <string name="section_description">Opis:</string>
     <string name="description">Opis</string>
     <string name="description_hint">Wpisz dowolne informacje</string>
+    <string name="delete_subject">Usuń przedmiot \"%1$s\"</string>
+    <string name="delete_subject_question">Czy chcesz usunąć przedmiot w tym %1$s?</string>
+    <string name="delete_subject_done">Usunąłeś przedmiot \"%1$s\"</string>
 </resources>
