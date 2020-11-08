@@ -37,9 +37,9 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
         private TextView assessment;
         private TextView data;
 
-        private ViewHolder (CardView cv, int margin, Context context){
+        private ViewHolder (View cv, int margin, Context context){
             super(cv);
-            background = cv;
+            background = (CardView) cv.findViewById(R.id.card_view);
             weight = cv.findViewById(R.id.weight);
             assessment = cv.findViewById(R.id.assessment);
             data = cv.findViewById(R.id.data);
@@ -48,17 +48,17 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
             if(!preferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_WEIGHT, SettingActivityOLD.DEFAULT_AVERAGE_WEIGHT))
                 weight.setVisibility(View.GONE);
 
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    context.getResources().getDimensionPixelSize(R.dimen.length_assessment),
-                    context.getResources().getDimensionPixelSize(R.dimen.length_assessment));
-            params.setMargins(margin, margin, margin, margin);
-            background.setLayoutParams(params);
+            //FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+            //        context.getResources().getDimensionPixelSize(R.dimen.length_assessment),
+             //       context.getResources().getDimensionPixelSize(R.dimen.length_assessment));
+            ///params.setMargins(margin, margin, margin, margin);
+            //background.setLayoutParams(params);
         }
     }
 
     @Override
     public AdapterAssessments.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.assessment_view, parent, false);
+        View cardView =  LayoutInflater.from(parent.getContext()).inflate(R.layout.assessment_view, parent, false);
         return new ViewHolder(cardView, margin, context);
     }
 

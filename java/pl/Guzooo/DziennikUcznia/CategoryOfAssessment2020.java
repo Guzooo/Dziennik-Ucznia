@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.util.Log;
 import android.widget.Toast;
 
 public class CategoryOfAssessment2020 extends DatabaseObject{
@@ -44,6 +46,13 @@ public class CategoryOfAssessment2020 extends DatabaseObject{
         setName(name);
         setColor(color);
         setDefaultWeight(weight);
+    }
+
+    @Override
+    public void setVariablesOfId(int id, Context context) {
+        if(id == 0)
+            id = getDefault(context);
+        super.setVariablesOfId(id, context);
     }
 
     @Override
@@ -102,8 +111,8 @@ public class CategoryOfAssessment2020 extends DatabaseObject{
         this.name = name;
     }
 
-    public String getColor() {
-        return color;
+    public int getColor() {
+        return Color.parseColor(color);
     }
 
     public void setColor(String color) {
@@ -119,14 +128,14 @@ public class CategoryOfAssessment2020 extends DatabaseObject{
         this.defaultWeight = defaultWeight;
     }
 
-    public String getForegroundColor(){
+    public int getForegroundColor(){
         int red = getRedOfColor();
         int green = getGreenOfColor();
         int blue = getBlueOfColor();
         double brightness = getBrightness(red, green, blue);
         if(isColorBright(brightness))
-            return "#000000";
-        return "#ffffff";
+            return Color.parseColor("#000000");
+        return Color.parseColor("#ffffff");
     }
 
     private int getRedOfColor(){

@@ -229,7 +229,7 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
                 holderControl = new ViewHolderControl(cardView, buttonsListener());
             holderControl.VisibilityButtons(cursor.getCount(), deletedNotes.size(), selectedMode);
         } else {
-            TextView name = cardView.findViewById(R.id.note_name);
+            TextView name = cardView.findViewById(R.id.title);
             if (cursor.moveToPosition(position-1)) {
                 SubjectNote subjectNote = SubjectNote.getOfCursor(cursor);
                 name.setText(subjectNote.getName());

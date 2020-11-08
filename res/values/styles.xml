@@ -47,6 +47,10 @@
         <item name="android:src">@drawable/attention</item>
     </style>
 
+    <style name="TextDescription">
+        <item name="android:textSize">@dimen/size_text_description</item>
+    </style>
+
     <style name="TextNormal">
         <item name="android:textColor">?attr/colorSecondaryG</item>
         <item name="android:textSize">@dimen/size_text_normal</item>
@@ -97,7 +101,13 @@
         <item name="android:minHeight">@dimen/height_card</item>
         <item name="android:layout_margin">@dimen/margin_card</item>
         <item name="cardCornerRadius">@dimen/corner_radius_card</item>
-        <item name="android:backgroundTint">?attr/colorPrimaryG</item>
+        <item name="cardBackgroundColor">?attr/colorPrimaryG</item>
+    </style>
+
+    <style name="CardViewAssessment">
+        <item name="android:layout_width">@dimen/length_assessment</item>
+        <item name="android:layout_height">@dimen/length_assessment</item>
+        <item name="cardCornerRadius">@dimen/corner_radius_assessment</item>
     </style>
 
     <style name="BottomNavigation">

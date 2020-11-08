@@ -3,6 +3,8 @@ package pl.Guzooo.DziennikUcznia;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -44,11 +48,11 @@ public class SubjectDetailsActivity extends GActivity {
     private SQLiteDatabase db;
 
     private Cursor notesCursor;
-    //Adapter
+    private AdapterSubjectNotes notesAdapter;
     private RecyclerView notesRecycler;
 
     private Cursor assessmentsCursor;
-    //Adapter;
+    private AdapterSubjectAssessments assessmentsAdapter;
     private RecyclerView assessmentsRecycler;
 
     @Override
@@ -65,8 +69,16 @@ public class SubjectDetailsActivity extends GActivity {
         setAssessment();
         setUnpreparedness();
         setDescription();
-
-        //TODO: zczytać z zapisu czy otwarte notatki
+        try{
+            setNotesData();
+            setNotesAdapter();
+            setNotesRecycler();
+            setAssessmentsData();
+            setAssessmentAdapter();
+            setAssessmentRecycler();
+        }catch (SQLiteException e){
+            Database2020.errorToast(this);
+        }
     }
 
     @Override
@@ -142,6 +154,8 @@ public class SubjectDetailsActivity extends GActivity {
         assessmentWeight = findViewById(R.id.assessment_weight_edit_text);
         initialUnpreparedness();
         description = findViewById(R.id.description);
+        notesRecycler = findViewById(R.id.notes);
+        assessmentsRecycler = findViewById(R.id.assessment_recycler);
     }
 
     private void loadInstanceState(Bundle savedState){
@@ -199,6 +213,47 @@ public class SubjectDetailsActivity extends GActivity {
         description.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
     }
 
+    private void setNotesData(){
+        setNotesCursor();
+    }
+
+    private void setNotesAdapter(){
+        notesAdapter = new AdapterSubjectNotes(notesCursor);
+        notesAdapter.setListener(new AdapterSubjectNotes.Listener() {
+            @Override
+            public void onClick(int id) {
+                Toast.makeText(getApplicationContext(), "NOOTAAATKI", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setNotesRecycler(){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        notesRecycler.setLayoutManager(layoutManager);
+        notesRecycler.setAdapter(notesAdapter);
+    }
+
+    private void setAssessmentsData(){
+        setAssessmentsCursor();
+    }
+
+    private void setAssessmentAdapter(){
+        assessmentsAdapter = new AdapterSubjectAssessments(assessmentsCursor);
+        assessmentsAdapter.setListener(new AdapterSubjectAssessments.Listener() {
+            @Override
+            public void onClick(int id) {
+                Toast.makeText(getApplicationContext(), "OOOCEEEENYY", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setAssessmentRecycler(){
+        int count = getCountOfAssessmentOnScreen();
+        GridLayoutManager layoutManager = new GridLayoutManager(this, count);
+        assessmentsRecycler.setLayoutManager(layoutManager);
+        assessmentsRecycler.setAdapter(assessmentsAdapter);
+    }
+
     private void clickEdit(){
         changeTitle.show();
     }
@@ -208,7 +263,7 @@ public class SubjectDetailsActivity extends GActivity {
     }
 
     private void clickDelete(){
-        new AlertDialog.Builder(this)//TODO: ogarnij tekstyyy
+        new AlertDialog.Builder(this)
                 .setTitle(getDeleteTitle())
                 .setMessage(getDeleteMessage())
                 .setPositiveButton(android.R.string.yes, getOnClickPositiveDeleteSubjectListener())
@@ -389,6 +444,33 @@ public class SubjectDetailsActivity extends GActivity {
                 setUnpreparednessText();
             }
         };
+    }
+
+    private void setNotesCursor(){
+        String where = Note2020.TAB_SUBJECT + " = ?";
+        String[] whereArgs = new String[]{subject.getId() + ""};
+        notesCursor = db.query(Note2020.DATABASE_NAME,
+                Note2020.ON_CURSOR,
+                where,
+                whereArgs,
+                null, null, null);
+    }
+
+    private void setAssessmentsCursor(){
+        String where = Assessment2020.TAB_SUBJECT + " = ? AND " + Assessment2020.SEMESTER + " = ?";
+        String[] whereArgs = new String[]{subject.getId() + "", DataManager.getSemester(this) + ""};
+        assessmentsCursor = db.query(Assessment2020.DATABASE_NAME,
+                Assessment2020.ON_CURSOR,
+                where,
+                whereArgs,
+                null, null, null);
+    }
+
+    private int getCountOfAssessmentOnScreen(){
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        int width = size.x;
+        return width / (getResources().getDimensionPixelSize(R.dimen.length_assessment) + 2*getResources().getDimensionPixelSize(R.dimen.margin_card));
     }
 
     private String getDeleteTitle(){

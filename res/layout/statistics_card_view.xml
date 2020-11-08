@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_standard"
             android:textAlignment="center"
-            android:text="Angielski"
             style="@style/TextBold"/>
 
         <LinearLayout
@@ -29,8 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="3.4285715 \u2022 3"/>
+                android:gravity="center"/>
 
             <Space
                 android:layout_width="@dimen/margin_standard"
@@ -41,8 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="4.375 \u2022 4"/>
+                android:gravity="center"/>
 
             <Space
                 android:layout_width="@dimen/margin_standard"
@@ -53,9 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="3.9017859 \u2022 4"/>
-
+                android:gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -67,8 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="5, 3+, 3+, 2+, 3, 3, 3+"/>
+                android:gravity="center"/>
 
             <Space
                 android:layout_width="@dimen/margin_standard"
@@ -79,8 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="4, 5, 5, 4, 4, 4, 4+, 4+"/>
+                android:gravity="center"/>
 
             <Space
                 android:layout_width="@dimen/margin_standard"
@@ -92,8 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"/>
-
         </LinearLayout>
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

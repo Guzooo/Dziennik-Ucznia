@@ -65,6 +65,13 @@ public class Note2020 extends DatabaseObject {
         return null;
     }
 
+    public String getShareText(){
+        String text = "\n\n✔ " + getTitle();
+        if(!getNote().isEmpty())
+            text += ":\n\n" + getNote();
+        return text;
+    }
+
     public String getTitle() {
         return title;
     }
