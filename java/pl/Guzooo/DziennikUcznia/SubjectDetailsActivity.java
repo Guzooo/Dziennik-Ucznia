@@ -1,6 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -37,9 +38,12 @@ public class SubjectDetailsActivity extends GActivity {
     private Subject2020 subject;
 
     private ChangeTitle changeTitle;
+    private RecyclerManager notesManager;
+    private RecyclerView notesRecycler;
     private HoldEditText teacher;
     private EditText assessment;
     private EditText assessmentWeight;
+    private RecyclerView assessmentsRecycler;
     private HoldEditText unpreparedness;
     private EditText currentUnpreparedness;
     private EditText startUnpreparedness;
@@ -49,11 +53,9 @@ public class SubjectDetailsActivity extends GActivity {
 
     private Cursor notesCursor;
     private AdapterSubjectNotes notesAdapter;
-    private RecyclerView notesRecycler;
 
     private Cursor assessmentsCursor;
     private AdapterSubjectAssessments assessmentsAdapter;
-    private RecyclerView assessmentsRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class SubjectDetailsActivity extends GActivity {
         setFullScreen();
         setActionBar();
         setChangeTitle();
-        setNotes();
+        setNotesManager();
         setTeacher();
         setAssessment();
         setUnpreparedness();
@@ -84,7 +86,13 @@ public class SubjectDetailsActivity extends GActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        //TODO: odswiezyc pasek, oraz oceny i notatki
+        refreshActionBarSubtitle();
+        try{
+            refreshNotesData();
+            refreshAssessmentsData();
+        } catch (SQLiteException e){
+            Database2020.errorToast(this);
+        }
     }
 
     @Override
@@ -118,7 +126,7 @@ public class SubjectDetailsActivity extends GActivity {
     public void onBackPressed() {
         if(changeTitle.isVisible())
             changeTitle.hide();
-        else if(isVisibilityNotes())
+        else if(isVisibleNotes())
             setVisibilityNotes(false);
         else
             super.onBackPressed();
@@ -127,7 +135,7 @@ public class SubjectDetailsActivity extends GActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(BUNDLE_VISIBLE_NOTES, isVisibilityNotes());
+        outState.putBoolean(BUNDLE_VISIBLE_NOTES, isVisibleNotes());
     }
 
     @Override
@@ -140,22 +148,21 @@ public class SubjectDetailsActivity extends GActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*notesCursor.close();//TODO: zamknąć to w innej metodzie
-        assessmentsCursor.close();*/
-        db.close();
+        closeDatabaseElements();
     }
 
     private void initialization(){
         initialSubject();
         db = Database2020.getToWriting(this);
         changeTitle = findViewById(R.id.toolbar_change_title);
+        notesManager = findViewById(R.id.notes_manager);
+        notesRecycler = findViewById(R.id.notes);
         teacher = findViewById(R.id.teacher);
         assessment = findViewById(R.id.assessment_edit_text);
         assessmentWeight = findViewById(R.id.assessment_weight_edit_text);
+        assessmentsRecycler = findViewById(R.id.assessment_recycler);
         initialUnpreparedness();
         description = findViewById(R.id.description);
-        notesRecycler = findViewById(R.id.notes);
-        assessmentsRecycler = findViewById(R.id.assessment_recycler);
     }
 
     private void loadInstanceState(Bundle savedState){
@@ -183,8 +190,8 @@ public class SubjectDetailsActivity extends GActivity {
         changeTitle.setDefaultValue(subject.getName());
     }
 
-    private void setNotes(){
-
+    private void setNotesManager(){
+        notesManager.setListener(getOnNotesManagerRequestListener());
     }
 
     private void setTeacher(){
@@ -215,16 +222,12 @@ public class SubjectDetailsActivity extends GActivity {
 
     private void setNotesData(){
         setNotesCursor();
+        notesManager.resetView();
     }
 
     private void setNotesAdapter(){
         notesAdapter = new AdapterSubjectNotes(notesCursor);
-        notesAdapter.setListener(new AdapterSubjectNotes.Listener() {
-            @Override
-            public void onClick(int id) {
-                Toast.makeText(getApplicationContext(), "NOOTAAATKI", Toast.LENGTH_SHORT).show();
-            }
-        });
+        notesAdapter.setListener(getOnClickNoteListener());
     }
 
     private void setNotesRecycler(){
@@ -239,12 +242,7 @@ public class SubjectDetailsActivity extends GActivity {
 
     private void setAssessmentAdapter(){
         assessmentsAdapter = new AdapterSubjectAssessments(assessmentsCursor);
-        assessmentsAdapter.setListener(new AdapterSubjectAssessments.Listener() {
-            @Override
-            public void onClick(int id) {
-                Toast.makeText(getApplicationContext(), "OOOCEEEENYY", Toast.LENGTH_SHORT).show();
-            }
-        });
+        assessmentsAdapter.setListener(getOnClickAssessmentListener());
     }
 
     private void setAssessmentRecycler(){
@@ -254,12 +252,27 @@ public class SubjectDetailsActivity extends GActivity {
         assessmentsRecycler.setAdapter(assessmentsAdapter);
     }
 
+    private void refreshActionBarSubtitle(){
+        getSupportActionBar().setSubtitle(getActionBarSubtitle());
+    }
+
+    private void refreshNotesData(){
+        setNotesData();
+        notesAdapter.changeCursor(notesCursor);
+    }
+
+    private void refreshAssessmentsData(){
+        setAssessmentsData();
+        assessmentsAdapter.changeCursor(assessmentsCursor);
+    }
+
     private void clickEdit(){
         changeTitle.show();
     }
 
     private void clickNotes(){
-
+        notesManager.resetView();
+        setVisibilityNotes(!isVisibleNotes());
     }
 
     private void clickDelete(){
@@ -271,12 +284,20 @@ public class SubjectDetailsActivity extends GActivity {
                 .show();
     }
 
-    private boolean isVisibilityNotes(){
-        return false;//TODO:ofc zle
+    private boolean isVisibleNotes(){
+        if(notesManager.getVisibility() == View.VISIBLE)
+            return true;
+        return false;
     }
 
-    private void setVisibilityNotes(boolean open){
-
+    private void setVisibilityNotes(boolean visible){
+        if(visible){
+            notesManager.setVisibility(View.VISIBLE);
+            notesRecycler.setVisibility(View.VISIBLE);
+        } else {
+            notesManager.setVisibility(View.GONE);
+            notesRecycler.setVisibility(View.GONE);
+        }
     }
 
     private void closeAllHoldEditText(){
@@ -291,6 +312,12 @@ public class SubjectDetailsActivity extends GActivity {
         subject.setTeacher(teacher.getText());
         subject.setDescription(description.getText());
         subject.update(this);
+    }
+
+    private void closeDatabaseElements(){
+        notesCursor.close();
+        assessmentsCursor.close();
+        db.close();
     }
 
     private void initialSubject(){
@@ -324,6 +351,60 @@ public class SubjectDetailsActivity extends GActivity {
         int id = subject.getId();
         float average = UtilsAverage.getSubjectFinalAverage(id, this);
         return getString(R.string.final_average, average);
+    }
+
+    private RecyclerManager.OnRecyclerManagerRequestListener getOnNotesManagerRequestListener(){
+        return new RecyclerManager.OnRecyclerManagerRequestListener() {
+            @Override
+            public void onClickAdd() {
+                addNote();
+            }
+
+            @Override
+            public void refreshData() {
+                refreshNotesData();
+            }
+
+            @Override
+            public int getObjectsCount() {
+                return notesCursor.getCount();
+            }
+
+            @Override
+            public String getSubjectName() {
+                return subject.getName();
+            }
+
+            @Override
+            public void clickSelectAll(boolean checked){
+                if(notesAdapter != null)
+                    notesAdapter.selectAll(checked);
+            }
+
+            @Override
+            public ArrayList<DatabaseObject> getAllObjects() {
+                return getAllNotes();
+            }
+        };
+    }
+
+    private void addNote(){
+        //TODO:nowe
+        Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
+        intent.putExtra(NoteActivity.EXTRA_ID_SUBJECT, subject.getId());
+        intent.putExtra(NoteActivity.EXTRA_ID_NOTE, 0);
+        startActivity(intent);
+    }
+
+    private ArrayList<DatabaseObject> getAllNotes(){
+        ArrayList<DatabaseObject> objects = new ArrayList<>();
+        if(notesCursor.moveToFirst())
+            do{
+                Note2020 note = new Note2020();
+                note.setVariablesOfCursor(notesCursor);
+                objects.add(note);
+            }while (notesCursor.moveToNext());
+        return objects;
     }
 
     private void setAssessmentWeight(){
@@ -456,6 +537,34 @@ public class SubjectDetailsActivity extends GActivity {
                 null, null, null);
     }
 
+    private AdapterSubjectNotes.Listener getOnClickNoteListener() {
+        return new AdapterSubjectNotes.Listener() {
+            @Override
+            public boolean onClick(int id) {
+                Note2020 note = new Note2020();
+                note.setVariablesOfId(id, getApplicationContext());
+                if(notesManager.isSelectedMode()) {
+                    return notesManager.select(note);
+                } else {
+                    Toast.makeText(getApplicationContext(), "NOOOOTAAAATKIII", Toast.LENGTH_SHORT).show();//TODO:notetki add
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onLongClick(int id){
+                if(!notesManager.isSelectedMode()) {
+                    Note2020 note = new Note2020();
+                    note.setVariablesOfId(id, getApplicationContext());
+                    notesManager.setUnselectedSelectedMode();
+                    notesManager.select(note);
+                    return true;
+                }
+                return false;
+            }
+        };
+    }
+
     private void setAssessmentsCursor(){
         String where = Assessment2020.TAB_SUBJECT + " = ? AND " + Assessment2020.SEMESTER + " = ?";
         String[] whereArgs = new String[]{subject.getId() + "", DataManager.getSemester(this) + ""};
@@ -464,6 +573,15 @@ public class SubjectDetailsActivity extends GActivity {
                 where,
                 whereArgs,
                 null, null, null);
+    }
+
+    private AdapterSubjectAssessments.Listener getOnClickAssessmentListener(){
+        return new AdapterSubjectAssessments.Listener() {
+            @Override
+            public void onClick(int id) {
+                Toast.makeText(getApplicationContext(), "OOCEEENYYY", Toast.LENGTH_SHORT).show();//TODO:oceny add
+            }
+        };
     }
 
     private int getCountOfAssessmentOnScreen(){

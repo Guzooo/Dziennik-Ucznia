@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardMaxElevation="@dimen/margin_standard"
+        style="@style/CardViewStandard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true">
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/undo"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:layout_marginBottom="@dimen/margin_standard"
+                    android:src="@drawable/undo"
+                    style="@style/ClickableImages"/>
+
+                <androidx.legacy.widget.Space
+                    android:id="@+id/space2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+
+                <ImageView
+                    android:id="@+id/cancel"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:layout_marginBottom="@dimen/margin_standard"
+                    android:src="@drawable/close"
+                    style="@style/ClickableImages"/>
+
+                <androidx.legacy.widget.Space
+                    android:id="@+id/space3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+
+                <ImageView
+                    android:id="@+id/delete"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:layout_marginBottom="@dimen/margin_standard"
+                    android:src="@drawable/delete"
+                    style="@style/ClickableImages"/>
+
+                <androidx.legacy.widget.Space
+                    android:id="@+id/space4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+
+                <ImageView
+                    android:id="@+id/share"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:layout_marginBottom="@dimen/margin_standard"
+                    android:src="@drawable/share"
+                    style="@style/ClickableImages"/>
+
+                <androidx.legacy.widget.Space
+                    android:id="@+id/space5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+
+                <ImageView
+                    android:id="@+id/add"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:layout_marginBottom="@dimen/margin_standard"
+                    android:src="@drawable/add"
+                    style="@style/ClickableImages"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/select_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/select_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/length_minimal"
+                    android:layout_marginStart="@dimen/margin_standard"
+                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:layout_marginBottom="@dimen/margin_standard"
+                    android:text="@string/all"/>
+
+                <TextView
+                    android:id="@+id/select_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_standard"
+                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:layout_marginBottom="@dimen/margin_standard"
+                    android:gravity="end"
+                    android:text="@string/selected_item"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</merge>

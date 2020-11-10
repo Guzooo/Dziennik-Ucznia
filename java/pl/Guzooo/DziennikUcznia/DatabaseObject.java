@@ -17,6 +17,16 @@ public abstract class DatabaseObject {
         setVariablesEmpty();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        DatabaseObject object = (DatabaseObject) obj;
+        int objectId = object.getId();
+        String objectDatabaseName = object.databaseName();
+        if(id == objectId && databaseName().equals(objectDatabaseName))
+            return true;
+        return false;
+    }
+
     public abstract void setVariablesOfCursor(Cursor cursor);
 
     public void setVariablesOfId(int id, Context context){

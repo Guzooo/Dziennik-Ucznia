@@ -18,12 +18,18 @@
             android:id="@+id/toolbar_change_title"
             style="@style/customToolbar"/>
 
-        <!--TODO:Kiedyś zrobić nowy view, i postawić jako osobny, niezależny obiekt-->
+        <pl.Guzooo.DziennikUcznia.RecyclerManager
+            android:id="@+id/notes_manager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_standard"/>
+            android:layout_marginBottom="@dimen/margin_standard"
+            android:visibility="gone"/>
 
         <pl.Guzooo.DziennikUcznia.HoldEditText
             android:id="@+id/teacher"

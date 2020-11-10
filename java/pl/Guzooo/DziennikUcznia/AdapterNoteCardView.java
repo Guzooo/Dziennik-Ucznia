@@ -338,7 +338,7 @@ public class AdapterNoteCardView extends RecyclerView.Adapter<AdapterNoteCardVie
                             string += ":\n\n" + subjectNote.getNote();
                     }
                 }
-                return string + context.getString(R.string.share_info);
+                return string + context.getString(R.string.share_notes_info);
             }
 
             @Override

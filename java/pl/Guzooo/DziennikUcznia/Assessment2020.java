@@ -98,6 +98,13 @@ public class Assessment2020 extends DatabaseObject{
         return contentValues;
     }
 
+    public String getAssessmentToRead(){
+        String text = getAssessment() + "";
+        text = text.replace(".0", "");
+        text = text.replace(".5", "+");
+        return text;
+    }
+
     public Float getAssessment(){
         return assessment;
     }

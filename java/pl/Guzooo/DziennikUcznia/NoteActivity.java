@@ -139,7 +139,7 @@ public class NoteActivity extends AppCompatActivity {
         if(!editTextNote.getText().toString().trim().equals("")){
             string += ":\n\n" + editTextNote.getText().toString().trim();
         }
-        string += getString(R.string.share_info);
+        string += getString(R.string.share_notes_info);
         return string;
     }
 

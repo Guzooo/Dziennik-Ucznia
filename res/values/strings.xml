@@ -24,9 +24,6 @@
 
     <string name="menu_share">Udostępnij</string>
 
-    <string name="share_title">Udostępnij do…</string>
-    <string name="share_info">\n\nTwórz swoje notatki dla poszczególnych przedmiotów 📝\nPobierz: https://play.google.com/store/apps/details?id=pl.Guzooo.DziennikUcznia 📲\nGuzooo 👨‍🎓</string>
-
     <string name="subject_null_assessments">Brak ocen</string>
     <string name="subject_null_this_assessment">Nie znaleźiono tej oceny do usunięcia</string>
 
@@ -42,9 +39,6 @@
     <string name="category_of_assessment_answer">Odpowiedź</string>
     <string name="category_of_assessment_homework">Praca Domowa</string>
     <string name="category_of_assessment_default">Domyślna</string>
-
-    <string name="all">Wszystkie</string>
-    <string name="selected_item">Zaznaczone elementy: %1$d</string>
 
     <string name="assessment">Ocena</string>
     <string name="weight">Waga</string>
@@ -111,6 +105,8 @@
     <string name="edit">Edytuj</string>
     <string name="next">Kolejny</string>
     <string name="cant_save">Nie można zapisać</string>
+    <string name="all">Wszystkie</string>
+    <string name="selected_item">Zaznaczone elementy: %1$d</string>
 
     <string name="add_subject">Przedmiot</string>
     <string name="add_lesson_plan">Plan lekcji</string>
@@ -248,4 +244,20 @@
     <string name="delete_subject">Usuń przedmiot \"%1$s\"</string>
     <string name="delete_subject_question">Czy chcesz usunąć przedmiot w tym %1$s?</string>
     <string name="delete_subject_done">Usunąłeś przedmiot \"%1$s\"</string>
+
+    <string name="share_title">Udostępnij do…</string>
+    <string name="share_notes_subject">❗%1$s❗</string>
+    <string name="share_notes_title">\n\n✔ %1$s</string>
+    <string name="share_notes_note">:\n\n%1$s</string>
+    <string name="share_notes_info">\n\n
+        Twórz swoje notatki dla poszczególnych przedmiotów 📝\n
+        Pobierz: https://play.google.com/store/apps/details?id=pl.Guzooo.DziennikUcznia 📲\n
+        Guzooo 👨‍🎓
+    </string>
+    <string name="no_object_was_selected">Nie zaznaczyłeś żadnego obiektu</string>
+    <plurals name="done_delete_notes">
+        <item quantity="one">Usunąłeś %d notatke</item>
+        <item quantity="few">Usunąłeś %d notatki</item>
+        <item quantity="many">Usunąłeś %d notatek</item>
+    </plurals>
 </resources>

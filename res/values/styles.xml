@@ -107,6 +107,7 @@
     <style name="CardViewAssessment">
         <item name="android:layout_width">@dimen/length_assessment</item>
         <item name="android:layout_height">@dimen/length_assessment</item>
+        <item name="android:layout_margin">@dimen/margin_card</item>
         <item name="cardCornerRadius">@dimen/corner_radius_assessment</item>
     </style>
 

@@ -55,7 +55,7 @@ public class AdapterSubjectAssessments extends RecyclerView.Adapter<AdapterSubje
             int idCategoryOfAssessment = assessment.getIdCategory();
             CategoryOfAssessment2020 categoryOfAssessment = getCategoryOfAssessment(idCategoryOfAssessment);
             int backgroundColor = categoryOfAssessment.getColor();
-            int foregroundColor = categoryOfAssessment.getForegroundColor();
+            int foregroundColor = UtilsColor.getForegroundColor(backgroundColor);
             cardView.setCardBackgroundColor(backgroundColor);
             weight.setTextColor(foregroundColor);
             this.assessment.setTextColor(foregroundColor);

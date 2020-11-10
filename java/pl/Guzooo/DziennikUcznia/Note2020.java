@@ -1,6 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 
 public class Note2020 extends DatabaseObject {
@@ -61,14 +62,14 @@ public class Note2020 extends DatabaseObject {
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, title);
         contentValues.put(NOTE, note);
-        contentValues.put(TAB_SUBJECT, idSubject);
-        return null;
+        contentValues.put(TAB_SUBJECT, idSubject);;
+        return contentValues;
     }
 
-    public String getShareText(){
-        String text = "\n\n✔ " + getTitle();
+    public String getShareText(Context context){
+        String text = context.getString(R.string.share_notes_title, getTitle());
         if(!getNote().isEmpty())
-            text += ":\n\n" + getNote();
+            text += context.getString(R.string.share_notes_note, getNote());
         return text;
     }
 

@@ -218,16 +218,10 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     private void setTextColorInTextView(){
         int color;
         if(text.isEmpty())
-            color = getColorFromAttrs(R.attr.colorSecondaryDarkG);
+            color = UtilsColor.getColorFromAttrs(R.attr.colorSecondaryDarkG, getContext());
         else
-            color = getColorFromAttrs(R.attr.colorSecondaryG);
+            color = UtilsColor.getColorFromAttrs(R.attr.colorSecondaryG, getContext());
         textView.setTextColor(color);
-    }
-
-    private int getColorFromAttrs(int styleable){
-        Resources.Theme theme = getContext().getTheme();
-        TypedArray a = theme.obtainStyledAttributes(new int[]{styleable});
-        return a.getColor(0, 0);
     }
 
     private TextView.OnEditorActionListener getEndEditActionListener(){
