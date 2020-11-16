@@ -40,13 +40,9 @@
     <string name="category_of_assessment_homework">Praca Domowa</string>
     <string name="category_of_assessment_default">Domyślna</string>
 
-    <string name="assessment">Ocena</string>
-    <string name="weight">Waga</string>
-
     <string name="hint_teacher">Wpisz nauczyciela przedmiotu</string>
     <string name="hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>
 
-    <string name="see_assessment_option_after_add">Pokaż okno po dodaniu oceny</string>
     <string name="hint_description">Wpisz dowolne informacje</string>
 
     <!--Do usunięcia-->
@@ -63,9 +59,6 @@
     <string name="edit_delete_subject">Usuń przedmiot</string>
     <!--aż do tego miejsca -->
 
-    <string name="note_hint_name">Wpisz nazwę notatki</string>
-    <string name="note_hint_description">Wpisz treść notatki</string>
-    <string name="note_null">Notatka nie jest uzupełniona</string>
     <string name="note_action_pin">Przypnij notatke</string>
     <string name="notification_channel_note">Notatki</string>
     <string name="notification_channel_note_description">Przedmiotowe notatki, które użytkownik przypiął</string>
@@ -104,6 +97,7 @@
     <string name="notes">Notatki</string>
     <string name="edit">Edytuj</string>
     <string name="next">Kolejny</string>
+    <string name="next_new">Nowy</string>
     <string name="cant_save">Nie można zapisać</string>
     <string name="all">Wszystkie</string>
     <string name="selected_item">Zaznaczone elementy: %1$d</string>
@@ -260,4 +254,25 @@
         <item quantity="few">Usunąłeś %d notatki</item>
         <item quantity="many">Usunąłeś %d notatek</item>
     </plurals>
+
+    <string name="title_add_assessment">Dodaj ocene</string>
+    <string name="title_edit_assessment">Edytuj ocene</string>
+    <string name="show_add_assessment_fragment_after_add">Pokaż okno po dodaniu oceny</string>
+    <string name="assessment">Ocena</string>
+    <string name="weight">Waga</string>
+    <string name="want_delete_this_assessment">Chesz usunąć te ocene?</string>
+    <string name="done_delete_this_assessment">Usunąłeś ocene</string>
+
+    <string name="title_add_note">Dodaj notake</string>
+    <string name="title_edit_note">Edytuj notatke</string>
+    <string name="title">Tytuł</string>
+    <string name="title_hint">Wpisz tytuł</string>
+    <string name="note_content">Treść</string>
+    <string name="note_content_hint">Wpisz treść</string>
+    <string name="want_delete_this_note">Chesz usunąć te notatke?</string>
+    <string name="done_delete_this_note">Usunąłeś notatke</string>
+    <string name="pin_note">Przypiąłeś notatke</string>
+    <string name="unpin_note">Odpiąłeś notatke</string>
+    <string name="can_not_share_without_title">Nie można udostępnić notatki bez tytułu</string>
+    <string name="note_null">Notatka nie jest uzupełniona</string><!--nwm po co-->
 </resources>

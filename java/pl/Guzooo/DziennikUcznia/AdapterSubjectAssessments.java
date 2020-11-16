@@ -36,7 +36,7 @@ public class AdapterSubjectAssessments extends RecyclerView.Adapter<AdapterSubje
             cardView = v.findViewById(R.id.card_view);
             weight = v.findViewById(R.id.weight);
             assessment = v.findViewById(R.id.assessment);
-            data = v.findViewById(R.id.data);
+            data = v.findViewById(R.id.date);
 
             setWeightVisibility();
         }
@@ -73,7 +73,7 @@ public class AdapterSubjectAssessments extends RecyclerView.Adapter<AdapterSubje
         }
 
         private void setData(Assessment2020 assessment){
-            String text = assessment.getDate();
+            String text = assessment.getDateToRead();
             data.setText(text);
         }
 

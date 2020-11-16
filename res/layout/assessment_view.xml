@@ -43,7 +43,7 @@
                 style="@style/TextBold"/>
 
             <TextView
-                android:id="@+id/data"
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_standard"

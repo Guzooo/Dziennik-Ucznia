@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 public class AdapterSpinnerCategoryOfAssessment extends ArrayAdapter<String> {
 
+    //TODO: przepisać na nowo;
     private Cursor cursor;
 
     public AdapterSpinnerCategoryOfAssessment(Context context, Cursor cursor) {
@@ -56,4 +57,14 @@ public class AdapterSpinnerCategoryOfAssessment extends ArrayAdapter<String> {
     public int getCount() {
         return cursor.getCount();
     }
+
+    public int getItemPosition(int id){
+        if(cursor.moveToFirst()){
+            for(int i = 0; i < cursor.getCount(); i++, cursor.moveToNext())
+                if(cursor.getInt(0) == id)
+                    return i;
+        }
+        return 0;
+    }
+
 }

@@ -211,7 +211,7 @@ public class AssessmentOptionsFragment extends DialogFragment {
 
     private void SetData(View v){
         View view = v.findViewById(R.id.data_container);
-        textViewData = v.findViewById(R.id.data);
+        textViewData = v.findViewById(R.id.date);
         String data = subjectAssessment.getData();
         setDataText(subjectAssessment.getData());
         if(subjectAssessment.getData().equals("")){

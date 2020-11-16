@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -42,7 +41,7 @@ public class AdapterAssessments extends RecyclerView.Adapter<AdapterAssessments.
             background = (CardView) cv.findViewById(R.id.card_view);
             weight = cv.findViewById(R.id.weight);
             assessment = cv.findViewById(R.id.assessment);
-            data = cv.findViewById(R.id.data);
+            data = cv.findViewById(R.id.date);
 
             SharedPreferences preferences = context.getSharedPreferences(SettingActivityOLD.PREFERENCE_NAME, Context.MODE_PRIVATE);
             if(!preferences.getBoolean(SettingActivityOLD.PREFERENCE_AVERAGE_WEIGHT, SettingActivityOLD.DEFAULT_AVERAGE_WEIGHT))

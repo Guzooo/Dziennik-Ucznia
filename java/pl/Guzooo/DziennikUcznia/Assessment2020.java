@@ -153,11 +153,26 @@ public class Assessment2020 extends DatabaseObject{
         this.idCategory = idCategory;
     }
 
-    public String getDate() {
+    public String getDateToRead() {
         return UtilsCalendar.getDateToRead(date);
+    }
+
+    public String getDate(){
+        return date;
+    }
+
+    public int[] getDateElements(){
+        String[] elements = date.split("/");
+        return new int[] {Integer.parseInt(elements[0]),
+                                Integer.parseInt(elements[1]),
+                                Integer.parseInt(elements[2])};//TODO: czemu nie valueOf
     }
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setDate(int day, int month, int year){
+        date = day + "/" + month + "/" + year;
     }
 }

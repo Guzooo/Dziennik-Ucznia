@@ -16,13 +16,15 @@ public class NotificationsChannels {
     }
 
     public static void CheckChannelNoteIsActive(Context context){
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = manager.getNotificationChannel(CHANNEL_NOTE_ID);
-        if(channel.getImportance() == NotificationManager.IMPORTANCE_NONE){
-            Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
-            intent.putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_NOTE_ID);
-            context.startActivity(intent);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel channel = manager.getNotificationChannel(CHANNEL_NOTE_ID);
+            if (channel.getImportance() == NotificationManager.IMPORTANCE_NONE) {
+                Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+                intent.putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_NOTE_ID);
+                context.startActivity(intent);
+            }
         }
     }
 

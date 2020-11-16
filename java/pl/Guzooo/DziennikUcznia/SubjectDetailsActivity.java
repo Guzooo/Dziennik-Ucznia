@@ -357,7 +357,7 @@ public class SubjectDetailsActivity extends GActivity {
         return new RecyclerManager.OnRecyclerManagerRequestListener() {
             @Override
             public void onClickAdd() {
-                addNote();
+                new AddNoteFragment().show(getNewNote(), getOnNoteChangeDataListener(), getSupportFragmentManager());
             }
 
             @Override
@@ -388,12 +388,10 @@ public class SubjectDetailsActivity extends GActivity {
         };
     }
 
-    private void addNote(){
-        //TODO:nowe
-        Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
-        intent.putExtra(NoteActivity.EXTRA_ID_SUBJECT, subject.getId());
-        intent.putExtra(NoteActivity.EXTRA_ID_NOTE, 0);
-        startActivity(intent);
+    private Note2020 getNewNote(){
+        Note2020 note = new Note2020();
+        note.setIdSubject(subject.getId());
+        return note;
     }
 
     private ArrayList<DatabaseObject> getAllNotes(){
@@ -421,9 +419,37 @@ public class SubjectDetailsActivity extends GActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: wywalanie okna z oceną
+                if(DataManager.isAssessmentWindow(getApplicationContext()))
+                    new AddAssessmentFragment().show(getNewAssessment(), getOnAssessmentChangeDataListener(), getSupportFragmentManager());
+                else
+                    fastAddAssessment();
             }
         };
+    }
+
+    private void fastAddAssessment(){
+        if(assessment.getText().toString().isEmpty()){
+            String text = getString(R.string.cant_save)
+                    + getString(R.string.separator)
+                    + getString(R.string.assessment_hint);
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        getNewAssessment().insert(this);
+        getOnAssessmentChangeDataListener().mustRefreshData();
+    }
+
+    private Assessment2020 getNewAssessment(){
+        Assessment2020 newAssessment = new Assessment2020();
+        newAssessment.setIdSubject(subject.getId());
+        newAssessment.setSemester(DataManager.getSemester(this));
+        float assessmentF = UtilsEditText.getFloat(assessment, -1);
+        int assessmentWeightI = UtilsEditText.getInt(assessmentWeight, -1);
+        if(assessmentF != -1)
+            newAssessment.setAssessment(assessmentF);
+        if(assessmentWeightI != -1)
+            newAssessment.setWeight(assessmentWeightI);
+        return newAssessment;
     }
 
     private void setUnpreparednessText(){
@@ -546,7 +572,7 @@ public class SubjectDetailsActivity extends GActivity {
                 if(notesManager.isSelectedMode()) {
                     return notesManager.select(note);
                 } else {
-                    Toast.makeText(getApplicationContext(), "NOOOOTAAAATKIII", Toast.LENGTH_SHORT).show();//TODO:notetki add
+                    new AddNoteFragment().show(note, getOnNoteChangeDataListener(), getSupportFragmentManager());
                 }
                 return false;
             }
@@ -565,6 +591,15 @@ public class SubjectDetailsActivity extends GActivity {
         };
     }
 
+    private AddNoteFragment.OnNoteChangeDataListener getOnNoteChangeDataListener(){
+        return new AddNoteFragment.OnNoteChangeDataListener() {
+            @Override
+            public void mustRefreshData() {
+                refreshNotesData();
+            }
+        };
+    }
+
     private void setAssessmentsCursor(){
         String where = Assessment2020.TAB_SUBJECT + " = ? AND " + Assessment2020.SEMESTER + " = ?";
         String[] whereArgs = new String[]{subject.getId() + "", DataManager.getSemester(this) + ""};
@@ -579,7 +614,19 @@ public class SubjectDetailsActivity extends GActivity {
         return new AdapterSubjectAssessments.Listener() {
             @Override
             public void onClick(int id) {
-                Toast.makeText(getApplicationContext(), "OOCEEENYYY", Toast.LENGTH_SHORT).show();//TODO:oceny add
+                Assessment2020 assessment = new Assessment2020();
+                assessment.setVariablesOfId(id, getApplicationContext());
+                new AddAssessmentFragment().show(assessment, getOnAssessmentChangeDataListener(), getSupportFragmentManager());
+            }
+        };
+    }
+
+    private AddAssessmentFragment.OnAssessmentChangeDataListener getOnAssessmentChangeDataListener(){
+        return new AddAssessmentFragment.OnAssessmentChangeDataListener() {
+            @Override
+            public void mustRefreshData() {
+                refreshActionBarSubtitle();
+                refreshAssessmentsData();
             }
         };
     }

@@ -1,7 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -23,6 +22,9 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     private String info = "";
     private String separator = getResources().getString(R.string.separator);
     private String helpEdit = getResources().getString(R.string.hold_to_edit);
+
+    private String emptyValue = "";
+    private String defaultValue = "";
 
     private View mainView;
     private ViewGroup editMode;
@@ -113,6 +115,18 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
         setTextView();
     }
 
+    public void setEmptyValue(String string){
+        if(!defaultValue.isEmpty())
+            return;
+        emptyValue = string;
+        setEditTextHint();
+    }
+
+    public void setDefaultValue(String string){
+        defaultValue = string;
+        emptyValue = "";
+    }
+
     public void addOtherEditors(EditText newEdit){
         newEdit.setOnEditorActionListener(getEndEditActionListener());
         newEdit.setOnFocusChangeListener(getEndEditFocusChangeListener());
@@ -163,7 +177,10 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     }
 
     private void setGoToEdit(){
-        goToEdit.setOnClickListener(getShowOnClickListener());
+        if(DataManager.isHoldEditTextHelpIcon(getContext()))
+            goToEdit.setOnClickListener(getShowOnClickListener());
+        else
+            goToEdit.setVisibility(GONE);
     }
 
     private void setTextView(){
@@ -172,9 +189,16 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     }
 
     private void setEditText(){
-        editText.setHint(hint);
+        setEditTextHint();
         editText.setOnEditorActionListener(getEndEditActionListener());
         editText.setOnFocusChangeListener(getEndEditFocusChangeListener());
+    }
+
+    private void setEditTextHint(){
+        if(isEmptyValue())
+            editText.setHint(emptyValue);
+        else
+            editText.setHint(hint);
     }
 
     private void refreshEditMode(){
@@ -205,8 +229,10 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
 
     private void setTextInTextView(){
         String string = "";
-        if(!text.isEmpty()){
+        if (!text.isEmpty()){
             string = prefix + text;
+        } else if (!defaultValue.isEmpty()){
+            string = prefix + defaultValue;
         } else {
             if(!info.isEmpty())
                 string = info + separator;
@@ -257,6 +283,16 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     }
 
     private void setTextFromEditText(){
-        text = UtilsEditText.getString(editText);
+        String fromEditText = UtilsEditText.getString(editText);
+        if(fromEditText.isEmpty() && isEmptyValue())
+            text = emptyValue;
+        else
+            text = fromEditText;
+    }
+
+    private boolean isEmptyValue(){
+        if(emptyValue.isEmpty())
+            return false;
+        return true;
     }
 }

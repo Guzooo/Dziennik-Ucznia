@@ -102,10 +102,7 @@ public class AddSubjectFragment extends DialogFragment {
     }
 
     private int getUnpreparedness(){
-        String str = UtilsEditText.getString(unpreparedness);
-        if(str.isEmpty())
-            return 0;
-        return Integer.parseInt(str);
+        return UtilsEditText.getInt(unpreparedness, 0);
     }
 
     private String getDescription(){

@@ -94,6 +94,13 @@ public class DataManager {
         return getPref(context).getBoolean(id, def);
     }
 
+    public static void setAssessmentWindow(boolean autoShow, Context context){
+        String id = context.getString(R.string.ID_ASSESSMENT_WINDOW);
+        SharedPreferences.Editor editor = getEditor(context);
+        editor.putBoolean(id, autoShow);
+        editor.apply();
+    }
+
     public static boolean isHoldEditTextHelpIcon(Context context){
         String id = context.getString(R.string.ID_HOLD_EDIT_TEXT_HELP_ICON);
         boolean def = context.getResources().getBoolean(R.bool.DEFAULT_HOLD_EDIT_TEXT_HELP_ICON);

@@ -8,7 +8,14 @@ public class UtilsEditText {
         String string = getString(editText);
         if(string.isEmpty())
             return defaultInt;
-        return Integer.valueOf(string);
+        return Integer.valueOf(string);//TODO: czemu nie parseInt
+    }
+
+    public static float getFloat(EditText editText, float defaultFloat){
+        String string = getString(editText);
+        if(string.isEmpty())
+            return defaultFloat;
+        return Float.valueOf(string);//TODO: czemu nie parse;
     }
 
     public static String getString(EditText editText){

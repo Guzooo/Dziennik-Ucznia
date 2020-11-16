@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/margin_standard"
         android:layout_marginStart="@dimen/margin_standard"
         android:layout_marginEnd="@dimen/margin_standard"
-        android:text="@string/see_assessment_option_after_add"
+        android:text="@string/show_add_assessment_fragment_after_add"
         android:checked="true"/>
 
     <ImageView
@@ -129,7 +129,7 @@
             android:layout_gravity="center">
 
             <TextView
-                android:id="@+id/data"
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"

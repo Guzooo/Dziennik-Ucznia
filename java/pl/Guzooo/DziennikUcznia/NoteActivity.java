@@ -110,7 +110,7 @@ public class NoteActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.action_bar_edit_text);
 
         editTextTitle = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_edit_text_title);
-        editTextTitle.setHint(R.string.note_hint_name);
+        editTextTitle.setHint(R.string.title_hint);
     }
 
     private void newSubjectNote(){
@@ -153,7 +153,7 @@ public class NoteActivity extends AppCompatActivity {
             builder = new Notification.Builder(this);
         }
         builder = builder
-                .setSmallIcon(R.drawable.ic_pin)
+                .setSmallIcon(R.drawable.pin)
                 .setContentTitle(Subject.getOfId(subjectNote.getIdSubject(), this).getName())
                 .setContentText(getNotificationText())
                 .setStyle(new android.app.Notification.BigTextStyle()
@@ -211,7 +211,7 @@ public class NoteActivity extends AppCompatActivity {
 
     private Boolean checkSave(){
         if(editTextTitle.getText().toString().trim().equals("")){
-            Toast.makeText(this, R.string.note_hint_name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.title_hint, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
