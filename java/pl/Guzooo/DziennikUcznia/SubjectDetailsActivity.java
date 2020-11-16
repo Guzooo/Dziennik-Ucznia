@@ -1,7 +1,6 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -350,6 +349,12 @@ public class SubjectDetailsActivity extends GActivity {
     private String getActionBarSubtitle(){
         int id = subject.getId();
         float average = UtilsAverage.getSubjectFinalAverage(id, this);
+        if(average == 0)
+            return "";
+        if(DataManager.isAverageToAssessment(this))
+            return getString(R.string.final_average, average)
+                    + getString(R.string.separator)
+                    + UtilsAverage.roundAverage(average, this);
         return getString(R.string.final_average, average);
     }
 

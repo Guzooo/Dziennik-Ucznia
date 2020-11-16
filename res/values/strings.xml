@@ -225,7 +225,7 @@
     <string name="teacher_hint">@string/enter_subject_teacher</string>
     <string name="section_assessments">Oceny:</string>
     <string name="assessment_hint">Wpisz ocene</string>
-    <string name="assessment_weight_hint">Wpisz wage (1)</string>
+    <string name="assessment_weight_hint">Wpisz wage</string>
     <string name="section_unpreparedness">Nieprzygotowania:</string>
     <string name="unpreparedness">Nieprzygotowania</string>
     <string name="unpreparedness_prefix">NP: \ </string>

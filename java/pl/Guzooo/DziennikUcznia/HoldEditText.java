@@ -125,6 +125,8 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     public void setDefaultValue(String string){
         defaultValue = string;
         emptyValue = "";
+        setTextView();
+        setEditTextHint();
     }
 
     public void addOtherEditors(EditText newEdit){
@@ -195,7 +197,9 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
     }
 
     private void setEditTextHint(){
-        if(isEmptyValue())
+        if(!defaultValue.isEmpty())
+            editText.setHint(defaultValue);
+        else if(isEmptyValue())
             editText.setHint(emptyValue);
         else
             editText.setHint(hint);
@@ -243,7 +247,7 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
 
     private void setTextColorInTextView(){
         int color;
-        if(text.isEmpty())
+        if(text.isEmpty() && defaultValue.isEmpty())
             color = UtilsColor.getColorFromAttrs(R.attr.colorSecondaryDarkG, getContext());
         else
             color = UtilsColor.getColorFromAttrs(R.attr.colorSecondaryG, getContext());

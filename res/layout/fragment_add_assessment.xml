@@ -83,7 +83,8 @@
         <LinearLayout
             android:id="@+id/date_container"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:minHeight="@dimen/length_minimal"
             android:layout_weight="1">
 
             <ImageView

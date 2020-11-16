@@ -63,7 +63,7 @@ public class AdapterSubjectAssessments extends RecyclerView.Adapter<AdapterSubje
         }
 
         private void setWeight(Assessment2020 assessment){
-            String text = assessment.getWeight() + "";
+            String text = assessment.getRealWeight(getContext()) + "";
             weight.setText(text);
         }
 

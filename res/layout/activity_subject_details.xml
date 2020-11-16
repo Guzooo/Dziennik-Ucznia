@@ -65,8 +65,7 @@
                 android:inputType="number"
                 android:layout_marginStart="@dimen/margin_standard"
                 android:layout_marginEnd="@dimen/margin_standard"/>
-            <!--TODO: kiedyś ładniej to ogarnąć niż nawiasami-->
-            <!--TODO: powinny się skracać hinty po kilku minutach-->
+
             <EditText
                 android:id="@+id/assessment_weight_edit_text"
                 android:layout_width="wrap_content"
@@ -167,6 +166,8 @@
                 <ImageView
                     android:id="@+id/unpreparedness_button_edit"
                     android:src="@drawable/edit"
+                    android:layout_marginRight="@dimen/margin_standard"
+                    android:layout_marginEnd="@dimen/margin_standard"
                     style="@style/ClickableImages"/>
 
                 <TextView
@@ -174,9 +175,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/margin_standard"
-                    android:layout_marginEnd="@dimen/margin_standard"/>
+                    android:layout_gravity="center"/>
 
                 <ImageView
                     android:id="@+id/unpreparedness_button_minus"

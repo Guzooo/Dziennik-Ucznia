@@ -124,8 +124,12 @@ public class AddAssessmentFragment extends DialogFragment {
             weight.setVisibility(View.GONE);
         else {
             weight.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
-            String text = assessmentObj.getWeight() + "";
+            int weightI = assessmentObj.getWeight();
+            String text = "";
+            if(weightI != -1)
+                text = assessmentObj.getWeight() + "";
             weight.setText(text);
+            weight.setDefaultValue(assessmentObj.getRealWeight(getContext())+"");
         }
     }
 
@@ -134,6 +138,8 @@ public class AddAssessmentFragment extends DialogFragment {
         dateText.setText(text);
         dateEdit.setOnClickListener(getOnClickEditDateListener());
         dateContainer.setOnLongClickListener(getOnLongClickDateListener());
+        if(!DataManager.isHoldEditTextHelpIcon(getContext()))
+            dateEdit.setVisibility(View.GONE);
     }
 
     private void setDescription(){
@@ -260,8 +266,7 @@ public class AddAssessmentFragment extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 assessmentObj.setIdCategory((int) id);
-                CategoryOfAssessment2020 category = getSelectedCategoryOfAssessment();
-                weight.setDefaultValue(category.getDefaultWeight() + "");
+                weight.setDefaultValue(assessmentObj.getDefaultWeight(getContext()) + "");
             }
 
             @Override
@@ -269,12 +274,6 @@ public class AddAssessmentFragment extends DialogFragment {
 
             }
         };
-    }
-
-    private CategoryOfAssessment2020 getSelectedCategoryOfAssessment(){
-        CategoryOfAssessment2020 categoryOfAssessment = new CategoryOfAssessment2020();
-        categoryOfAssessment.setVariablesOfId(assessmentObj.getIdCategory(), getContext());
-        return categoryOfAssessment;
     }
 
     private int getDialogTitle(){
@@ -322,7 +321,10 @@ public class AddAssessmentFragment extends DialogFragment {
             return;
         //TODO w holderach możan metody zwracające floata i inta dodac, bedzie łatwiej;
         assessmentObj.setAssessment(Float.parseFloat(assessment.getText()));//TODO czemu nie value;
-        assessmentObj.setWeight(UtilsEditText.getInt(weight.getEditText(), -1));//TODO czemu nie parse XDD;
+        if(weight.getText().equals(""))
+            assessmentObj.setWeight(-1);
+        else
+            assessmentObj.setWeight(Integer.valueOf(weight.getText()));//TODO czemu nie parse XDD;
         assessmentObj.setNote(description.getText());
         if(isNewAssessment())
             assessmentObj.insert(getContext());

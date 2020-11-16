@@ -190,7 +190,7 @@ public class UtilsAverage {
 
     private static int getWeight(Assessment2020 assessment){
         if(DataManager.isAverageWeight(context))
-            return assessment.getWeight();
+            return assessment.getRealWeight(context);
         return 1;
     }
 

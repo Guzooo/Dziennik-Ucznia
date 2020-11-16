@@ -1,6 +1,7 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 
 public class Assessment2020 extends DatabaseObject{
@@ -77,7 +78,7 @@ public class Assessment2020 extends DatabaseObject{
     public void setVariablesEmpty() {
         template(0,
                 0,
-                1,
+                -1,
                 "",
                 0,
                 0,
@@ -113,12 +114,24 @@ public class Assessment2020 extends DatabaseObject{
         this.assessment = assessment;
     }
 
+    public int getRealWeight(Context context){
+        if(weight == -1)
+            return getDefaultWeight(context);
+        return weight;
+    }
+
     public int getWeight() {
         return weight;
     }
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public int getDefaultWeight(Context context){
+        CategoryOfAssessment2020 categoryOfAssessment = new CategoryOfAssessment2020();
+        categoryOfAssessment.setVariablesOfId(idCategory, context);
+        return categoryOfAssessment.getDefaultWeight();
     }
 
     public String getNote() {
