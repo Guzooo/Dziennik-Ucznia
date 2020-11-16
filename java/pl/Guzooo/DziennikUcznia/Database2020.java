@@ -33,6 +33,7 @@ public class Database2020 extends SQLiteOpenHelper {
         createTableAssessments();
         createTableCategoryAssessment();
         createDefaultCategoryOfAssessment();
+        createCategoriesOfAssessment(); //TODO: metoda chwilowa, po dodaniu zarzadzania kategoriami usuanac
     }
 
     @Override
@@ -174,6 +175,22 @@ public class Database2020 extends SQLiteOpenHelper {
     private void createDefaultCategoryOfAssessment(){
         CategoryOfAssessment2020 category = new CategoryOfAssessment2020();
         category.setName("DEFAULT");
+        db.insert(CategoryOfAssessment2020.DATABASE_NAME, null, category.getContentValues());
+    }
+
+    private void createCategoriesOfAssessment(){
+        CategoryOfAssessment2020 category = new CategoryOfAssessment2020();
+        category.setName("Odpowiedź");
+        category.setColor("#00A5FF");
+        db.insert(CategoryOfAssessment2020.DATABASE_NAME, null, category.getContentValues());
+        category.setName("Praca Domowa");
+        category.setColor("#00FF00");
+        db.insert(CategoryOfAssessment2020.DATABASE_NAME, null, category.getContentValues());
+        category.setName("Kartkówka");
+        category.setColor("#FD5454");
+        db.insert(CategoryOfAssessment2020.DATABASE_NAME, null, category.getContentValues());
+        category.setName("Sprawdzian");
+        category.setColor("#ff0000");
         db.insert(CategoryOfAssessment2020.DATABASE_NAME, null, category.getContentValues());
     }
 
