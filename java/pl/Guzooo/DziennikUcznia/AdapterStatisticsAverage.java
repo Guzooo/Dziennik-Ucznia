@@ -87,14 +87,15 @@ public class AdapterStatisticsAverage extends RecyclerView.Adapter<AdapterStatis
         private void setSemesterEnd(ArrayList<Assessment2020> assessments1, ArrayList<Assessment2020> assessments2){
             float average = UtilsAverage.getSubjectFinalAverage(assessments1, assessments2, getContext());
             float roundedAverage = UtilsAverage.roundAverage(average, getContext());
-            String set = "";
+            String set;
             String averageStr = Float.toString(average);
             String separator = getContext().getResources().getString(R.string.separator);
             String roundedAverageStr = String.valueOf(roundedAverage);
             roundedAverageStr = roundedAverageStr.replaceAll("\\.0", "");
             if(!DataManager.isAverageToAssessment(getContext()))
                 set = averageStr;
-            set = averageStr + separator + roundedAverageStr;
+            else
+                set = averageStr + separator + roundedAverageStr;
             averageEnd.setText(set);
         }
 
@@ -113,9 +114,7 @@ public class AdapterStatisticsAverage extends RecyclerView.Adapter<AdapterStatis
         private String getAssessments(ArrayList<Assessment2020> assessments){
             String assessmentsStr = "";
             for(Assessment2020 assessment : assessments)
-                assessmentsStr += assessment.getAssessment() + ", ";
-            assessmentsStr = assessmentsStr.replaceAll("\\.0", "");
-            assessmentsStr = assessmentsStr.replaceAll("\\.5", "+");
+                assessmentsStr += assessment.getAssessmentToRead() + ", ";
             assessmentsStr = assessmentsStr.trim();
             int endIndex = assessmentsStr.length()-1;
             assessmentsStr = assessmentsStr.substring(0, endIndex);

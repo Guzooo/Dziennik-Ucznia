@@ -62,7 +62,7 @@
                 android:layout_height="match_parent"
                 android:minHeight="@dimen/length_minimal"
                 android:hint="@string/assessment_hint"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:layout_marginStart="@dimen/margin_standard"
                 android:layout_marginEnd="@dimen/margin_standard"/>
 
