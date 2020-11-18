@@ -24,7 +24,7 @@ public class LessonPlanEditActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "id";
 
-    private SubjectPlan subjectPlan;
+    private ElementOfPlan2020 subjectPlan;
 
     private EditText editTextClassroom;
     private Spinner spinnerSubject;
@@ -111,11 +111,11 @@ public class LessonPlanEditActivity extends AppCompatActivity {
         subjectPlan.setDay((int) spinnerDay.getSelectedItemId());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            subjectPlan.setTimeStart(subjectPlan.convertFromTime(timePickerStart.getHour(), timePickerStart.getMinute()));
-            subjectPlan.setTimeEnd(subjectPlan.convertFromTime(timePickerEnd.getHour(), timePickerEnd.getMinute()));
+            subjectPlan.setTimeStart(timePickerStart.getHour(), timePickerStart.getMinute());
+            subjectPlan.setTimeEnd(timePickerEnd.getHour(), timePickerEnd.getMinute());
         } else {
-            subjectPlan.setTimeStart(subjectPlan.convertFromTime(timePickerStart.getCurrentHour(), timePickerStart.getCurrentMinute()));
-            subjectPlan.setTimeEnd(subjectPlan.convertFromTime(timePickerEnd.getCurrentHour(), timePickerEnd.getCurrentMinute()));
+            subjectPlan.setTimeStart(timePickerStart.getCurrentHour(), timePickerStart.getCurrentMinute());
+            subjectPlan.setTimeEnd(timePickerEnd.getCurrentHour(), timePickerEnd.getCurrentMinute());
         }
 
         subjectPlan.setClassroom(editTextClassroom.getText().toString().trim());
@@ -125,7 +125,6 @@ public class LessonPlanEditActivity extends AppCompatActivity {
         } else {
             subjectPlan.update(this);
         }
-        currentSubject();
         finish();
     }
 
@@ -150,8 +149,8 @@ public class LessonPlanEditActivity extends AppCompatActivity {
     }
 
     private void cursorForSpinnerSubject(){
-        cursor = db.query("SUBJECTS",
-                Subject.subjectOnCursor,
+        cursor = db.query(Subject2020.DATABASE_NAME,
+                Subject2020.ON_CURSOR,
                 null, null, null, null,
                 "NAME");
     }
@@ -168,13 +167,15 @@ public class LessonPlanEditActivity extends AppCompatActivity {
     }
 
     private void newSubjectPlan(){
-        subjectPlan =  SubjectPlan.newEmpty();
+        subjectPlan =  new ElementOfPlan2020();
     }
 
     private void readSubjectPlan(){
         Button buttonSave = findViewById(R.id.plan_edit_save);
 
-        subjectPlan = SubjectPlan.getOfId(getIntent().getIntExtra(EXTRA_ID, 0), this);
+        int id = getIntent().getIntExtra(EXTRA_ID, 0);
+        subjectPlan = new ElementOfPlan2020();
+        subjectPlan.setVariablesOfId(id, this);
 
         spinnerSubject.setSelection(getPosition(subjectPlan.getIdSubject(), cursor));
         spinnerDay.setSelection(subjectPlan.getDay());
@@ -192,7 +193,7 @@ public class LessonPlanEditActivity extends AppCompatActivity {
         }
 
         editTextClassroom.setText(subjectPlan.getClassroom());
-        buttonSave.setText(R.string.save);
+        buttonSave.setText(android.R.string.ok);
         getSupportActionBar().setTitle(R.string.lesson_plan_edit);
     }
 
@@ -202,25 +203,20 @@ public class LessonPlanEditActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         subjectPlan.delete(getApplicationContext());
-                        currentSubject();
                         finish();
                     }
                 })
                 .show();
     }
 
-    private void currentSubject(){
-        Subject subject = Subject.getOfId(subjectPlan.getIdSubject(), this);
-        subject.putInfoDay(this);
-        subject.update(this);
-    }
-
     private int getPosition(int id, Cursor cursor){
         int position = 0;
         if(cursor.moveToFirst()){
             do{
+                Subject2020 subject = new Subject2020();
+                subject.setVariablesOfCursor(cursor);
                 position++;
-                if(Subject.getOfCursor(cursor).getId() == id){
+                if(subject.getId() == id){
                     return position;
                 }
             }while (cursor.moveToNext());

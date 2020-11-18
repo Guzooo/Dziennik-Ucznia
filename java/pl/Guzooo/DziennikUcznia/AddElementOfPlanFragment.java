@@ -217,7 +217,7 @@ public class AddElementOfPlanFragment extends DialogFragment {
 
     private void setCursor(){
         cursor = db.query(Subject2020.DATABASE_NAME,
-                Subject.subjectOnCursor,
+                Subject2020.ON_CURSOR,
                 null, null, null, null,
                 Subject2020.NAME);
     }

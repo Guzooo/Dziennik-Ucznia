@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.text.InputType;

@@ -8,9 +8,5 @@
             android:action="android.intent.action.VIEW"
             android:targetPackage="pl.Guzooo.DziennikUcznia"
             android:targetClass="pl.Guzooo.DziennikUcznia.MainActivity"/>
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="pl.Guzooo.DziennikUcznia"
-            android:targetClass="pl.Guzooo.DziennikUcznia.LessonPlanActivity"/>
     </shortcut>
 </shortscuts>

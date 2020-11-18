@@ -2,6 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--TODO: stare-->
     <item
         android:id="@+id/action_trash"
         android:icon="@android:drawable/ic_menu_delete"

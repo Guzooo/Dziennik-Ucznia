@@ -115,7 +115,6 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <!--TODO: po usunięciu tekstu w hincie wyświetla się ile wynosi domyślna liczba, i ją ustawia w razie pustki-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,6 +179,8 @@
                 <ImageView
                     android:id="@+id/unpreparedness_button_minus"
                     android:src="@drawable/remove"
+                    android:layout_marginLeft="@dimen/margin_standard"
+                    android:layout_marginStart="@dimen/margin_standard"
                     style="@style/ClickableImages"/>
             </LinearLayout>
         </FrameLayout>

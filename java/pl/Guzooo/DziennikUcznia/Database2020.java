@@ -16,7 +16,7 @@ public class Database2020 extends SQLiteOpenHelper {
     public static final String ID = "_id";
 
     private static final String DB_NAME = "dziennikucznia";
-    private static final int DB_VERSION = 8; //TODO: Już nowe
+    private static final int DB_VERSION = 8;
 
     private SQLiteDatabase db;
 

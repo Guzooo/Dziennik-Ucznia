@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".LessonPlanEditActivity">
 
+    <!--TODO: stare-->
+
     <ScrollView
         android:id="@+id/plan_edit_scroll_view"
         android:layout_width="match_parent"
@@ -101,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickSave"
-            android:text="@string/add"
+            android:text="@android:string/ok"
             style="@style/Button"/>
 
         <Button
@@ -109,7 +111,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="ClickCancel"
-            android:text="@string/cancel"
+            android:text="@android:string/cancel"
             style="@style/Button"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

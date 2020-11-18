@@ -15,6 +15,8 @@ import java.net.URL;
 
 public class NotificationOnline extends AsyncTask<Void, Void, Boolean>{
 
+    //TODO: zmiany
+
     private Context context;
     private String informationPage = "https://docs.google.com/document/d/1kKQm-7FRS2Wgqi-ypYa40p2riliaiSuYKzMNWyykYmg/edit?usp=sharing";
     private AlertDialog.Builder alert;

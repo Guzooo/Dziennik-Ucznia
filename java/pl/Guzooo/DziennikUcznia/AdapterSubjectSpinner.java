@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 public class AdapterSubjectSpinner extends ArrayAdapter<String> {
 
+    //TODO: stary
+
     private Cursor cursor;
 
     public AdapterSubjectSpinner(Context context, Cursor cursor) {
@@ -47,7 +49,8 @@ public class AdapterSubjectSpinner extends ArrayAdapter<String> {
         }
 
         if(cursor.moveToPosition(position - 1)){
-            Subject subject = Subject.getOfCursor(cursor);
+            Subject2020 subject = new Subject2020();
+            subject.setVariablesOfCursor(cursor);
 
             name.setText(subject.getName());
         }
@@ -58,7 +61,8 @@ public class AdapterSubjectSpinner extends ArrayAdapter<String> {
     @Override
     public long getItemId(int position) {
         if(cursor.moveToPosition(position - 1)){
-            Subject subject = Subject.getOfCursor(cursor);
+            Subject2020 subject = new Subject2020();
+            subject.setVariablesOfCursor(cursor);
             return subject.getId();
         }
         return 0;

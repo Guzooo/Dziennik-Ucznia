@@ -3,81 +3,25 @@
     <string name="app_G">© Guzooo 2018 - 2020</string>
     <string name="app_v">v%1$s</string>
 
-    <!--    <string name="add_subject">Dodawanie Przedmiotu</string>-->
-    <string name="edit_subject">Edytowanie Przedmiotu</string>
     <string name="lesson_plan_add">Dodawanie Planu Lekcji</string>
     <string name="lesson_plan_edit">Edycja Planu Lekcji</string>
 
     <string name="error_database">Błąd bazy danych</string>
 
-    <string name="save">Zapisz</string>
-    <string name="add">Dodaj</string>
-    <string name="ok">Ok</string>
-    <string name="cancel">Anuluj</string>
-    <string name="null_string">Brak</string>
     <string name="you_are_sure">Jesteś pewny?</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
-
-    <!-- <string name="absense">Nieobecność</string>
-    <string name="absense_made">Notatki o uzupełnieniu lekcji zostały dodane</string>-->
-
-    <string name="menu_share">Udostępnij</string>
-
-    <string name="subject_null_assessments">Brak ocen</string>
-    <string name="subject_null_this_assessment">Nie znaleźiono tej oceny do usunięcia</string>
-
-    <string name="main_null_subject">Nie masz jeszcze przedmiotów\nDotknij plusa w prawym dolnym rogu by dodać przedmiot</string>
 
     <string name="information_window_message_from_creator">Wiadomość od twórcy:</string>
     <string name="information_window_update">Aktualizuj</string>
     <string name="information_window_available_update">Dostępna aktualizacja</string>
     <string name="information_window_recommended_update">Zalecana aktualizacja</string>
 
-    <string name="category_of_assessment_test">Sprawdzian</string>
-    <string name="category_of_assessment_quiz">Kartkówka</string>
-    <string name="category_of_assessment_answer">Odpowiedź</string>
-    <string name="category_of_assessment_homework">Praca Domowa</string>
-    <string name="category_of_assessment_default">Domyślna</string>
-
-    <string name="hint_teacher">Wpisz nauczyciela przedmiotu</string>
-    <string name="hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>
-
-    <string name="hint_description">Wpisz dowolne informacje</string>
-
-    <!--Do usunięcia-->
-    <string name="details_minus_unpreparedness">-1NP</string>
-
-    <string name="edit_hint_name">Wpisz nazwę przedmiotu</string>
-    <string name="edit_hint_unpreparedness">Wpisz liczbe nieprzygotowań</string>
-    <string name="edit_hint_description">Wpisz dowolne informacje na temat przedmiotu</string>
-    <string name="edit_current_assessment">Poprzednie oceny:</string>
-    <string name="edit_edit_assessment">Aktualne oceny:</string>
-    <string name="edit_delete_all_assessment">Wszystkie</string>
-    <string name="edit_duplicate_subject">Powiel przedmiot</string>
-    <string name="edit_duplicate_subject_made">Przedmiot został powielony</string>
-    <string name="edit_delete_subject">Usuń przedmiot</string>
-    <!--aż do tego miejsca -->
-
-    <string name="note_action_pin">Przypnij notatke</string>
     <string name="notification_channel_note">Notatki</string>
     <string name="notification_channel_note_description">Przedmiotowe notatki, które użytkownik przypiął</string>
 
-    <string name="plan_null_plan">Nie masz jeszcze planu lekcji\nDotknij plusa poniżej by dodać plan lekcji</string>
-
-    <string name="statistics_select_semester">Wybierz semestr:</string>
-    <string name="statistics_beta">Wciąż jest to wersja BETA więc zmiana semestru nie przywróci początkowej ilości nieprzygotowań</string>
-    <string name="statistics_coming_soon">W tym miejscu wkrótce pojawią się informacje na temat ilości poszczególnych ocen, przedmioty z których średnia jest niewystarczająca oraz inne przydatne dane.\nJeśli masz jakieś ciekawe pomysły pisz! ⬇</string>
-
     <string name="setting_facebook">Sprawdź fanpage\nFacebook</string>
     <string name="setting_messenger">Zaproponuj zmiany\nMessenger</string>
-    <string name="setting_to_six">Wpisz potrzebną średnią do uzyskania oceny 6</string>
-    <string name="setting_to_five">Wpisz potrzebną średnią do uzyskania oceny 5</string>
-    <string name="setting_to_four">Wpisz potrzebną średnią do uzyskania oceny 4</string>
-    <string name="setting_to_three">Wpisz potrzebną średnią do uzyskania oceny 3</string>
-    <string name="setting_to_two">Wpisz potrzebną średnią do uzyskania oceny 2</string>
-    <string name="setting_to_belt">Wpisz potrzebną średnią do uzyskania paska</string>
-    <string name="setting_end_day">Przestań pokazywań dzisiejsze przedmioty po:</string>
 
     <!-- NOWE -->
     <string name="setting">Ustawienia</string>
@@ -106,6 +50,10 @@
     <string name="add_lesson_plan">Plan lekcji</string>
     <string name="add_note">Notatke</string>
     <string name="add_assessment">Ocene</string>
+
+    <string name="no_subject">Brak przedmiotów\nDodaj jakieś</string>
+    <string name="no_plan">Brak Planu\nZacznij go tworzyć</string>
+    <string name="no_stat">Brak statystyk\nCzekam na oceny</string>
 
     <string name="notepad">Notatnik</string><!--nwm-->
 
