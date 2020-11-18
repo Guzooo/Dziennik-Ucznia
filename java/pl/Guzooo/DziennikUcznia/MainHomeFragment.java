@@ -42,6 +42,18 @@ public class MainHomeFragment extends MainFragment {
     }
 
     @Override
+    public int getNoDataText() {
+        return R.string.no_subject;
+    }
+
+    @Override
+    public boolean isNoDateVisible() {
+        if(subjectCursors.size() == 0)
+            return true;
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.only_recycler, container, false);
         initialization(layout);
@@ -53,6 +65,7 @@ public class MainHomeFragment extends MainFragment {
         } catch (SQLiteException e){
             Database2020.errorToast(getContext());
         }
+        mainFragmentListener.setNoDataVisibility();
         return layout;
     }
 
@@ -65,6 +78,7 @@ public class MainHomeFragment extends MainFragment {
         } catch (SQLiteException e){
             Database2020.errorToast(getContext());
         }
+        mainFragmentListener.setNoDataVisibility();
     }
 
     @Override

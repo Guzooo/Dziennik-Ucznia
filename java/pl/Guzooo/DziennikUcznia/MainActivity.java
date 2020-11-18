@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -13,14 +14,15 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener, PillMenu.OnPillMenuItemSelectedListener {
+public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener, PillMenu.OnPillMenuItemSelectedListener, MainFragment.MainFragmentListener {
 
-    private BottomNavigationView bottomNavigation;
     private MainFragment currentFragment;
 
+    private TextView noData;
     private FloatingActionButton addFAB;
     private FloatingActionButton actionFAB;
     private PillMenu pillMenu;
+    private BottomNavigationView bottomNavigation;
 
     @Override
     public int getBottomPadding() {
@@ -43,44 +45,44 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         initialization();
         setFullScreen();
         setFragment();
+        setActionBar();
         setBottomNavigation();
         setPillMenu();
         setAddFAB();
         setActionFAB();
-        setNotepad();
         NotificationOnline.checkAutomatically(this);
         NotificationsChannels.CreateNotificationsChannels(this);//TODO: czy to musi się wykonywać za każdym uruchomieniem aplikacji
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onRestart() {//TODO: Nwm czy nie resume
+        super.onRestart();
+        currentFragment.onRestart();
         setActionBarSubtitle();
     }
 
     @Override
-    protected void onRestart() {//Nwm czy nie resume
-        super.onRestart();
-        currentFragment.onRestart();
-    }
-
-    @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
+        MainFragment newFragment = null;
         switch (menuItem.getItemId()){
             case R.id.settings:
-                setCurrentFragment(new MainSettingsFragment());
-                return true;
+                newFragment = new MainSettingsFragment();
+                break;
             case R.id.home:
-                setCurrentFragment(new MainHomeFragment());
-                return true;
+                newFragment = new MainHomeFragment();
+                break;
             case R.id.statistics:
-                setCurrentFragment(new MainStatisticsFragment());
-                return true;
+                newFragment = new MainStatisticsFragment();
+                break;
             case R.id.lesson_plan:
-                setCurrentFragment(new MainLessonPlanFragment());
-                return true;
+                newFragment = new MainLessonPlanFragment();
+                break;
         }
-        return false;
+        if(newFragment == null || (currentFragment != null && currentFragment.getClass() == newFragment.getClass()))
+            return false;
+        setCurrentFragment(newFragment);
+        refreshActivityByNewFragment();
+        return true;
     }
 
     @Override
@@ -102,6 +104,15 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     @Override
+    public void setNoDataVisibility(){
+        boolean visible = currentFragment.isNoDateVisible();
+        if(visible)
+            noData.setVisibility(View.VISIBLE);
+        else
+            noData.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onBackPressed() {
         if(pillMenu.isVisible())
             pillMenu.hide();
@@ -114,10 +125,11 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void initialization(){
-        bottomNavigation = findViewById(R.id.bottom_navigation);
+        noData = findViewById(R.id.no_data);
         addFAB = findViewById(R.id.fab_add);
         actionFAB = findViewById(R.id.fab_action);
         pillMenu = findViewById(R.id.pill_menu);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
     }
 
     private void setFullScreen(){
@@ -129,6 +141,10 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         MainFragment fragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.content);
         if(fragment != null)
             setCurrentFragment(fragment);
+    }
+
+    private void setActionBar(){
+        setActionBarSubtitle();
     }
 
     private void setBottomNavigation(){
@@ -160,15 +176,6 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         });
     }
 
-    private void setActionBarSubtitle(){
-        String subtitle = currentFragment.getActionBarSubtitle();
-        getSupportActionBar().setSubtitle(subtitle);
-    }
-
-    private void setNotepad(){
-        //TODO: notatnik w głównym Activity
-    }
-
     private void addAssessment(){
         Toast.makeText(this, "ocena", Toast.LENGTH_SHORT).show();
     }
@@ -196,7 +203,8 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
 
     private void setCurrentFragment(MainFragment fragment){
         replaceFragment(fragment);
-        //setActionBarSubtitle(); TODO:Ogarnąć Action Bara
+        currentFragment.setMainFragmentListener(this);
+        setNoDataByFragment();
         setAddFabByFragment();
         setActionFabByFragment();
     }
@@ -207,6 +215,12 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); //TODO inne animacje
         transaction.commit();
         currentFragment = fragment;
+    }
+
+    private void setNoDataByFragment(){
+        int string = currentFragment.getNoDataText();
+        noData.setText(string);
+        noData.setVisibility(View.GONE);
     }
 
     private void setAddFabByFragment() {
@@ -247,6 +261,10 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         actionFAB.show();
     }
 
+    private void refreshActivityByNewFragment(){
+        setActionBarSubtitle();
+    }
+
     private OnApplyWindowInsetsListener getWindowsInsetsListener(){
         return new OnApplyWindowInsetsListener() {
             @Override
@@ -263,6 +281,33 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         params.bottomMargin = insets.getSystemWindowInsetBottom();
         params.rightMargin = insets.getSystemWindowInsetRight();
         params.leftMargin = insets.getSystemWindowInsetLeft();
+    }
+
+    private void setActionBarSubtitle(){
+        //TODO: piękna animacja zamiany tekstu no bo umiem :)))));
+        if(currentFragment != null && currentFragment.isActionBarSubtitleIsVisibility())
+            getSupportActionBar().setSubtitle(getActionBarSubtitle());
+        else
+            getSupportActionBar().setSubtitle(R.string.app_G);
+    }
+
+    public String getActionBarSubtitle(){
+        String semester = getSemester();
+        String separator = getString(R.string.separator);
+        String average = getFinalAverage();
+        return semester + separator + average;
+    }
+
+    private String getSemester(){
+        int semester = DataManager.getSemester(this);
+        return getString(R.string.semester_with_colon, semester);
+    }
+
+    private String getFinalAverage(){
+        float average = UtilsAverage.getFinalAverage(this);
+        if(UtilsAverage.isBelt(average, this))
+            return getString(R.string.final_average, average) + getString(R.string.separator) + getString(R.string.belt);
+        return getString(R.string.final_average, average);
     }
 
     private void openHomeFragment(){

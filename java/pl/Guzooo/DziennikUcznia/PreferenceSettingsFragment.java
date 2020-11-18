@@ -37,7 +37,6 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         setAverageToAssessmentObjects();
         setAverageToBelt();
         setDeleteObjects();
-        //TODO: pasek u góry refresh; gdy zmienie semestr;
     }
 
     private void setTitles(){

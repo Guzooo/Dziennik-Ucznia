@@ -28,6 +28,28 @@ public class MainLessonPlanFragment extends MainFragment {
     private ArrayList<Cursor> elementOfLessonPlanCursors = new ArrayList<>();
 
     @Override
+    public int getIconActionFAB() {
+        return R.drawable.today;
+    }
+
+    @Override
+    public void clickIconActionFAB() {
+        goToToday();
+    }
+
+    @Override
+    public int getNoDataText() {
+        return R.string.no_plan;
+    }
+
+    @Override
+    public boolean isNoDateVisible() {
+        if(elementOfLessonPlanCursors.size() == 0)
+            return true;
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.only_recycler, container, false);
         initialization(layout);
@@ -40,6 +62,7 @@ public class MainLessonPlanFragment extends MainFragment {
             Database2020.errorToast(getContext());
         }
         goToToday();
+        mainFragmentListener.setNoDataVisibility();
         return layout;
     }
 
@@ -52,6 +75,7 @@ public class MainLessonPlanFragment extends MainFragment {
         } catch (SQLiteException e){
             Database2020.errorToast(getContext());
         }
+        mainFragmentListener.setNoDataVisibility();
     }
 
     @Override
@@ -60,14 +84,11 @@ public class MainLessonPlanFragment extends MainFragment {
         closeDatabaseElements();
     }
 
-    @Override
-    public int getIconActionFAB() {
-        return R.drawable.today;
-    }
-
-    @Override
-    public void clickIconActionFAB() {
-        goToToday();
+    private void goToToday(){
+        int todayPosition = getTodayFromTitles();
+        RecyclerView.SmoothScroller smoothScroller = getSmoothScroller();
+        smoothScroller.setTargetPosition(todayPosition);
+        recycler.getLayoutManager().startSmoothScroll(smoothScroller);
     }
 
     private void initialization(View v){
@@ -114,13 +135,6 @@ public class MainLessonPlanFragment extends MainFragment {
         for(int i = 0; i < elementOfLessonPlanCursors.size(); i++)
             elementOfLessonPlanCursors.get(i).close();
         db.close();
-    }
-
-    private void goToToday(){
-        int todayPosition = getTodayFromTitles();
-        RecyclerView.SmoothScroller smoothScroller = getSmoothScroller();
-        smoothScroller.setTargetPosition(todayPosition);
-        recycler.getLayoutManager().startSmoothScroll(smoothScroller);
     }
 
     private void setElementOfLessonPlanCursors(){

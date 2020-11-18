@@ -29,10 +29,23 @@ public class MainStatisticsFragment extends MainFragment {
     private TextView semesterEnd;
 
     @Override
+    public int getNoDataText() {
+        return R.string.no_stat;
+    }
+
+    @Override
+    public boolean isNoDateVisible() {
+        if(cursor.getCount() == 0)
+            return true;
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_main_statistics, container, false);
         initialization(layout);
         setFullScreen();
+        setAverages();
         try{
             setData();
             setAdapter();
@@ -40,20 +53,21 @@ public class MainStatisticsFragment extends MainFragment {
         }catch (SQLiteException e){
             Database2020.errorToast(getContext());
         }
-        setAverages();
+        mainFragmentListener.setNoDataVisibility();
         return layout;
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
+        setAverages();
         try {
             refreshData();
             adapter.changeData(cursor);
         }catch (SQLException e){
             Database2020.errorToast(getContext());
         }
-        setAverages();
+        mainFragmentListener.setNoDataVisibility();
     }
 
     @Override
@@ -73,6 +87,12 @@ public class MainStatisticsFragment extends MainFragment {
 
     private void setFullScreen(){
         UtilsFullScreen.setPaddings(nestScroll, this);
+    }
+
+    private void setAverages(){
+        setSemester1();
+        setSemester2();
+        setSemesterEnd();
     }
 
     private void setData(){
@@ -97,12 +117,6 @@ public class MainStatisticsFragment extends MainFragment {
         recycler.setAdapter(adapter);
     }
 
-    private void setAverages(){
-        setSemester1();
-        setSemester2();
-        setSemesterEnd();
-    }
-
     private void refreshData(){
         setData();
     }
@@ -110,6 +124,24 @@ public class MainStatisticsFragment extends MainFragment {
     private void closeDatabaseElements(){
         cursor.close();
         db.close();
+    }
+
+    private void setSemester1(){
+        float average = UtilsAverage.getSemesterAverage(1, getContext());
+        String averageString = String.valueOf(average);
+        semester1.setText(averageString);
+    }
+
+    private void setSemester2(){
+        float average = UtilsAverage.getSemesterAverage(2, getContext());
+        String averageString = String.valueOf(average);
+        semester2.setText(averageString);
+    }
+
+    private void setSemesterEnd(){
+        float average = UtilsAverage.getFinalAverage(getContext());
+        String averageString = String.valueOf(average);
+        semesterEnd.setText(averageString);
     }
 
     private void setCursor(){
@@ -150,23 +182,5 @@ public class MainStatisticsFragment extends MainFragment {
 
     private String orderSubjectAverage(){
         return " ORDER BY " + Subject2020.NAME;
-    }
-
-    private void setSemester1(){
-        float average = UtilsAverage.getSemesterAverage(1, getContext());
-        String averageString = String.valueOf(average);
-        semester1.setText(averageString);
-    }
-
-    private void setSemester2(){
-        float average = UtilsAverage.getSemesterAverage(2, getContext());
-        String averageString = String.valueOf(average);
-        semester2.setText(averageString);
-    }
-
-    private void setSemesterEnd(){
-        float average = UtilsAverage.getFinalAverage(getContext());
-        String averageString = String.valueOf(average);
-        semesterEnd.setText(averageString);
     }
 }

@@ -4,19 +4,34 @@ import androidx.fragment.app.Fragment;
 
 public abstract class MainFragment extends Fragment {
 
+    public MainFragmentListener mainFragmentListener;
+
+    public interface MainFragmentListener{
+        void setNoDataVisibility();
+    }
+
+    public void setMainFragmentListener(MainFragmentListener listener){
+        mainFragmentListener = listener;
+    }
+
     public boolean isHome(){
         return false;
     }
 
-    public String getActionBarSubtitle(){
-        String semester = getSemester();
-        String separator = getString(R.string.separator);
-        String average = getFinalAverage();
-        return semester + separator + average;
+    public boolean isActionBarSubtitleIsVisibility(){
+        return true;
     }
 
     public boolean isVisibleAddFAB(){
         return true;
+    }
+
+    public int getNoDataText(){
+        return R.string.no_subject;
+    }
+
+    public boolean isNoDateVisible(){
+        return false;
     }
 
     public int getIconActionFAB(){
@@ -33,17 +48,5 @@ public abstract class MainFragment extends Fragment {
 
     public void onRestart(){
 
-    }
-
-    private String getSemester(){
-        int semester = DataManager.getSemester(getContext());
-        return getString(R.string.semester_with_colon, semester);
-    }
-
-    private String getFinalAverage(){
-        float average = UtilsAverage.getFinalAverage(getContext());
-        if(UtilsAverage.isBelt(average, getContext()))
-            return getString(R.string.final_average, average) + getString(R.string.separator) + getString(R.string.belt);
-        return getString(R.string.final_average, average);
     }
 }

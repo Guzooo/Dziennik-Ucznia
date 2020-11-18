@@ -23,8 +23,8 @@ public class MainSettingsFragment extends MainFragment {
     private View infoG;
 
     @Override
-    public String getActionBarSubtitle() {
-        return "";
+    public boolean isActionBarSubtitleIsVisibility() {
+        return false;
     }
 
     @Override
