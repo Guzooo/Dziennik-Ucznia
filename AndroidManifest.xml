@@ -28,8 +28,5 @@
         <activity
             android:name=".SubjectDetailsActivity"
             android:parentActivityName=".MainActivity"/>
-        <activity
-            android:name=".LessonPlanEditActivity"
-            android:label="@string/lesson_plan_add" />
     </application>
 </manifest>

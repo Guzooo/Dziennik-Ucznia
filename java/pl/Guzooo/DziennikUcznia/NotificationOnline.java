@@ -96,7 +96,7 @@ public class NotificationOnline extends AsyncTask<Void, Void, Boolean>{
     }
 
     private void messageFromTheCreator(String description){
-        alert = InterfaceUtils.getAlertEmpty(context)
+        alert = new AlertDialog.Builder(context)
                 .setTitle(R.string.information_window_message_from_creator)
                 .setMessage(description);
     }
@@ -120,7 +120,7 @@ public class NotificationOnline extends AsyncTask<Void, Void, Boolean>{
     }
 
     private void update(){
-        alert = InterfaceUtils.getAlertEmpty(context)
+        alert = new AlertDialog.Builder(context)
                 .setPositiveButton(R.string.information_window_update, new androidx.appcompat.app.AlertDialog.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -3,15 +3,9 @@
     <string name="app_G">© Guzooo 2018 - 2020</string>
     <string name="app_v">v%1$s</string>
 
-    <string name="lesson_plan_add">Dodawanie Planu Lekcji</string>
-    <string name="lesson_plan_edit">Edycja Planu Lekcji</string>
-
     <string name="error_database">Błąd bazy danych</string>
 
-    <string name="you_are_sure">Jesteś pewny?</string>
-    <string name="yes">Tak</string>
-    <string name="no">Nie</string>
-
+    <!--Wziąć się za nowy sposób wyświetlania wiadomości-->
     <string name="information_window_message_from_creator">Wiadomość od twórcy:</string>
     <string name="information_window_update">Aktualizuj</string>
     <string name="information_window_available_update">Dostępna aktualizacja</string>
@@ -55,8 +49,6 @@
     <string name="no_plan">Brak Planu\nZacznij go tworzyć</string>
     <string name="no_stat">Brak statystyk\nCzekam na oceny</string>
 
-    <string name="notepad">Notatnik</string><!--nwm-->
-
     <string name="add_subject_title">Dodaj przedmiot</string>
     <string name="enter_subject_name">Wpisz nazwe przedmiotu</string>
     <string name="enter_subject_teacher">Wpisz nauczyciela przedmiotu</string>
@@ -64,11 +56,15 @@
     <string name="enter_subject_description">Wpisz dowolne informacje na temat przedmiotu</string>
 
     <string name="add_element_of_lesson_plan_title">Dodaj pozycje w planie lekcji</string>
+    <string name="edit_element_of_lesson_plan_title">Edytuj pozycje w planie lekcji</string>
     <string name="plan_edit_hint_subject">Wybierz przedmiot</string> <!--usuń kiedyś-->
     <string name="plan_edit_null_subject">Nie masz jeszcze przedmiotów\nBy dodać plan, cofnij się i utwórz przedmiot</string> <!--usuń kiedyś-->
     <string name="plan_edit_start_lesson">Początek lekcji</string>
     <string name="plan_edit_end_lesson">Koniec lekcji</string>
+    <string name="plan_edit_classroom">Klasa</string>
     <string name="plan_edit_hint_classroom">Wpisz klasę w której odbędą się zajęcia</string>
+    <string name="want_delete_this_element_of_plan">Chcesz usunąć ten element planu lekcji?</string>
+    <string name="done_delete_this_element_of_plan">Usunąłeś element planu lekcji</string>
 
     <string name="select_day_hint">Wybierz dzień</string>
     <string name="monday">Poniedziałek</string>
@@ -222,5 +218,4 @@
     <string name="pin_note">Przypiąłeś notatke</string>
     <string name="unpin_note">Odpiąłeś notatke</string>
     <string name="can_not_share_without_title">Nie można udostępnić notatki bez tytułu</string>
-    <string name="note_null">Notatka nie jest uzupełniona</string><!--nwm po co-->
 </resources>

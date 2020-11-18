@@ -1,17 +1,14 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,12 +108,20 @@ public class MainLessonPlanFragment extends MainFragment {
         adapter.setListener(new AdapterLessonPlanRecycler.Listener() {
             @Override
             public void onClick(int id) {
-                //TODO: zmienić na nowe okno
-                Intent intent = new Intent(getContext(), LessonPlanEditActivity.class);
-                intent.putExtra(LessonPlanEditActivity.EXTRA_ID, id);
-                startActivity(intent);
+                ElementOfPlan2020 elementOfPlan = new ElementOfPlan2020();
+                elementOfPlan.setVariablesOfId(id, getContext());
+                new AddElementOfPlanFragment().show(elementOfPlan, getInsertListener(), getFragmentManager());
             }
         });
+    }
+
+    private MainMenuInsertListener getInsertListener(){
+        return new MainMenuInsertListener() {
+            @Override
+            public void beforeInsert() {
+                onRestart();
+            }
+        };
     }
 
     private void setRecycler(){

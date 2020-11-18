@@ -11,11 +11,25 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5"/>
 
+    <!--TODO: sprawdzić jak to bedzie wygladac bez marginów-->
+    <ImageView
+        android:id="@+id/delete"
+        android:src="@drawable/delete"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginRight="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/ClickableImages"/>
+
     <Spinner
         android:id="@+id/subject"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        android:layout_marginTop="@dimen/margin_standard"
+        app:layout_constraintTop_toBottomOf="@id/delete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/half"
         style="@style/AllClickable"/>
@@ -24,7 +38,10 @@
         android:id="@+id/day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        android:layout_marginTop="@dimen/margin_standard"
+        app:layout_constraintTop_toBottomOf="@id/delete"
         app:layout_constraintStart_toStartOf="@id/half"
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/AllClickable"/>
@@ -33,6 +50,8 @@
         android:id="@+id/lesson_start"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
         android:layout_marginTop="@dimen/margin_standard"
         android:orientation="vertical"
         android:gravity="center"
@@ -57,6 +76,8 @@
         android:id="@+id/lesson_end"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
         android:layout_marginTop="@dimen/margin_standard"
         android:orientation="vertical"
         android:gravity="center"
@@ -77,16 +98,15 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <EditText
+    <pl.Guzooo.DziennikUcznia.HoldEditText
         android:id="@+id/classroom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_standard"
-        app:layout_constraintTop_toBottomOf="@+id/lesson_end"
+        android:layout_margin="@dimen/margin_standard"
+        app:hint="@string/plan_edit_hint_classroom"
+        app:info="@string/plan_edit_classroom"
+        app:layout_constraintTop_toBottomOf="@id/lesson_start"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:inputType="textCapCharacters"
-        android:hint="@string/plan_edit_hint_classroom"
-        style="@style/AllClickable"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

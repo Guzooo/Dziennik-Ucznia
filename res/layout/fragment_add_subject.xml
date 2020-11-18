@@ -8,7 +8,9 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        android:layout_marginTop="@dimen/margin_standard"
         android:inputType="textCapWords"
         android:hint="@string/enter_subject_name"
         style="@style/AllClickable"/>
@@ -17,7 +19,9 @@
         android:id="@+id/teacher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        android:layout_marginTop="@dimen/margin_standard"
         android:inputType="textCapWords"
         android:hint="@string/enter_subject_teacher"
         style="@style/AllClickable"/>
@@ -26,7 +30,9 @@
         android:id="@+id/unpreparedness"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        android:layout_marginTop="@dimen/margin_standard"
         android:inputType="number"
         android:hint="@string/enter_unpreparedness"
         style="@style/AllClickable"/>
@@ -35,6 +41,7 @@
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_standard"
         android:inputType="textMultiLine|textCapSentences"
         android:hint="@string/enter_subject_description"
         style="@style/AllClickable"/>

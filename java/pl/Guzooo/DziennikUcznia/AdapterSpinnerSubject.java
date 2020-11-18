@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class AdapterSubjectSelect extends ArrayAdapter<String> {
+public class AdapterSpinnerSubject extends ArrayAdapter<String> {
     private Cursor cursor;
 
-    public AdapterSubjectSelect(Context context, Cursor cursor){
+    public AdapterSpinnerSubject(Context context, Cursor cursor){
         super(context, 0);
         this.cursor = cursor;
     }
@@ -51,6 +51,15 @@ public class AdapterSubjectSelect extends ArrayAdapter<String> {
     @Override
     public int getCount() {
         return cursor.getCount() + 1;
+    }
+
+    public int getItemPosition(int id){
+        if(cursor.moveToFirst()){
+            for(int i = 0; i < cursor.getCount(); i++, cursor.moveToNext())
+                if(cursor.getInt(0) == id)
+                    return i+1;
+        }
+        return 0;
     }
 
     private String getStartText(){

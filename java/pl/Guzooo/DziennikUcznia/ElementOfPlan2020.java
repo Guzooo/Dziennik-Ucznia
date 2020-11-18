@@ -63,8 +63,8 @@ public class ElementOfPlan2020 extends DatabaseObject {
     @Override
     public void setVariablesEmpty() {
         template(0,
-                0,
-                0,
+                480, //TODO: takie cuda jak: poczatek lekcji; dlugosc lekcji; dlugosc przerwy
+                525,
                 0,
                 0,
                 "");
@@ -82,9 +82,11 @@ public class ElementOfPlan2020 extends DatabaseObject {
     }
 
     public String getTime(){
-        String timeStart = UtilsCalendar.getTimeToReadFromWriteOnlyMinutes(this.timeStart);
-        String timeEnd = UtilsCalendar.getTimeToReadFromWriteOnlyMinutes(this.timeEnd);
-        return timeStart + " - " + timeEnd;
+        return getTimeStart() + " - " + getTimeEnd();
+    }
+
+    public String getTimeStart(){
+        return UtilsCalendar.getTimeToReadFromWriteOnlyMinutes(timeStart);
     }
 
     public int getTimeStartHours() {
@@ -103,6 +105,10 @@ public class ElementOfPlan2020 extends DatabaseObject {
         timeStart = UtilsCalendar.getWriteOnlyMinutes(hours, minutes);
     }
 
+    public String getTimeEnd(){
+        return UtilsCalendar.getTimeToReadFromWriteOnlyMinutes(timeEnd);
+    }
+
     public int getTimeEndHours() {
         return UtilsCalendar.getHoursFromWriteOnlyMinutes(timeEnd);
     }
@@ -117,6 +123,10 @@ public class ElementOfPlan2020 extends DatabaseObject {
 
     public void setTimeEnd(int hours, int minutes){
         timeEnd = UtilsCalendar.getWriteOnlyMinutes(hours, minutes);
+    }
+
+    public void setTimeEndByTimeStart(){
+        setTimeEnd(timeStart + 45); //TODO:może uwzglednić w jakims ustawieniu
     }
 
     public int getIdSubject() {

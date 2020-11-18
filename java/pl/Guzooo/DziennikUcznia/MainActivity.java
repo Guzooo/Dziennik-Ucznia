@@ -185,7 +185,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void addLessonPlan(){
-        new AddElementOfPlanFragment().show(getInsertListener(), getSupportFragmentManager());
+        new AddElementOfPlanFragment().show(new ElementOfPlan2020(), getInsertListener(), getSupportFragmentManager());
     }
 
     private void addSubject(){
