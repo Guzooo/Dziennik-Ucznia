@@ -50,6 +50,9 @@
     <string name="no_plan">Brak Planu\nZacznij go tworzyć</string>
     <string name="no_stat">Brak statystyk\nCzekam na oceny</string>
 
+    <string name="notepad">Notatnik</string>
+    <string name="enter_notepad">Wpisz swoje notatki</string>
+
     <string name="add_subject_title">Dodaj przedmiot</string>
     <string name="enter_subject_name">Wpisz nazwe przedmiotu</string>
     <string name="enter_subject_teacher">Wpisz nauczyciela przedmiotu</string>

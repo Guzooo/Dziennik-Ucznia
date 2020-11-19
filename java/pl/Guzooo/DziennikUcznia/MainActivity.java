@@ -113,6 +113,11 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     @Override
+    public void setAgainActionFAB(){
+        setActionFabByFragment();
+    }
+
+    @Override
     public void onBackPressed() {
         if(pillMenu.isVisible())
             pillMenu.hide();

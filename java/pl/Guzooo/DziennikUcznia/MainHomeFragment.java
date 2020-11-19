@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +24,8 @@ public class MainHomeFragment extends MainFragment {
     private ArrayList<String> titles = new ArrayList<>();
     private ArrayList<Cursor> subjectCursors = new ArrayList<>();
 
+    private boolean notepad;
+
     @Override
     public boolean isHome() {
         return true;
@@ -33,6 +33,8 @@ public class MainHomeFragment extends MainFragment {
 
     @Override
     public int getIconActionFAB() {
+        if(notepad)
+            return R.drawable.notepad_with_content;
         return R.drawable.notepad;
     }
 
@@ -58,6 +60,7 @@ public class MainHomeFragment extends MainFragment {
         View layout = inflater.inflate(R.layout.only_recycler, container, false);
         initialization(layout);
         setFullScreen();
+        setNotepad();
         try{
             setSubjectData();
             setMainAdapter();
@@ -90,11 +93,19 @@ public class MainHomeFragment extends MainFragment {
     private void initialization(View v){
         db = Database2020.getToReading(getContext());
         mainRecycler = v.findViewById(R.id.recycler);
-        //TODO:notepad = settings.getNotepad();
     }
 
     private void setFullScreen(){
         UtilsFullScreen.setPaddings(mainRecycler, this);
+    }
+
+    private void setNotepad(){
+        if(DataManager.getNotepad(getContext()).isEmpty())
+            notepad = false;
+        else {
+            notepad = true;
+            mainFragmentListener.setAgainActionFAB();
+        }
     }
 
     private void setSubjectData(){
@@ -108,7 +119,6 @@ public class MainHomeFragment extends MainFragment {
         mainAdapter.setListener(new AdapterMainRecycler.Listener() {
             @Override
             public void onClick(int id) {
-                //TODO: zmienić na nowe okno szczegółów
                 Intent intent = new Intent(getContext(), SubjectDetailsActivity.class);
                 intent.putExtra(SubjectDetailsActivity.EXTRA_ID, id);
                 startActivity(intent);
@@ -135,20 +145,7 @@ public class MainHomeFragment extends MainFragment {
     }
 
     private void openNotepad(){
-        TextView editText = new TextView(getContext(), null);
-        editText.setText(DataManager.getNotepad(getContext()));
-        //editText.setSingleLine(false);
-        //FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(editText.getLayoutParams());
-        //params.setMarginStart(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
-        //params.setMarginEnd(getResources().getDimensionPixelOffset(R.dimen.margin_biggest));
-        //editText.setLayoutParams(params);
-        new AlertDialog.Builder(getContext())
-                .setTitle("NOTATNIK \u2022 CZASOWO BEZ EDYCJI")
-                .setView(editText)
-                .setPositiveButton(android.R.string.ok, null)
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
-
+        new MainHomeNotepadFragment().show(getNotepadListener(), getFragmentManager());
     }
 
     private void setSubjectCursors(){
@@ -262,5 +259,15 @@ public class MainHomeFragment extends MainFragment {
     private void resetSubjectVariables(){
         titles.clear();
         subjectCursors.clear();
+    }
+
+    private MainHomeNotepadFragment.NotepadListener getNotepadListener(){
+        return new MainHomeNotepadFragment.NotepadListener() {
+            @Override
+            public void setNotepad(boolean is) {
+                notepad = is;
+                mainFragmentListener.setAgainActionFAB();
+            }
+        };
     }
 }

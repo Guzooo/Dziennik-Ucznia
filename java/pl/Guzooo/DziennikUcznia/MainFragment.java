@@ -8,6 +8,7 @@ public abstract class MainFragment extends Fragment {
 
     public interface MainFragmentListener{
         void setNoDataVisibility();
+        void setAgainActionFAB();
     }
 
     public void setMainFragmentListener(MainFragmentListener listener){

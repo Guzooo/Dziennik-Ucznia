@@ -115,6 +115,13 @@ public class DataManager {
         return getPref(context).getString(id, def);
     }
 
+    public static void setNotepad(String note, Context context){
+        String id = context.getString(R.string.ID_NOTEPAD);
+        SharedPreferences.Editor editor = getEditor(context);
+        editor.putString(id, note);
+        editor.apply();
+    }
+
     //preferencje for compliance management
 
     public static int getInitialVersion(Context context){
