@@ -186,6 +186,9 @@ public class AddNoteFragment extends DialogFragment {
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(getNotificationBigText()))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setColor(UtilsColor.getColorFromAttrs(R.attr.colorAccentG, getContext()))
+                /*.setGroup(noteObj.getIdSubject() + "")TODO: jak tego użyje, to w magiczny sposob juz nic sie nie grupuje*/
+                /*.setWhen(System.currentTimeMillis() + 1000 * 60 * 60 * 24)TODO: wykorzystać do odliczania do lekcji*/
                 //TODO: otworz ten fragment po klinieciu .setContentIntent()
                 .build();
     }
