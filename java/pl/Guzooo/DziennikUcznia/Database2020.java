@@ -20,7 +20,7 @@ public class Database2020 extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    Database2020(Context context){
+    Database2020(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -37,14 +37,14 @@ public class Database2020 extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion ) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         this.db = db;
-        if(oldVersion < 8){
+        if (oldVersion < 8) {
             upgradeDatabaseLessThan8();
         }
     }
 
-    private void upgradeDatabaseLessThan8(){
+    private void upgradeDatabaseLessThan8() {
         //Medoty naprawcze bazy danych dla urządzeń z zainstalowaną wersją 12 lub niższą;
         changeOldTableNames();
         createTableSubjects();
@@ -54,11 +54,11 @@ public class Database2020 extends SQLiteOpenHelper {
         repairTableLessonPlanColumnDay();
     }
 
-    private void changeOldTableNames(){
+    private void changeOldTableNames() {
         db.execSQL("ALTER TABLE SUBJECTS RENAME TO oldSUBJECTS");
     }
 
-    private void moveDataToNewTable(){
+    private void moveDataToNewTable() {
         db.execSQL("INSERT INTO " + Subject2020.DATABASE_NAME + " SELECT "
                 + ID + ", "
                 + Subject2020.NAME + ", "
@@ -69,35 +69,35 @@ public class Database2020 extends SQLiteOpenHelper {
                 + Subject2020.UNPREPAREDNESS2 + " FROM oldSUBJECTS");
     }
 
-    private void deleteOldTable(){
+    private void deleteOldTable() {
         db.execSQL("DROP TABLE IF EXISTS oldSUBJECTS");
     }
 
-    private void upgradeTableCategoryAssessment(){
+    private void upgradeTableCategoryAssessment() {
         addTableWeight();
         setDefaultWeightForExistingElements();
     }
 
-    private void addTableWeight(){
+    private void addTableWeight() {
         db.execSQL("ALTER TABLE " + CategoryOfAssessment2020.DATABASE_NAME + " ADD COLUMN " + CategoryOfAssessment2020.WEIGHT + " INTEGER");
     }
 
-    private void setDefaultWeightForExistingElements(){
+    private void setDefaultWeightForExistingElements() {
         db.update(CategoryOfAssessment2020.DATABASE_NAME, defaultWeight(), null, null);
     }
 
-    private ContentValues defaultWeight(){
+    private ContentValues defaultWeight() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CategoryOfAssessment2020.WEIGHT, 1);
         return contentValues;
     }
 
-    private void repairTableLessonPlanColumnDay(){
+    private void repairTableLessonPlanColumnDay() {
         Cursor cursor = db.query(ElementOfPlan2020.DATABASE_NAME,
                 ElementOfPlan2020.ON_CURSOR,
                 null, null, null, null, null);
-        if(cursor.moveToFirst())
-            do{
+        if (cursor.moveToFirst())
+            do {
                 ElementOfPlan2020 element = new ElementOfPlan2020();
                 element.setVariablesOfCursor(cursor);
                 int day = element.getDay();
@@ -105,11 +105,11 @@ public class Database2020 extends SQLiteOpenHelper {
                 element.setDay(correctDay);
                 int id = element.getId();
                 db.update(ElementOfPlan2020.DATABASE_NAME, element.getContentValues(), "_id = ?", new String[]{Integer.toString(id)});
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
     }
 
-    private int getChangeDayToSystemsDay(int day){
-        switch (day){
+    private int getChangeDayToSystemsDay(int day) {
+        switch (day) {
             case 1:
                 return Calendar.MONDAY;
             case 2:
@@ -128,7 +128,7 @@ public class Database2020 extends SQLiteOpenHelper {
         return 0;
     }
 
-    private void createTableSubjects(){
+    private void createTableSubjects() {
         db.execSQL("CREATE TABLE " + Subject2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Subject2020.NAME + " TEXT,"
                 + Subject2020.DESCRIPTION + " TEXT,"
@@ -138,15 +138,15 @@ public class Database2020 extends SQLiteOpenHelper {
                 + Subject2020.UNPREPAREDNESS2 + " INTEGER)");
     }
 
-    private void createTableNotes(){
+    private void createTableNotes() {
         db.execSQL("CREATE TABLE " + Note2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Note2020.NAME + " TEXT,"
                 + Note2020.NOTE + " TEXT,"
                 + Note2020.TAB_SUBJECT + " INTEGER)");
     }
 
-    private void createTableLessonPlan(){
-        db.execSQL("CREATE TABLE " + ElementOfPlan2020.DATABASE_NAME + " (" +  ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+    private void createTableLessonPlan() {
+        db.execSQL("CREATE TABLE " + ElementOfPlan2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + ElementOfPlan2020.TIME_START + " INTEGER,"
                 + ElementOfPlan2020.TIME_END + " INTEGER,"
                 + ElementOfPlan2020.TAB_SUBJECT + " INTEGER,"
@@ -154,7 +154,7 @@ public class Database2020 extends SQLiteOpenHelper {
                 + ElementOfPlan2020.CLASSROOM + " TEXT)");
     }
 
-    private void createTableAssessments(){
+    private void createTableAssessments() {
         db.execSQL("CREATE TABLE " + Assessment2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Assessment2020.ASSESSMENT + " REAL,"
                 + Assessment2020.WEIGHT + " INTEGER,"
@@ -165,20 +165,20 @@ public class Database2020 extends SQLiteOpenHelper {
                 + Assessment2020.DATA + " TEXT)");
     }
 
-    private void createTableCategoryAssessment(){
+    private void createTableCategoryAssessment() {
         db.execSQL("CREATE TABLE " + CategoryOfAssessment2020.DATABASE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + CategoryOfAssessment2020.NAME + " TEXT,"
                 + CategoryOfAssessment2020.COLOR + " TEXT,"
                 + CategoryOfAssessment2020.WEIGHT + " INTEGER)");
     }
 
-    private void createDefaultCategoryOfAssessment(){
+    private void createDefaultCategoryOfAssessment() {
         CategoryOfAssessment2020 category = new CategoryOfAssessment2020();
         category.setName("DEFAULT");
         db.insert(CategoryOfAssessment2020.DATABASE_NAME, null, category.getContentValues());
     }
 
-    private void createCategoriesOfAssessment(){
+    private void createCategoriesOfAssessment() {
         CategoryOfAssessment2020 category = new CategoryOfAssessment2020();
         category.setName("Odpowiedź");
         category.setColor("#00A5FF");
@@ -194,37 +194,37 @@ public class Database2020 extends SQLiteOpenHelper {
         db.insert(CategoryOfAssessment2020.DATABASE_NAME, null, category.getContentValues());
     }
 
-    public static SQLiteDatabase getToWriting(Context context){
+    public static SQLiteDatabase getToWriting(Context context) {
         SQLiteOpenHelper openHelper = new Database2020(context);
         return openHelper.getWritableDatabase();
     }
 
-    public static SQLiteDatabase getToReading(Context context){
+    public static SQLiteDatabase getToReading(Context context) {
         SQLiteOpenHelper openHelper = new Database2020(context);
         return openHelper.getReadableDatabase();
     }
 
-    public static void errorToast(Context context){
+    public static void errorToast(Context context) {
         Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
     }
 
-    public static int getTableCount(String tableName, Context context){
+    public static int getTableCount(String tableName, Context context) {
         return getTableCount(tableName, null, null, context);
     }
 
-    public static int getTableCountOnlySubjectElement(String tableName, String nameSubjectColumn, Context context){
+    public static int getTableCountOnlySubjectElement(String tableName, String nameSubjectColumn, Context context) {
         String where = nameSubjectColumn + " > ?";
         String[] whereArgs = new String[]{"0"};
         return getTableCount(tableName, where, whereArgs, context);
     }
 
-    public static int getTableCountOnlyThisSubjectElement(String tableName, String nameSubjectColumn, int idSubject, Context context){
+    public static int getTableCountOnlyThisSubjectElement(String tableName, String nameSubjectColumn, int idSubject, Context context) {
         String where = nameSubjectColumn + " = ?";
         String[] whereArgs = new String[]{idSubject + ""};
         return getTableCount(tableName, where, whereArgs, context);
     }
 
-    private static int getTableCount(String tableName, String where, String[] whereArgs, Context context){
+    private static int getTableCount(String tableName, String where, String[] whereArgs, Context context) {
         int count = 0;
         SQLiteDatabase db = getToReading(context);
         Cursor cursor = db.query(tableName,
@@ -232,96 +232,53 @@ public class Database2020 extends SQLiteOpenHelper {
                 where,
                 whereArgs,
                 null, null, null);
-        if(cursor.moveToFirst())
+        if (cursor.moveToFirst())
             count = cursor.getInt(0);
         cursor.close();
         db.close();
         return count;
     }
 
-    public static boolean delAllSubjects(Context context){
-        if(!delAllSubjectsElements(context))
+    public static boolean delAllSubjects(Context context) {
+        if (!delAllSubjectsElements(context))
             return false;
         return delAllTable(Subject2020.DATABASE_NAME, context);
     }
 
-    private static boolean delAllSubjectsElements(Context context){
-        String[] whereArgs = new String[] {"0"};
-        if(!delTable(Assessment2020.DATABASE_NAME, Assessment2020.TAB_SUBJECT + " > ?", whereArgs, context))
+    public static boolean delAllTable(String tableName, Context context) {
+        return delTable(tableName, null, null, context);
+    }
+
+    public static boolean delSubjectElements(int id, Context context){
+        if(delSubjectElements(id, "=", context))
+            return true;
+        return false;
+    }
+
+    private static boolean delAllSubjectsElements(Context context) {
+        if(delSubjectElements(0, ">", context))
+            return true;
+        return false;
+    }
+
+    private static boolean delSubjectElements(int id, String action, Context context){
+        String[] whereArgs = new String[]{Integer.toString(id)};
+        if (!delTable(Assessment2020.DATABASE_NAME, Assessment2020.TAB_SUBJECT + " " + action + " ?", whereArgs, context))
             return false;
-        if(!delTable(Note2020.DATABASE_NAME, Note2020.TAB_SUBJECT + " > ?", whereArgs, context))
+        if (!delTable(Note2020.DATABASE_NAME, Note2020.TAB_SUBJECT + " " + action + " ?", whereArgs, context))
             return false;
-        if(!delTable(ElementOfPlan2020.DATABASE_NAME, ElementOfPlan2020.TAB_SUBJECT + " > ?", whereArgs, context))
+        if (!delTable(ElementOfPlan2020.DATABASE_NAME, ElementOfPlan2020.TAB_SUBJECT + " " + action + " ?", whereArgs, context))
             return false;
         return true;
     }
 
-    public static boolean delAllTable(String tableName, Context context){
-        return delTable(tableName, null, null, context);
-    }
-
-    private static boolean delTable(String tableName, String whereClause, String[] whereArgs, Context context){
+    private static boolean delTable(String tableName, String whereClause, String[] whereArgs, Context context) {
         try {
             SQLiteDatabase db = getToWriting(context);
             db.delete(tableName, whereClause, whereArgs);
             db.close();
             return true;
-        } catch (SQLiteException e){
-            return false;
-        }
-    }
-
-    //STARE TODO:kill
-    public static Boolean destroyAllSubject(Context context){
-        try {
-            if (!destroyAllNotes("TAB_SUBJECT > ?", new String[]{Integer.toString(0)}, context)) return false;
-            if (!destroyAllLessonPlan("TAB_SUBJECT > ?", new String[]{Integer.toString(0)}, context)) return false;
-            SQLiteDatabase db = getToWriting(context);
-            db.delete("SUBJECTS", null, null);
-            db.close();
-            return true;
-        } catch (SQLiteException e){
-            return false;
-        }
-    }
-
-    public static Boolean destroyAllNotes(Context context){
-        return destroyAllNotes(null, null, context);
-    }
-
-    public static Boolean destroyAllNotes(String whereClause, String[] whereArgs, Context context){
-        try {
-            SQLiteDatabase db = getToWriting(context);
-            db.delete("NOTES", whereClause, whereArgs);
-            db.close();
-            return true;
-        } catch (SQLException e){
-            return false;
-        }
-    }
-
-    public static Boolean destroyAllLessonPlan (Context context){
-        return destroyAllLessonPlan(null, null, context);
-    }
-
-    public static Boolean destroyAllLessonPlan(String whereClause, String[] whereArgs, Context context){
-        try {
-            SQLiteDatabase db = getToWriting(context);
-            db.delete("LESSON_PLAN", whereClause, whereArgs);
-            db.close();
-            return true;
-        } catch (SQLException e){
-            return false;
-        }
-    }
-
-    public static Boolean destroyAllAssessment(String whereClause, String[] whereArgs, Context context){
-        try {
-            SQLiteDatabase db = getToWriting(context);
-            db.delete("ASSESSMENTS", whereClause, whereArgs);
-            db.close();
-            return true;
-        } catch (SQLException e){
+        } catch (SQLiteException e) {
             return false;
         }
     }

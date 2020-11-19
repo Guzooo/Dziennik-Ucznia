@@ -94,6 +94,12 @@ public class Subject2020 extends DatabaseObject{
         return contentValues;
     }
 
+    @Override
+    public void delete(Context context) {
+        if(Database2020.delSubjectElements(getId(), context))
+            super.delete(context);
+    }
+
     public String getName() {
         return name;
     }
