@@ -13,6 +13,16 @@
             app:entryValues="@array/semesters_values"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="@string/DEFAULT_SEMESTER"/>
+
+        <Preference
+            app:title="@string/title_reset_unpreparedness"
+            app:summary="@string/reset_unpreparedness_semester_1"
+            app:key="@string/ID_RESET_UNPREPAREDNESS_1"/>
+
+        <Preference
+            app:title="@string/title_reset_unpreparedness"
+            app:summary="@string/reset_unpreparedness_semester_2"
+            app:key="@string/ID_RESET_UNPREPAREDNESS_2"/>
     </PreferenceCategory>
 
     <PreferenceCategory

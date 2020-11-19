@@ -1,12 +1,15 @@
 package pl.Guzooo.DziennikUcznia;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -31,6 +34,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         setPreferencesFromResource(R.xml.settings_preference, rootKey);
 
         setTitles();
+        setResetUnpreparedness();
         setTheme();
         setHardDarkTheme();
         setAverageToAssessment();
@@ -42,6 +46,13 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
     private void setTitles(){
         ArrayList<Preference> preferences = getTitles();
         setAccentToPreferencesIcon(preferences);
+    }
+
+    private void setResetUnpreparedness(){
+        Preference reset1 = findPref(R.string.ID_RESET_UNPREPAREDNESS_1);
+        Preference reset2 = findPref(R.string.ID_RESET_UNPREPAREDNESS_2);
+        reset1.setOnPreferenceClickListener(getResetUnpreparednessClickListener(1));
+        reset2.setOnPreferenceClickListener(getResetUnpreparednessClickListener(2));
     }
 
     private void setTheme() {
@@ -245,6 +256,43 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
 
     private String getSummary(int plurals, int variable){
         return getResources().getQuantityString(plurals, variable, variable);
+    }
+
+    private Preference.OnPreferenceClickListener getResetUnpreparednessClickListener(final int semester){
+        return new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.title_reset_unpreparedness)
+                        .setMessage(R.string.reset_unpreparedness_description)
+                        .setPositiveButton(R.string.reset, getResetUnpreparednessDoListener(semester))
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+                return true;
+            }
+        };
+    }
+
+    private DialogInterface.OnClickListener getResetUnpreparednessDoListener(final int semester){
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SQLiteDatabase db = Database2020.getToWriting(getContext());
+                ContentValues contentValues = getResetUnpreparednessContentValues(semester);
+                db.update(Subject2020.DATABASE_NAME, contentValues, null, null);
+                db.close();
+                Toast.makeText(getContext(), R.string.done_reset_unpreparedness, Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    private ContentValues getResetUnpreparednessContentValues(int semester){
+        ContentValues contentValues = new ContentValues();
+        if(semester == 1)
+            contentValues.put(Subject2020.UNPREPAREDNESS1, -1);
+        else
+            contentValues.put(Subject2020.UNPREPAREDNESS2, -1);
+        return contentValues;
     }
 
     private Preference.OnPreferenceChangeListener getThemeChangeListener() {

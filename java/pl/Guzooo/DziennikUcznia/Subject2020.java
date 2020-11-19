@@ -189,7 +189,8 @@ public class Subject2020 extends DatabaseObject{
     private void setUnpreparednessOfSemester(int unpreparedness, int semester) {
         if (semester == 1)
             setUnpreparednessOfSemesterI(unpreparedness);
-        setUnpreparednessOfSemesterII(unpreparedness);
+        else
+            setUnpreparednessOfSemesterII(unpreparedness);
     }
 
     private int getRealUnpreparedness(int unpreparedness) {

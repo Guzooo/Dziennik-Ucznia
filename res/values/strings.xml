@@ -36,6 +36,7 @@
     <string name="edit">Edytuj</string>
     <string name="next">Kolejny</string>
     <string name="next_new">Nowy</string>
+    <string name="reset">Resetuj</string>
     <string name="cant_save">Nie można zapisać</string>
     <string name="all">Wszystkie</string>
     <string name="selected_item">Zaznaczone elementy: %1$d</string>
@@ -152,6 +153,11 @@
     <string name="title_semester">Semestr</string>
     <string name="semester_first">Pierwszy</string>
     <string name="semester_second">Drugi</string>
+    <string name="title_reset_unpreparedness">Zresetuj nieprzygotowania</string>
+    <string name="reset_unpreparedness_semester_1">Semestr pierwszy</string>
+    <string name="reset_unpreparedness_semester_2">Semestr drugi</string>
+    <string name="reset_unpreparedness_description">Przedmioty mają zapisane ilości nieprzygotowań na semestr pierwszy i drugi, który się zmienia gdy zużywamy nasze NP. Mają też zapisaną domyślną ilość nieprzygotowań, która została podana przy tworzeniu przedmiotu. Jeśli używałeś aplikacji w poprzednim roku i pozostawiłeś stare przedmioty, to możliwe, że zużyłeś kilka NP. Aby upewnić się, że żadne z twoich nieprzygotowań nie zostanie pominięte przez aplikacje przed rozpoczęciem danego semestru zresetuj swoje nieprzygotowania</string>
+    <string name="done_reset_unpreparedness">Zresetowałeś nieprzygotowania</string>
 
     <string name="title_assessment_window">Okno edycji oceny</string>
     <string name="summary_assessment_window">Pokaż okno po dodaniu nowej oceny</string>
