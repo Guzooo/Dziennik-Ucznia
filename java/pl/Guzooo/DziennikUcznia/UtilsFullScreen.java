@@ -11,9 +11,10 @@ import androidx.fragment.app.Fragment;
 public class UtilsFullScreen {
 
     public static void setUIVisibility(View v){
-        v.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        if(UtilsFragmentation.isMinimumLollipop())
+            v.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
     }
 
     public static void setPaddings(View v, Fragment fragment){

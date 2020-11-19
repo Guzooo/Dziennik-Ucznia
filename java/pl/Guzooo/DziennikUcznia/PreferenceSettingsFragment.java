@@ -114,7 +114,8 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
             Resources.Theme theme = getContext().getTheme();
             TypedArray a = theme.obtainStyledAttributes(new int[]{R.attr.colorAccentG});
             int color = a.getColor(0, 0);
-            preference.getIcon().setTint(color);//TODO: podreślone jest ratuj
+            if (UtilsFragmentation.isMinimumLollipop())
+                preference.getIcon().setTint(color);
         }
     }
 
@@ -255,7 +256,9 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
     }
 
     private String getSummary(int plurals, int variable){
-        return getResources().getQuantityString(plurals, variable, variable);
+        if(UtilsFragmentation.isMinimumLollipop())
+            return getResources().getQuantityString(plurals, variable, variable);
+        return "";
     }
 
     private Preference.OnPreferenceClickListener getResetUnpreparednessClickListener(final int semester){

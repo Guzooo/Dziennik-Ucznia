@@ -238,6 +238,8 @@ public class RecyclerManager extends FrameLayout {
     }
 
     private String getDeleteToast(){
+        if(!UtilsFragmentation.isMinimumLollipop())
+            return "";
         int i = deleteObjects.size();
         return getResources().getQuantityString(R.plurals.done_delete_notes, i, i);
     }
