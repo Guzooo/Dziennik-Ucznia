@@ -89,6 +89,15 @@
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
+    <style name="CardViewPill" parent="CardViewStandard">
+        <item name="android:minWidth">@dimen/length_minimal</item>
+        <item name="cardCornerRadius">@dimen/corner_radius_pill</item>
+    </style>
+
+    <style name="ItemPill">
+        <item name="android:textColor">?attr/colorAccentG</item>
+    </style>
+
     <style name="BottomNavigation">
         <item name="android:background">?attr/colorPrimaryTranslucentG</item>
         <item name="itemIconTint">@color/checked_state</item>

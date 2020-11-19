@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -125,24 +126,25 @@ public class PillMenu extends ConstraintLayout {
     }
 
     private void createButton(MenuItem item){
-        Button button = (Button) LayoutInflater.from(getContext()).inflate(R.layout.pill_option, null);
-        button.setBackgroundResource(R.drawable.pill);
-        button.setText(item.getTitle());
-        button.setEnabled(item.isEnabled());
-        setParams(button);
-        setListener(button, item.getItemId());
-        addToPillMenu(button);
+        if(!item.isEnabled())
+            return;
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.pill_option, null);
+        TextView text = v.findViewById(R.id.text);
+        text.setText(item.getTitle().toString().toUpperCase());
+        setParams(v);
+        setListener(v, item.getItemId());
+        addToPillMenu(v);
     }
 
-    private void setParams(Button button){
+    private void setParams(View v){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.margin_biggest);
-        button.setLayoutParams(params);
+        v.setLayoutParams(params);
     }
 
-    private void setListener(Button button, int id){
+    private void setListener(View v, int id){
         OnClickListener clickListener = getMenuOptionClickListener(id);
-        button.setOnClickListener(clickListener);
+        v.setOnClickListener(clickListener);
     }
 
     private OnClickListener getMenuOptionClickListener(final int id){
@@ -156,8 +158,8 @@ public class PillMenu extends ConstraintLayout {
         };
     }
 
-    private void addToPillMenu(Button button){
-        linearLayout.addView(button);
+    private void addToPillMenu(View v){
+        linearLayout.addView(v);
     }
 
     private void setPositionFAB(){
