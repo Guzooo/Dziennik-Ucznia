@@ -139,6 +139,10 @@ public class HoldEditText extends FrameLayout implements View.OnLongClickListene
          return editText;
     }
 
+    public TextView getTextView(){
+        return textView;
+    }
+
     public void setOnHoldEditTextChangeVisibilityListener(OnHoldEditTextChangeVisibilityListener listener){
         this.listener = listener;
     }

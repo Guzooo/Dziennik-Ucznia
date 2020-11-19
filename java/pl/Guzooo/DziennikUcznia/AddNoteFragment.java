@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -84,6 +85,8 @@ public class AddNoteFragment extends DialogFragment {
 
     private void setTitle(){
         title.getEditText().setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        title.getTextView().setLines(2);
+        title.getTextView().setEllipsize(TextUtils.TruncateAt.END);
         String text = noteObj.getTitle();
         title.setText(text);
         if(!text.isEmpty())

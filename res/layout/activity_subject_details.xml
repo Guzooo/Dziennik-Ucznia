@@ -29,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_standard"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:overScrollMode="never"/>
 
         <pl.Guzooo.DziennikUcznia.HoldEditText
             android:id="@+id/teacher"
@@ -89,7 +90,8 @@
             android:id="@+id/assessment_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_standard" />
+            android:layout_marginBottom="@dimen/margin_standard"
+            android:overScrollMode="never" />
 
         <TextView
             android:layout_width="match_parent"
