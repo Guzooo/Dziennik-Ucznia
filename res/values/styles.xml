@@ -73,17 +73,12 @@
         <item name="android:textColor">@color/gWhite</item>
     </style>
 
-    <style name="Button"><!--//TODO: kill-->
-        <item name="android:textColor">?attr/colorAccentG</item>
-        <item name="android:backgroundTint">?attr/colorPrimaryDarkG</item>
-        <item name="android:tint">?attr/colorAccentG</item>
-    </style>
-
     <style name="CardViewStandard">
         <item name="android:minHeight">@dimen/height_card</item>
         <item name="android:layout_margin">@dimen/margin_card</item>
         <item name="cardCornerRadius">@dimen/corner_radius_card</item>
         <item name="cardBackgroundColor">?attr/colorPrimaryG</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="CardViewAssessment">
@@ -91,6 +86,7 @@
         <item name="android:layout_height">@dimen/length_assessment</item>
         <item name="android:layout_margin">@dimen/margin_card</item>
         <item name="cardCornerRadius">@dimen/corner_radius_assessment</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="BottomNavigation">
@@ -111,6 +107,7 @@
         <item name="android:textColor">@color/pill_text_state</item>
         <item name="android:background">@drawable/pill</item>
         <item name="android:backgroundTint">@color/pill_background_state</item>
+        <!--<item name="android:foreground">?android:attr/selectableItemBackground</item>-->
     </style>
 
     <style name="customToolbar">
