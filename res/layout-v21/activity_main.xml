@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_subject"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/TextBold"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_biggest"
+        android:src="@drawable/notepad"
+        app:fabSize="mini"
+        app:layout_constraintEnd_toStartOf="@id/fab_add"
+        app:layout_constraintRight_toLeftOf="@id/fab_add"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        style="@style/FAB"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_biggest"
+        android:src="@drawable/add"
+        app:fabSize="normal"
+        app:layout_constraintEnd_toEndOf="@id/bottom_navigation"
+        app:layout_constraintRight_toRightOf="@id/bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        style="@style/FAB"/>
+
+    <!--TODO: sprawdzić czy można robić animacje-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/main_activities_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:clickable="true"
+        style="@style/BottomNavigation"/>
+
+    <pl.Guzooo.DziennikUcznia.PillMenu
+        android:id="@+id/pill_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        app:menu="@menu/main_add"
+        app:initialFAB="@id/fab_add"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

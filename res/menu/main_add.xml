@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/add_assessment"
+        android:title="@string/add_assessment"
+        android:enabled="false"/>
+    <item android:id="@+id/add_note"
+        android:title="@string/add_note"
+        android:enabled="false"/>
+    <item android:id="@+id/add_lesson_plan"
+        android:title="@string/add_lesson_plan"/>
+    <item android:id="@+id/add_subject"
+        android:title="@string/add_subject"/>
+</menu>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.HardDarkMode">
+        <item name="colorPrimaryG">@color/hardDark</item>
+        <item name="colorPrimaryDarkG">@color/dark</item>
+        <item name="colorPrimaryTranslucentG">@color/hardDarkTranslucent</item>
+        <item name="colorSecondaryG">@color/darkDark</item>
+        <item name="colorSecondaryDarkG">@color/dark</item>
+        <item name="colorAttentionG">@color/attention</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <item name="colorPrimaryG">@color/dark</item>
+        <item name="colorPrimaryDarkG">@color/darkDark</item>
+        <item name="colorPrimaryTranslucentG">@color/darkTranslucent</item>
+        <item name="colorSecondaryG">@color/light</item>
+        <item name="colorSecondaryDarkG">@color/lightDark</item>
+        <item name="colorAccentG">@color/accent</item>
+        <item name="colorAttentionG">@color/attention</item>
+
+        <item name="colorPrimary">?attr/colorPrimaryTranslucentG</item>
+        <item name="colorPrimaryDark">?attr/colorPrimaryTranslucentG</item>
+        <item name="colorAccent">?attr/colorAccentG</item>
+
+        <item name="android:textViewStyle">@style/TextNormal</item>
+        <item name="android:colorBackground">?attr/colorPrimaryG</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
+    </style>
+</resources>

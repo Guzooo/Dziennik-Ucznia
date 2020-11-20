@@ -1,382 +1,323 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.content.ContentValues;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener, PillMenu.OnPillMenuItemSelectedListener, MainFragment.MainFragmentListener {
 
-public class MainActivity extends AppCompatActivity {
+    private MainFragment currentFragment;
 
-    private final String PREFERENCE_NOTEPAD = "notepad";
+    private TextView noData;
+    private FloatingActionButton addFAB;
+    private FloatingActionButton actionFAB;
+    private PillMenu pillMenu;
+    private BottomNavigationView bottomNavigation;
 
-    private final String PREFERENCE_CATEGORY_OF_ASSESSMENT = "categoryofassessment";
-    //preference for errors and new save
-    private final String PREFERENCE_DATABASE_3_TO_4 = "database3to4";
-
-    private final String BUNDLE_VISIBLE_NOTEPAD = "visiblenotepad";
-
-    private ArrayList<Cursor> cursors = new ArrayList<>();
-    private SQLiteDatabase db;
-    private AdapterSubjectCardView adapter;
-
-    private EditText editTextNotepad;
-    private View notepadBox;
-    private RecyclerView recyclerView;
+    @Override
+    public int getBottomPadding() {
+        int bottom = bottomNavigation.getHeight();
+        if(currentFragment.isVisibleAddFAB()) {
+            bottom += addFAB.getHeight();
+            bottom += getResources().getDimensionPixelOffset(R.dimen.margin_biggest) * 2;
+        }
+        return bottom;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UtilsTheme.setTheme(this);
         setContentView(R.layout.activity_main);
 
-        editTextNotepad = findViewById(R.id.main_notepad);
-        recyclerView = findViewById(R.id.main_recycler);
-        notepadBox = findViewById(R.id.main_notepad_box);
+        BugFix.startFixingBugs(this);
 
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-
-        if(sharedPreferences.getInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 0) == 0){
-            HelperDatabase.CreateDefaultCategoryOfAssessment(this);
-            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putInt(PREFERENCE_CATEGORY_OF_ASSESSMENT, 1);
-            editor.apply();
-        }
-
-        if(sharedPreferences.getInt(PREFERENCE_DATABASE_3_TO_4, 0) == 0){
-            database3to4();
-        }
-
-        goFirstChangeView(savedInstanceState);
-        try {
-            db = DatabaseUtils.getWritableDatabase(this);
-            setDayOfSubject();
-            refreshSubjectsCursors();
-            setAdapter();
-            refreshActionBarInfo();
-        } catch (SQLiteException e) {
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
-
-        loadNotepad();
-
-        if(CheckInformationOnline.getWifiConnecting(this)) {
-            CheckInformationOnline checkInformationOnline = new CheckInformationOnline(this);
-            checkInformationOnline.execute();
-        }
-        NotificationsChannels.CreateNotificationsChannels(this);
+        initialization();
+        setFullScreen();
+        setFragment();
+        setActionBar();
+        setBottomNavigation();
+        setPillMenu();
+        setAddFAB();
+        setActionFAB();
+        NotificationOnline.checkAutomatically(this);
+        NotificationsChannels.CreateNotificationsChannels(this);//TODO: czy to musi się wykonywać za każdym uruchomieniem aplikacji
     }
 
     @Override
-    protected void onRestart() {
+    protected void onRestart() {//TODO: Nwm czy nie resume
         super.onRestart();
-
-        try {
-            refreshSubjectsCursors();
-            refreshActionBarInfo();
-        } catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
-        invalidateOptionsMenu();
+        currentFragment.onRestart();
+        setActionBarSubtitle();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        MainFragment newFragment = null;
+        switch (menuItem.getItemId()){
+            case R.id.settings:
+                newFragment = new MainSettingsFragment();
+                break;
+            case R.id.home:
+                newFragment = new MainHomeFragment();
+                break;
+            case R.id.statistics:
+                newFragment = new MainStatisticsFragment();
+                break;
+            case R.id.lesson_plan:
+                newFragment = new MainLessonPlanFragment();
+                break;
+        }
+        if(newFragment == null || (currentFragment != null && currentFragment.getClass() == newFragment.getClass()))
+            return false;
+        setCurrentFragment(newFragment);
+        refreshActivityByNewFragment();
+        return true;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if(isNotepadEmpty()){
-            DrawableCompat.setTint(menu.findItem(R.id.action_notepad).getIcon(), ContextCompat.getColor(this, android.R.color.darker_gray));
-        } else {
-            DrawableCompat.setTint(menu.findItem(R.id.action_notepad).getIcon(), ContextCompat.getColor(this, android.R.color.holo_red_light));
+    public void onPillMenuItemSelected(int id) {
+        switch (id){
+            case R.id.add_assessment:
+                addAssessment();
+                break;
+            case R.id.add_note:
+                addNote();
+                break;
+            case R.id.add_lesson_plan:
+                addLessonPlan();
+                break;
+            case R.id.add_subject:
+                addSubject();
+                break;
         }
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public void setNoDataVisibility(){
+        boolean visible = currentFragment.isNoDateVisible();
+        if(visible)
+            noData.setVisibility(View.VISIBLE);
+        else
+            noData.setVisibility(View.GONE);
+    }
 
-            case R.id.action_notepad:
-                showNotepad();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    @Override
+    public void setAgainActionFAB(){
+        setActionFabByFragment();
     }
 
     @Override
     public void onBackPressed() {
-        if(notepadBox.getTranslationY() == 0){
-            showNotepad();
-        } else {
+        if(pillMenu.isVisible())
+            pillMenu.hide();
+        else if(currentFragment.onBackPressed())
+            ;
+        else if(!currentFragment.isHome())
+            openHomeFragment();
+        else
             super.onBackPressed();
-        }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(BUNDLE_VISIBLE_NOTEPAD, (notepadBox.getTranslationY() == 0));
+    private void initialization(){
+        noData = findViewById(R.id.no_data);
+        addFAB = findViewById(R.id.fab_add);
+        actionFAB = findViewById(R.id.fab_action);
+        pillMenu = findViewById(R.id.pill_menu);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        saveNotepad();
+    private void setFullScreen(){
+        UtilsFullScreen.setUIVisibility(bottomNavigation);
+        UtilsFullScreen.setApplyWindowInsets(bottomNavigation, getWindowsInsetsListener());
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        for (int i = 0; i < cursors.size(); i++) {
-            cursors.get(i).close();
-        }
-        db.close();
+    private void setFragment() {
+        MainFragment fragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.content);
+        if(fragment != null)
+            setCurrentFragment(fragment);
     }
 
-    public void ClickSetting(View v){
-        Intent intent = new Intent(this, SettingActivity.class);
-        startActivity(intent);
+    private void setActionBar(){
+        setActionBarSubtitle();
     }
 
-    public void ClickStatistics(View v){
-        Intent intent = new Intent(this, StatisticsActivity.class);
-        startActivity(intent);
+    private void setBottomNavigation(){
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
+        if(currentFragment == null)
+            openHomeFragment();
     }
 
-    public void ClickPlan(View v){
-        Intent intent = new Intent(this, LessonPlanActivity.class);
-        startActivity(intent);
+    private void setPillMenu(){
+        pillMenu.setFullScreen(this);
+        pillMenu.setOnPillMenuItemSelectedListener(this);
     }
 
-    public void ClickPlus(View v){
-        Intent intent = new Intent(this, EditActivity.class);
-        startActivity(intent);
-    }
-
-    private void goFirstChangeView(final Bundle bundle){
-        ViewTreeObserver viewTreeObserver = recyclerView.getViewTreeObserver();
-
-        if (viewTreeObserver.isAlive()){
-            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    View bottomButtons = findViewById(R.id.main_bottom_buttons);
-                    recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(), recyclerView.getPaddingRight(), bottomButtons.getHeight());
-
-                    if(bundle == null || !bundle.getBoolean(BUNDLE_VISIBLE_NOTEPAD)) showNotepad();
-                }
-            });
-        }
-    }
-
-    private void setDayOfSubject(){
-        Cursor cursor = db.query("SUBJECTS",
-                Subject.subjectOnCursor,
-                "DAY != ?",
-                new String[]{Integer.toString(0)},
-                null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Subject subject = Subject.getOfCursor(cursor);
-                db.update("SUBJECTS",
-                        subject.saveDay(this, 0),
-                        "_id = ?",
-                        new String[]{Integer.toString(subject.getId())});
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-    }
-
-    public void setAdapter() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdapterSubjectCardView(cursors, findViewById(R.id.main_subject_null));
-        recyclerView.setAdapter(adapter);
-
-        adapter.setListener(new AdapterSubjectCardView.Listener() {
+    private void setAddFAB(){
+       addFAB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(int id) {
-                Intent intent = new Intent(getApplicationContext(), DetailsAndEditActivity.class);
-                intent.putExtra(DetailsAndEditActivity.EXTRA_ID, id);
-                startActivity(intent);
+            public void onClick(View v) {
+                pillMenu.show();
             }
         });
     }
 
-    private void refreshActionBarInfo(){
-        getSupportActionBar().setSubtitle(getAverage());
-    }
-
-    private void refreshSubjectsCursors(){
-        cursors.clear();
-        for (int i = 0; i <= 7 ; i++){
-            Cursor cursor = db.query("SUBJECTS",
-                    Subject.subjectOnCursor,
-                    "DAY = ?",
-                    new String[]{Integer.toString(i)},
-                    null, null,
-                    "NOTES DESC, NAME");
-
-            cursors.add(cursor);
-        }
-        if(adapter != null){
-            adapter.changeCursors(cursors);
-        }
-    }
-
-    private String getAverage() {
-        SharedPreferences settingSharedPreferences = getSharedPreferences(SettingActivity.PREFERENCE_NAME, MODE_PRIVATE);
-        float average = 0f;
-        float assessment;
-        int number = 0;
-        boolean roundedAverage = settingSharedPreferences.getBoolean(SettingActivity.PREFERENCE_AVERAGE_TO_ASSESSMENT, SettingActivity.DEFAULT_AVERAGE_TO_ASSESSMENT);
-        for (int i = 0; i < cursors.size(); i++) {
-            if (cursors.get(i).moveToFirst()) {
-                do {
-                    Subject subject = Subject.getOfCursor(cursors.get(i));
-                    ArrayList<SubjectAssessment> assessments1 = subject.getAssessment(1, this);
-                    ArrayList<SubjectAssessment> assessments2 = subject.getAssessment(2, this);
-                    if (roundedAverage) {
-                        assessment = subject.getRoundedAverageEnd(assessments1, assessments2, settingSharedPreferences);
-                    } else {
-                        assessment = subject.getAverageEnd(assessments1, assessments2);
-                    }
-
-                    if(assessment != 0) {
-                        number++;
-                        average += assessment;
-                    }
-                } while (cursors.get(i).moveToNext());
+    private void setActionFAB(){
+        actionFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentFragment.clickIconActionFAB();
             }
-        }
-        String subtitle = getResources().getString(R.string.statistics_semester, StatisticsActivity.getSemester(this)) + getResources().getString(R.string.separation) + getResources().getString(R.string.statistics_semester_end) + ": ";
-        if (number == 0){
-            return subtitle + "0.0";
-        }
-        average = average / number;
-        String strAverage = String.format(Locale.US, "%.2f", average);
-        if (average >= settingSharedPreferences.getFloat(SettingActivity.PREFERENCE_AVERAGE_TO_BELT, SettingActivity.DEFAULT_AVERAGE_TO_BELT)) {
-            return subtitle + strAverage + getResources().getString(R.string.separation) + getResources().getString(R.string.main_belt);
-        }
-        return subtitle + strAverage;
+        });
     }
 
-    private void showNotepad() {
-        if (notepadBox.getTranslationY() != 0) {
-            notepadBox.animate()
-                    .translationY(0);
-            recyclerView.setPadding(recyclerView.getPaddingLeft(), notepadBox.getHeight() + getResources().getDimensionPixelSize(R.dimen.card_margin) * 2, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
-        } else {
-            notepadBox.animate()
-                    .translationY(notepadBox.getHeight() * -1 - getResources().getDimensionPixelSize(R.dimen.card_margin) * 2);
-            recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), recyclerView.getPaddingBottom());
-        }
-        invalidateOptionsMenu();
+    private void addAssessment(){
+        Toast.makeText(this, "ocena", Toast.LENGTH_SHORT).show();
     }
 
-    private void saveNotepad(){
-        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putString(PREFERENCE_NOTEPAD, editTextNotepad.getText().toString().trim());
-        editor.apply();
+    private void addNote(){
+        Toast.makeText(this, "notatka", Toast.LENGTH_SHORT).show();
     }
 
-    private void loadNotepad(){
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        editTextNotepad.setText(sharedPreferences.getString(PREFERENCE_NOTEPAD, ""));
+    private void addLessonPlan(){
+        new AddElementOfPlanFragment().show(new ElementOfPlan2020(), getInsertListener(), getSupportFragmentManager());
     }
 
-    private boolean isNotepadEmpty(){
-        if(editTextNotepad.getText().toString().trim().equals("")){
-            return true;
-        } else {
+    private void addSubject(){
+        new AddSubjectFragment().show(getInsertListener(), getSupportFragmentManager());
+    }
+
+    private MainMenuInsertListener getInsertListener(){
+        return new MainMenuInsertListener() {
+            @Override
+            public void beforeInsert() {
+                currentFragment.onRestart();
+            }
+        };
+    }
+
+    private void setCurrentFragment(MainFragment fragment){
+        replaceFragment(fragment);
+        currentFragment.setMainFragmentListener(this);
+        setNoDataByFragment();
+        setAddFabByFragment();
+        setActionFabByFragment();
+    }
+
+    private void replaceFragment(MainFragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content, fragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.commit();
+        currentFragment = fragment;
+    }
+
+    private void setNoDataByFragment(){
+        int string = currentFragment.getNoDataText();
+        noData.setText(string);
+        noData.setVisibility(View.GONE);
+    }
+
+    private void setAddFabByFragment() {
+        if (currentFragment.isVisibleAddFAB())
+            addFAB.show();
+        else
+            addFAB.hide();
+    }
+
+    private void setActionFabByFragment(){
+        if(actionFAB.isShown())
+            actionFAB.hide(getOnHideActionFabListener());
+        else if(isFragmentHasActionFAB())
+            setActionFabDrawable();
+    }
+
+    private FloatingActionButton.OnVisibilityChangedListener getOnHideActionFabListener(){
+        return new FloatingActionButton.OnVisibilityChangedListener() {
+            @Override
+            public void onHidden(FloatingActionButton fab) {
+                super.onHidden(fab);
+                if(isFragmentHasActionFAB())
+                    setActionFabDrawable();
+            }
+        };
+    }
+
+    private boolean isFragmentHasActionFAB(){
+        if(currentFragment.getIconActionFAB() == 0)
             return false;
-        }
+        return true;
     }
 
-    private void database3to4 (){ //dodano w wersji 6 na 7
-        try {
-            SQLiteDatabase db = DatabaseUtils.getWritableDatabase(this);
+    private void setActionFabDrawable(){
+        int id = currentFragment.getIconActionFAB();
+        Drawable icon = getResources().getDrawable(id);
+        actionFAB.setImageDrawable(icon);
+        actionFAB.show();
+    }
 
-            createDefaultCategoryOfAssessment(db);
+    private void refreshActivityByNewFragment(){
+        setActionBarSubtitle();
+    }
 
-            Cursor cursor = db.query("SUBJECTS",
-                    Subject.subjectOnCursor,
-                    null, null, null, null, null);
-            if(cursor.moveToFirst()){
-                do {
-                    Subject subject = Subject.getOfCursor(cursor);
-                    ArrayList<Float> assessment = subject.getAssessment(0);
-
-                    for(int i = 0; i < assessment.size(); i++){
-                        db.insert("ASSESSMENTS", null, AssessmentContent(assessment.get(i), 1, subject.getId()));
-                    }
-                    assessment = subject.getAssessment(1);
-
-                    for(int i = 0; i < assessment.size(); i++){
-                        db.insert("ASSESSMENTS", null, AssessmentContent(assessment.get(i), 2, subject.getId()));
-                    }
-
-                } while (cursor.moveToNext());
+    private OnApplyWindowInsetsListener getWindowsInsetsListener(){
+        return new OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                setInsets(insets);
+                setBottomNavigationSpacing(insets);
+                return insets;
             }
-            cursor.close();
-            db.close();
-            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putInt(PREFERENCE_DATABASE_3_TO_4, 1);
-            editor.apply();
-        } catch (SQLiteException e){
-            Toast.makeText(this, R.string.error_database, Toast.LENGTH_SHORT).show();
-        }
+        };
     }
 
-    private ContentValues AssessmentContent(float assessment, int semester, int subject){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("ASSESSMENT", assessment);
-        contentValues.put("NOTE", "");
-        contentValues.put("SEMESTER", semester);
-        contentValues.put("TAB_SUBJECT", subject);
-        contentValues.put("TAB_CATEGORY_ASSESSMENT", 1);
-        return contentValues;
+    private void setBottomNavigationSpacing(WindowInsetsCompat insets){
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) bottomNavigation.getLayoutParams();
+        params.bottomMargin = insets.getSystemWindowInsetBottom();
+        params.rightMargin = insets.getSystemWindowInsetRight();
+        params.leftMargin = insets.getSystemWindowInsetLeft();
     }
 
-    private void createDefaultCategoryOfAssessment(SQLiteDatabase db){
-        db.delete("CATEGORY_ASSESSMENT", null, null);
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_default), "#000000"));
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_test), "#ff0000"));
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_answer), "#006399"));
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_homework), "#00ff11"));
-        db.insert("CATEGORY_ASSESSMENT", null, ModelCategoryOfAssessment(getResources().getString(R.string.category_of_assessment_quiz), "#ff0000"));
+    private void setActionBarSubtitle(){
+        //TODO: piękna animacja zamiany tekstu no bo umiem :)))));
+        if(currentFragment != null && currentFragment.isActionBarSubtitleIsVisibility())
+            getSupportActionBar().setSubtitle(getActionBarSubtitle());
+        else
+            getSupportActionBar().setSubtitle(R.string.app_G);
     }
 
-    private ContentValues ModelCategoryOfAssessment(String name, String color){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("NAME", name);
-        contentValues.put("COLOR", color);
-        return contentValues;
+    public String getActionBarSubtitle(){
+        String semester = getSemester();
+        String separator = getString(R.string.separator);
+        String average = getFinalAverage();
+        return semester + separator + average;
+    }
+
+    private String getSemester(){
+        int semester = DataManager.getSemester(this);
+        return getString(R.string.semester_with_colon, semester);
+    }
+
+    private String getFinalAverage(){
+        float average = UtilsAverage.getFinalAverage(this);
+        if(UtilsAverage.isBelt(average, this))
+            return getString(R.string.final_average, average) + getString(R.string.separator) + getString(R.string.belt);
+        return getString(R.string.final_average, average);
+    }
+
+    private void openHomeFragment(){
+        MenuItem home = bottomNavigation.getMenu().getItem(1);
+        home.setChecked(true);
+        onNavigationItemSelected(home);
     }
 }

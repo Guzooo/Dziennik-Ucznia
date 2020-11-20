@@ -2,7 +2,6 @@ package pl.Guzooo.DziennikUcznia;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 public class AdapterSpinnerCategoryOfAssessment extends ArrayAdapter<String> {
 
+    //TODO: przepisać na nowo;
     private Cursor cursor;
 
     public AdapterSpinnerCategoryOfAssessment(Context context, Cursor cursor) {
@@ -36,9 +36,10 @@ public class AdapterSpinnerCategoryOfAssessment extends ArrayAdapter<String> {
         ImageView label = view.findViewById(R.id.image);
 
         if(cursor.moveToPosition(position)){
-            CategoryAssessment categoryAssessment = CategoryAssessment.getOfCursor(cursor);
-            title.setText(categoryAssessment.getName());
-            label.setColorFilter(Color.parseColor(categoryAssessment.getColor()));
+            CategoryOfAssessment2020 categoryOfAssessment = new CategoryOfAssessment2020();
+            categoryOfAssessment.setVariablesOfCursor(cursor);
+            title.setText(categoryOfAssessment.getName());
+            label.setColorFilter(categoryOfAssessment.getColor());
         }
         return view;
     }
@@ -46,8 +47,9 @@ public class AdapterSpinnerCategoryOfAssessment extends ArrayAdapter<String> {
     @Override
     public long getItemId(int position) {
         if(cursor.moveToPosition(position)){
-            CategoryAssessment categoryAssessment = CategoryAssessment.getOfCursor(cursor);
-            return  categoryAssessment.getId();
+            CategoryOfAssessment2020 categoryOfAssessment = new CategoryOfAssessment2020();
+            categoryOfAssessment.setVariablesOfCursor(cursor);
+            return  categoryOfAssessment.getId();
         }
         return 0;
     }
@@ -56,4 +58,14 @@ public class AdapterSpinnerCategoryOfAssessment extends ArrayAdapter<String> {
     public int getCount() {
         return cursor.getCount();
     }
+
+    public int getItemPosition(int id){
+        if(cursor.moveToFirst()){
+            for(int i = 0; i < cursor.getCount(); i++, cursor.moveToNext())
+                if(cursor.getInt(0) == id)
+                    return i;
+        }
+        return 0;
+    }
+
 }

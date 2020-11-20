@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ID_INITIAL_VERSION">versioninitial</string>
+    <string name="ID_CURRENT_VERSION">versioncurrent</string>
+    <string name="ID_THEME">0</string>
+    <string name="ID_HARD_DARK">1</string>
+    <string name="ID_AVERAGE_WEIGHT">2</string>
+    <string name="ID_AVERAGE_TO_ASSESSMENT">3</string>
+    <string name="ID_AVERAGE_TO_SIX">4</string>
+    <string name="ID_AVERAGE_TO_FIVE">5</string>
+    <string name="ID_AVERAGE_TO_FOUR">6</string>
+    <string name="ID_AVERAGE_TO_THREE">7</string>
+    <string name="ID_AVERAGE_TO_TWO">8</string>
+    <string name="ID_AVERAGE_TO_BELT">9</string>
+    <string name="ID_SEMESTER">10</string>
+    <string name="ID_DEL_LESSON_PLAN">11</string>
+    <string name="ID_DEL_NOTES">12</string>
+    <string name="ID_DEL_ASSESSMENTS">14</string>
+    <string name="ID_DEL_SUBJECTS">13</string>
+    <string name="ID_NOTEPAD">14</string>
+    <string name="ID_ASSESSMENT_WINDOW">15</string>
+    <string name="ID_HOLD_EDIT_TEXT_HELP_ICON">16</string>
+    <string name="ID_RESET_UNPREPAREDNESS_1">17</string>
+    <string name="ID_RESET_UNPREPAREDNESS_2">18</string>
+
+    <bool name="DEFAULT_HARD_DARK">false</bool>
+    <bool name="DEFAULT_AVERAGE_WEIGHT">false</bool>
+    <bool name="DEFAULT_AVERAGE_TO_ASSESSMENT">false</bool>
+    <string name="DEFAULT_AVERAGE_TO_SIX">5.10</string>
+    <string name="DEFAULT_AVERAGE_TO_FIVE">4.50</string>
+    <string name="DEFAULT_AVERAGE_TO_FOUR">3.60</string>
+    <string name="DEFAULT_AVERAGE_TO_THREE">2.70</string>
+    <string name="DEFAULT_AVERAGE_TO_TWO">1.75</string>
+    <string name="DEFAULT_AVERAGE_TO_BELT">4.75</string>
+    <string name="DEFAULT_SEMESTER">1</string>
+    <string name="DEFAULT_NOTEPAD"></string>
+    <bool name="DEFAULT_ASSESSMENT_WINDOW">true</bool>
+    <bool name="DEFAULT_HOLD_EDIT_TEXT_HELP_ICON">true</bool>
+
+</resources>

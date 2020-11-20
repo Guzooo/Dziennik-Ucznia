@@ -12,37 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data
+            <!--TODO: wprowadzić znów skróty; <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
+                android:resource="@xml/shortcuts" />-->
         </activity>
         <activity
-            android:name=".EditActivity"
-            android:label="@string/add_subject" />
-        <activity
-            android:name=".SettingActivity"
-            android:label="@string/app_G"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".NoteActivity"
-            android:windowSoftInputMode="stateHidden | adjustResize" />
-        <activity
-            android:name=".LessonPlanActivity"
-            android:label="@string/lesson_plan" />
-        <activity
-            android:name=".LessonPlanEditActivity"
-            android:label="@string/lesson_plan_add" />
-        <activity
-            android:name=".StatisticsActivity"
-            android:label="@string/statistics" />
-        <activity android:name=".DetailsAndEditActivity"></activity>
+            android:name=".SubjectDetailsActivity"
+            android:parentActivityName=".MainActivity"/>
     </application>
-
 </manifest>

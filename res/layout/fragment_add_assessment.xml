@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard">
+
+        <CheckBox
+            android:id="@+id/add_assessment_fragment_auto_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/length_minimal"
+            android:text="@string/show_add_assessment_fragment_after_add"/>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/delete"
+            android:src="@drawable/delete"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_standard"
+            android:layout_marginStart="@dimen/margin_standard"
+            style="@style/ClickableImages"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        style="@style/TextBold"/>
+
+    <Spinner
+        android:id="@+id/categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/length_minimal"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard">
+
+        <pl.Guzooo.DziennikUcznia.HoldEditText
+            android:id="@+id/assessment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:hint="@string/assessment_hint"
+            app:info="@string/assessment"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"/>
+
+        <pl.Guzooo.DziennikUcznia.HoldEditText
+            android:id="@+id/weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:hint="@string/assessment_weight_hint"
+            app:info="@string/weight"
+            app:prefix="@string/separator"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"/>
+
+        <LinearLayout
+            android:id="@+id/date_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:minHeight="@dimen/length_minimal"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/date_edit"
+                android:src="@drawable/edit"
+                android:layout_marginRight="@dimen/margin_standard"
+                android:layout_marginEnd="@dimen/margin_standard"
+                style="@style/ClickableImages"/>
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <pl.Guzooo.DziennikUcznia.HoldEditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:info="@string/description"
+        app:hint="@string/description_hint"
+        android:layout_margin="@dimen/margin_standard"/>
+</LinearLayout>

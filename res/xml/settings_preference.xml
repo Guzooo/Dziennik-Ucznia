@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:title="@string/settings_fast"
+        app:icon="@drawable/flash">
+
+        <ListPreference
+            app:title="@string/title_semester"
+            app:key="@string/ID_SEMESTER"
+            app:entries="@array/semesters"
+            app:entryValues="@array/semesters_values"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_SEMESTER"/>
+
+        <Preference
+            app:title="@string/title_reset_unpreparedness"
+            app:summary="@string/reset_unpreparedness_semester_1"
+            app:key="@string/ID_RESET_UNPREPAREDNESS_1"/>
+
+        <Preference
+            app:title="@string/title_reset_unpreparedness"
+            app:summary="@string/reset_unpreparedness_semester_2"
+            app:key="@string/ID_RESET_UNPREPAREDNESS_2"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/settings_assessment"
+        app:icon="@drawable/assessment">
+
+        <EditTextPreference
+            app:title="@string/title_average_to_belt"
+            app:key="@string/ID_AVERAGE_TO_BELT"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_BELT"/>
+
+        <SwitchPreference
+            app:title="@string/title_average_weight"
+            app:key="@string/ID_AVERAGE_WEIGHT"
+            app:summary="@string/summary_average_weight"
+            app:defaultValue="@bool/DEFAULT_AVERAGE_WEIGHT"/>
+
+        <SwitchPreference
+            app:title="@string/title_average_to_assessment"
+            app:key="@string/ID_AVERAGE_TO_ASSESSMENT"
+            app:summary="@string/summary_average_to_assessment"
+            app:defaultValue="@bool/DEFAULT_AVERAGE_TO_ASSESSMENT" />
+
+        <EditTextPreference
+            app:title="@string/title_average_to_six"
+            app:key="@string/ID_AVERAGE_TO_SIX"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_SIX"/>
+
+        <EditTextPreference
+            app:title="@string/title_average_to_five"
+            app:key="@string/ID_AVERAGE_TO_FIVE"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_FIVE"/>
+
+        <EditTextPreference
+            app:title="@string/title_average_to_four"
+            app:key="@string/ID_AVERAGE_TO_FOUR"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_FOUR"/>
+
+        <EditTextPreference
+            app:title="@string/title_average_to_three"
+            app:key="@string/ID_AVERAGE_TO_THREE"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_THREE"/>
+
+        <EditTextPreference
+            app:title="@string/title_average_to_two"
+            app:key="@string/ID_AVERAGE_TO_TWO"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/DEFAULT_AVERAGE_TO_TWO"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/settings_theme"
+        app:icon="@drawable/color_palette">
+
+        <ListPreference
+            app:title="@string/title_theme"
+            app:key="@string/ID_THEME"
+            app:entries="@array/themes"
+            app:entryValues="@array/themes_values"
+            app:useSimpleSummaryProvider="true"/>
+
+        <SwitchPreference
+            app:title="@string/title_hard_dark_mode"
+            app:key="@string/ID_HARD_DARK"
+            app:summary="@string/summary_hard_dark_mode"
+            app:defaultValue="@bool/DEFAULT_HARD_DARK"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/settings_features"
+        app:icon="@drawable/features">
+
+        <SwitchPreference
+            app:title="@string/title_assessment_window"
+            app:key="@string/ID_ASSESSMENT_WINDOW"
+            app:summary="@string/summary_assessment_window"
+            app:defaultValue="@bool/DEFAULT_ASSESSMENT_WINDOW"/>
+
+        <SwitchPreference
+            app:title="@string/title_hold_edit_text_help_icon"
+            app:key="@string/ID_HOLD_EDIT_TEXT_HELP_ICON"
+            app:summary="@string/summary_hold_edit_text_help_icon"
+            app:defaultValue="@bool/DEFAULT_HOLD_EDIT_TEXT_HELP_ICON"/>
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory
+        app:title="@string/settings_download"
+        app:icon="@drawable/download">
+
+    </PreferenceCategory>-->
+
+    <PreferenceCategory
+        app:title="@string/settings_delete"
+        app:icon="@drawable/delete">
+
+        <Preference
+            app:title="@string/title_lesson_plan"
+            app:key="@string/ID_DEL_LESSON_PLAN"/>
+
+        <Preference
+            app:title="@string/title_notes"
+            app:key="@string/ID_DEL_NOTES"/>
+
+        <Preference
+            app:title="@string/title_assessments"
+            app:key="@string/ID_DEL_ASSESSMENTS"/>
+
+
+        <Preference
+            app:title="@string/title_subjects"
+            app:key="@string/ID_DEL_SUBJECTS"/>
+    </PreferenceCategory>
+</PreferenceScreen>
