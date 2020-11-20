@@ -256,9 +256,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
     }
 
     private String getSummary(int plurals, int variable){
-        if(UtilsFragmentation.isMinimumLollipop())
-            return getResources().getQuantityString(plurals, variable, variable);
-        return "";
+        return getResources().getQuantityString(plurals, variable, variable);
     }
 
     private Preference.OnPreferenceClickListener getResetUnpreparednessClickListener(final int semester){

@@ -696,9 +696,7 @@ public class SubjectDetailsActivity extends GActivity {
     }
 
     private String getSummary(int plurals, int variable){
-        if(UtilsFragmentation.isMinimumLollipop())
-            return getResources().getQuantityString(plurals, variable, variable);
-        return "";
+        return getResources().getQuantityString(plurals, variable, variable);
     }
 
     private DialogInterface.OnClickListener getOnClickPositiveDeleteSubjectListener(){

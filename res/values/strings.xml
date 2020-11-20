@@ -127,6 +127,9 @@
         <item quantity="one">%d pozycja</item>
         <item quantity="few">%d pozycje</item>
         <item quantity="many">%d pozycji</item>
+        <item quantity="other">%d pozycja</item>
+        <item quantity="two">%d pozycja</item>
+        <item quantity="zero">%d pozycja</item>
     </plurals>
     <string name="in_lesson_plan">w planie lekcji</string>
     <string name="done_delete_lesson_plan">Usunąłeś plan lekcji</string>
@@ -135,6 +138,9 @@
         <item quantity="one">%d notatka</item>
         <item quantity="few">%d notatki</item>
         <item quantity="many">%d notatek</item>
+        <item quantity="other">%d notatka</item>
+        <item quantity="two">%d notatka</item>
+        <item quantity="zero">%d notatka</item>
     </plurals>
     <string name="done_delete_all_notes">Usunąłeś wszystkie notatki</string>
     <string name="title_assessments">Oceny</string>
@@ -142,6 +148,9 @@
         <item quantity="one">%d ocena</item>
         <item quantity="few">%d oceny</item>
         <item quantity="many">%d ocen</item>
+        <item quantity="other">%d ocena</item>
+        <item quantity="two">%d ocena</item>
+        <item quantity="zero">%d ocena</item>
     </plurals>
     <string name="done_delete_all_assessments">Usunąłeś wszystkie oceny</string>
     <string name="title_subjects">Przedmioty</string>
@@ -149,6 +158,9 @@
         <item quantity="one">%d przedmiot w tym</item>
         <item quantity="few">%d przedmioty w tym</item>
         <item quantity="many">%d przedmiotów w tym</item>
+        <item quantity="other">%d przedmiot w tym</item>
+        <item quantity="two">%d przedmiot w tym</item>
+        <item quantity="zero">%d przedmiot w tym</item>
     </plurals>
     <string name="done_delete_all_subjects">Usunąłeś wszystkie przedmioty</string>
     <string name="del_question">Czy chcesz usunąć %1$s?</string>
@@ -206,6 +218,9 @@
         <item quantity="one">Usunąłeś %d notatke</item>
         <item quantity="few">Usunąłeś %d notatki</item>
         <item quantity="many">Usunąłeś %d notatek</item>
+        <item quantity="other">Usunąłeś %d notatke</item>
+        <item quantity="two">Usunąłeś %d notatke</item>
+        <item quantity="zero">Usunąłeś %d notatke</item>
     </plurals>
 
     <string name="title_add_assessment">Dodaj ocene</string>
