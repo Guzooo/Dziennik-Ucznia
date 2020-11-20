@@ -27,7 +27,7 @@ public class AdapterSpinnerSubject extends ArrayAdapter<String> {
     }
 
     private View createItemView(int position, ViewGroup parent){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_one_text, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
         TextView text = v.findViewById(android.R.id.text1);
 
         if(position == 0)

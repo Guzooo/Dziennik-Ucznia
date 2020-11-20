@@ -168,17 +168,11 @@ public class Subject2020 extends DatabaseObject{
         return UtilsAverage.getAssemssents(getId(), semester, context);
     }
  /*
-    public void useUnpreparedness(Context context){
-        if (StatisticsActivity.getSemester(context) == 1)
-            unpreparednessOfSemesterI--;
-        unpreparednessOfSemesterII--;
-    }
 
     public void getAssessments(Context context){
         //TODO: stworzyć oceny z ich klasy
         // doprecyzować czy nazwe tej funkcji
     }*/
- //TODO: usuwanie tam ocen, notatek itp;
 
     private int getUnpreparednessOfSemester(int semester) {
         if (semester == 1)

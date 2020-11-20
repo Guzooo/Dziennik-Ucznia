@@ -116,7 +116,6 @@ public class CategoryOfAssessment2020 extends DatabaseObject{
 
     public void setColor(String color) {
         this.color = color;
-        //TODO:color może nie być jako "Color" lecz jako "String"; należy doczytać
     }
 
     public int getDefaultWeight() {

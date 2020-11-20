@@ -217,7 +217,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     private void replaceFragment(MainFragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, fragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); //TODO inne animacje
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.commit();
         currentFragment = fragment;
     }

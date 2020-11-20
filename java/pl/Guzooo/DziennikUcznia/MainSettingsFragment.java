@@ -56,7 +56,7 @@ public class MainSettingsFragment extends MainFragment {
     private void setSettingPreferenceFragment(){
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.content, new PreferenceSettingsFragment());
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); //TODO inne animacje
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
     }
 

@@ -261,7 +261,7 @@ public class PillMenu extends ConstraintLayout {
         translationPlus += getResources().getDimensionPixelOffset(R.dimen.margin_biggest) * 2;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             translationPlus += getRootWindowInsets().getSystemWindowInsetRight();
-        return translationPlus * 2;//TODO: "* 2" Kill gdy wszystkei będzą enable
+        return translationPlus;
     }
 
     private ObjectAnimator getTranslationButton(View v, int finalTranslationX){
