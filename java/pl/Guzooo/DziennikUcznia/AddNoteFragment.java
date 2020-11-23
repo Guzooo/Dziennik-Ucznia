@@ -151,6 +151,8 @@ public class AddNoteFragment extends DialogFragment {
                 if(pinned) {
                     unpinNote();
                     Toast.makeText(getContext(), R.string.unpin_note, Toast.LENGTH_SHORT).show();
+                } else if (title.getText().isEmpty()) {
+                    Toast.makeText(getContext(), R.string.can_not_pin_without_title, Toast.LENGTH_SHORT).show();
                 } else {
                     pinNote();
                     Toast.makeText(getContext(), R.string.pin_note, Toast.LENGTH_SHORT).show();
