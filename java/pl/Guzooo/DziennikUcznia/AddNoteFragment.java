@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentManager;
 
 public class AddNoteFragment extends DialogFragment {
     private final String TAG = "ADD_NOTE";
-    private final int NOTIFICATION_ID = 1000;
+    public static final int NOTIFICATION_ID = 1000; //TODO:usunać public static, jak usune z note2020
 
     private Note2020 noteObj;
 
@@ -134,13 +134,9 @@ public class AddNoteFragment extends DialogFragment {
 
     private String getShareText(){
         Subject2020 subject = getSubject();
-        String text = getString(R.string.share_notes_subject, subject.getName());
-        String titleStr = title.getText();
-        String noteStr = note.getText();
-        text += titleStr;
-        if(!noteStr.isEmpty())
-            text += noteStr;
-        return text;
+        return getString(R.string.share_notes_subject, subject.getName())
+                + noteObj.getShareText(getContext())
+                + getString(R.string.share_notes_info);
     }
 
     private View.OnClickListener getOnClickPinListener(){

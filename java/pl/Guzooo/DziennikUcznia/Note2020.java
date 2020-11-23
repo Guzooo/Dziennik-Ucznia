@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import androidx.core.app.NotificationManagerCompat;
+
 public class Note2020 extends DatabaseObject {
     public static final String NAME = "NAME";
     public static final String NOTE = "NOTE";
@@ -64,6 +66,13 @@ public class Note2020 extends DatabaseObject {
         contentValues.put(NOTE, note);
         contentValues.put(TAB_SUBJECT, idSubject);;
         return contentValues;
+    }
+
+    @Override
+    public void delete(Context context) { //TODO: powinienem ogarnąć by zawsze działało
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.cancel(AddNoteFragment.NOTIFICATION_ID + getId());
+        super.delete(context);
     }
 
     public String getShareText(Context context){
