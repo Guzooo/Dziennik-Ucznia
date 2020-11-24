@@ -6,6 +6,9 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.text.InputType;
@@ -164,10 +167,14 @@ public class AddNoteFragment extends DialogFragment {
     }
 
     private void pinNote(){
+        pinNote(noteObj.getId());
+    }
+
+    private void pinNote(int id){
         NotificationsChannels.CheckChannelNoteIsActive(getContext());
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
         Notification notification = getNotification();
-        notificationManager.notify(NOTIFICATION_ID + noteObj.getId(), notification);
+        notificationManager.notify(NOTIFICATION_ID + id, notification);
         setPinned(true);
     }
 
@@ -331,14 +338,39 @@ public class AddNoteFragment extends DialogFragment {
         return true;
     }
 
+    private void refreshPin(){
+        if(pinned && isNewNote())
+            pin0ToId();
+        else if(pinned)
+            pinNote();
+    }
+
+    private void pin0ToId(){
+        unpinNote();
+        int newId = getLastNoteId();
+        pinNote(newId);
+    }
+
+    private int getLastNoteId(){
+        int lastId = 0;
+        try {
+            SQLiteDatabase db = Database2020.getToReading(getContext());
+            Cursor cursor = db.query(Note2020.DATABASE_NAME,
+                    new String[]{Database2020.ID},
+                    null, null, null, null, null);
+            if(cursor.moveToLast())
+                lastId = cursor.getInt(0);
+            cursor.close();
+            db.close();
+        } catch (SQLiteException e){
+            Database2020.errorToast(getContext());
+        }
+        return lastId;
+    }
+
     private boolean isNewNote(){
         if(noteObj.getId() == 0)
             return true;
         return false;
-    }
-
-    private void refreshPin(){
-        if(pinned)
-            pinNote();
     }
 }
