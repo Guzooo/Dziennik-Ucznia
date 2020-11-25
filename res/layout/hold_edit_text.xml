@@ -11,6 +11,7 @@
             android:layout_height="wrap_content"
             android:minHeight="@dimen/length_minimal"
             android:singleLine="true"
+            android:autoLink="all"
             android:layout_gravity="center"/>
     </LinearLayout>
 
@@ -28,6 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/length_minimal"
+            android:linksClickable="false"
+            android:autoLink="all"
             android:gravity="center_vertical"/>
     </LinearLayout>
 </merge>
