@@ -196,7 +196,7 @@ public class AddNoteFragment extends DialogFragment {
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setColor(UtilsColor.getColorFromAttrs(R.attr.colorAccentG, getContext()))
                 /*.setGroup(noteObj.getIdSubject() + "")TODO: jak tego użyje, to w magiczny sposob juz nic sie nie grupuje*/
-                /*.setWhen(System.currentTimeMillis() + 1000 * 60 * 60 * 24)TODO: wykorzystać do odliczania do lekcji*/
+                .setWhen(getWhen())
                 //TODO: otworz ten fragment po klinieciu .setContentIntent()
                 .build();
     }
@@ -230,6 +230,48 @@ public class AddNoteFragment extends DialogFragment {
                     + "\n"
                     + noteStr;
         return text;
+    }
+
+    private long getWhen(){
+        int today = UtilsCalendar.getTodaysDayOfWeek();
+        int time = UtilsCalendar.getTodayTimeWriteOnlyMinutes();
+        int idNextLesson = getIdOfNextLesson(today, time);
+        if(idNextLesson == 0)
+            return System.currentTimeMillis();
+        ElementOfPlan2020 element = new ElementOfPlan2020();
+        element.setVariablesOfId(idNextLesson, getContext());
+        int dayOfLesson = element.getDay();
+        int timeOfLesson = element.getTimeStartHours() * 60 + element.getTimeStartMinutes();
+        long when = System.currentTimeMillis();
+        if (timeOfLesson > time)
+            when += 1000 * 60 * (timeOfLesson - time);
+        else if(timeOfLesson < time)
+            when -= 1000 * 60 * (time - timeOfLesson);
+        if(dayOfLesson > today)
+            when += 1000 * 60 * 60 * 24 * (dayOfLesson - today);
+        else if(dayOfLesson < today)
+            when += 1000 * 60 * 60 * 24 * (7 - today + dayOfLesson);
+        return when;
+    }
+
+    private int getIdOfNextLesson(int today, int time){
+        SQLiteDatabase db = Database2020.getToReading(getContext());
+        Cursor cursor = db.query(ElementOfPlan2020.DATABASE_NAME,
+                new String[]{Database2020.ID, ElementOfPlan2020.DAY, ElementOfPlan2020.TIME_START},
+                ElementOfPlan2020.TAB_SUBJECT + " = ?",
+                new String[]{Integer.toString(noteObj.getIdSubject())},
+                null, null, ElementOfPlan2020.DAY + " AND " + ElementOfPlan2020.TIME_START);
+        if(cursor.moveToFirst())
+            do{
+                if((cursor.getInt(1) == today && cursor.getInt(2) > time) || cursor.getInt(1) > today)
+                    return cursor.getInt(0);
+            }while (cursor.moveToNext());
+        if(cursor.moveToFirst())
+            do{
+                if(cursor.getInt(1) < today)
+                    return cursor.getInt(0);
+            }while (cursor.moveToNext());
+        return 0;
     }
 
     private boolean isNotificationIsExists(){

@@ -34,6 +34,13 @@ public class UtilsCalendar {
         return calendar.get(Calendar.DAY_OF_WEEK);
     }
 
+    public static int getTodayTimeWriteOnlyMinutes(){
+        Calendar calendar = Calendar.getInstance();
+        int minutes = calendar.get(Calendar.HOUR_OF_DAY) * 60;
+        minutes += calendar.get(Calendar.MINUTE);
+        return minutes;
+    }
+
     public static String getDayOfWeek(int day, Context context){
         switch (day){
             case Calendar.MONDAY:
