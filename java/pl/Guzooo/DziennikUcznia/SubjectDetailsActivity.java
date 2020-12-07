@@ -589,9 +589,9 @@ public class SubjectDetailsActivity extends GActivity {
                     note.setVariablesOfId(id, getApplicationContext());
                     notesManager.setUnselectedSelectedMode();
                     notesManager.select(note);
-                    return true;
-                }
-                return false;
+                } else
+                    notesManager.setSelectedModeNone();
+                return true;
             }
         };
     }
