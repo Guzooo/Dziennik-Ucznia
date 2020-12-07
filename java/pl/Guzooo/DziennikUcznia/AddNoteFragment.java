@@ -187,6 +187,7 @@ public class AddNoteFragment extends DialogFragment {
     }
 
     private Notification getNotification(){
+        long when = getWhen();
         return new NotificationCompat.Builder(getContext(), NotificationsChannels.CHANNEL_NOTE_ID)
                 .setSmallIcon(R.drawable.pinned_pin)
                 .setContentTitle(getNotificationTitle())
@@ -196,7 +197,8 @@ public class AddNoteFragment extends DialogFragment {
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setColor(UtilsColor.getColorFromAttrs(R.attr.colorAccentG, getContext()))
                 /*.setGroup(noteObj.getIdSubject() + "")TODO: jak tego użyje, to w magiczny sposob juz nic sie nie grupuje*/
-                .setWhen(getWhen())
+                .setWhen(when)
+                .setShowWhen(when != 0)
                 //TODO: otworz ten fragment po klinieciu .setContentIntent()
                 .build();
     }
@@ -237,7 +239,7 @@ public class AddNoteFragment extends DialogFragment {
         int time = UtilsCalendar.getTodayTimeWriteOnlyMinutes();
         int idNextLesson = getIdOfNextLesson(today, time);
         if(idNextLesson == 0)
-            return System.currentTimeMillis();
+            return 0;
         ElementOfPlan2020 element = new ElementOfPlan2020();
         element.setVariablesOfId(idNextLesson, getContext());
         int dayOfLesson = element.getDay();
