@@ -79,7 +79,7 @@ public class UtilsAnimation {
             @Override
             public void run() {
                 if(!currentText.equals(newText)) {
-                    for (int i = 0; i < currentStrings.size() && i < newStrings.size() - 1; i++) {
+                    for (int i = 0; i < currentStrings.size() && i < newStrings.size(); i++) {
                         String currentS = currentStrings.get(i);
                         String newS = newStrings.get(i);
 

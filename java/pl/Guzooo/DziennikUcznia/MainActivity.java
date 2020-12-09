@@ -296,7 +296,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         //String newSubtitle = getActionBarSubtitle();
         //UtilsAnimation.OnChangeTextListener listener = getOnChangeActionBarSubtitle();
         //UtilsAnimation.changeText(currentSubtitle, newSubtitle, listener);
-        setShortcutSubtitle();
+        //setShortcutSubtitle();
     }
 
     public String getActionBarSubtitle(){
@@ -321,8 +321,6 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void setShortcutSubtitle(){
-        if(true)
-        return;
         String subtitle = getCurrentActionBarSubtitle();
         if(subtitle.equals(""))
             return;
