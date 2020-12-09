@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="ColorTheme">
+        <item name="colorPrimary">?attr/colorPrimaryTranslucentG</item>
+        <item name="colorPrimaryDark">?attr/colorPrimaryTranslucentG</item>
+        <item name="colorAccent">?attr/colorAccentG</item>
+
+        <item name="android:textViewStyle">@style/TextNormal</item>
+        <item name="android:colorBackground">?attr/colorPrimaryG</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
+    </style>
+</resources>
