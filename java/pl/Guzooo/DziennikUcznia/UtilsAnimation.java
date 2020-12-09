@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.IntDef;
 import androidx.annotation.StringRes;
 
+import java.util.ArrayList;
+
 public class UtilsAnimation {
 
     @IntDef(value = {LEFT, TOP, RIGHT, BOTTOM})
@@ -68,13 +70,50 @@ public class UtilsAnimation {
             viewForHide.setVisibility(View.INVISIBLE);
     }
 
-    public static void changeText(TextView textView, @StringRes int newText){
+    public static void changeTextMultiString(final String startText, final ArrayList<String> oldStrings, final ArrayList<String> newStrings, final OnChangeTextListener listener, long timeStartInSeconds){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            String currentText = startText;
+            String newText = getNewText(startText, oldStrings, newStrings);
+            ArrayList<String> currentStrings = new ArrayList<>(oldStrings);
+            @Override
+            public void run() {
+                if(!currentText.equals(newText)) {
+                    for (int i = 0; i < currentStrings.size() && i < newStrings.size() - 1; i++) {
+                        String currentS = currentStrings.get(i);
+                        String newS = newStrings.get(i);
+
+                        if (!currentS.equals(newS)) {
+                            String nextCurrentS = getChangeOneLetter(currentS, newS);
+                            currentText = currentText.replace(currentS, nextCurrentS);
+                            currentStrings.set(i, nextCurrentS);
+                        }
+                    }
+                    listener.setText(currentText);
+                    handler.postDelayed(this, 10);
+                }
+            }
+        }, timeStartInSeconds * 1000);
+
+    }
+
+    private static String getNewText(String startText, ArrayList<String> oldStrings, ArrayList<String> newStrings){
+        String newText = startText;
+        for(int i = 0; i < oldStrings.size() && i < newStrings.size(); i++) {
+            String oldS = oldStrings.get(i);
+            String newS = newStrings.get(i);
+            newText = newText.replace(oldS, newS);
+        }
+        return newText;
+    }
+
+    public static void changeText(TextView textView, @StringRes int newText){//TODO: sprawdzic czy uzywane
         Context context = textView.getContext();
         String string = context.getString(newText);
         changeText(textView, string);
     }
 
-    public static void changeText(final TextView textView, String newText){
+    public static void changeText(final TextView textView, String newText){//TODO: sprawdzic czy uzywane
         String startText = textView.getText().toString();
         OnChangeTextListener listener = getOnChangeTextViewListener(textView);
         changeText(startText, newText, listener);
@@ -87,20 +126,24 @@ public class UtilsAnimation {
             @Override
             public void run() {
                 if(!currentText.equals(newText)) {
-                    if (newText.startsWith(currentText))
-                        currentText = newText.substring(0, currentText.length() + 1);
-                    else if(newText.endsWith(currentText))
-                        currentText = newText.substring(newText.length() - currentText.length()-1);
-                    else if(currentText.endsWith(newText) && !newText.isEmpty())
-                        currentText = currentText.substring(1);
-                    else
-                        currentText = currentText.substring(0, currentText.length() - 1);
+                    currentText = getChangeOneLetter(currentText, newText);
                     listener.setText(currentText);
 
                     handler.postDelayed(this, 10);
                 }
             }
         });
+    }
+
+    private static String getChangeOneLetter(String changedText, String finalText){
+        if (finalText.startsWith(changedText))
+            return finalText.substring(0, changedText.length() + 1);
+        else if(finalText.endsWith(changedText))
+            return finalText.substring(finalText.length() - changedText.length()-1);
+        else if(changedText.endsWith(finalText) && !finalText.isEmpty())
+            return changedText.substring(1);
+        else
+            return changedText.substring(0, changedText.length() - 1);
     }
 
     public static void showBackgroundView(final View foreground, final View background){

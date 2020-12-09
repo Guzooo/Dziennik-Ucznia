@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class MainActivity extends GActivity implements BottomNavigationView.OnNavigationItemSelectedListener, PillMenu.OnPillMenuItemSelectedListener, MainFragment.MainFragmentListener {
 
     private MainFragment currentFragment;
@@ -289,14 +291,17 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     }
 
     private void setActionBarSubtitle(){
-        //TODO: piękna animacja zamiany tekstu no bo umiem :)))));
-        if(currentFragment != null && currentFragment.isActionBarSubtitleIsVisibility())
-            getSupportActionBar().setSubtitle(getActionBarSubtitle());
-        else
-            getSupportActionBar().setSubtitle(R.string.app_G);
+        getSupportActionBar().setSubtitle(getActionBarSubtitle());
+        //String currentSubtitle = getCurrentActionBarSubtitle();
+        //String newSubtitle = getActionBarSubtitle();
+        //UtilsAnimation.OnChangeTextListener listener = getOnChangeActionBarSubtitle();
+        //UtilsAnimation.changeText(currentSubtitle, newSubtitle, listener);
+        setShortcutSubtitle();
     }
 
     public String getActionBarSubtitle(){
+        if(currentFragment == null || !currentFragment.isActionBarSubtitleIsVisibility())
+            return getString(R.string.app_G);
         String semester = getSemester();
         String separator = getString(R.string.separator);
         String average = getFinalAverage();
@@ -313,6 +318,55 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         if(UtilsAverage.isBelt(average, this))
             return getString(R.string.final_average, average) + getString(R.string.separator) + getString(R.string.belt);
         return getString(R.string.final_average, average);
+    }
+
+    private void setShortcutSubtitle(){
+        if(true)
+        return;
+        String subtitle = getCurrentActionBarSubtitle();
+        if(subtitle.equals(""))
+            return;
+        String[] strings = subtitle.split(" ");
+        ArrayList<String> oldStrings = getOldSubtitleStrings(strings);
+        ArrayList<String> newStrings = getNewSubtitleStrings(strings);
+        UtilsAnimation.OnChangeTextListener listener = getOnChangeActionBarSubtitle();
+        UtilsAnimation.changeTextMultiString(subtitle, oldStrings, newStrings,
+                                                listener, 5);
+    }
+
+    private ArrayList<String> getOldSubtitleStrings(String[] subtitleStrings){
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add(subtitleStrings[0].substring(0, subtitleStrings[0].length()-1));
+        strings.add(subtitleStrings[3]);
+        strings.add(subtitleStrings[4].substring(0, subtitleStrings[0].length()-1));
+        strings.add(subtitleStrings[4].substring(0, 1) + " ");
+        return strings;
+    }
+
+    private ArrayList<String> getNewSubtitleStrings(String[] subtitleStrings){
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add(subtitleStrings[0].substring(0, 1));
+        strings.add(subtitleStrings[3].substring(0, 1));
+        strings.add(subtitleStrings[4].substring(0, 1));
+        strings.add(subtitleStrings[4].substring(0, 1));
+        return strings;
+    }
+
+    private UtilsAnimation.OnChangeTextListener getOnChangeActionBarSubtitle(){
+        return new UtilsAnimation.OnChangeTextListener() {
+            @Override
+            public void setText(String text) {
+                getSupportActionBar().setSubtitle(text);
+            }
+        };
+    }
+
+    public String getCurrentActionBarSubtitle(){
+        try{
+            return getSupportActionBar().getSubtitle().toString();
+        } catch (NullPointerException e){
+            return "";
+        }
     }
 
     private void openHomeFragment(){
