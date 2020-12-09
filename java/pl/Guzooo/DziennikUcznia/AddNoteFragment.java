@@ -45,6 +45,10 @@ public class AddNoteFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         View layout = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_note, null);
+        if(noteObj == null){
+            dismiss();
+            noteObj = new Note2020();
+        }
         initialization(layout);
         setShareIcon();
         setPinIcon();

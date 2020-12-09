@@ -43,6 +43,10 @@ public class AddElementOfPlanFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         View layout = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_element_of_plan, null);
+        if(elementOfPlan == null){
+            dismiss();
+            elementOfPlan = new ElementOfPlan2020();
+        }
         initialization(layout);
         setDeleteIcon();
         setDay();
