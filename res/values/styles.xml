@@ -114,13 +114,6 @@
         <item name="borderWidth">0dp</item>
     </style>
 
-    <style name="PillButton">
-        <item name="android:textColor">@color/pill_text_state</item>
-        <item name="android:background">@drawable/pill</item>
-        <item name="android:backgroundTint">@color/pill_background_state</item>
-        <!--<item name="android:foreground">?android:attr/selectableItemBackground</item>-->
-    </style>
-
     <style name="customToolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
