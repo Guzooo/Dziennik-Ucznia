@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
@@ -34,6 +35,7 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
         setPreferencesFromResource(R.xml.settings_preference, rootKey);
 
         setTitles();
+        setRewriteAssessment();
         setResetUnpreparedness();
         setTheme();
         setHardDarkTheme();
@@ -46,6 +48,11 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
     private void setTitles(){
         ArrayList<Preference> preferences = getTitles();
         setAccentToPreferencesIcon(preferences);
+    }
+
+    private void setRewriteAssessment(){
+        Preference rewrite = findPref(R.string.ID_REWRITE_ASSESSMENT);
+        rewrite.setOnPreferenceClickListener(getRewriteAssessmentClickListener());
     }
 
     private void setResetUnpreparedness(){
@@ -257,6 +264,45 @@ public class PreferenceSettingsFragment extends PreferenceFragmentCompat{
 
     private String getSummary(int plurals, int variable){
         return getResources().getQuantityString(plurals, variable, variable);
+    }
+
+    private Preference.OnPreferenceClickListener getRewriteAssessmentClickListener(){
+        return new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.title_rewrite_assessment)
+                        .setMessage(R.string.summary_rewrite_assessment)
+                        .setPositiveButton(R.string.rewrite, getRewriteAssessmentDoListener())
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+                return true;
+            }
+        };
+    }
+
+    private DialogInterface.OnClickListener getRewriteAssessmentDoListener(){
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SQLiteDatabase db = Database2020.getToWriting(getContext());
+                Cursor cursor = db.query(Assessment2020.DATABASE_NAME,
+                        Assessment2020.ON_CURSOR,
+                        Assessment2020.SEMESTER + " = ?",
+                        new String[]{Integer.toString(1)},
+                        null, null, null);
+                if(cursor.moveToFirst())
+                    do{
+                        Assessment2020 assessment = new Assessment2020();
+                        assessment.setVariablesOfCursor(cursor);
+                        assessment.setSemester(2);
+                        assessment.insert(getContext());
+                    }while(cursor.moveToNext());
+                cursor.close();
+                db.close();
+                Toast.makeText(getContext(), R.string.done_rewrite_assessment, Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 
     private Preference.OnPreferenceClickListener getResetUnpreparednessClickListener(final int semester){

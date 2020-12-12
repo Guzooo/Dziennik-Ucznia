@@ -22,6 +22,7 @@
     <string name="ID_HOLD_EDIT_TEXT_HELP_ICON" translatable="false">16</string>
     <string name="ID_RESET_UNPREPAREDNESS_1" translatable="false">17</string>
     <string name="ID_RESET_UNPREPAREDNESS_2" translatable="false">18</string>
+    <string name="ID_REWRITE_ASSESSMENT" translatable="false">19</string>
 
     <bool name="DEFAULT_HARD_DARK">false</bool>
     <bool name="DEFAULT_AVERAGE_WEIGHT">false</bool>

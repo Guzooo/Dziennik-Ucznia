@@ -37,6 +37,7 @@
     <string name="next">Next</string>
     <string name="next_new">New</string>
     <string name="reset">Reset</string>
+    <string name="rewrite">Rewrite</string>
     <string name="cant_save">Cannot save</string>
     <string name="all">All</string>
     <string name="selected_item">Selected items: %1$d</string>
@@ -173,6 +174,9 @@
     <string name="reset_unpreparedness_semester_2">Second term</string>
     <string name="reset_unpreparedness_description">Subjects have amount of NP for the first and second term, which changes as You use them.  Subjects also have the default amount of NP that was entered when creating subject.  If you have used the app in the previous year and left behind old subjects, chances are you have used some of the NPs. To make sure none of your NPs is missed by app before the start of the given term, reset your NP.</string>
     <string name="done_reset_unpreparedness">You have restored NP to default</string>
+    <string name="title_rewrite_assessment">Rewrite grades</string>
+    <string name="summary_rewrite_assessment">Duplicates grades from first term to second</string>
+    <string name="done_rewrite_assessment">You have rewritten grades</string>
 
     <string name="title_assessment_window">Window for editing grades</string>
     <string name="summary_assessment_window">Display window after adding new grades</string>
