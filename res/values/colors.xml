@@ -21,8 +21,8 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#737373</color>
 
-    <color name="gBlack">#000000</color>
-    <color name="gWhite">#FFFFFF</color>
+    <color name="gBlack">#1F1F1F</color>
+    <color name="gWhite">#F2F2F2</color>
 
     <color name="attention">#FF0000</color>
 </resources>
