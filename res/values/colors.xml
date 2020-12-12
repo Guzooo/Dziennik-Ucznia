@@ -9,7 +9,9 @@
     <color name="darkTranslucent">#E6363636</color>
 
     <color name="hardDark">#000000</color>
-    <color name="hardDarkTranslucent">#E6000000</color><!--TODO: hard dark potrzebuje swojego koloru dark-->
+    <color name="hardDarkTranslucent">#E6000000</color>
+    <color name="hardDarkSecondary">#ACACAC</color>
+    <color name="hardDarkSecondaryDark">#767676</color>
 
     <color name="accent">#34ab2b</color>
     <color name="accent2">#fdc321</color>

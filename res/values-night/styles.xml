@@ -4,8 +4,8 @@
         <item name="colorPrimaryG">@color/hardDark</item>
         <item name="colorPrimaryDarkG">@color/dark</item>
         <item name="colorPrimaryTranslucentG">@color/hardDarkTranslucent</item>
-        <item name="colorSecondaryG">@color/darkDark</item>
-        <item name="colorSecondaryDarkG">@color/dark</item>
+        <item name="colorSecondaryG">@color/hardDarkSecondary</item>
+        <item name="colorSecondaryDarkG">@color/hardDarkSecondaryDark</item>
         <item name="colorAttentionG">@color/attention</item>
     </style>
 
