@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Dziennik Ucznia</string>
+    <string name="app_name">Organizer Ucznia</string>
 
     <string name="error_database">Błąd bazy danych</string>
 
