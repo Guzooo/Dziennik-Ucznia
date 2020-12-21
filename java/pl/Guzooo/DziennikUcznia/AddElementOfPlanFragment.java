@@ -1,6 +1,5 @@
 package pl.Guzooo.DziennikUcznia;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -43,6 +43,10 @@ public class AddElementOfPlanFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         View layout = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_element_of_plan, null);
+        if(elementOfPlan == null){
+            dismiss();
+            elementOfPlan = new ElementOfPlan2020();
+        }
         initialization(layout);
         setDeleteIcon();
         setDay();

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Organizer Ucznia</string>
+
+    <string name="error_database">Błąd bazy danych</string>
+
+    <!--Wziąć się za nowy sposób wyświetlania wiadomości-->
+    <string name="information_window_message_from_creator">Wiadomość od twórcy:</string>
+    <string name="information_window_update">Aktualizuj</string>
+    <string name="information_window_available_update">Dostępna aktualizacja</string>
+    <string name="information_window_recommended_update">Zalecana aktualizacja</string>
+
+    <string name="notification_channel_note">Notatki</string>
+    <string name="notification_channel_note_description">Przedmiotowe notatki, które użytkownik przypiął</string>
+
+    <string name="setting_facebook">Sprawdź fanpage\nFacebook</string>
+    <string name="setting_messenger">Zaproponuj zmiany\nMessenger</string>
+
+    <!-- NOWE -->
+    <string name="setting">Ustawienia</string>
+    <string name="home">Główna</string>
+    <string name="statistics">Statystyki</string>
+    <string name="lesson_plan">Plan Lekcji</string>
+
+    <string name="hold_to_edit">Przytrzymaj, aby edytować</string>
+    <string name="semester">Semestr %1$d</string>
+    <string name="semester_with_colon">Semestr: %1$d</string>
+    <string name="final_average">Średnia końcowa: %1$.2f</string>
+    <string name="belt">PASEK</string>
+    <string name="number_of_notes">Ilość notatek: %1$d</string>
+    <string name="number_of_unpreparedness">NP: %1$d</string>
+    <string name="delete">Usuń</string>
+    <string name="notes">Notatki</string>
+    <string name="edit">Edytuj</string>
+    <string name="next">Kolejny</string>
+    <string name="next_new">Nowy</string>
+    <string name="reset">Resetuj</string>
+    <string name="rewrite">Przepisz</string>
+    <string name="cant_save">Nie można zapisać</string>
+    <string name="all">Wszystkie</string>
+    <string name="selected_item">Zaznaczone elementy: %1$d</string>
+
+    <string name="add_subject">Przedmiot</string>
+    <string name="add_lesson_plan">Plan lekcji</string>
+    <string name="add_note">Notatke</string>
+    <string name="add_assessment">Ocene</string>
+
+    <string name="no_subject">Brak przedmiotów\nDodaj jakieś</string>
+    <string name="no_plan">Brak Planu\nZacznij go tworzyć</string>
+    <string name="no_stat">Brak statystyk\nCzekam na oceny</string>
+
+    <string name="notepad">Notatnik</string>
+    <string name="enter_notepad">Wpisz swoje notatki</string>
+
+    <string name="add_subject_title">Dodaj przedmiot</string>
+    <string name="enter_subject_name">Wpisz nazwe przedmiotu</string>
+    <string name="enter_subject_teacher">Wpisz nauczyciela przedmiotu</string>
+    <string name="enter_unpreparedness">Wpisz ilość nieprzygotowań</string>
+    <string name="enter_subject_description">Wpisz dowolne informacje na temat przedmiotu</string>
+
+    <string name="add_element_of_lesson_plan_title">Dodaj pozycje w planie lekcji</string>
+    <string name="edit_element_of_lesson_plan_title">Edytuj pozycje w planie lekcji</string>
+    <string name="plan_edit_hint_subject">Wybierz przedmiot</string> <!--usuń kiedyś-->
+    <string name="plan_edit_null_subject">Nie masz jeszcze przedmiotów\nBy dodać plan, cofnij się i utwórz przedmiot</string> <!--usuń kiedyś-->
+    <string name="plan_edit_start_lesson">Początek lekcji</string>
+    <string name="plan_edit_end_lesson">Koniec lekcji</string>
+    <string name="plan_edit_classroom">Klasa</string>
+    <string name="plan_edit_hint_classroom">Wpisz klasę w której odbędą się zajęcia</string>
+    <string name="want_delete_this_element_of_plan">Chcesz usunąć ten element planu lekcji?</string>
+    <string name="done_delete_this_element_of_plan">Usunąłeś element planu lekcji</string>
+
+    <string name="select_day_hint">Wybierz dzień</string>
+    <string name="monday">Poniedziałek</string>
+    <string name="tuesday">Wtorek</string>
+    <string name="wednesday">Środa</string>
+    <string name="thursday">Czwartek</string>
+    <string name="friday">Piątek</string>
+    <string name="saturday">Sobota</string>
+    <string name="sunday">Niedziela</string>
+    <string name="not_in_plan">Brak w planie</string>
+    <string name="today">Dziś</string>
+    <string name="tomorrow">Jutro</string>
+    <string name="in_a_week">Za tydzień</string>
+
+    <string name="cant_delete_default_assessments_category">Nie można usunąć domyślnej kategorii</string>
+
+    <string name="settings_theme">Motyw aplikacji</string>
+    <string name="settings_assessment">Oceny</string>
+    <string name="settings_delete">Usuń</string>
+    <string name="settings_fast">Szybkie</string>
+    <string name="settings_features">Funkcje</string>
+    <string name="settings_download">Internet</string>
+
+    <string name="title_theme">Wybierz motyw</string>
+    <string name="theme_light">Jasny</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_battery">Według oszczędzania baterii</string>
+    <string name="theme_system">Według systemu</string>
+    <string name="title_hard_dark_mode">Bardzo ciemny motyw</string>
+    <string name="summary_hard_dark_mode">Jeśli ciemny motyw jest włączony, czarny jest bardziej czarny. Idealny dla wyświetlaczy OLED/AMOLED.</string>
+
+    <string name="title_average_to_belt">Pasek od</string>
+    <string name="title_average_weight">Średnia ważona</string>
+    <string name="summary_average_weight">Umożliwia dodawanie wagi do ocen</string>
+    <string name="title_average_to_assessment">Średnie na oceny</string>
+    <string name="summary_average_to_assessment">Przeliczaj średnie przedmiotów na oceny</string>
+    <string name="title_average_to_six">Szóstka od</string>
+    <string name="title_average_to_five">Piątka od</string>
+    <string name="title_average_to_four">Czwórka od</string>
+    <string name="title_average_to_three">Trójka od</string>
+    <string name="title_average_to_two">Dwójka od</string>
+
+    <string name="title_lesson_plan">Plan lekcji</string>
+    <plurals name="summary_lesson_plan">
+        <item quantity="one">%d pozycja</item>
+        <item quantity="few">%d pozycje</item>
+        <item quantity="many">%d pozycji</item>
+        <item quantity="other">%d pozycja</item>
+    </plurals>
+    <string name="in_lesson_plan">w planie lekcji</string>
+    <string name="done_delete_lesson_plan">Usunąłeś plan lekcji</string>
+    <string name="title_notes">@string/notes</string>
+    <plurals name="summary_all_notes">
+        <item quantity="one">%d notatka</item>
+        <item quantity="few">%d notatki</item>
+        <item quantity="many">%d notatek</item>
+        <item quantity="other">%d notatka</item>
+    </plurals>
+    <string name="done_delete_all_notes">Usunąłeś wszystkie notatki</string>
+    <string name="title_assessments">Oceny</string>
+    <plurals name="summary_all_assessments">
+        <item quantity="one">%d ocena</item>
+        <item quantity="few">%d oceny</item>
+        <item quantity="many">%d ocen</item>
+        <item quantity="other">%d ocena</item>
+    </plurals>
+    <string name="done_delete_all_assessments">Usunąłeś wszystkie oceny</string>
+    <string name="title_subjects">Przedmioty</string>
+    <plurals name="summary_all_subejcts">
+        <item quantity="one">%d przedmiot w tym</item>
+        <item quantity="few">%d przedmioty w tym</item>
+        <item quantity="many">%d przedmiotów w tym</item>
+        <item quantity="other">%d przedmiot w tym</item>
+    </plurals>
+    <string name="done_delete_all_subjects">Usunąłeś wszystkie przedmioty</string>
+    <string name="del_question">Czy chcesz usunąć %1$s?</string>
+
+    <string name="title_semester">Semestr</string>
+    <string name="semester_first">Pierwszy</string>
+    <string name="semester_second">Drugi</string>
+    <string name="title_reset_unpreparedness">Zresetuj nieprzygotowania</string>
+    <string name="reset_unpreparedness_semester_1">Semestr pierwszy</string>
+    <string name="reset_unpreparedness_semester_2">Semestr drugi</string>
+    <string name="reset_unpreparedness_description">Przedmioty mają zapisane ilości nieprzygotowań na semestr pierwszy i drugi, który się zmienia gdy zużywamy nasze NP. Mają też zapisaną domyślną ilość nieprzygotowań, która została podana przy tworzeniu przedmiotu. Jeśli używałeś aplikacji w poprzednim roku i pozostawiłeś stare przedmioty, to możliwe, że zużyłeś kilka NP. Aby upewnić się, że żadne z twoich nieprzygotowań nie zostanie pominięte przez aplikacje przed rozpoczęciem danego semestru zresetuj swoje nieprzygotowania</string>
+    <string name="done_reset_unpreparedness">Zresetowałeś nieprzygotowania</string>
+    <string name="title_rewrite_assessment">Przepisz oceny</string>
+    <string name="summary_rewrite_assessment">Duplikuje oceny z pierwszego semestru na drugi</string>
+    <string name="done_rewrite_assessment">Przepisałeś oceny</string>
+
+
+    <string name="title_assessment_window">Okno edycji oceny</string>
+    <string name="summary_assessment_window">Pokaż okno po dodaniu nowej oceny</string>
+    <string name="title_hold_edit_text_help_icon">Ikona pomocnicza edycji</string>
+    <string name="summary_hold_edit_text_help_icon">Wyświetlaj ikone obok elementów które można edytować przez przytrzymanie</string>
+
+    <string name="semester1">Semestr 1</string>
+    <string name="semester2">Semestr 2</string>
+    <string name="semester_end">Średnia końcowa</string>
+    <string name="lack_assessments">Brak ocen</string>
+
+    <string name="choose_semester_info">Zmiana semestru została przeniesiona do ustawień</string>
+
+    <string name="teacher">Nauczyciel</string>
+    <string name="teacher_hint">@string/enter_subject_teacher</string>
+    <string name="section_assessments">Oceny:</string>
+    <string name="assessment_hint">Wpisz ocene</string>
+    <string name="assessment_weight_hint">Wpisz wage</string>
+    <string name="section_unpreparedness">Nieprzygotowania:</string>
+    <string name="unpreparedness">Nieprzygotowania</string>
+    <string name="unpreparedness_prefix">NP: \ </string>
+    <string name="unpreparedness_current">Aktualne nieprzygotowania</string>
+    <string name="unpreparedness_start">Domyślne nieprzygotowania</string>
+    <string name="unpreparedness_info_end">Użyłeś już wszystkie nieprzygotowania\nw tym semestrze</string>
+    <string name="section_description">Opis:</string>
+    <string name="description">Opis</string>
+    <string name="description_hint">Wpisz dowolne informacje</string>
+    <string name="delete_subject">Usuń przedmiot \"%1$s\"</string>
+    <string name="delete_subject_question">Czy chcesz usunąć przedmiot w tym %1$s?</string>
+    <string name="delete_subject_done">Usunąłeś przedmiot \"%1$s\"</string>
+
+    <string name="share_title">Udostępnij do…</string>
+    <string name="share_notes_subject">❗%1$s❗</string>
+    <string name="share_notes_title">\n\n✔ %1$s</string>
+    <string name="share_notes_note">:\n\n%1$s</string>
+    <string name="share_notes_info">\n\n
+        Twórz swoje notatki dla poszczególnych przedmiotów 📝\n
+        Pobierz: https://play.google.com/store/apps/details?id=pl.Guzooo.DziennikUcznia 📲\n
+        Guzooo 👨‍🎓
+    </string>
+    <string name="no_object_was_selected">Nie zaznaczyłeś żadnego obiektu</string>
+    <plurals name="done_delete_notes">
+        <item quantity="one">Usunąłeś %d notatke</item>
+        <item quantity="few">Usunąłeś %d notatki</item>
+        <item quantity="many">Usunąłeś %d notatek</item>
+        <item quantity="other">Usunąłeś %d notatke</item>
+    </plurals>
+
+    <string name="title_add_assessment">Dodaj ocene</string>
+    <string name="title_edit_assessment">Edytuj ocene</string>
+    <string name="show_add_assessment_fragment_after_add">Pokaż okno po dodaniu oceny</string>
+    <string name="assessment">Ocena</string>
+    <string name="weight">Waga</string>
+    <string name="want_delete_this_assessment">Chesz usunąć te ocene?</string>
+    <string name="done_delete_this_assessment">Usunąłeś ocene</string>
+
+    <string name="title_add_note">Dodaj notake</string>
+    <string name="title_edit_note">Edytuj notatke</string>
+    <string name="title">Tytuł</string>
+    <string name="title_hint">Wpisz tytuł</string>
+    <string name="note_content">Treść</string>
+    <string name="note_content_hint">Wpisz treść</string>
+    <string name="want_delete_this_note">Chesz usunąć te notatke?</string>
+    <string name="done_delete_this_note">Usunąłeś notatke</string>
+    <string name="pin_note">Przypiąłeś notatke</string>
+    <string name="unpin_note">Odpiąłeś notatke</string>
+    <string name="can_not_share_without_title">Nie można udostępnić notatki bez tytułu</string>
+    <string name="can_not_pin_without_title">Nie można przypiąć notatki bez tytułu</string>
+</resources>

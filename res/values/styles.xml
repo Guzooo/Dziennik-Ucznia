@@ -1,6 +1,15 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="ColorTheme">
+        <item name="colorPrimary">?attr/colorPrimaryG</item>
+        <item name="colorPrimaryDark">?attr/colorPrimaryG</item>
+        <item name="colorAccent">?attr/colorAccentG</item>
+
+        <item name="android:textViewStyle">@style/TextNormal</item>
+        <item name="android:colorBackground">?attr/colorPrimaryG</item>
+    </style>
+
+    <style name="ColorTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimaryG">@color/light</item>
         <item name="colorPrimaryDarkG">@color/lightDark</item>
         <item name="colorPrimaryTranslucentG">@color/lightTranslucent</item>
@@ -9,13 +18,6 @@
         <item name="colorAccentG">@color/accent</item>
         <item name="colorAttentionG">@color/attention</item>
 
-        <item name="colorPrimary">?attr/colorPrimaryG</item>
-        <item name="colorPrimaryDark">?attr/colorPrimaryG</item>
-        <item name="colorAccent">?attr/colorAccentG</item>
-
-        <item name="android:textViewStyle">@style/TextNormal</item>
-        <item name="android:colorBackground">?attr/colorPrimaryG</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>
@@ -106,15 +108,10 @@
     </style>
 
     <style name="FAB">
+        <item name="tint">?attr/colorAccentG</item>
+        <item name="backgroundTint">?attr/colorPrimaryG</item>
         <item name="rippleColor">?attr/colorPrimaryDarkG</item>
         <item name="borderWidth">0dp</item>
-    </style>
-
-    <style name="PillButton">
-        <item name="android:textColor">@color/pill_text_state</item>
-        <item name="android:background">@drawable/pill</item>
-        <item name="android:backgroundTint">@color/pill_background_state</item>
-        <!--<item name="android:foreground">?android:attr/selectableItemBackground</item>-->
     </style>
 
     <style name="customToolbar">

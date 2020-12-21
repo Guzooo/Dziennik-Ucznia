@@ -49,6 +49,10 @@ public class AddAssessmentFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View layout = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_assessment, null);
+        if(assessmentObj == null){
+            dismiss();
+            assessmentObj = new Assessment2020();
+        }
         initialization(layout);
         setAutoShowBeforeAdd();
         setDeleteIcon();

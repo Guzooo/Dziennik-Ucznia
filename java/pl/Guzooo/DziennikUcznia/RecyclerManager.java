@@ -95,6 +95,12 @@ public class RecyclerManager extends FrameLayout {
         setVisibilityOfElements();
     }
 
+    public void setSelectedModeNone(){
+        selectObjects.clear();
+        setSelectedMode(NONE);
+        setVisibilityOfElements();
+    }
+
     private void initialization(AttributeSet a){
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.recycler_manager, this, true);

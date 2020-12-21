@@ -23,6 +23,11 @@
             app:title="@string/title_reset_unpreparedness"
             app:summary="@string/reset_unpreparedness_semester_2"
             app:key="@string/ID_RESET_UNPREPAREDNESS_2"/>
+
+        <Preference
+            app:title="@string/title_rewrite_assessment"
+            app:summary="@string/summary_rewrite_assessment"
+            app:key="@string/ID_REWRITE_ASSESSMENT"/>
     </PreferenceCategory>
 
     <PreferenceCategory

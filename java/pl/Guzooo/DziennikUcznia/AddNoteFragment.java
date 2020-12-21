@@ -6,6 +6,9 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.text.InputType;
@@ -22,7 +25,7 @@ import androidx.fragment.app.FragmentManager;
 
 public class AddNoteFragment extends DialogFragment {
     private final String TAG = "ADD_NOTE";
-    private final int NOTIFICATION_ID = 1000;
+    public static final int NOTIFICATION_ID = 1000; //TODO:usunać public static, jak usune z note2020
 
     private Note2020 noteObj;
 
@@ -42,6 +45,10 @@ public class AddNoteFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         View layout = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_note, null);
+        if(noteObj == null){
+            dismiss();
+            noteObj = new Note2020();
+        }
         initialization(layout);
         setShareIcon();
         setPinIcon();
@@ -134,13 +141,9 @@ public class AddNoteFragment extends DialogFragment {
 
     private String getShareText(){
         Subject2020 subject = getSubject();
-        String text = getString(R.string.share_notes_subject, subject.getName());
-        String titleStr = title.getText();
-        String noteStr = note.getText();
-        text += titleStr;
-        if(!noteStr.isEmpty())
-            text += noteStr;
-        return text;
+        return getString(R.string.share_notes_subject, subject.getName())
+                + noteObj.getShareText(getContext())
+                + getString(R.string.share_notes_info);
     }
 
     private View.OnClickListener getOnClickPinListener(){
@@ -151,6 +154,8 @@ public class AddNoteFragment extends DialogFragment {
                 if(pinned) {
                     unpinNote();
                     Toast.makeText(getContext(), R.string.unpin_note, Toast.LENGTH_SHORT).show();
+                } else if (title.getText().isEmpty()) {
+                    Toast.makeText(getContext(), R.string.can_not_pin_without_title, Toast.LENGTH_SHORT).show();
                 } else {
                     pinNote();
                     Toast.makeText(getContext(), R.string.pin_note, Toast.LENGTH_SHORT).show();
@@ -166,10 +171,14 @@ public class AddNoteFragment extends DialogFragment {
     }
 
     private void pinNote(){
+        pinNote(noteObj.getId());
+    }
+
+    private void pinNote(int id){
         NotificationsChannels.CheckChannelNoteIsActive(getContext());
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
         Notification notification = getNotification();
-        notificationManager.notify(NOTIFICATION_ID + noteObj.getId(), notification);
+        notificationManager.notify(NOTIFICATION_ID + id, notification);
         setPinned(true);
     }
 
@@ -182,6 +191,7 @@ public class AddNoteFragment extends DialogFragment {
     }
 
     private Notification getNotification(){
+        long when = getWhen();
         return new NotificationCompat.Builder(getContext(), NotificationsChannels.CHANNEL_NOTE_ID)
                 .setSmallIcon(R.drawable.pinned_pin)
                 .setContentTitle(getNotificationTitle())
@@ -191,7 +201,8 @@ public class AddNoteFragment extends DialogFragment {
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setColor(UtilsColor.getColorFromAttrs(R.attr.colorAccentG, getContext()))
                 /*.setGroup(noteObj.getIdSubject() + "")TODO: jak tego użyje, to w magiczny sposob juz nic sie nie grupuje*/
-                /*.setWhen(System.currentTimeMillis() + 1000 * 60 * 60 * 24)TODO: wykorzystać do odliczania do lekcji*/
+                .setWhen(when)
+                .setShowWhen(when != 0)
                 //TODO: otworz ten fragment po klinieciu .setContentIntent()
                 .build();
     }
@@ -225,6 +236,48 @@ public class AddNoteFragment extends DialogFragment {
                     + "\n"
                     + noteStr;
         return text;
+    }
+
+    private long getWhen(){
+        int today = UtilsCalendar.getTodaysDayOfWeek();
+        int time = UtilsCalendar.getTodayTimeWriteOnlyMinutes();
+        int idNextLesson = getIdOfNextLesson(today, time);
+        if(idNextLesson == 0)
+            return 0;
+        ElementOfPlan2020 element = new ElementOfPlan2020();
+        element.setVariablesOfId(idNextLesson, getContext());
+        int dayOfLesson = element.getDay();
+        int timeOfLesson = element.getTimeStartHours() * 60 + element.getTimeStartMinutes();
+        long when = System.currentTimeMillis();
+        if (timeOfLesson > time)
+            when += 1000 * 60 * (timeOfLesson - time);
+        else if(timeOfLesson < time)
+            when -= 1000 * 60 * (time - timeOfLesson);
+        if(dayOfLesson > today)
+            when += 1000 * 60 * 60 * 24 * (dayOfLesson - today);
+        else if(dayOfLesson < today)
+            when += 1000 * 60 * 60 * 24 * (7 - today + dayOfLesson);
+        return when;
+    }
+
+    private int getIdOfNextLesson(int today, int time){
+        SQLiteDatabase db = Database2020.getToReading(getContext());
+        Cursor cursor = db.query(ElementOfPlan2020.DATABASE_NAME,
+                new String[]{Database2020.ID, ElementOfPlan2020.DAY, ElementOfPlan2020.TIME_START},
+                ElementOfPlan2020.TAB_SUBJECT + " = ?",
+                new String[]{Integer.toString(noteObj.getIdSubject())},
+                null, null, ElementOfPlan2020.DAY + " AND " + ElementOfPlan2020.TIME_START);
+        if(cursor.moveToFirst())
+            do{
+                if((cursor.getInt(1) == today && cursor.getInt(2) > time) || cursor.getInt(1) > today)
+                    return cursor.getInt(0);
+            }while (cursor.moveToNext());
+        if(cursor.moveToFirst())
+            do{
+                if(cursor.getInt(1) < today)
+                    return cursor.getInt(0);
+            }while (cursor.moveToNext());
+        return 0;
     }
 
     private boolean isNotificationIsExists(){
@@ -333,14 +386,39 @@ public class AddNoteFragment extends DialogFragment {
         return true;
     }
 
+    private void refreshPin(){
+        if(pinned && isNewNote())
+            pin0ToId();
+        else if(pinned)
+            pinNote();
+    }
+
+    private void pin0ToId(){
+        unpinNote();
+        int newId = getLastNoteId();
+        pinNote(newId);
+    }
+
+    private int getLastNoteId(){
+        int lastId = 0;
+        try {
+            SQLiteDatabase db = Database2020.getToReading(getContext());
+            Cursor cursor = db.query(Note2020.DATABASE_NAME,
+                    new String[]{Database2020.ID},
+                    null, null, null, null, null);
+            if(cursor.moveToLast())
+                lastId = cursor.getInt(0);
+            cursor.close();
+            db.close();
+        } catch (SQLiteException e){
+            Database2020.errorToast(getContext());
+        }
+        return lastId;
+    }
+
     private boolean isNewNote(){
         if(noteObj.getId() == 0)
             return true;
         return false;
-    }
-
-    private void refreshPin(){
-        if(pinned)
-            pinNote();
     }
 }

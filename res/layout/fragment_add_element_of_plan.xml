@@ -1,111 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/half"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
-
-    <ImageView
-        android:id="@+id/delete"
-        android:src="@drawable/delete"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:layout_marginRight="@dimen/margin_standard"
-        android:layout_marginEnd="@dimen/margin_standard"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        style="@style/ClickableImages"/>
-
-    <Spinner
-        android:id="@+id/subject"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_standard"
-        android:layout_marginEnd="@dimen/margin_standard"
-        android:layout_marginTop="@dimen/margin_standard"
-        app:layout_constraintTop_toBottomOf="@id/delete"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/half"
-        style="@style/AllClickable"/>
-
-    <Spinner
-        android:id="@+id/day"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_standard"
-        android:layout_marginEnd="@dimen/margin_standard"
-        android:layout_marginTop="@dimen/margin_standard"
-        app:layout_constraintTop_toBottomOf="@id/delete"
-        app:layout_constraintStart_toStartOf="@id/half"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/AllClickable"/>
-
-    <LinearLayout
-        android:id="@+id/lesson_start"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_standard"
-        android:layout_marginEnd="@dimen/margin_standard"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/subject"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/half"
-        style="@style/AllClickable">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/plan_edit_start_lesson"
-            style="@style/TextBold"/>
-
-        <TextView
-            android:id="@+id/lesson_start_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lesson_end"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_standard"
-        android:layout_marginEnd="@dimen/margin_standard"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/day"
-        app:layout_constraintStart_toStartOf="@id/half"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/AllClickable">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/plan_edit_end_lesson"
-            style="@style/TextBold"/>
-
-        <TextView
-            android:id="@+id/lesson_end_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <pl.Guzooo.DziennikUcznia.HoldEditText
-        android:id="@+id/classroom"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_standard"
-        app:hint="@string/plan_edit_hint_classroom"
-        app:info="@string/plan_edit_classroom"
-        app:layout_constraintTop_toBottomOf="@id/lesson_start"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <ImageView
+            android:id="@+id/delete"
+            android:src="@drawable/delete"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/ClickableImages"/>
+
+        <Spinner
+            android:id="@+id/subject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_standard"
+            app:layout_constraintTop_toBottomOf="@id/delete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/half"
+            style="@style/AllClickable"/>
+
+        <Spinner
+            android:id="@+id/day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_standard"
+            app:layout_constraintTop_toBottomOf="@id/delete"
+            app:layout_constraintStart_toStartOf="@id/half"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/AllClickable"/>
+
+        <LinearLayout
+            android:id="@+id/lesson_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/subject"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/half"
+            style="@style/AllClickable">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plan_edit_start_lesson"
+                style="@style/TextBold"/>
+
+            <TextView
+                android:id="@+id/lesson_start_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lesson_end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/day"
+            app:layout_constraintStart_toStartOf="@id/half"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/AllClickable">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plan_edit_end_lesson"
+                style="@style/TextBold"/>
+
+            <TextView
+                android:id="@+id/lesson_end_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <pl.Guzooo.DziennikUcznia.HoldEditText
+            android:id="@+id/classroom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_standard"
+            app:hint="@string/plan_edit_hint_classroom"
+            app:info="@string/plan_edit_classroom"
+            app:layout_constraintTop_toBottomOf="@id/lesson_start"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

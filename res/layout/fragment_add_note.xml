@@ -1,52 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:layout_marginStart="@dimen/margin_standard"
-        android:layout_marginEnd="@dimen/margin_standard">
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard">
+
+            <pl.Guzooo.DziennikUcznia.HoldEditText
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:hint="@string/title_hint"
+                app:info="@string/title"/>
+
+            <ImageView
+                android:id="@+id/share"
+                android:src="@drawable/share"
+                android:layout_marginLeft="@dimen/margin_standard"
+                android:layout_marginStart="@dimen/margin_standard"
+                style="@style/ClickableImages"/>
+
+            <ImageView
+                android:id="@+id/pin"
+                android:src="@drawable/pin"
+                android:layout_marginLeft="@dimen/margin_standard"
+                android:layout_marginStart="@dimen/margin_standard"
+                style="@style/ClickableImages"/>
+
+            <ImageView
+                android:id="@+id/delete"
+                android:src="@drawable/delete"
+                android:layout_marginLeft="@dimen/margin_standard"
+                android:layout_marginStart="@dimen/margin_standard"
+                style="@style/ClickableImages"/>
+        </LinearLayout>
 
         <pl.Guzooo.DziennikUcznia.HoldEditText
-            android:id="@+id/title"
-            android:layout_width="0dp"
+            android:id="@+id/note"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:hint="@string/title_hint"
-            app:info="@string/title"/>
-
-        <ImageView
-            android:id="@+id/share"
-            android:src="@drawable/share"
-            android:layout_marginLeft="@dimen/margin_standard"
-            android:layout_marginStart="@dimen/margin_standard"
-            style="@style/ClickableImages"/>
-
-        <ImageView
-            android:id="@+id/pin"
-            android:src="@drawable/pin"
-            android:layout_marginLeft="@dimen/margin_standard"
-            android:layout_marginStart="@dimen/margin_standard"
-            style="@style/ClickableImages"/>
-
-        <ImageView
-            android:id="@+id/delete"
-            android:src="@drawable/delete"
-            android:layout_marginLeft="@dimen/margin_standard"
-            android:layout_marginStart="@dimen/margin_standard"
-            style="@style/ClickableImages"/>
+            app:hint="@string/note_content_hint"
+            app:info="@string/note_content"
+            android:layout_margin="@dimen/margin_standard"/>
     </LinearLayout>
-
-    <pl.Guzooo.DziennikUcznia.HoldEditText
-        android:id="@+id/note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:hint="@string/note_content_hint"
-        app:info="@string/note_content"
-        android:layout_margin="@dimen/margin_standard"/>
-</LinearLayout>
+</ScrollView>
