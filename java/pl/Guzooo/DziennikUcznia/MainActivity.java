@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -43,6 +44,7 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
         setContentView(R.layout.activity_main);
 
         BugFix.startFixingBugs(this);
+        UtilsAds.initialization(this);
 
         initialization();
         setFullScreen();

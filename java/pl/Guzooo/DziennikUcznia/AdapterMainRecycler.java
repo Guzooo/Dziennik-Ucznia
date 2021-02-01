@@ -18,6 +18,7 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     private ArrayList<String> titles = new ArrayList<>();
     private ArrayList<Cursor> cursors = new ArrayList<>();
     private ArrayList<AdapterSubject> subjectAdapters = new ArrayList<>();
+    private View ad;
 
     public interface Listener{
         void onClick(int id);
@@ -52,6 +53,11 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
             recycler.setLayoutManager(layoutManager);
             recycler.setAdapter(adapter);
         }
+
+        private void setView(View v){
+            ((ViewGroup) mainView).removeAllViews();
+            ((ViewGroup) mainView).addView(v);
+        }
     }
 
     @Override
@@ -68,6 +74,12 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if(ad != null && position == 1) {
+            holder.setView(ad);
+            return;
+        }
+        if(position > 1)
+            position--;
         String title = getTitle(position);
         AdapterSubject adapter = getAdapter(position);
         holder.setTile(title);
@@ -76,6 +88,8 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
 
     @Override
     public int getItemCount() {
+        if(ad != null)
+            return cursors.size() + 1;
         return cursors.size();
     }
 
@@ -83,6 +97,10 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
         this.titles.addAll(titles);
         this.cursors.addAll(cursors);
         createAdapters();
+    }
+
+    public void addAd(View ad){
+        this.ad = ad;
     }
 
     public void changeData(ArrayList<String> newTitles, ArrayList<Cursor> newCursors){

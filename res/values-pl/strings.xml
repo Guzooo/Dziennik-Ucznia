@@ -225,4 +225,7 @@
     <string name="unpin_note">Odpiąłeś notatke</string>
     <string name="can_not_share_without_title">Nie można udostępnić notatki bez tytułu</string>
     <string name="can_not_pin_without_title">Nie można przypiąć notatki bez tytułu</string>
+
+    <string name="ad">Reklama</string>
+    <string name="rating">Ocena: %1$d ⭐</string>
 </resources>

@@ -8,9 +8,11 @@
     <dimen name="margin_standard">8dp</dimen>
     <dimen name="margin_biggest">16dp</dimen>
     <dimen name="padding_clickable_image">8dp</dimen>
+    <dimen name="padding_clickable_mini_image">16dp</dimen>
     <dimen name="length_logo">75dp</dimen>
     <dimen name="length_separator">1dp</dimen>
     <dimen name="length_minimal">48dp</dimen>
+    <dimen name="length_minimal_ad_media">120dp</dimen>
 
     <dimen name="height_card">50dp</dimen>
     <dimen name="margin_card">5dp</dimen>

@@ -44,6 +44,10 @@
         <item name="android:tint">@color/gWhite</item>
     </style>
 
+    <style name="ClickableMiniImages" parent="ClickableImages">
+        <item name="android:padding">@dimen/padding_clickable_mini_image</item>
+    </style>
+
     <style name="AttentionImage" parent="ClickableImages">
         <item name="android:tint">?attr/colorAttentionG</item>
         <item name="android:src">@drawable/attention</item>
@@ -73,6 +77,14 @@
 
     <style name="TextTitle.G">
         <item name="android:textColor">@color/gWhite</item>
+    </style>
+
+    <style name="TextClickable" parent="AllClickable">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">?attr/colorAccentG</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:padding">@dimen/padding_clickable_image</item>
     </style>
 
     <style name="CardViewStandard">

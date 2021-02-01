@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +66,7 @@ public class MainHomeFragment extends MainFragment {
             setSubjectData();
             setMainAdapter();
             setMainRecycler();
+            setAd();
         } catch (SQLiteException e){
             Database2020.errorToast(getContext());
         }
@@ -88,6 +90,7 @@ public class MainHomeFragment extends MainFragment {
     public void onDestroyView() {
         super.onDestroyView();
         closeDatabaseElements();
+        UtilsAds.destroyAds(getContext());
     }
 
     private void initialization(View v){
@@ -130,6 +133,15 @@ public class MainHomeFragment extends MainFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mainRecycler.setLayoutManager(layoutManager);
         mainRecycler.setAdapter(mainAdapter);
+    }
+
+    private void setAd(){
+        if(subjectCursors.size() > 0) {
+            ViewGroup place = new FrameLayout(getContext());
+            place.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            UtilsAds.showAd(getString(R.string.ad_before_today), place, getContext());
+            mainAdapter.addAd(place);
+        }
     }
 
     private void refreshSubjectData(){
