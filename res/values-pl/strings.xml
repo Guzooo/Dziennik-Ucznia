@@ -227,5 +227,5 @@
     <string name="can_not_pin_without_title">Nie można przypiąć notatki bez tytułu</string>
 
     <string name="ad">Reklama</string>
-    <string name="rating">Ocena: %1$d ⭐</string>
+    <string name="rating">Ocena: %1$.2f ⭐</string>
 </resources>

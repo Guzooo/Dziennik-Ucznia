@@ -159,7 +159,7 @@ public class UtilsAds {
     private static void setAdvertiser(UnifiedNativeAd ad, UnifiedNativeAdView adView){
         TextView advertiserView = adView.findViewById(R.id.advertiser);
         String advertiser = ad.getAdvertiser();
-        if(advertiser != null){
+        if(advertiser != null && !advertiser.equals("")){
             advertiserView.setText(ad.getAdvertiser());
             adView.setAdvertiserView(advertiserView);
         } else {
@@ -185,7 +185,7 @@ public class UtilsAds {
     private static void setStars(UnifiedNativeAd ad, UnifiedNativeAdView adView){
         TextView starsView = adView.findViewById(R.id.stars);
         Double stars = ad.getStarRating();
-        if (stars != null) {
+        if (stars != null && !stars.equals("")) {
             starsView.setText(adView.getContext().getString(R.string.rating, stars));
             adView.setStarRatingView(starsView);
         } else {
@@ -197,7 +197,7 @@ public class UtilsAds {
     private static void setShop(UnifiedNativeAd ad, UnifiedNativeAdView adView){
         TextView shopView = adView.findViewById(R.id.shop);
         String shop = ad.getStore();
-        if (shop != null) {
+        if (shop != null && !shop.equals("")) {
             shopView.setText(shop);
             adView.setStoreView(shopView);
         } else {
@@ -208,7 +208,7 @@ public class UtilsAds {
     private static void setPrice (UnifiedNativeAd ad, UnifiedNativeAdView adView){
         TextView priceView = adView.findViewById(R.id.price);
         String price = ad.getPrice();
-        if (price != null) {
+        if (price != null && !price.equals("")) {
             priceView.setText(price);
             adView.setPriceView(priceView);
         } else {

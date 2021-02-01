@@ -249,5 +249,5 @@
     <string name="can_not_pin_without_title">You can\'t pin note without title</string>
 
     <string name="ad">Ad</string>
-    <string name="rating">Rating: %1$d ⭐</string>
+    <string name="rating">Rating: %1$.2f ⭐</string>
 </resources>
