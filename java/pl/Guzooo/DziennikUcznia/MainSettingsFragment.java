@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainSettingsFragment extends MainFragment {
 
+    private final String GOOGLE_PLAY = "https://play.google.com/store/apps/dev?id=6989903521291385498";
     private final String FACEBOOK = "https://www.facebook.com/GuzoooApps";
     private final String MESSENGER = "https://www.messenger.com/t/GuzoooApps";
 
@@ -64,6 +65,7 @@ public class MainSettingsFragment extends MainFragment {
         logoG.setOnClickListener(getClickListenerOpenInfo());
         logoG.setOnLongClickListener(TestMethods.assessmentToBeltLongListener(getContext()));
         infoG.findViewById(R.id.close).setOnClickListener(getClickListenerCloseInfo());
+        infoG.findViewById(R.id.google_play).setOnClickListener(getClickListenerOpenPage(GOOGLE_PLAY));
         infoG.findViewById(R.id.facebook).setOnClickListener(getClickListenerOpenPage(FACEBOOK));
         infoG.findViewById(R.id.messenger).setOnClickListener(getClickListenerOpenPage(MESSENGER));
     }

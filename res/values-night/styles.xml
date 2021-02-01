@@ -15,7 +15,7 @@
         <item name="colorPrimaryTranslucentG">@color/darkTranslucent</item>
         <item name="colorSecondaryG">@color/light</item>
         <item name="colorSecondaryDarkG">@color/lightDark</item>
-        <item name="colorAccentG">@color/accent</item>
+        <item name="colorAccentG">@color/accent3</item>
         <item name="colorAttentionG">@color/attention</item>
     </style>
 </resources>

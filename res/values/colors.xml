@@ -13,9 +13,9 @@
     <color name="hardDarkSecondary">#ACACAC</color>
     <color name="hardDarkSecondaryDark">#767676</color>
 
-    <color name="accent">#34ab2b</color>
-    <color name="accent2">#fdc321</color>
-    <color name="accent3">#e65c00</color>
+    <color name="accent">#1d9a48</color>
+    <color name="accent2">#d8a12f</color>
+    <color name="accent3">#de4828</color>
 
     <color name="colorPrimary">#0F1216</color><!--Del-->
     <color name="colorPrimaryDark">#000000</color>

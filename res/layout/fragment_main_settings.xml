@@ -73,6 +73,13 @@
                     android:layout_gravity="center">
 
                     <ImageView
+                        android:id="@+id/google_play"
+                        android:src="@drawable/googleplay"
+                        android:layout_marginRight="@dimen/margin_standard"
+                        android:layout_marginEnd="@dimen/margin_standard"
+                        style="@style/ClickableImages.G"/>
+
+                    <ImageView
                         android:id="@+id/facebook"
                         android:src="@drawable/facebook"
                         android:layout_marginRight="@dimen/margin_standard"
