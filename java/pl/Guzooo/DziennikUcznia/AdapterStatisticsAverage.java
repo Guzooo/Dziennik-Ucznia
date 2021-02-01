@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class AdapterStatisticsAverage extends RecyclerView.Adapter<AdapterStatisticsAverage.ViewHolder>{
     private Listener listener;
     private Cursor cursor;
+    private View ad;
 
     public interface Listener{
         void onClick(int id);
@@ -31,6 +33,11 @@ public class AdapterStatisticsAverage extends RecyclerView.Adapter<AdapterStatis
         private TextView averageEnd;
         private TextView assessments1;
         private TextView assessments2;
+
+        public ViewHolder(View v, boolean ad){
+            super(v);
+            mainView = v;
+        }
 
         public ViewHolder(View v){
             super(v);
@@ -120,16 +127,34 @@ public class AdapterStatisticsAverage extends RecyclerView.Adapter<AdapterStatis
             assessmentsStr = assessmentsStr.substring(0, endIndex);
             return assessmentsStr;//TODO: bajzel taki trzeba tu posprzaątać;
         }
+
+        private void setView(View v){
+            if(v.getParent() != null)
+                ((ViewGroup) v.getParent()).removeAllViews();
+            ((ViewGroup) mainView).addView(v);
+        }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == 1) {
+            View v = new FrameLayout(parent.getContext());
+            v.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            return new ViewHolder(v, true);
+        }
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.statistics_card_view, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if(ad != null && position == 6){
+            holder.setView(ad);
+            return;
+        }
+        if(ad != null && position > 6)
+            position--;
+
         if(cursor.moveToPosition(position)){
             Subject2020 subject = getSubject();
             holder.setTitle(subject);
@@ -139,12 +164,25 @@ public class AdapterStatisticsAverage extends RecyclerView.Adapter<AdapterStatis
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if(position == 6)
+            return 1;
+        return 0;
+    }
+
+    @Override
     public int getItemCount() {
+        if(ad != null && cursor.getCount() > 5)
+            return cursor.getCount() + 1;
         return cursor.getCount();
     }
 
     public AdapterStatisticsAverage(Cursor cursor){
         this.cursor = cursor;
+    }
+
+    public void setAd(View ad){
+        this.ad = ad;
     }
 
     public void changeData(Cursor cursor){

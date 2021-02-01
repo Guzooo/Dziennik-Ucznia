@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,6 +51,7 @@ public class MainStatisticsFragment extends MainFragment {
             setData();
             setAdapter();
             setRecycler();
+            setAd();
         }catch (SQLiteException e){
             Database2020.errorToast(getContext());
         }
@@ -74,6 +76,7 @@ public class MainStatisticsFragment extends MainFragment {
     public void onDestroyView() {
         super.onDestroyView();
         closeDatabaseElements();
+        UtilsAds.destroyAds(getContext());
     }
 
     private void initialization(View v){
@@ -115,6 +118,15 @@ public class MainStatisticsFragment extends MainFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycler.setLayoutManager(layoutManager);
         recycler.setAdapter(adapter);
+    }
+
+    private void setAd(){
+        if(cursor.getCount() > 5) {
+            ViewGroup place = new FrameLayout(getContext());
+            place.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            UtilsAds.showAd(getString(R.string.ad_in_statistics), place, getContext());
+            adapter.setAd(place);
+        }
     }
 
     private void refreshData(){

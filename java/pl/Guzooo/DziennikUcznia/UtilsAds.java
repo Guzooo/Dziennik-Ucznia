@@ -1,12 +1,10 @@
 package pl.Guzooo.DziennikUcznia;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,19 +30,23 @@ public class UtilsAds {
     }
 
     public static void showAd(String adId, ViewGroup adPlace, Context context){
+        showAd(adId, false, adPlace, context);
+    }
+
+    public static void showAd(String adId, boolean mediaEnable, ViewGroup adPlace, Context context){
         new AdLoader.Builder(context, adId)
-                .forUnifiedNativeAd(getUnifiedNativeAd(adPlace, context))
+                .forUnifiedNativeAd(getUnifiedNativeAd(mediaEnable, adPlace, context))
                 .withNativeAdOptions(getNativeAdOption())
                 .build()
                 .loadAd(new AdRequest.Builder().build());
     }
 
-    private static UnifiedNativeAd.OnUnifiedNativeAdLoadedListener getUnifiedNativeAd(final ViewGroup adPlace, final Context context){
+    private static UnifiedNativeAd.OnUnifiedNativeAdLoadedListener getUnifiedNativeAd(final boolean mediaEnable, final ViewGroup adPlace, final Context context){
         return new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener(){
             @Override
             public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
                       UnifiedNativeAdView adView = (UnifiedNativeAdView) LayoutInflater.from(context).inflate(R.layout.ad, null);
-                      populateUnifiedNativeAdView(unifiedNativeAd, adView);
+                      populateUnifiedNativeAdView(unifiedNativeAd, adView, mediaEnable);
                       adPlace.removeAllViews();
                       adPlace.addView(adView);
                       addToList(unifiedNativeAd, context);
@@ -91,14 +93,15 @@ public class UtilsAds {
         }
     }
 
-    private static void populateUnifiedNativeAdView(UnifiedNativeAd ad, UnifiedNativeAdView adView){
+    private static void populateUnifiedNativeAdView(UnifiedNativeAd ad, UnifiedNativeAdView adView, boolean mediaEnable){
         setIcon(ad, adView);
         setTitle(ad, adView);
         setDescription(ad, adView);
         setCallToAction(ad, adView);
-        //setMedia(adView);
         setAdvertiser(ad, adView);
         setShopInfo(ad, adView);
+        if(mediaEnable)
+            setMedia(adView);
 
         setCustomMuteAd(ad, adView);
 
@@ -147,10 +150,11 @@ public class UtilsAds {
         adView.setCallToActionView(callToActionView);
     }
 
-    /*private static void setMedia(UnifiedNativeAdView adView) {
+    private static void setMedia(UnifiedNativeAdView adView) {
         MediaView mediaView = adView.findViewById(R.id.media);
+        adView.setVisibility(View.VISIBLE);
         adView.setMediaView(mediaView);
-    }*/
+    }
 
     private static void setAdvertiser(UnifiedNativeAd ad, UnifiedNativeAdView adView){
         TextView advertiserView = adView.findViewById(R.id.advertiser);

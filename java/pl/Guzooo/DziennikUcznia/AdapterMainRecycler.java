@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +34,11 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
         private TextView title;
         private RecyclerView recycler;
 
+        public ViewHolder(View v, boolean ad){
+            super(v);
+            mainView = v;
+        }
+
         public ViewHolder(View v){
             super(v);
             mainView = v;
@@ -55,7 +61,8 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
         }
 
         private void setView(View v){
-            ((ViewGroup) mainView).removeAllViews();
+            if(v.getParent() != null)
+                ((ViewGroup) v.getParent()).removeAllViews();
             ((ViewGroup) mainView).addView(v);
         }
     }
@@ -68,6 +75,11 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == 1) {
+            View v = new FrameLayout(parent.getContext());
+            v.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            return new ViewHolder(v, true);
+        }
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.hub, parent, false);
         return new ViewHolder(v);
     }
@@ -78,7 +90,7 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
             holder.setView(ad);
             return;
         }
-        if(position > 1)
+        if(ad != null && position > 1)
             position--;
         String title = getTitle(position);
         AdapterSubject adapter = getAdapter(position);
@@ -87,8 +99,15 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if(position == 1)
+            return 1;
+        return 0;
+    }
+
+    @Override
     public int getItemCount() {
-        if(ad != null)
+        if(ad != null && cursors.size() > 0)
             return cursors.size() + 1;
         return cursors.size();
     }
@@ -99,7 +118,7 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
         createAdapters();
     }
 
-    public void addAd(View ad){
+    public void setAd(View ad){
         this.ad = ad;
     }
 

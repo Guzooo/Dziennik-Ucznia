@@ -64,13 +64,14 @@
                     style="@style/TextClickable"/>
             </LinearLayout>
 
-            <!--<com.google.android.gms.ads.formats.MediaView
+            <com.google.android.gms.ads.formats.MediaView
                 android:id="@+id/media"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:minHeight="@dimen/length_minimal_ad_media"
                 android:minWidth="@dimen/length_minimal_ad_media"
-                android:layout_marginBottom="@dimen/margin_standard"/>-->
+                android:layout_marginBottom="@dimen/margin_standard"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -179,9 +180,9 @@
                 <LinearLayout
                     android:id="@+id/close_list"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"/>
             </HorizontalScrollView>
 
 
