@@ -139,7 +139,7 @@ public class MainHomeFragment extends MainFragment {
         if(subjectCursors.size() > 0) {
             ViewGroup place = new FrameLayout(getContext());
             place.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            UtilsAds.showAd(getString(R.string.ad_before_today), place, getContext());
+            UtilsAds.showAd(getString(R.string.ad_before_today), true, place, getContext());
             mainAdapter.setAd(place);
         }
     }

@@ -67,9 +67,9 @@ public class UtilsAds {
                 for(UnifiedNativeAd openAd : ad.getAds()){
                     openAd.destroy();
                 }
-                ads.remove(ad);
             }
         }
+        ads.clear();
     }
 
     private static class Ad {
@@ -123,36 +123,46 @@ public class UtilsAds {
     private static void setIcon(UnifiedNativeAd ad, UnifiedNativeAdView adView){
         ImageView iconView = adView.findViewById(R.id.image);
         NativeAd.Image icon = ad.getIcon();
-        if(icon == null)
-            icon = ad.getImages().get(0);
-        iconView.setImageDrawable(icon.getDrawable());
-        adView.setIconView(iconView);
+        if(icon != null) {
+            iconView.setImageDrawable(icon.getDrawable());
+            adView.setIconView(iconView);
+        } else
+            iconView.setVisibility(View.GONE);
     }
 
     private static void setTitle(UnifiedNativeAd ad, UnifiedNativeAdView adView){
         TextView titleView = adView.findViewById(R.id.title);
         String title = ad.getHeadline();
-        titleView.setText(title);
-        adView.setHeadlineView(titleView);
+        if(title != null && !title.equals("")) {
+            titleView.setText(title);
+            adView.setHeadlineView(titleView);
+        } else
+            titleView.setVisibility(View.GONE);
     }
 
     private static void setDescription(UnifiedNativeAd ad, UnifiedNativeAdView adView){
         TextView descriptionView = adView.findViewById(R.id.description);
         String description = ad.getBody();
-        descriptionView.setText(description);
-        adView.setBodyView(descriptionView);
+        if(description != null && !description.equals("")) {
+            descriptionView.setText(description);
+            adView.setBodyView(descriptionView);
+        } else
+            descriptionView.setVisibility(View.GONE);
     }
 
     private static void setCallToAction(UnifiedNativeAd ad, UnifiedNativeAdView adView){
         TextView callToActionView = adView.findViewById(R.id.button);
         String callToAction = ad.getCallToAction();
-        callToActionView.setText(callToAction);
-        adView.setCallToActionView(callToActionView);
+        if(callToAction != null && callToAction.equals("")) {
+            callToActionView.setText(callToAction);
+            adView.setCallToActionView(callToActionView);
+        } else
+            callToActionView.setVisibility(View.GONE);
     }
 
     private static void setMedia(UnifiedNativeAdView adView) {
         MediaView mediaView = adView.findViewById(R.id.media);
-        adView.setVisibility(View.VISIBLE);
+        mediaView.setVisibility(View.VISIBLE);
         adView.setMediaView(mediaView);
     }
 
@@ -225,7 +235,7 @@ public class UtilsAds {
         button.setOnClickListener(openListener);
         for(MuteThisAdReason reason : reasons){
             TextView textView;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
+            if (UtilsFragmentation.isMinimumLollipop())
                 textView = new TextView(closeList.getContext(),null,0, R.style.TextClickable);
              else
                 textView = new Button(closeList.getContext());
