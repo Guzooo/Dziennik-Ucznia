@@ -324,7 +324,7 @@ public class AddAssessmentFragment extends DialogFragment {
         if(!canSave())
             return;
         //TODO w holderach możan metody zwracające floata i inta dodac, bedzie łatwiej;
-        assessmentObj.setAssessment(Float.parseFloat(assessment.getText()));//TODO czemu nie value;
+        assessmentObj.setAssessment(Float.valueOf(assessment.getText()));//TODO czemu nie value;  //zmiana tu też powinna rozwiązać błąd
         if(weight.getText().equals(""))
             assessmentObj.setWeight(-1);
         else

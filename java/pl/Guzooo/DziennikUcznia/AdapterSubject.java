@@ -64,7 +64,7 @@ public class AdapterSubject extends RecyclerView.Adapter<AdapterSubject.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(cursor.moveToPosition(position)){
+        if(!cursor.isClosed() && cursor.moveToPosition(position)){//Pierwszy warunke miał zwalczyć problem
             Subject2020 subject = getSubject();
             holder.setName(subject);
             holder.setUnpreparedness(subject);

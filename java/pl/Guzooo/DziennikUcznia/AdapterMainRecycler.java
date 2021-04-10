@@ -142,6 +142,8 @@ public class AdapterMainRecycler extends RecyclerView.Adapter<AdapterMainRecycle
     }
 
     private String getTitle(int position){
+        if(position > titles.size())
+            return "ERROR";
         return titles.get(position);
     }
 
