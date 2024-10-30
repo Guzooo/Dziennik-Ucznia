@@ -68,19 +68,15 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         MainFragment newFragment = null;
-        switch (menuItem.getItemId()){
-            case R.id.settings:
-                newFragment = new MainSettingsFragment();
-                break;
-            case R.id.home:
-                newFragment = new MainHomeFragment();
-                break;
-            case R.id.statistics:
-                newFragment = new MainStatisticsFragment();
-                break;
-            case R.id.lesson_plan:
-                newFragment = new MainLessonPlanFragment();
-                break;
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.settings) {
+            newFragment = new MainSettingsFragment();
+        } else if (itemId == R.id.home) {
+            newFragment = new MainHomeFragment();
+        } else if (itemId == R.id.statistics) {
+            newFragment = new MainStatisticsFragment();
+        } else if (itemId == R.id.lesson_plan) {
+            newFragment = new MainLessonPlanFragment();
         }
         if(newFragment == null || (currentFragment != null && currentFragment.getClass() == newFragment.getClass()))
             return false;
@@ -91,19 +87,14 @@ public class MainActivity extends GActivity implements BottomNavigationView.OnNa
 
     @Override
     public void onPillMenuItemSelected(int id) {
-        switch (id){
-            case R.id.add_assessment:
-                addAssessment();
-                break;
-            case R.id.add_note:
-                addNote();
-                break;
-            case R.id.add_lesson_plan:
-                addLessonPlan();
-                break;
-            case R.id.add_subject:
-                addSubject();
-                break;
+        if (id == R.id.add_assessment) {
+            addAssessment();
+        } else if (id == R.id.add_note) {
+            addNote();
+        } else if (id == R.id.add_lesson_plan) {
+            addLessonPlan();
+        } else if (id == R.id.add_subject) {
+            addSubject();
         }
     }
 

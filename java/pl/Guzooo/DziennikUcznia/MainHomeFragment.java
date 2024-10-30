@@ -136,12 +136,12 @@ public class MainHomeFragment extends MainFragment {
     }
 
     private void setAd(){
-        if(subjectCursors.size() > 0) {
-            ViewGroup place = new FrameLayout(getContext());
-            place.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            UtilsAds.showAd(getString(R.string.ad_before_today), true, place, getContext());
-            mainAdapter.setAd(place);
-        }
+//        if(subjectCursors.size() > 0) {
+//            ViewGroup place = new FrameLayout(getContext());
+//            place.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//            UtilsAds.showAd(getString(R.string.ad_before_today), true, place, getContext());
+//            mainAdapter.setAd(place);
+//        }
     }
 
     private void refreshSubjectData(){

@@ -121,12 +121,12 @@ public class MainStatisticsFragment extends MainFragment {
     }
 
     private void setAd(){
-        if(cursor.getCount() > 5) {
-            ViewGroup place = new FrameLayout(getContext());
-            place.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            UtilsAds.showAd(getString(R.string.ad_in_statistics), true, place, getContext());
-            adapter.setAd(place);
-        }
+//        if(cursor.getCount() > 5) {
+//            ViewGroup place = new FrameLayout(getContext());
+//            place.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//            UtilsAds.showAd(getString(R.string.ad_in_statistics), true, place, getContext());
+//            adapter.setAd(place);
+//        }
     }
 
     private void refreshData(){

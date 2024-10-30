@@ -102,23 +102,18 @@ public class SubjectDetailsActivity extends GActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-
-            case R.id.edit:
-                clickEdit();
-                return true;
-
-            case R.id.notes:
-                clickNotes();
-                return true;
-
-            case R.id.delete:
-                clickDelete();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.edit) {
+            clickEdit();
+            return true;
+        } else if (itemId == R.id.notes) {
+            clickNotes();
+            return true;
+        } else if (itemId == R.id.delete) {
+            clickDelete();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

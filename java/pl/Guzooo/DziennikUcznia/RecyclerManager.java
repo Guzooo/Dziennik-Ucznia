@@ -146,27 +146,17 @@ public class RecyclerManager extends FrameLayout {
         return new OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch(v.getId()){
-
-                    case R.id.undo:
-                        clickUndo();
-                        return;
-
-                    case R.id.cancel:
-                        clickCancel();
-                        return;
-
-                    case R.id.delete:
-                        clickDelete();
-                        return;
-
-                    case R.id.share:
-                        clickShare();
-                        return;
-
-                    case R.id.add:
-                        clickAdd();
-                        return;
+                int id = v.getId();
+                if (id == R.id.undo) {
+                    clickUndo();
+                } else if (id == R.id.cancel) {
+                    clickCancel();
+                } else if (id == R.id.delete) {
+                    clickDelete();
+                } else if (id == R.id.share) {
+                    clickShare();
+                } else if (id == R.id.add) {
+                    clickAdd();
                 }
             }
         };
